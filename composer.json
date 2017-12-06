@@ -3,7 +3,8 @@
   "description": "A PHP client for the seats.io API",
   "type": "library",
   "require": {
-    "php": ">=5.5.0"
+    "php": ">=5.5.0",
+    "mashape/unirest-php": "^3.0"
   },
   "require-dev": {
     "phpunit/PHPUnit": "4.5.*"
