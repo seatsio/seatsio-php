@@ -2,7 +2,7 @@
 
 namespace Seatsio;
 
-class CreateChartTest extends SeatsioClientTestCase
+class CreateChartTest extends SeatsioClientTest
 {
 
     public function testCreateChartWithDefaultParameters()
