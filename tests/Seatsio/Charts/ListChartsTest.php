@@ -11,15 +11,10 @@ class ListChartsTests extends SeatsioClientTest
         $chartKey2 = $this->seatsioClient->createChart();
         $chartKey3 = $this->seatsioClient->createChart();
 
-        $chartsIterator = $this->seatsioClient->listCharts();
-        $charts = $chartsIterator->current();
+        $charts = \Functional\flatten($this->seatsioClient->listCharts());
+        $chartKeys = \Functional\map($charts, function($chart) { return $chart->key; });
 
-        $chartsIterator->next();
-        self::assertFalse($chartsIterator->valid());
-        self::assertCount(3, $charts);
-        self::assertEquals($chartKey3, $charts[0]->key);
-        self::assertEquals($chartKey2, $charts[1]->key);
-        self::assertEquals($chartKey1, $charts[2]->key);
+        self::assertEquals([$chartKey3, $chartKey2, $chartKey1], $chartKeys);
     }
 
     public function testListChartsInMultiplePages()
