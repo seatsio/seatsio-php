@@ -2,6 +2,7 @@
   "name": "seatsio/seatsio-php",
   "description": "A PHP client for the seats.io API",
   "type": "library",
+  "license": "MIT",
   "require": {
     "php": ">=5.5.0",
     "guzzlehttp/guzzle": "^6.3"
