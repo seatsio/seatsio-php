@@ -45,20 +45,14 @@ class ListChartsTests extends SeatsioClientTest
         self::assertFalse($chartsIterator->valid());
     }
 
-    public function testListChartsInMultiplePagesReturnsIteratorThatWorksInForeach()
+    public function testListChartsInMultiplePagesReturnsProperIterator()
     {
         $chartKey1 = $this->seatsioClient->createChart();
         $chartKey2 = $this->seatsioClient->createChart();
         $chartKey3 = $this->seatsioClient->createChart();
 
-        $chartKeys = [];
-
         $chartsPages = $this->seatsioClient->listCharts(2);
-        foreach($chartsPages as $charts) {
-            foreach ($charts as $chart) {
-                array_push($chartKeys, $chart->key);
-            }
-        }
+        $chartKeys = \Functional\map(\Functional\flatten($chartsPages), function($chart) { return $chart->key; });
 
         self::assertEquals([$chartKey3, $chartKey2, $chartKey1], $chartKeys);
     }
