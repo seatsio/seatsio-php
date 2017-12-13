@@ -1,5 +1,5 @@
 {
-  "name": "seatsio/seatsio",
+  "name": "seatsio/seatsio-php",
   "description": "A PHP client for the seats.io API",
   "type": "library",
   "require": {
