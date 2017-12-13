@@ -51,8 +51,8 @@ class ListChartsTests extends SeatsioClientTest
         $chartKey2 = $this->seatsioClient->createChart();
         $chartKey3 = $this->seatsioClient->createChart();
 
-        $chartsPages = $this->seatsioClient->listCharts(2);
-        $chartKeys = \Functional\map(\Functional\flatten($chartsPages), function($chart) { return $chart->key; });
+        $charts = \Functional\flatten($this->seatsioClient->listCharts(2));
+        $chartKeys = \Functional\map($charts, function($chart) { return $chart->key; });
 
         self::assertEquals([$chartKey3, $chartKey2, $chartKey1], $chartKeys);
     }
