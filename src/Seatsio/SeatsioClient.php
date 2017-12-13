@@ -37,4 +37,9 @@ class SeatsioClient
         $res = $this->client->request('GET', '/charts/' . $chartKey . '/version/published');
         return \GuzzleHttp\json_decode($res->getBody());
     }
+
+    public function listCharts($limit = null)
+    {
+        return new PagedIterator('/charts', $limit, $this->client);
+    }
 }
