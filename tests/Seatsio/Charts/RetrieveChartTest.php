@@ -7,9 +7,9 @@ class RetrieveChartTest extends SeatsioClientTest
 
     public function testRetrieveChart()
     {
-        $chart = $this->seatsioClient->createChart();
+        $chart = $this->seatsioClient->charts()->create();
 
-        $retrievedChart = $this->seatsioClient->retrieveChart($chart->key);
+        $retrievedChart = $this->seatsioClient->charts()->retrieve($chart->key);
 
         self::assertEquals('Untitled chart', $retrievedChart->name);
         self::assertEquals('MIXED', $retrievedChart->venueType);
@@ -22,7 +22,7 @@ class RetrieveChartTest extends SeatsioClientTest
      */
     public function testRetrieveChartThatDoesNotExist()
     {
-        $this->seatsioClient->retrieveChart('unexistingChart');
+        $this->seatsioClient->charts()->retrieve('unexistingChart');
     }
 
 }

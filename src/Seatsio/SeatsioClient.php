@@ -22,43 +22,11 @@ class SeatsioClient
         $this->pageSize = $pageSize;
     }
 
-    public function createChart($name = null, $venueType = null, $categories = null)
+    /**
+     * @return Charts
+     */
+    public function charts()
     {
-        $request = new \stdClass();
-        if ($name) {
-            $request->name = $name;
-        }
-        if ($venueType) {
-            $request->venueType = $venueType;
-        }
-        if ($categories) {
-            $request->categories = $categories;
-        }
-        $res = $this->client->request('POST', '/charts', ['json' => $request]);
-        return \GuzzleHttp\json_decode($res->getBody());
+        return new Charts($this->client, $this->pageSize);
     }
-
-    public function retrieveChart($chartKey)
-    {
-        $res = $this->client->request('GET', '/charts/' . $chartKey . '/version/published');
-        return \GuzzleHttp\json_decode($res->getBody());
-    }
-
-    public function listAllCharts()
-    {
-        return new PagedIterator(new PageFetcher('/charts', $this->client, $this->pageSize));
-    }
-
-    public function listCharts($afterId = null)
-    {
-        $pageFetcher = new PageFetcher('/charts', $this->client, $this->pageSize);
-        return $pageFetcher->fetchAfter($afterId);
-    }
-
-    public function listChartsBefore($beforeId)
-    {
-        $pageFetcher = new PageFetcher('/charts', $this->client, $this->pageSize);
-        return $pageFetcher->fetchBefore($beforeId);
-    }
-
 }
