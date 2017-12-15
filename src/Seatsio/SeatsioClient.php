@@ -35,7 +35,7 @@ class SeatsioClient
             $request->categories = $categories;
         }
         $res = $this->client->request('POST', '/charts', ['json' => $request]);
-        return \GuzzleHttp\json_decode($res->getBody())->key;
+        return \GuzzleHttp\json_decode($res->getBody());
     }
 
     public function retrieveChart($chartKey)
@@ -44,9 +44,15 @@ class SeatsioClient
         return \GuzzleHttp\json_decode($res->getBody());
     }
 
-    public function listCharts()
+    public function listAllCharts()
     {
-        return new PagedIterator('/charts', $this->pageSize, $this->client);
+        return new PagedIterator(new PageFetcher('/charts', $this->client, $this->pageSize));
+    }
+
+    public function listCharts($afterId = null)
+    {
+        $pageFetcher = new PageFetcher('/charts', $this->client, $this->pageSize);
+        return $pageFetcher->fetch($afterId);
     }
 
 }

@@ -2,40 +2,31 @@
 
 namespace Seatsio;
 
-class ListChartsTests extends SeatsioClientTest
+class ListChartsTest extends SeatsioClientTest
 {
 
-    public function testListChartsInOnePage()
+    public function testNoAfterId()
     {
-        $this->seatsioClient->setPageSize(10);
-        $chartKey1 = $this->seatsioClient->createChart();
-        $chartKey2 = $this->seatsioClient->createChart();
-        $chartKey3 = $this->seatsioClient->createChart();
+        $chart1 = $this->seatsioClient->createChart();
+        $chart2 = $this->seatsioClient->createChart();
+        $chart3 = $this->seatsioClient->createChart();
 
-        $charts = $this->seatsioClient->listCharts();
-        $chartKeys = \Functional\map($charts, function($chart) { return $chart->key; });
+        $page = $this->seatsioClient->listCharts();
+        $chartKeys = \Functional\map($page->items, function($chart) { return $chart->key; });
 
-        self::assertEquals([$chartKey3, $chartKey2, $chartKey1], array_values($chartKeys));
+        self::assertEquals([$chart3->key, $chart2->key, $chart1->key], array_values($chartKeys));
     }
 
-    public function testListEmptyCollectionOfCharts()
+    public function testAfterId()
     {
-        $charts = $this->seatsioClient->listCharts();
+        $chart1 = $this->seatsioClient->createChart();
+        $chart2 = $this->seatsioClient->createChart();
+        $chart3 = $this->seatsioClient->createChart();
 
-        self::assertFalse($charts->valid());
-    }
+        $page = $this->seatsioClient->listCharts($chart3->id);
+        $chartKeys = \Functional\map($page->items, function($chart) { return $chart->key; });
 
-    public function testListChartsInMultiplePagesReturnsProperIterator()
-    {
-        $this->seatsioClient->setPageSize(2);
-        $chartKey1 = $this->seatsioClient->createChart();
-        $chartKey2 = $this->seatsioClient->createChart();
-        $chartKey3 = $this->seatsioClient->createChart();
-
-        $charts = $this->seatsioClient->listCharts();
-        $chartKeys = \Functional\map($charts, function($chart) { return $chart->key; });
-
-        self::assertEquals([$chartKey3, $chartKey2, $chartKey1], array_values($chartKeys));
+        self::assertEquals([$chart2->key, $chart1->key], array_values($chartKeys));
     }
 
 }

@@ -2,23 +2,18 @@
 
 namespace Seatsio;
 
-use GuzzleHttp\Client;
 use Iterator;
 
 class PagedIterator implements Iterator
 {
 
-    private $url;
-    private $pageSize;
-    private $client;
     private $currentPage;
     private $indexInCurrentPage;
+    private $pageFetcher;
 
-    public function __construct($url, $pageSize, Client $client)
+    public function __construct($pageFetcher)
     {
-        $this->url = $url;
-        $this->pageSize = $pageSize;
-        $this->client = $client;
+        $this->pageFetcher = $pageFetcher;
     }
 
     public function current()
@@ -51,25 +46,12 @@ class PagedIterator implements Iterator
     private function getCurrentPage()
     {
         if (!$this->currentPage) {
-            $this->currentPage = $this::fetchPage(null);
+            $this->currentPage = $this->pageFetcher->fetch(null);
         } else if ($this->nextPageMustBeFetched()) {
-            $this->currentPage = $this::fetchPage($this->currentPage->next_page_starts_after);
+            $this->currentPage = $this->pageFetcher->fetch($this->currentPage->next_page_starts_after);
             $this->indexInCurrentPage = 0;
         }
         return $this->currentPage;
-    }
-
-    private function fetchPage($startAfterId)
-    {
-        $query = [];
-        if ($this->pageSize) {
-            $query['limit'] = $this->pageSize;
-        }
-        if ($startAfterId) {
-            $query['start_after_id'] = $startAfterId;
-        }
-        $res = $this->client->request('GET', $this->url, ['query' => $query]);
-        return \GuzzleHttp\json_decode($res->getBody());
     }
 
     private function nextPageMustBeFetched()

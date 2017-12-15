@@ -7,9 +7,9 @@ class RetrieveChartTest extends SeatsioClientTest
 
     public function testRetrieveChart()
     {
-        $chartKey = $this->seatsioClient->createChart();
+        $chart = $this->seatsioClient->createChart();
 
-        $retrievedChart = $this->seatsioClient->retrieveChart($chartKey);
+        $retrievedChart = $this->seatsioClient->retrieveChart($chart->key);
 
         self::assertEquals('Untitled chart', $retrievedChart->name);
         self::assertEquals('MIXED', $retrievedChart->venueType);
