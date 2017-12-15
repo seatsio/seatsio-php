@@ -21,14 +21,28 @@ class PageFetcher
         $this->pageSize = $pageSize;
     }
 
-    public function fetch($afterId)
+    public function fetchAfter($afterId = null)
     {
         $query = [];
-        if ($this->pageSize) {
-            $query['limit'] = $this->pageSize;
-        }
         if ($afterId) {
             $query['start_after_id'] = $afterId;
+        }
+        return $this->fetch($query);
+    }
+
+    public function fetchBefore($beforeId = null)
+    {
+        $query = [];
+        if ($beforeId) {
+            $query['end_before_id'] = $beforeId;
+        }
+        return $this->fetch($query);
+    }
+
+    public function fetch($query)
+    {
+        if ($this->pageSize) {
+            $query['limit'] = $this->pageSize;
         }
         $res = $this->client->request('GET', $this->url, ['query' => $query]);
         return \GuzzleHttp\json_decode($res->getBody());

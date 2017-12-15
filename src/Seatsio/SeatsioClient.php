@@ -52,7 +52,13 @@ class SeatsioClient
     public function listCharts($afterId = null)
     {
         $pageFetcher = new PageFetcher('/charts', $this->client, $this->pageSize);
-        return $pageFetcher->fetch($afterId);
+        return $pageFetcher->fetchAfter($afterId);
+    }
+
+    public function listChartsBefore($beforeId)
+    {
+        $pageFetcher = new PageFetcher('/charts', $this->client, $this->pageSize);
+        return $pageFetcher->fetchBefore($beforeId);
     }
 
 }

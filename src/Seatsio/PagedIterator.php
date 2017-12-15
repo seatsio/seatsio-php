@@ -9,6 +9,10 @@ class PagedIterator implements Iterator
 
     private $currentPage;
     private $indexInCurrentPage;
+
+    /**
+     * @var PageFetcher
+     */
     private $pageFetcher;
 
     public function __construct($pageFetcher)
@@ -46,9 +50,9 @@ class PagedIterator implements Iterator
     private function getCurrentPage()
     {
         if (!$this->currentPage) {
-            $this->currentPage = $this->pageFetcher->fetch(null);
+            $this->currentPage = $this->pageFetcher->fetchAfter(null);
         } else if ($this->nextPageMustBeFetched()) {
-            $this->currentPage = $this->pageFetcher->fetch($this->currentPage->next_page_starts_after);
+            $this->currentPage = $this->pageFetcher->fetchAfter($this->currentPage->next_page_starts_after);
             $this->indexInCurrentPage = 0;
         }
         return $this->currentPage;
