@@ -5,7 +5,8 @@
   "license": "MIT",
   "require": {
     "php": ">=5.5.0",
-    "guzzlehttp/guzzle": "6.3.0"
+    "guzzlehttp/guzzle": "6.3.0",
+    "netresearch/jsonmapper": "^1.2"
   },
   "require-dev": {
     "phpunit/PHPUnit": "4.5.1",

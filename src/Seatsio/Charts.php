@@ -2,7 +2,8 @@
 
 namespace Seatsio;
 
-class Charts {
+class Charts
+{
 
     /**
      * @var \GuzzleHttp\Client
@@ -43,7 +44,9 @@ class Charts {
      */
     public function lister()
     {
-        return new Lister(new PageFetcher('/charts', $this->client, $this->pageSize));
+        return new Lister(new PageFetcher('/charts', $this->client, $this->pageSize, function () {
+            return new ChartPage();
+        }));
     }
 
 }

@@ -20,7 +20,7 @@ class Lister
     }
 
     /**
-     * @return Page
+     * @return ChartPage
      */
     public function firstPage()
     {
@@ -28,7 +28,7 @@ class Lister
     }
 
     /**
-     * @return Page
+     * @return ChartPage
      */
     public function pageAfter($afterId)
     {
@@ -36,7 +36,7 @@ class Lister
     }
 
     /**
-     * @return Page
+     * @return ChartPage
      */
     public function pageBefore($beforeId)
     {
