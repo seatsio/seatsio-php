@@ -2,6 +2,8 @@
 
 namespace Seatsio;
 
+use JsonMapper;
+
 class Charts
 {
 
@@ -17,6 +19,9 @@ class Charts
         $this->pageSize = $pageSize;
     }
 
+    /**
+     * @return Chart
+     */
     public function create($name = null, $venueType = null, $categories = null)
     {
         $request = new \stdClass();
@@ -30,7 +35,9 @@ class Charts
             $request->categories = $categories;
         }
         $res = $this->client->request('POST', '/charts', ['json' => $request]);
-        return \GuzzleHttp\json_decode($res->getBody());
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        $mapper = new JsonMapper();
+        return $mapper->map($json, new Chart());
     }
 
     public function retrieve($chartKey)
