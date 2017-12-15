@@ -1,3 +1,4 @@
 - rename Charts->retrieve to Charts->retrievePublishedDrawing
 - add Charts->retrieve
 - add strong typing for categories
+- make it possible in the API to pass in 'null' as category color
