@@ -3,6 +3,7 @@
 namespace Seatsio;
 
 use GuzzleHttp\Client;
+use Seatsio\Charts\Charts;
 
 class SeatsioClient
 {

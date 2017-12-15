@@ -1,8 +1,9 @@
 <?php
 
-namespace Seatsio;
+namespace Seatsio\Charts;
 
 use JsonMapper;
+use Seatsio\PageFetcher;
 
 class Charts
 {
@@ -47,11 +48,11 @@ class Charts
     }
 
     /**
-     * @return Lister
+     * @return ChartLister
      */
     public function lister()
     {
-        return new Lister(new PageFetcher('/charts', $this->client, $this->pageSize, function () {
+        return new ChartLister(new PageFetcher('/charts', $this->client, $this->pageSize, function () {
             return new ChartPage();
         }));
     }

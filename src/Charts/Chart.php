@@ -1,10 +1,9 @@
 <?php
 
-namespace Seatsio;
+namespace Seatsio\Charts;
 
 class Chart
 {
-
     public $name;
     public $id;
     public $key;

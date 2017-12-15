@@ -8,7 +8,7 @@ class PagedIterator implements Iterator
 {
 
     /**
-     * @var ChartPage
+     * @var Page
      */
     private $currentPage;
     private $indexInCurrentPage;
