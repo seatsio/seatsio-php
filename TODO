@@ -1,2 +1,3 @@
 - rename Charts->retrieve to Charts->retrievePublishedDrawing
 - add Charts->retrieve
+- add strong typing for categories
