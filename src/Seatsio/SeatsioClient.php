@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 class SeatsioClient
 {
     private $client;
+    private $pageSize;
 
     public function __construct($secretKey, $baseUrl = 'https://api.seats.io/')
     {
@@ -14,6 +15,11 @@ class SeatsioClient
             'base_uri' => $baseUrl,
             'auth' => [$secretKey, null]
         ]);
+    }
+
+    public function setPageSize($pageSize)
+    {
+        $this->pageSize = $pageSize;
     }
 
     public function createChart($name = null, $venueType = null, $categories = null)
@@ -38,8 +44,9 @@ class SeatsioClient
         return \GuzzleHttp\json_decode($res->getBody());
     }
 
-    public function listCharts($limit = null)
+    public function listCharts()
     {
-        return new PagedIterator('/charts', $limit, $this->client);
+        return new PagedIterator('/charts', $this->pageSize, $this->client);
     }
+
 }

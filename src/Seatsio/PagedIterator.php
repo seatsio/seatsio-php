@@ -9,60 +9,73 @@ class PagedIterator implements Iterator
 {
 
     private $url;
-    private $limit;
+    private $pageSize;
     private $client;
-    private $currentPage;
-    private $nextPageStartsAfter;
+    private $currentPage = null;
+    private $indexInCurrentPage = 0;
 
-    public function __construct($url, $limit, Client $client)
+    public function __construct($url, $pageSize, Client $client)
     {
         $this->url = $url;
-        $this->limit = $limit;
+        $this->pageSize = $pageSize;
         $this->client = $client;
     }
 
     public function current()
     {
-        if (!$this->currentPage) {
-            $query = [];
-            if ($this->limit) {
-                $query['limit'] = $this->limit;
-            }
-            if ($this->nextPageStartsAfter) {
-                $query['start_after_id'] = $this->nextPageStartsAfter;
-            }
-            $res = $this->client->request('GET', $this->url, ['query' => $query]);
-            $this->currentPage = \GuzzleHttp\json_decode($res->getBody());
-            $this->nextPageStartsAfter = self::determineNextPageStartsAfter($this->currentPage);
-        }
-        return $this->currentPage->items;
+        return $this->getCurrentPage()->items[$this->indexInCurrentPage];
     }
 
     public function next()
     {
-        $this->currentPage = null;
+        $this->indexInCurrentPage++;
     }
 
     public function key()
     {
+        return $this->current()->id;
     }
 
     public function valid()
     {
-        return $this->nextPageStartsAfter !== -1;
+        $currentPage = $this->getCurrentPage();
+        return $this->indexInCurrentPage < count($currentPage->items);
     }
 
     public function rewind()
     {
         $this->currentPage = null;
-        $this->nextPageStartsAfter = null;
+        $this->indexInCurrentPage = 0;
     }
 
-    private static function determineNextPageStartsAfter($page)
+    private function getCurrentPage()
     {
-        if (isset($page->next_page_starts_after)) {
-            return $page->next_page_starts_after;
+        if (!$this->currentPage) {
+            $this->currentPage = $this::fetchPage(null);
+        } else if ($this->nextPageMustBeFetched()) {
+            $this->currentPage = $this::fetchPage($this->currentPage->next_page_starts_after);
+            $this->indexInCurrentPage = 0;
         }
-        return -1;
+        return $this->currentPage;
     }
+
+    private function fetchPage($startAfterId)
+    {
+        $query = [];
+        if ($this->pageSize) {
+            $query['limit'] = $this->pageSize;
+        }
+        if ($startAfterId) {
+            $query['start_after_id'] = $startAfterId;
+        }
+        $res = $this->client->request('GET', $this->url, ['query' => $query]);
+        return \GuzzleHttp\json_decode($res->getBody());
+    }
+
+    private function nextPageMustBeFetched()
+    {
+        return $this->indexInCurrentPage >= count($this->currentPage->items) &&
+            isset($this->currentPage->next_page_starts_after);
+    }
+
 }

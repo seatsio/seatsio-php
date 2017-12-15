@@ -5,51 +5,37 @@ namespace Seatsio;
 class ListChartsTests extends SeatsioClientTest
 {
 
-    public function testListCharts()
+    public function testListChartsInOnePage()
     {
+        $this->seatsioClient->setPageSize(10);
         $chartKey1 = $this->seatsioClient->createChart();
         $chartKey2 = $this->seatsioClient->createChart();
         $chartKey3 = $this->seatsioClient->createChart();
 
-        $charts = \Functional\flatten($this->seatsioClient->listCharts());
+        $charts = $this->seatsioClient->listCharts();
         $chartKeys = \Functional\map($charts, function($chart) { return $chart->key; });
 
-        self::assertEquals([$chartKey3, $chartKey2, $chartKey1], $chartKeys);
+        self::assertEquals([$chartKey3, $chartKey2, $chartKey1], array_values($chartKeys));
     }
 
-    public function testListChartsInMultiplePages()
+    public function testListEmptyCollectionOfCharts()
     {
-        $chartKey1 = $this->seatsioClient->createChart();
-        $chartKey2 = $this->seatsioClient->createChart();
-        $chartKey3 = $this->seatsioClient->createChart();
+        $charts = $this->seatsioClient->listCharts();
 
-        $chartsIterator = $this->seatsioClient->listCharts(2);
-        $charts = $chartsIterator->current();
-
-        self::assertCount(2, $charts);
-        self::assertEquals($chartKey3, $charts[0]->key);
-        self::assertEquals($chartKey2, $charts[1]->key);
-
-        $chartsIterator->next();
-        $charts = $chartsIterator->current();
-
-        self::assertCount(1, $charts);
-        self::assertEquals($chartKey1, $charts[0]->key);
-
-        $chartsIterator->next();
-        self::assertFalse($chartsIterator->valid());
+        self::assertFalse($charts->valid());
     }
 
     public function testListChartsInMultiplePagesReturnsProperIterator()
     {
+        $this->seatsioClient->setPageSize(2);
         $chartKey1 = $this->seatsioClient->createChart();
         $chartKey2 = $this->seatsioClient->createChart();
         $chartKey3 = $this->seatsioClient->createChart();
 
-        $charts = \Functional\flatten($this->seatsioClient->listCharts(2));
+        $charts = $this->seatsioClient->listCharts();
         $chartKeys = \Functional\map($charts, function($chart) { return $chart->key; });
 
-        self::assertEquals([$chartKey3, $chartKey2, $chartKey1], $chartKeys);
+        self::assertEquals([$chartKey3, $chartKey2, $chartKey1], array_values($chartKeys));
     }
 
 }
