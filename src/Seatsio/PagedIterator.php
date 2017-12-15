@@ -11,8 +11,8 @@ class PagedIterator implements Iterator
     private $url;
     private $pageSize;
     private $client;
-    private $currentPage = null;
-    private $indexInCurrentPage = 0;
+    private $currentPage;
+    private $indexInCurrentPage;
 
     public function __construct($url, $pageSize, Client $client)
     {
