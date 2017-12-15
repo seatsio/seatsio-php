@@ -5,7 +5,7 @@ namespace Seatsio;
 class RetrieveChartTest extends SeatsioClientTest
 {
 
-    public function testRetrieveChart()
+    public function test()
     {
         $chart = $this->seatsioClient->charts()->create();
 
@@ -20,7 +20,7 @@ class RetrieveChartTest extends SeatsioClientTest
     /**
      * @expectedException \GuzzleHttp\Exception\ClientException
      */
-    public function testRetrieveChartThatDoesNotExist()
+    public function testChartThatDoesNotExist()
     {
         $this->seatsioClient->charts()->retrieve('unexistingChart');
     }

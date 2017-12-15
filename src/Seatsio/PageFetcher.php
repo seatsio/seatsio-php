@@ -45,6 +45,7 @@ class PageFetcher
             $query['limit'] = $this->pageSize;
         }
         $res = $this->client->request('GET', $this->url, ['query' => $query]);
-        return \GuzzleHttp\json_decode($res->getBody());
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        return new Page($json);
     }
 }

@@ -7,6 +7,9 @@ use Iterator;
 class PagedIterator implements Iterator
 {
 
+    /**
+     * @var Page
+     */
     private $currentPage;
     private $indexInCurrentPage;
 
@@ -52,7 +55,7 @@ class PagedIterator implements Iterator
         if (!$this->currentPage) {
             $this->currentPage = $this->pageFetcher->fetchAfter(null);
         } else if ($this->nextPageMustBeFetched()) {
-            $this->currentPage = $this->pageFetcher->fetchAfter($this->currentPage->next_page_starts_after);
+            $this->currentPage = $this->pageFetcher->fetchAfter($this->currentPage->nextPageStartsAfter);
             $this->indexInCurrentPage = 0;
         }
         return $this->currentPage;
@@ -61,7 +64,7 @@ class PagedIterator implements Iterator
     private function nextPageMustBeFetched()
     {
         return $this->indexInCurrentPage >= count($this->currentPage->items) &&
-            isset($this->currentPage->next_page_starts_after);
+            isset($this->currentPage->nextPageStartsAfter);
     }
 
 }

@@ -19,16 +19,25 @@ class Lister
         return new PagedIterator($this->pageFetcher);
     }
 
+    /**
+     * @return Page
+     */
     public function firstPage()
     {
         return $this->pageFetcher->fetchAfter(null);
     }
 
+    /**
+     * @return Page
+     */
     public function pageAfter($afterId)
     {
         return $this->pageFetcher->fetchAfter($afterId);
     }
 
+    /**
+     * @return Page
+     */
     public function pageBefore($beforeId)
     {
         return $this->pageFetcher->fetchBefore($beforeId);
