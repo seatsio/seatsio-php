@@ -41,6 +41,18 @@ class Charts
         return $mapper->map($json, new Chart());
     }
 
+    public function update($key, $name = null, $categories = null)
+    {
+        $request = new \stdClass();
+        if ($name) {
+            $request->name = $name;
+        }
+        if ($categories) {
+            $request->categories = $categories;
+        }
+        $this->client->request('POST', '/charts/' . $key, ['json' => $request]);
+    }
+
     public function retrieve($chartKey)
     {
         $res = $this->client->request('GET', '/charts/' . $chartKey . '/version/published');
