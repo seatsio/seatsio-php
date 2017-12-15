@@ -11,8 +11,15 @@ class CreateChartTest extends SeatsioClientTest
     {
         $chart = $this->seatsioClient->charts()->create();
 
+        self::assertNotEmpty($chart->id);
+        self::assertNotEmpty($chart->key);
+        self::assertEquals('NOT_USED', $chart->status);
+        self::assertEquals('Untitled chart', $chart->name);
+        self::assertNotEmpty($chart->publishedVersionThumbnailUrl);
+        self::assertEmpty($chart->draftVersionThumbnailUrl);
+        self::assertEmpty($chart->tags);
+
         $retrievedChart = $this->seatsioClient->charts()->retrieve($chart->key);
-        self::assertEquals('Untitled chart', $retrievedChart->name);
         self::assertEquals('MIXED', $retrievedChart->venueType);
         self::assertEmpty($retrievedChart->categories->list);
     }

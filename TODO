@@ -1,3 +1,2 @@
-- Charts->create should return a Chart object with all properties filled in
 - rename Charts->retrieve to Charts->retrievePublishedDrawing
 - add Charts->retrieve
