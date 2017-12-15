@@ -1,6 +1,8 @@
 <?php
 
-namespace Seatsio;
+namespace Seatsio\Charts;
+
+use Seatsio\SeatsioClientTest;
 
 class ListChartsAfterTest extends SeatsioClientTest
 {
