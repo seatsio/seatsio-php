@@ -4,6 +4,7 @@ namespace Seatsio;
 
 use GuzzleHttp\Client;
 use Seatsio\Charts\Charts;
+use Seatsio\Events\Events;
 
 class SeatsioClient
 {
@@ -29,5 +30,13 @@ class SeatsioClient
     public function charts()
     {
         return new Charts($this->client, $this->pageSize);
+    }
+
+    /**
+     * @return Events
+     */
+    public function events()
+    {
+        return new Events($this->client, $this->pageSize);
     }
 }

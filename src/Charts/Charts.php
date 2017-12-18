@@ -3,6 +3,8 @@
 namespace Seatsio\Charts;
 
 use JsonMapper;
+use Seatsio\Events\EventLister;
+use Seatsio\Events\EventPage;
 use Seatsio\PageFetcher;
 
 class Charts
@@ -66,6 +68,16 @@ class Charts
     {
         return new ChartLister(new PageFetcher('/charts', $this->client, $this->pageSize, function () {
             return new ChartPage();
+        }));
+    }
+
+    /**
+     * @return EventLister
+     */
+    public function events($chartKey)
+    {
+        return new EventLister(new PageFetcher('/charts/' . $chartKey . '/events', $this->client, $this->pageSize, function () {
+            return new EventPage();
         }));
     }
 
