@@ -3,6 +3,7 @@
 namespace Seatsio\Charts;
 
 use JsonMapper;
+use Psr\Http\Message\StreamInterface;
 use Seatsio\Events\EventLister;
 use Seatsio\Events\EventPage;
 use Seatsio\PageFetcher;
@@ -55,10 +56,22 @@ class Charts
         $this->client->request('POST', '/charts/' . $key, ['json' => $request]);
     }
 
-    public function retrieve($chartKey)
+    /**
+     * @return Chart
+     */
+    public function retrieve($key)
     {
-        $res = $this->client->request('GET', '/charts/' . $chartKey . '/version/published');
+        $res = $this->client->request('GET', '/charts/' . $key . '/version/published');
         return \GuzzleHttp\json_decode($res->getBody());
+    }
+
+    /**
+     * @return StreamInterface
+     */
+    public function retrieveThumbnail($key)
+    {
+        $res = $this->client->request('GET', '/charts/' . $key . '/version/published/thumbnail');
+        return $res->getBody();
     }
 
     /**
@@ -74,9 +87,9 @@ class Charts
     /**
      * @return EventLister
      */
-    public function events($chartKey)
+    public function events($key)
     {
-        return new EventLister(new PageFetcher('/charts/' . $chartKey . '/events', $this->client, $this->pageSize, function () {
+        return new EventLister(new PageFetcher('/charts/' . $key . '/events', $this->client, $this->pageSize, function () {
             return new EventPage();
         }));
     }
