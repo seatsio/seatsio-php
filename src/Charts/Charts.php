@@ -71,7 +71,7 @@ class Charts
     /**
      * @return mixed
      */
-    public function retrievePublishedChartVersion($key)
+    public function retrievePublishedChart($key)
     {
         $res = $this->client->request('GET', '/charts/' . $key . '/version/published');
         return \GuzzleHttp\json_decode($res->getBody());
@@ -107,6 +107,24 @@ class Charts
     public function moveOutOfArchive($key)
     {
         $this->client->request('DELETE', '/charts/archive/' . $key);
+    }
+
+    /**
+     * @return Chart
+     */
+    public function copy($key)
+    {
+        $res = $this->client->request('POST', '/charts/' . $key . '/version/published/actions/copy');
+        return \GuzzleHttp\json_decode($res->getBody());
+    }
+
+    /**
+     * @return Chart
+     */
+    public function copyDraft($key)
+    {
+        $res = $this->client->request('POST', '/charts/' . $key . '/version/draft/actions/copy');
+        return \GuzzleHttp\json_decode($res->getBody());
     }
 
     /**

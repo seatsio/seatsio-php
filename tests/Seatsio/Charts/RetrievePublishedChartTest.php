@@ -4,14 +4,14 @@ namespace Seatsio\Charts;
 
 use Seatsio\SeatsioClientTest;
 
-class RetrievePublishedChartVersionTest extends SeatsioClientTest
+class RetrievePublishedChartTest extends SeatsioClientTest
 {
 
     public function test()
     {
         $chart = $this->seatsioClient->charts()->create();
 
-        $retrievedChart = $this->seatsioClient->charts()->retrievePublishedChartVersion($chart->key);
+        $retrievedChart = $this->seatsioClient->charts()->retrievePublishedChart($chart->key);
 
         self::assertEquals('Untitled chart', $retrievedChart->name);
         self::assertEquals('MIXED', $retrievedChart->venueType);
@@ -24,7 +24,7 @@ class RetrievePublishedChartVersionTest extends SeatsioClientTest
      */
     public function testChartThatDoesNotExist()
     {
-        $this->seatsioClient->charts()->retrievePublishedChartVersion('unexistingChart');
+        $this->seatsioClient->charts()->retrievePublishedChart('unexistingChart');
     }
 
 }

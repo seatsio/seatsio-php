@@ -4,7 +4,7 @@ namespace Seatsio\Charts;
 
 use Seatsio\SeatsioClientTest;
 
-class PublishDraftChartVersionTest extends SeatsioClientTest
+class PublishDraftTest extends SeatsioClientTest
 {
 
     public function test()
