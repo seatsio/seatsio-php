@@ -9,7 +9,6 @@ class ListEventsForChartTest extends SeatsioClientTest
 
     public function test()
     {
-        $this->seatsioClient->setPageSize(10);
         $chart = $this->seatsioClient->charts()->create();
         $event1 = $this->seatsioClient->events()->create($chart->key);
         $event2 = $this->seatsioClient->events()->create($chart->key);

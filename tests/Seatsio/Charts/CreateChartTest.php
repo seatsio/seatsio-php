@@ -19,7 +19,7 @@ class CreateChartTest extends SeatsioClientTest
         self::assertEmpty($chart->draftVersionThumbnailUrl);
         self::assertEmpty($chart->tags);
 
-        $retrievedChart = $this->seatsioClient->charts()->retrieve($chart->key);
+        $retrievedChart = $this->seatsioClient->charts()->retrievePublishedChartVersion($chart->key);
         self::assertEquals('MIXED', $retrievedChart->venueType);
         self::assertEmpty($retrievedChart->categories->list);
     }
@@ -28,7 +28,7 @@ class CreateChartTest extends SeatsioClientTest
     {
         $chart = $this->seatsioClient->charts()->create('aChart');
 
-        $retrievedChart = $this->seatsioClient->charts()->retrieve($chart->key);
+        $retrievedChart = $this->seatsioClient->charts()->retrievePublishedChartVersion($chart->key);
         self::assertEquals('aChart', $retrievedChart->name);
         self::assertEquals('MIXED', $retrievedChart->venueType);
         self::assertEmpty($retrievedChart->categories->list);
@@ -38,7 +38,7 @@ class CreateChartTest extends SeatsioClientTest
     {
         $chart = $this->seatsioClient->charts()->create(null, 'BOOTHS');
 
-        $retrievedChart = $this->seatsioClient->charts()->retrieve($chart->key);
+        $retrievedChart = $this->seatsioClient->charts()->retrievePublishedChartVersion($chart->key);
         self::assertEquals('Untitled chart', $retrievedChart->name);
         self::assertEquals('BOOTHS', $retrievedChart->venueType);
         self::assertEmpty($retrievedChart->categories->list);
@@ -53,7 +53,7 @@ class CreateChartTest extends SeatsioClientTest
 
         $chart = $this->seatsioClient->charts()->create(null, null, $categories);
 
-        $retrievedChart = $this->seatsioClient->charts()->retrieve($chart->key);
+        $retrievedChart = $this->seatsioClient->charts()->retrievePublishedChartVersion($chart->key);
         self::assertEquals('Untitled chart', $retrievedChart->name);
         self::assertEquals('MIXED', $retrievedChart->venueType);
         self::assertEquals($categories, $retrievedChart->categories->list);

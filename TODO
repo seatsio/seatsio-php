@@ -1,8 +1,8 @@
-- rename Charts->retrieve to Charts->retrievePublishedDrawing
-- add Charts->retrieve
+- add test for Charts->retrieve
 - add strong typing for categories
 - make it possible in the API to pass in 'null' as category color
 - allow filter, tag and expand to be passed in when retrieving charts
 - create event call should return full event object
 - don't expose Guzzle exceptions when an error occurs
 - document API call to fetch draft thumbnail
+- document API call to fetch chart

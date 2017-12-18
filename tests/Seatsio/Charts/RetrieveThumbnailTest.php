@@ -4,7 +4,7 @@ namespace Seatsio\Charts;
 
 use Seatsio\SeatsioClientTest;
 
-class RetrievePublishedChartThumbnailTest extends SeatsioClientTest
+class RetrieveThumbnailTest extends SeatsioClientTest
 {
 
     public function test()

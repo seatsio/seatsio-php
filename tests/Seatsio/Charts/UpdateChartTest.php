@@ -16,7 +16,7 @@ class UpdateChartTest extends SeatsioClientTest
 
         $this->seatsioClient->charts()->update($chart->key, 'aChart');
 
-        $retrievedChart = $this->seatsioClient->charts()->retrieve($chart->key);
+        $retrievedChart = $this->seatsioClient->charts()->retrievePublishedChartVersion($chart->key);
         self::assertEquals('aChart', $retrievedChart->name);
         self::assertEquals($categories, $retrievedChart->categories->list);
     }
@@ -30,7 +30,7 @@ class UpdateChartTest extends SeatsioClientTest
 
         $this->seatsioClient->charts()->update($chart->key, null, $categories);
 
-        $retrievedChart = $this->seatsioClient->charts()->retrieve($chart->key);
+        $retrievedChart = $this->seatsioClient->charts()->retrievePublishedChartVersion($chart->key);
         self::assertEquals('aChart', $retrievedChart->name);
         self::assertEquals($categories, $retrievedChart->categories->list);
     }

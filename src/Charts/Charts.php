@@ -44,6 +44,9 @@ class Charts
         return $mapper->map($json, new Chart());
     }
 
+    /**
+     * @return void
+     */
     public function update($key, $name = null, $categories = null)
     {
         $request = new \stdClass();
@@ -61,8 +64,33 @@ class Charts
      */
     public function retrieve($key)
     {
+        $res = $this->client->request('GET', '/charts/' . $key);
+        return \GuzzleHttp\json_decode($res->getBody());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function retrievePublishedChartVersion($key)
+    {
         $res = $this->client->request('GET', '/charts/' . $key . '/version/published');
         return \GuzzleHttp\json_decode($res->getBody());
+    }
+
+    /**
+     * @return void
+     */
+    public function publishDraft($key)
+    {
+        $this->client->request('POST', '/charts/' . $key . '/version/draft/actions/publish');
+    }
+
+    /**
+     * @return void
+     */
+    public function discardDraft($key)
+    {
+        $this->client->request('POST', '/charts/' . $key . '/version/draft/actions/discard');
     }
 
     /**
