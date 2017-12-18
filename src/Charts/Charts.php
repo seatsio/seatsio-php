@@ -94,6 +94,22 @@ class Charts
     }
 
     /**
+     * @return void
+     */
+    public function moveToArchive($key)
+    {
+        $this->client->request('POST', '/charts/archive/' . $key);
+    }
+
+    /**
+     * @return void
+     */
+    public function moveOutOfArchive($key)
+    {
+        $this->client->request('DELETE', '/charts/archive/' . $key);
+    }
+
+    /**
      * @return StreamInterface
      */
     public function retrieveThumbnail($key)
@@ -108,6 +124,16 @@ class Charts
     public function lister()
     {
         return new ChartLister(new PageFetcher('/charts', $this->client, $this->pageSize, function () {
+            return new ChartPage();
+        }));
+    }
+
+    /**
+     * @return ChartLister
+     */
+    public function archive()
+    {
+        return new ChartLister(new PageFetcher('/charts/archive', $this->client, $this->pageSize, function () {
             return new ChartPage();
         }));
     }

@@ -6,3 +6,4 @@
 - don't expose Guzzle exceptions when an error occurs
 - document API call to fetch draft thumbnail
 - document API call to fetch chart
+- add archived flag to chart
