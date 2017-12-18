@@ -14,7 +14,15 @@ class SeatsioClientTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $secretKey = $this->createTestAccount();
-        $this->seatsioClient = new SeatsioClient($secretKey, self::$BASE_URL);
+        $this->seatsioClient = self::createSeatsioClient($secretKey);
+    }
+
+    /**
+     * @return SeatsioClient
+     */
+    protected static function createSeatsioClient($secretKey)
+    {
+        return new SeatsioClient($secretKey, self::$BASE_URL);
     }
 
     private function createTestAccount()

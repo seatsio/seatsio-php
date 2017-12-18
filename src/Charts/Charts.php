@@ -128,6 +128,15 @@ class Charts
     }
 
     /**
+     * @return Chart
+     */
+    public function copyToSubaccount($key, $subaccountId)
+    {
+        $res = $this->client->request('POST', '/charts/' . $key . '/version/published/actions/copy-to/' . $subaccountId);
+        return \GuzzleHttp\json_decode($res->getBody());
+    }
+
+    /**
      * @return StreamInterface
      */
     public function retrieveThumbnail($key)
