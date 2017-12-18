@@ -146,6 +146,40 @@ class Charts
     }
 
     /**
+     * @return string[]
+     */
+    public function listAllTags()
+    {
+        $res = $this->client->request('GET', '/charts/tags');
+        return \GuzzleHttp\json_decode($res->getBody())->tags;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function listTags($key)
+    {
+        $res = $this->client->request('GET', '/charts/' . $key . '/tags');
+        return \GuzzleHttp\json_decode($res->getBody())->tags;
+    }
+
+    /**
+     * @return void
+     */
+    public function addTag($key, $tag)
+    {
+        $this->client->request('POST', '/charts/' . $key . '/tags/' . $tag);
+    }
+
+    /**
+     * @return void
+     */
+    public function removeTag($key, $tag)
+    {
+        $this->client->request('DELETE', '/charts/' . $key . '/tags/' . $tag);
+    }
+
+    /**
      * @return ChartLister
      */
     public function lister()
