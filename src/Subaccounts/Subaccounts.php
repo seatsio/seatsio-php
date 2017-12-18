@@ -3,6 +3,7 @@
 namespace Seatsio\Subaccounts;
 
 use JsonMapper;
+use Seatsio\Charts\Chart;
 use Seatsio\PageFetcher;
 
 class Subaccounts
@@ -68,6 +69,48 @@ class Subaccounts
     public function deactivate($id)
     {
         $this->client->request('POST', '/subaccounts/' . $id . '/actions/deactivate');
+    }
+
+    /**
+     * @return string
+     */
+    public function regenerateSecretKey($id)
+    {
+        $res = $this->client->request('POST', '/subaccounts/' . $id . '/secret-key/actions/regenerate');
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        return $json->secretKey;
+    }
+
+    /**
+     * @return string
+     */
+    public function regenerateDesignerKey($id)
+    {
+        $res = $this->client->request('POST', '/subaccounts/' . $id . '/designer-key/actions/regenerate');
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        return $json->designerKey;
+    }
+
+    /**
+     * @return Chart
+     */
+    public function copyChartToParent($id, $chartKey)
+    {
+        $res = $this->client->request('POST', '/subaccounts/' . $id . '/charts/' . $chartKey . '/actions/copy-to/parent');
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        $mapper = new JsonMapper();
+        return $mapper->map($json, new Chart());
+    }
+
+    /**
+     * @return Chart
+     */
+    public function copyChartToSubaccount($fromId, $toId, $chartKey)
+    {
+        $res = $this->client->request('POST', '/subaccounts/' . $fromId . '/charts/' . $chartKey . '/actions/copy-to/' . $toId);
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        $mapper = new JsonMapper();
+        return $mapper->map($json, new Chart());
     }
 
     /**

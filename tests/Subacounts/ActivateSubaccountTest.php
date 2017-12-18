@@ -9,7 +9,7 @@ class ActivateSubaccountTest extends SeatsioClientTest
 
     public function test()
     {
-        $subaccount = $this->seatsioClient->subaccounts()->create('joske');
+        $subaccount = $this->seatsioClient->subaccounts()->create();
         $this->seatsioClient->subaccounts()->deactivate($subaccount->id);
 
         $this->seatsioClient->subaccounts()->activate($subaccount->id);

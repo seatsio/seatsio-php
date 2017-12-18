@@ -17,4 +17,11 @@ class CreateSubaccountTest extends SeatsioClientTest
         self::assertEquals($subaccount->name, 'joske');
         self::assertTrue($subaccount->active);
     }
+
+    public function testNameIsOptional()
+    {
+        $subaccount = $this->seatsioClient->subaccounts()->create();
+
+        self::assertNull($subaccount->name);
+    }
 }

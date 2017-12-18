@@ -65,7 +65,9 @@ class Charts
     public function retrieve($key)
     {
         $res = $this->client->request('GET', '/charts/' . $key);
-        return \GuzzleHttp\json_decode($res->getBody());
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        $mapper = new JsonMapper();
+        return $mapper->map($json, new Chart());
     }
 
     /**
