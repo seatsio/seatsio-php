@@ -11,3 +11,4 @@
 - update docs: rename 'copy published version' to 'copy chart' and 'copy published version to subaccount' to 'copy chart to subaccount'
 - update docs: rename 'published version' to 'published chart' and 'draft version' to 'draft' (?)
 - update docs: move all API calls for drafts together
+- calls to add and remove tags must do proper URL escaping

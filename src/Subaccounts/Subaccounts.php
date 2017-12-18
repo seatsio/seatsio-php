@@ -55,11 +55,47 @@ class Subaccounts
     }
 
     /**
+     * @return void
+     */
+    public function activate($id)
+    {
+        $this->client->request('POST', '/subaccounts/' . $id . '/actions/activate');
+    }
+
+    /**
+     * @return void
+     */
+    public function deactivate($id)
+    {
+        $this->client->request('POST', '/subaccounts/' . $id . '/actions/deactivate');
+    }
+
+    /**
      * @return SubaccountLister
      */
     public function lister()
     {
         return new SubaccountLister(new PageFetcher('/subaccounts', $this->client, $this->pageSize, function () {
+            return new SubaccountPage();
+        }));
+    }
+
+    /**
+     * @return SubaccountLister
+     */
+    public function active()
+    {
+        return new SubaccountLister(new PageFetcher('/subaccounts/active', $this->client, $this->pageSize, function () {
+            return new SubaccountPage();
+        }));
+    }
+
+    /**
+     * @return SubaccountLister
+     */
+    public function inactive()
+    {
+        return new SubaccountLister(new PageFetcher('/subaccounts/inactive', $this->client, $this->pageSize, function () {
             return new SubaccountPage();
         }));
     }
