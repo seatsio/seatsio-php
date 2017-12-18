@@ -3,9 +3,12 @@
 namespace Seatsio;
 
 use GuzzleHttp\Client;
-use PHPUnit_Framework_TestCase;
 
-class SeatsioClientTest extends PHPUnit_Framework_TestCase
+if (!class_exists('\PHPUnit\Framework\TestCase') && class_exists('\PHPUnit_Framework_TestCase')) {
+    class_alias('\PHPUnit_Framework_TestCase', 'PHPUnit\Framework\TestCase');
+}
+
+class SeatsioClientTest extends \PHPUnit_Framework_TestCase
 {
     private static $BASE_URL = 'https://api-staging.seats.io/';
 
