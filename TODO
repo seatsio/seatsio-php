@@ -16,3 +16,4 @@
 - API: change PUT to POST for updating hold token
 - API: call to fetch a hold token
 - document all parameter types
+- move docs for 'list events for a chart' to 'charts'

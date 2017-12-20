@@ -3,6 +3,7 @@
 namespace Seatsio\Events;
 
 use JsonMapper;
+use Seatsio\PageFetcher;
 
 class Events
 {
@@ -72,7 +73,17 @@ class Events
         if($bookWholeTables !== null) {
             $request->bookWholeTables = $bookWholeTables;
         }
-        $res = $this->client->request('POST', '/events/' . $key, ['json' => $request]);
+        $this->client->request('POST', '/events/' . $key, ['json' => $request]);
+    }
+
+    /**
+     * @return EventLister
+     */
+    public function lister()
+    {
+        return new EventLister(new PageFetcher('/events', $this->client, $this->pageSize, function () {
+            return new EventPage();
+        }));
     }
 
 }
