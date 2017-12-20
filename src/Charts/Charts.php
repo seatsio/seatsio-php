@@ -29,13 +29,13 @@ class Charts
     public function create($name = null, $venueType = null, $categories = null)
     {
         $request = new \stdClass();
-        if ($name) {
+        if ($name !== null) {
             $request->name = $name;
         }
-        if ($venueType) {
+        if ($venueType !== null) {
             $request->venueType = $venueType;
         }
-        if ($categories) {
+        if ($categories != null) {
             $request->categories = $categories;
         }
         $res = $this->client->request('POST', '/charts', ['json' => $request]);
@@ -50,10 +50,10 @@ class Charts
     public function update($key, $name = null, $categories = null)
     {
         $request = new \stdClass();
-        if ($name) {
+        if ($name !== null) {
             $request->name = $name;
         }
-        if ($categories) {
+        if ($categories !== null) {
             $request->categories = $categories;
         }
         $this->client->request('POST', '/charts/' . $key, ['json' => $request]);

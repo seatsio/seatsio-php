@@ -26,7 +26,7 @@ class PageFetcher
     public function fetchAfter($afterId = null)
     {
         $query = [];
-        if ($afterId) {
+        if ($afterId !== null) {
             $query['start_after_id'] = $afterId;
         }
         return $this->fetch($query);
@@ -35,7 +35,7 @@ class PageFetcher
     public function fetchBefore($beforeId = null)
     {
         $query = [];
-        if ($beforeId) {
+        if ($beforeId !== null) {
             $query['end_before_id'] = $beforeId;
         }
         return $this->fetch($query);

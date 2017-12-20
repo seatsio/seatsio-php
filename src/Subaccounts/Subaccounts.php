@@ -36,7 +36,7 @@ class Subaccounts
     public function create($name = null)
     {
         $request = new \stdClass();
-        if ($name) {
+        if ($name !== null) {
             $request->name = $name;
         }
         $res = $this->client->request('POST', '/subaccounts', ['json' => $request]);

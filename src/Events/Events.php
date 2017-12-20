@@ -22,10 +22,16 @@ class Events
     /**
      * @return Event
      */
-    public function create($chartKey)
+    public function create($chartKey, $eventKey = null, $bookWholeTables = null)
     {
         $request = new \stdClass();
         $request->chartKey = $chartKey;
+        if($eventKey !== null) {
+            $request->eventKey = $eventKey;
+        }
+        if($bookWholeTables !== null) {
+            $request->bookWholeTables = $bookWholeTables;
+        }
         $res = $this->client->request('POST', '/events', ['json' => $request]);
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = new JsonMapper();
