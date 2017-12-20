@@ -30,10 +30,10 @@ class Events
     {
         $request = new \stdClass();
         $request->chartKey = $chartKey;
-        if($eventKey !== null) {
+        if ($eventKey !== null) {
             $request->eventKey = $eventKey;
         }
-        if($bookWholeTables !== null) {
+        if ($bookWholeTables !== null) {
             $request->bookWholeTables = $bookWholeTables;
         }
         $res = $this->client->request('POST', '/events', ['json' => $request]);
@@ -64,13 +64,13 @@ class Events
     public function update($key, $chartKey = null, $eventKey = null, $bookWholeTables = null)
     {
         $request = new \stdClass();
-        if($chartKey !== null) {
+        if ($chartKey !== null) {
             $request->chartKey = $chartKey;
         }
-        if($eventKey !== null) {
+        if ($eventKey !== null) {
             $request->eventKey = $eventKey;
         }
-        if($bookWholeTables !== null) {
+        if ($bookWholeTables !== null) {
             $request->bookWholeTables = $bookWholeTables;
         }
         $this->client->request('POST', '/events/' . $key, ['json' => $request]);
@@ -84,6 +84,50 @@ class Events
         return new EventLister(new PageFetcher('/events', $this->client, $this->pageSize, function () {
             return new EventPage();
         }));
+    }
+
+    /**
+     * @param $key string
+     * @param $objects string[]
+     * @param $categories string[]
+     * @return void
+     */
+    public function markAsForSale($key, $objects = null, $categories = null)
+    {
+        $request = new \stdClass();
+        if ($objects !== null) {
+            $request->objects = $objects;
+        }
+        if ($categories !== null) {
+            $request->categories = $categories;
+        }
+        $this->client->request('POST', '/events/' . $key . '/actions/mark-as-for-sale', ['json' => $request]);
+    }
+
+    /**
+     * @param $key string
+     * @param $objects string[]
+     * @param $categories string[]
+     * @return void
+     */
+    public function markAsNotForSale($key, $objects = null, $categories = null)
+    {
+        $request = new \stdClass();
+        if ($objects !== null) {
+            $request->objects = $objects;
+        }
+        if ($categories !== null) {
+            $request->categories = $categories;
+        }
+        $this->client->request('POST', '/events/' . $key . '/actions/mark-as-not-for-sale', ['json' => $request]);
+    }
+
+    /**
+     * @return void
+     */
+    public function markEverythingAsForSale($key)
+    {
+        $this->client->request('POST', '/events/' . $key . '/actions/mark-everything-as-for-sale');
     }
 
 }
