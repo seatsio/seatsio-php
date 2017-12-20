@@ -20,6 +20,9 @@ class Events
     }
 
     /**
+     * @param $chartKey string
+     * @param $eventKey string
+     * @param $bookWholeTables boolean
      * @return Event
      */
     public function create($chartKey, $eventKey = null, $bookWholeTables = null)
@@ -33,6 +36,18 @@ class Events
             $request->bookWholeTables = $bookWholeTables;
         }
         $res = $this->client->request('POST', '/events', ['json' => $request]);
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        $mapper = new JsonMapper();
+        return $mapper->map($json, new Event());
+    }
+
+    /**
+     * @param $key string
+     * @return Event
+     */
+    public function retrieve($key)
+    {
+        $res = $this->client->request('GET', '/events/' . $key);
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = new JsonMapper();
         return $mapper->map($json, new Event());
