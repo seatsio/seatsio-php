@@ -12,3 +12,6 @@
 - update docs: rename 'published version' to 'published chart' and 'draft version' to 'draft' (?)
 - update docs: move all API calls for drafts together
 - calls to add and remove tags must do proper URL escaping
+- dates should be real PHP dates
+- API: change PUT to POST for updating hold token
+- API: call to fetch a hold token

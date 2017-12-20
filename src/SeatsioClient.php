@@ -5,6 +5,7 @@ namespace Seatsio;
 use GuzzleHttp\Client;
 use Seatsio\Charts\Charts;
 use Seatsio\Events\Events;
+use Seatsio\HoldTokens\HoldTokens;
 use Seatsio\Subaccounts\Subaccounts;
 
 class SeatsioClient
@@ -47,5 +48,13 @@ class SeatsioClient
     public function subaccounts()
     {
         return new Subaccounts($this->client, $this->pageSize);
+    }
+
+    /**
+     * @return HoldTokens
+     */
+    public function holdTokens()
+    {
+        return new HoldTokens($this->client, $this->pageSize);
     }
 }
