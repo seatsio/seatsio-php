@@ -53,4 +53,26 @@ class Events
         return $mapper->map($json, new Event());
     }
 
+    /**
+     * @param $key string
+     * @param $chartKey string
+     * @param $eventKey string
+     * @param $bookWholeTables string
+     * @return void
+     */
+    public function update($key, $chartKey = null, $eventKey = null, $bookWholeTables = null)
+    {
+        $request = new \stdClass();
+        if($chartKey !== null) {
+            $request->chartKey = $chartKey;
+        }
+        if($eventKey !== null) {
+            $request->eventKey = $eventKey;
+        }
+        if($bookWholeTables !== null) {
+            $request->bookWholeTables = $bookWholeTables;
+        }
+        $res = $this->client->request('POST', '/events/' . $key, ['json' => $request]);
+    }
+
 }
