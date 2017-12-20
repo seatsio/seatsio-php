@@ -161,4 +161,22 @@ class Events
         return $mapper->map($json, new ObjectStatus());
     }
 
+    /**
+     * @param $key string
+     * @param $object string
+     * @param $status string
+     * @return void
+     */
+    public function changeObjectStatus($key, $object, $status)
+    {
+        $request = new \stdClass();
+        $request->objects = [["objectId" => $object]];
+        $request->status = $status;
+        $this->client->request(
+            'POST',
+            '/events/' . $key . '/actions/change-object-status',
+            ['json' => $request]
+        );
+    }
+
 }
