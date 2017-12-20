@@ -123,11 +123,37 @@ class Events
     }
 
     /**
+     * @param $key string
      * @return void
      */
     public function markEverythingAsForSale($key)
     {
         $this->client->request('POST', '/events/' . $key . '/actions/mark-everything-as-for-sale');
+    }
+
+    /**
+     * @param $key string
+     * @param $object string
+     * @param $extraData mixed
+     * @return void
+     */
+    public function updateExtraData($key, $object, $extraData)
+    {
+        $request = new \stdClass();
+        $request->extraData = $extraData;
+        $this->client->request(
+            'POST',
+            '/events/' . $key . '/objects/' . $object . '/actions/update-extra-data',
+            ['json' => $request]
+        );
+    }
+
+    public function getObjectStatus($key, $object)
+    {
+        $res = $this->client->request('GET', '/events/' . $key . '/objects/' . $object);
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        $mapper = new JsonMapper();
+        return $mapper->map($json, new ObjectStatus());
     }
 
 }
