@@ -134,7 +134,7 @@ class Events
     /**
      * @param $key string
      * @param $object string
-     * @param $extraData mixed
+     * @param $extraData object
      * @return void
      */
     public function updateExtraData($key, $object, $extraData)
@@ -148,6 +148,11 @@ class Events
         );
     }
 
+    /**
+     * @param $key string
+     * @param $object string
+     * @return ObjectStatus
+     */
     public function getObjectStatus($key, $object)
     {
         $res = $this->client->request('GET', '/events/' . $key . '/objects/' . $object);
