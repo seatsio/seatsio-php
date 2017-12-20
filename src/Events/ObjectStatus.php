@@ -6,5 +6,7 @@ class ObjectStatus
 {
     public $status;
     public $ticketType;
+    public $holdToken;
+    public $orderId;
     public $extraData;
 }

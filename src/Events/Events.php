@@ -165,13 +165,21 @@ class Events
      * @param $key string
      * @param $object string
      * @param $status string
+     * @param $holdToken string
+     * @param $orderId string
      * @return void
      */
-    public function changeObjectStatus($key, $object, $status)
+    public function changeObjectStatus($key, $object, $status, $holdToken = null, $orderId = null)
     {
         $request = new \stdClass();
         $request->objects = [["objectId" => $object]];
         $request->status = $status;
+        if ($holdToken !== null) {
+            $request->holdToken = $holdToken;
+        }
+        if ($orderId !== null) {
+            $request->orderId = $orderId;
+        }
         $this->client->request(
             'POST',
             '/events/' . $key . '/actions/change-object-status',
