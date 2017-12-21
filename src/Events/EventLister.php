@@ -7,6 +7,9 @@ use Seatsio\Lister;
 class EventLister extends Lister
 {
 
+    /**
+     * @return EventPagedIterator
+     */
     public function all()
     {
         return new EventPagedIterator($this->pageFetcher);

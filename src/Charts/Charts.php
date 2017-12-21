@@ -2,11 +2,11 @@
 
 namespace Seatsio\Charts;
 
-use JsonMapper;
 use Psr\Http\Message\StreamInterface;
 use Seatsio\Events\EventLister;
 use Seatsio\Events\EventPage;
 use Seatsio\PageFetcher;
+use Seatsio\SeatsioJsonMapper;
 
 class Charts
 {
@@ -24,6 +24,9 @@ class Charts
     }
 
     /**
+     * @param $name string
+     * @param $venueType string
+     * @param $categories array
      * @return Chart
      */
     public function create($name = null, $venueType = null, $categories = null)
@@ -40,11 +43,14 @@ class Charts
         }
         $res = $this->client->request('POST', '/charts', ['json' => $request]);
         $json = \GuzzleHttp\json_decode($res->getBody());
-        $mapper = new JsonMapper();
+        $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Chart());
     }
 
     /**
+     * @param $key string
+     * @param $name string
+     * @param $categories array
      * @return void
      */
     public function update($key, $name = null, $categories = null)
@@ -60,18 +66,20 @@ class Charts
     }
 
     /**
+     * @param $key string
      * @return Chart
      */
     public function retrieve($key)
     {
         $res = $this->client->request('GET', '/charts/' . $key);
         $json = \GuzzleHttp\json_decode($res->getBody());
-        $mapper = new JsonMapper();
+        $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Chart());
     }
 
     /**
-     * @return mixed
+     * @param $key string
+     * @return object
      */
     public function retrievePublishedChart($key)
     {
@@ -80,6 +88,7 @@ class Charts
     }
 
     /**
+     * @param $key string
      * @return void
      */
     public function publishDraft($key)
@@ -88,6 +97,7 @@ class Charts
     }
 
     /**
+     * @param $key string
      * @return void
      */
     public function discardDraft($key)
@@ -96,6 +106,7 @@ class Charts
     }
 
     /**
+     * @param $key string
      * @return void
      */
     public function moveToArchive($key)
@@ -104,6 +115,7 @@ class Charts
     }
 
     /**
+     * @param $key string
      * @return void
      */
     public function moveOutOfArchive($key)
@@ -112,6 +124,7 @@ class Charts
     }
 
     /**
+     * @param $key string
      * @return Chart
      */
     public function copy($key)
@@ -121,6 +134,7 @@ class Charts
     }
 
     /**
+     * @param $key string
      * @return Chart
      */
     public function copyDraft($key)
@@ -130,6 +144,7 @@ class Charts
     }
 
     /**
+     * @param $key string
      * @return Chart
      */
     public function copyToSubaccount($key, $subaccountId)
@@ -139,6 +154,7 @@ class Charts
     }
 
     /**
+     * @param $key string
      * @return StreamInterface
      */
     public function retrieveThumbnail($key)
@@ -157,6 +173,7 @@ class Charts
     }
 
     /**
+     * @param $key string
      * @return string[]
      */
     public function listTags($key)
@@ -166,6 +183,8 @@ class Charts
     }
 
     /**
+     * @param $key string
+     * @param $tag string
      * @return void
      */
     public function addTag($key, $tag)
@@ -174,6 +193,8 @@ class Charts
     }
 
     /**
+     * @param $key string
+     * @param $tag string
      * @return void
      */
     public function removeTag($key, $tag)
@@ -202,6 +223,7 @@ class Charts
     }
 
     /**
+     * @param $key string
      * @return EventLister
      */
     public function events($key)

@@ -2,9 +2,6 @@
 
 namespace Seatsio;
 
-
-use JsonMapper;
-
 class PageFetcher
 {
     private $url;
@@ -48,7 +45,7 @@ class PageFetcher
         }
         $res = $this->client->request('GET', $this->url, ['query' => $query]);
         $json = \GuzzleHttp\json_decode($res->getBody());
-        $mapper = new JsonMapper();
+        $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, $this->pageCreator->__invoke());
     }
 }

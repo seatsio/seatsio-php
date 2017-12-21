@@ -4,6 +4,9 @@ namespace Seatsio\Events;
 
 class SeatsioObject
 {
+    /**
+     * @var string
+     */
     public $objectId;
 
     public function __construct($objectId)

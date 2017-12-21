@@ -2,6 +2,7 @@
 
 namespace Seatsio\Events;
 
+use DateTime;
 use Seatsio\SeatsioClientTest;
 
 class CreateEventTest extends SeatsioClientTest

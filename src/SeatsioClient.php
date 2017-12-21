@@ -57,4 +57,5 @@ class SeatsioClient
     {
         return new HoldTokens($this->client, $this->pageSize);
     }
+
 }

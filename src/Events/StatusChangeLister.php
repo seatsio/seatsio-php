@@ -7,6 +7,9 @@ use Seatsio\Lister;
 class StatusChangeLister extends Lister
 {
 
+    /**
+     * @return StatusChangePagedIterator
+     */
     public function all()
     {
         return new StatusChangePagedIterator($this->pageFetcher);

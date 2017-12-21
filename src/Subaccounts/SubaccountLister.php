@@ -7,6 +7,9 @@ use Seatsio\Lister;
 class SubaccountLister extends Lister
 {
 
+    /**
+     * @return SubaccountPagedIterator
+     */
     public function all()
     {
         return new SubaccountPagedIterator($this->pageFetcher);

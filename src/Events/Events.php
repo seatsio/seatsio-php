@@ -2,8 +2,8 @@
 
 namespace Seatsio\Events;
 
-use JsonMapper;
 use Seatsio\PageFetcher;
+use Seatsio\SeatsioJsonMapper;
 
 class Events
 {
@@ -38,7 +38,7 @@ class Events
         }
         $res = $this->client->request('POST', '/events', ['json' => $request]);
         $json = \GuzzleHttp\json_decode($res->getBody());
-        $mapper = new JsonMapper();
+        $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Event());
     }
 
@@ -50,7 +50,7 @@ class Events
     {
         $res = $this->client->request('GET', '/events/' . $key);
         $json = \GuzzleHttp\json_decode($res->getBody());
-        $mapper = new JsonMapper();
+        $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Event());
     }
 
@@ -87,6 +87,8 @@ class Events
     }
 
     /**
+     * @param $key string
+     * @param $objectId string
      * @return StatusChangeLister
      */
     public function statusChanges($key, $objectId = null)
@@ -172,7 +174,7 @@ class Events
     {
         $res = $this->client->request('GET', '/events/' . $key . '/objects/' . $object);
         $json = \GuzzleHttp\json_decode($res->getBody());
-        $mapper = new JsonMapper();
+        $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new ObjectStatus());
     }
 
@@ -274,7 +276,7 @@ class Events
             ['json' => $request]
         );
         $json = \GuzzleHttp\json_decode($res->getBody());
-        $mapper = new JsonMapper();
+        $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new BestAvailableObjects());
     }
 
@@ -380,7 +382,7 @@ class Events
      */
     private static function mapMultiValuedReport($json)
     {
-        $mapper = new JsonMapper();
+        $mapper = SeatsioJsonMapper::create();
         $result = [];
         foreach ($json as $status => $reportItems) {
             $result[$status] = $mapper->mapArray($reportItems, array(), EventReportItem::class);
@@ -394,7 +396,7 @@ class Events
      */
     private static function mapSingleValuedReport($json)
     {
-        $mapper = new JsonMapper();
+        $mapper = SeatsioJsonMapper::create();
         $result = [];
         foreach ($json as $status => $reportItem) {
             $result[$status] = $mapper->map($reportItem, new EventReportItem());

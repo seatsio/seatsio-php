@@ -7,6 +7,9 @@ use Seatsio\Lister;
 class ChartLister extends Lister
 {
 
+    /**
+     * @return ChartPagedIterator
+     */
     public function all()
     {
         return new ChartPagedIterator($this->pageFetcher);

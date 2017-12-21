@@ -2,9 +2,9 @@
 
 namespace Seatsio\Subaccounts;
 
-use JsonMapper;
 use Seatsio\Charts\Chart;
 use Seatsio\PageFetcher;
+use Seatsio\SeatsioJsonMapper;
 
 class Subaccounts
 {
@@ -22,6 +22,7 @@ class Subaccounts
     }
 
     /**
+     * @var $id int
      * @return Subaccount
      */
     public function retrieve($id)
@@ -31,6 +32,7 @@ class Subaccounts
     }
 
     /**
+     * @var $name string
      * @return Subaccount
      */
     public function create($name = null)
@@ -41,11 +43,13 @@ class Subaccounts
         }
         $res = $this->client->request('POST', '/subaccounts', ['json' => $request]);
         $json = \GuzzleHttp\json_decode($res->getBody());
-        $mapper = new JsonMapper();
+        $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Subaccount());
     }
 
     /**
+     * @var $id int
+     * @var $name string
      * @return void
      */
     public function update($id, $name)
@@ -56,6 +60,7 @@ class Subaccounts
     }
 
     /**
+     * @var $id int
      * @return void
      */
     public function activate($id)
@@ -64,6 +69,7 @@ class Subaccounts
     }
 
     /**
+     * @var $id int
      * @return void
      */
     public function deactivate($id)
@@ -72,6 +78,7 @@ class Subaccounts
     }
 
     /**
+     * @var $id int
      * @return string
      */
     public function regenerateSecretKey($id)
@@ -82,6 +89,7 @@ class Subaccounts
     }
 
     /**
+     * @var $id int
      * @return string
      */
     public function regenerateDesignerKey($id)
@@ -92,24 +100,29 @@ class Subaccounts
     }
 
     /**
+     * @var $id int
+     * @var $chartKey string
      * @return Chart
      */
     public function copyChartToParent($id, $chartKey)
     {
         $res = $this->client->request('POST', '/subaccounts/' . $id . '/charts/' . $chartKey . '/actions/copy-to/parent');
         $json = \GuzzleHttp\json_decode($res->getBody());
-        $mapper = new JsonMapper();
+        $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Chart());
     }
 
     /**
+     * @var $fromId int
+     * @var $toId int
+     * @var $chartKey string
      * @return Chart
      */
     public function copyChartToSubaccount($fromId, $toId, $chartKey)
     {
         $res = $this->client->request('POST', '/subaccounts/' . $fromId . '/charts/' . $chartKey . '/actions/copy-to/' . $toId);
         $json = \GuzzleHttp\json_decode($res->getBody());
-        $mapper = new JsonMapper();
+        $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Chart());
     }
 
