@@ -163,7 +163,7 @@ class Events
 
     /**
      * @param $keyOrKeys string|string[]
-     * @param $objectOrObjects string|string[]|Object|Object[]
+     * @param $objectOrObjects mixed
      * @param $status string
      * @param $holdToken string
      * @param $orderId string
@@ -190,7 +190,7 @@ class Events
 
     /**
      * @param $keyOrKeys string|string[]
-     * @param $objectOrObjects string|string[]|Object|Object[]
+     * @param $objectOrObjects mixed
      * @param $holdToken string
      * @param $orderId string
      * @return void
@@ -202,7 +202,7 @@ class Events
 
     /**
      * @param $keyOrKeys string|string[]
-     * @param $objectOrObjects string|string[]|Object|Object[]
+     * @param $objectOrObjects mixed
      * @param $holdToken string
      * @param $orderId string
      * @return void
@@ -214,7 +214,7 @@ class Events
 
     /**
      * @param $keyOrKeys string|string[]
-     * @param $objectOrObjects string|string[]|Object|Object[]
+     * @param $objectOrObjects mixed
      * @param $holdToken string
      * @param $orderId string
      * @return void
@@ -272,9 +272,12 @@ class Events
             if ($objectOrObjects[0] instanceof Object) {
                 return $objectOrObjects;
             }
-            return array_map(function ($object) {
-                return ["objectId" => $object];
-            }, $objectOrObjects);
+            if (is_string($objectOrObjects[0])) {
+                return array_map(function ($object) {
+                    return ["objectId" => $object];
+                }, $objectOrObjects);
+            }
+            return $objectOrObjects;
         }
         return self::normalizeObjects([$objectOrObjects]);
     }
