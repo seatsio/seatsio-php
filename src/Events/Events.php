@@ -87,6 +87,21 @@ class Events
     }
 
     /**
+     * @return StatusChangeLister
+     */
+    public function statusChanges($key, $objectId = null)
+    {
+        if ($objectId === null) {
+            return new StatusChangeLister(new PageFetcher('/events/' . $key . '/status-changes', $this->client, $this->pageSize, function () {
+                return new StatusChangePage();
+            }));
+        }
+        return new StatusChangeLister(new PageFetcher('/events/' . $key . '/objects/' . $objectId . '/status-changes', $this->client, $this->pageSize, function () {
+            return new StatusChangePage();
+        }));
+    }
+
+    /**
      * @param $key string
      * @param $objects string[]
      * @param $categories string[]

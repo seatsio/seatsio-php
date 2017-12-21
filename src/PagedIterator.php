@@ -11,7 +11,7 @@ class PagedIterator implements Iterator
      * @var Page
      */
     private $currentPage;
-    private $indexInCurrentPage;
+    private $indexInCurrentPage = 0;
 
     /**
      * @var PageFetcher
