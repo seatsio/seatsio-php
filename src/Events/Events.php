@@ -162,14 +162,14 @@ class Events
     }
 
     /**
-     * @param $key string
+     * @param $keyOrKeys string|string[]
      * @param $objectOrObjects string|string[]|Object|Object[]
      * @param $status string
      * @param $holdToken string
      * @param $orderId string
      * @return void
      */
-    public function changeObjectStatus($key, $objectOrObjects, $status, $holdToken = null, $orderId = null)
+    public function changeObjectStatus($keyOrKeys, $objectOrObjects, $status, $holdToken = null, $orderId = null)
     {
         $request = new \stdClass();
         $request->objects = self::normalizeObjects($objectOrObjects);
@@ -180,47 +180,48 @@ class Events
         if ($orderId !== null) {
             $request->orderId = $orderId;
         }
+        $request->events = is_array($keyOrKeys) ? $keyOrKeys : [$keyOrKeys];
         $this->client->request(
             'POST',
-            '/events/' . $key . '/actions/change-object-status',
+            '/seasons/actions/change-object-status',
             ['json' => $request]
         );
     }
 
     /**
-     * @param $key string
+     * @param $keyOrKeys string|string[]
      * @param $objectOrObjects string|string[]|Object|Object[]
      * @param $holdToken string
      * @param $orderId string
      * @return void
      */
-    public function book($key, $objectOrObjects, $holdToken = null, $orderId = null)
+    public function book($keyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null)
     {
-        $this::changeObjectStatus($key, $objectOrObjects, "booked", $holdToken, $orderId);
+        $this::changeObjectStatus($keyOrKeys, $objectOrObjects, "booked", $holdToken, $orderId);
     }
 
     /**
-     * @param $key string
+     * @param $keyOrKeys string|string[]
      * @param $objectOrObjects string|string[]|Object|Object[]
      * @param $holdToken string
      * @param $orderId string
      * @return void
      */
-    public function release($key, $objectOrObjects, $holdToken = null, $orderId = null)
+    public function release($keyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null)
     {
-        $this::changeObjectStatus($key, $objectOrObjects, "free", $holdToken, $orderId);
+        $this::changeObjectStatus($keyOrKeys, $objectOrObjects, "free", $holdToken, $orderId);
     }
 
     /**
-     * @param $key string
+     * @param $keyOrKeys string|string[]
      * @param $objectOrObjects string|string[]|Object|Object[]
      * @param $holdToken string
      * @param $orderId string
      * @return void
      */
-    public function hold($key, $objectOrObjects, $holdToken, $orderId = null)
+    public function hold($keyOrKeys, $objectOrObjects, $holdToken, $orderId = null)
     {
-        $this::changeObjectStatus($key, $objectOrObjects, "reservedByToken", $holdToken, $orderId);
+        $this::changeObjectStatus($keyOrKeys, $objectOrObjects, "reservedByToken", $holdToken, $orderId);
     }
 
     /**

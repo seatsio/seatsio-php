@@ -24,7 +24,7 @@ class ReleaseObjectsTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events()->create($chartKey);
         $holdToken = $this->seatsioClient->holdTokens()->create();
-        $this->seatsioClient->events()->reserve($event->key, "A-1", $holdToken->holdToken);
+        $this->seatsioClient->events()->hold($event->key, "A-1", $holdToken->holdToken);
 
         $this->seatsioClient->events()->release($event->key, "A-1", $holdToken->holdToken);
 
