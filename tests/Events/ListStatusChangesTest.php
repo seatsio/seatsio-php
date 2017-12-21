@@ -2,7 +2,7 @@
 
 namespace Seatsio\Charts;
 
-use Seatsio\Events\Object;
+use Seatsio\Events\SeatsioObject;
 use Seatsio\SeatsioClientTest;
 
 class ListStatusChangesTest extends SeatsioClientTest
@@ -26,7 +26,7 @@ class ListStatusChangesTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events()->create($chartKey);
-        $object = (new Object("A-1"))->withExtraData(["foo" => "bar"]);
+        $object = (new SeatsioObject("A-1"))->withExtraData(["foo" => "bar"]);
         $this->seatsioClient->events()->book($event->key, $object, null, "orderId");
 
         $statusChanges = $this->seatsioClient->events()->statusChanges($event->key)->all();

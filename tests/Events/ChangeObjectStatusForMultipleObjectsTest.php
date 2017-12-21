@@ -22,7 +22,7 @@ class ChangeObjectStatusForMultipleObjectsTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events()->create($chartKey);
-        $objects = [new Object("A-1"), new Object("A-2")];
+        $objects = [new SeatsioObject("A-1"), new SeatsioObject("A-2")];
 
         $this->seatsioClient->events()->changeObjectStatus($event->key, $objects, "lolzor");
 
@@ -47,8 +47,8 @@ class ChangeObjectStatusForMultipleObjectsTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events()->create($chartKey);
         $objects = [
-            (new Object("A-1"))->withTicketType("T1"),
-            (new Object("A-2"))->withTicketType("T2")
+            (new SeatsioObject("A-1"))->withTicketType("T1"),
+            (new SeatsioObject("A-2"))->withTicketType("T2")
         ];
 
         $this->seatsioClient->events()->changeObjectStatus($event->key, $objects, "lolzor");
@@ -67,8 +67,8 @@ class ChangeObjectStatusForMultipleObjectsTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events()->create($chartKey);
         $objects = [
-            (new Object("GA1"))->withQuantity(5),
-            (new Object("GA2"))->withQuantity(10)
+            (new SeatsioObject("GA1"))->withQuantity(5),
+            (new SeatsioObject("GA2"))->withQuantity(10)
         ];
 
         $this->seatsioClient->events()->changeObjectStatus($event->key, $objects, "lolzor");
@@ -85,8 +85,8 @@ class ChangeObjectStatusForMultipleObjectsTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events()->create($chartKey);
         $objects = [
-            (new Object("A-1"))->withExtraData(["foo" => "bar"]),
-            (new Object("A-2"))->withExtraData(["foo" => "baz"])
+            (new SeatsioObject("A-1"))->withExtraData(["foo" => "bar"]),
+            (new SeatsioObject("A-2"))->withExtraData(["foo" => "baz"])
         ];
 
         $this->seatsioClient->events()->changeObjectStatus($event->key, $objects, "lolzor");

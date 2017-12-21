@@ -2,7 +2,7 @@
 
 namespace Seatsio\Events;
 
-class Object
+class SeatsioObject
 {
     public $objectId;
 
