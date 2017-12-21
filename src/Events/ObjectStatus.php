@@ -9,4 +9,5 @@ class ObjectStatus
     public $holdToken;
     public $orderId;
     public $extraData;
+    public $quantity;
 }

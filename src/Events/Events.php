@@ -134,7 +134,7 @@ class Events
     /**
      * @param $key string
      * @param $object string
-     * @param $extraData object
+     * @param $extraData object|array
      * @return void
      */
     public function updateExtraData($key, $object, $extraData)
@@ -163,7 +163,7 @@ class Events
 
     /**
      * @param $key string
-     * @param $objectOrObjects string|string[]
+     * @param $objectOrObjects string|string[]|Object|Object[]
      * @param $status string
      * @param $holdToken string
      * @param $orderId string
@@ -190,11 +190,17 @@ class Events
     private static function normalizeObjects($objectOrObjects)
     {
         if (is_array($objectOrObjects)) {
+            if (count($objectOrObjects) === 0) {
+                return [];
+            }
+            if ($objectOrObjects[0] instanceof Object) {
+                return $objectOrObjects;
+            }
             return array_map(function ($object) {
                 return ["objectId" => $object];
             }, $objectOrObjects);
         }
-        return [["objectId" => $objectOrObjects]];
+        return self::normalizeObjects([$objectOrObjects]);
     }
 
 }
