@@ -187,6 +187,45 @@ class Events
         );
     }
 
+    /**
+     * @param $key string
+     * @param $number int
+     * @param $status string
+     * @param $categories string[]
+     * @param $useObjectUuidsInsteadOfLabels boolean
+     * @param $holdToken string
+     * @param $orderId string
+     * @return BestAvailableObjects
+     */
+    public function changeBestAvailableObjectStatus($key, $number, $status, $categories = null, $useObjectUuidsInsteadOfLabels = null, $holdToken = null, $orderId = null)
+    {
+        $request = new \stdClass();
+        $bestAvailable = new \stdClass();
+        $bestAvailable->number = $number;
+        if ($categories !== null) {
+            $bestAvailable->categories = $categories;
+        }
+        if ($useObjectUuidsInsteadOfLabels !== null) {
+            $bestAvailable->useObjectUuidsInsteadOfLabels = $useObjectUuidsInsteadOfLabels;
+        }
+        $request->bestAvailable = $bestAvailable;
+        $request->status = $status;
+        if ($holdToken !== null) {
+            $request->holdToken = $holdToken;
+        }
+        if ($orderId !== null) {
+            $request->orderId = $orderId;
+        }
+        $res = $this->client->request(
+            'POST',
+            '/events/' . $key . '/actions/change-object-status',
+            ['json' => $request]
+        );
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        $mapper = new JsonMapper();
+        return $mapper->map($json, new BestAvailableObjects());
+    }
+
     private static function normalizeObjects($objectOrObjects)
     {
         if (is_array($objectOrObjects)) {
