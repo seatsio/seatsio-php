@@ -163,16 +163,16 @@ class Events
 
     /**
      * @param $key string
-     * @param $object string
+     * @param $objectOrObjects string|string[]
      * @param $status string
      * @param $holdToken string
      * @param $orderId string
      * @return void
      */
-    public function changeObjectStatus($key, $object, $status, $holdToken = null, $orderId = null)
+    public function changeObjectStatus($key, $objectOrObjects, $status, $holdToken = null, $orderId = null)
     {
         $request = new \stdClass();
-        $request->objects = [["objectId" => $object]];
+        $request->objects = self::normalizeObjects($objectOrObjects);
         $request->status = $status;
         if ($holdToken !== null) {
             $request->holdToken = $holdToken;
@@ -185,6 +185,16 @@ class Events
             '/events/' . $key . '/actions/change-object-status',
             ['json' => $request]
         );
+    }
+
+    private static function normalizeObjects($objectOrObjects)
+    {
+        if (is_array($objectOrObjects)) {
+            return array_map(function ($object) {
+                return ["objectId" => $object];
+            }, $objectOrObjects);
+        }
+        return [["objectId" => $objectOrObjects]];
     }
 
 }

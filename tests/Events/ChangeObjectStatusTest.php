@@ -18,6 +18,17 @@ class ChangeObjectStatusTest extends SeatsioClientTest
         self::assertEquals("lolzor", $objectStatus->status);
     }
 
+    public function testMultipleObjects()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events()->create($chartKey);
+
+        $this->seatsioClient->events()->changeObjectStatus($event->key, ["A-1", "A-2"], "lolzor");
+
+        self::assertEquals("lolzor", $this->seatsioClient->events()->getObjectStatus($event->key, "A-1")->status);
+        self::assertEquals("lolzor", $this->seatsioClient->events()->getObjectStatus($event->key, "A-2")->status);
+    }
+
     public function testChangeObjectStatusWithHoldToken()
     {
         $chartKey = $this->createTestChart();
