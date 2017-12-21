@@ -189,6 +189,42 @@ class Events
 
     /**
      * @param $key string
+     * @param $objectOrObjects string|string[]|Object|Object[]
+     * @param $holdToken string
+     * @param $orderId string
+     * @return void
+     */
+    public function book($key, $objectOrObjects, $holdToken = null, $orderId = null)
+    {
+        $this::changeObjectStatus($key, $objectOrObjects, "booked", $holdToken, $orderId);
+    }
+
+    /**
+     * @param $key string
+     * @param $objectOrObjects string|string[]|Object|Object[]
+     * @param $holdToken string
+     * @param $orderId string
+     * @return void
+     */
+    public function release($key, $objectOrObjects, $holdToken = null, $orderId = null)
+    {
+        $this::changeObjectStatus($key, $objectOrObjects, "free", $holdToken, $orderId);
+    }
+
+    /**
+     * @param $key string
+     * @param $objectOrObjects string|string[]|Object|Object[]
+     * @param $holdToken string
+     * @param $orderId string
+     * @return void
+     */
+    public function hold($key, $objectOrObjects, $holdToken, $orderId = null)
+    {
+        $this::changeObjectStatus($key, $objectOrObjects, "reservedByToken", $holdToken, $orderId);
+    }
+
+    /**
+     * @param $key string
      * @param $number int
      * @param $status string
      * @param $categories string[]
