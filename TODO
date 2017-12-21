@@ -3,7 +3,6 @@
 - make it possible in the API to pass in 'null' as category color
 - make it possible in the API to pass in 'null' as ticketType, quantity etc. when changing object status
 - allow filter, tag and expand to be passed in when retrieving charts
-- create event call should return full event object
 - don't expose Guzzle exceptions when an error occurs
 - document API call to fetch draft thumbnail
 - document API call to fetch chart
@@ -19,3 +18,7 @@
 - document all parameter types
 - move docs for 'list events for a chart' to 'charts'
 - add examples to readme
+
+- season calls
+- list status change calls
+- reporting calls
