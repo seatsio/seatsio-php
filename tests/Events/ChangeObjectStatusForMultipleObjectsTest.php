@@ -47,8 +47,8 @@ class ChangeObjectStatusForMultipleObjectsTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events()->create($chartKey);
         $objects = [
-            (new SeatsioObject("A-1"))->withTicketType("T1"),
-            (new SeatsioObject("A-2"))->withTicketType("T2")
+            (new SeatsioObject("A-1"))->setTicketType("T1"),
+            (new SeatsioObject("A-2"))->setTicketType("T2")
         ];
 
         $this->seatsioClient->events()->changeObjectStatus($event->key, $objects, "lolzor");
@@ -67,8 +67,8 @@ class ChangeObjectStatusForMultipleObjectsTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events()->create($chartKey);
         $objects = [
-            (new SeatsioObject("GA1"))->withQuantity(5),
-            (new SeatsioObject("GA2"))->withQuantity(10)
+            (new SeatsioObject("GA1"))->setQuantity(5),
+            (new SeatsioObject("GA2"))->setQuantity(10)
         ];
 
         $this->seatsioClient->events()->changeObjectStatus($event->key, $objects, "lolzor");
@@ -85,8 +85,8 @@ class ChangeObjectStatusForMultipleObjectsTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events()->create($chartKey);
         $objects = [
-            (new SeatsioObject("A-1"))->withExtraData(["foo" => "bar"]),
-            (new SeatsioObject("A-2"))->withExtraData(["foo" => "baz"])
+            (new SeatsioObject("A-1"))->setExtraData(["foo" => "bar"]),
+            (new SeatsioObject("A-2"))->setExtraData(["foo" => "baz"])
         ];
 
         $this->seatsioClient->events()->changeObjectStatus($event->key, $objects, "lolzor");

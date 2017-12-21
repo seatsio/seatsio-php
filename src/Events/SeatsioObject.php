@@ -15,7 +15,7 @@ class SeatsioObject
      * @param $ticketType string
      * @return $this
      */
-    public function withTicketType($ticketType)
+    public function setTicketType($ticketType)
     {
         $this->ticketType = $ticketType;
         return $this;
@@ -25,7 +25,7 @@ class SeatsioObject
      * @param $quantity int
      * @return $this
      */
-    public function withQuantity($quantity)
+    public function setQuantity($quantity)
     {
         $this->quantity = $quantity;
         return $this;
@@ -35,7 +35,7 @@ class SeatsioObject
      * @param $extraData object|array
      * @return $this
      */
-    public function withExtraData($extraData)
+    public function setExtraData($extraData)
     {
         $this->extraData = $extraData;
         return $this;

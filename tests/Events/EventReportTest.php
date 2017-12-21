@@ -11,7 +11,7 @@ class EventReportsTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events()->create($chartKey);
-        $this->seatsioClient->events()->book($event->key, (new SeatsioObject("A-1"))->withTicketType("ticketType1"), null, "order1");
+        $this->seatsioClient->events()->book($event->key, (new SeatsioObject("A-1"))->setTicketType("ticketType1"), null, "order1");
 
         $report = $this->seatsioClient->events()->reportByLabel($event->key);
 
@@ -32,7 +32,7 @@ class EventReportsTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events()->create($chartKey);
-        $this->seatsioClient->events()->book($event->key, (new SeatsioObject("GA1"))->withQuantity(5));
+        $this->seatsioClient->events()->book($event->key, (new SeatsioObject("GA1"))->setQuantity(5));
 
         $report = $this->seatsioClient->events()->reportByLabel($event->key);
 
