@@ -41,7 +41,7 @@ class Charts
         if ($categories != null) {
             $request->categories = $categories;
         }
-        $res = $this->client->request('POST', '/charts', ['json' => $request]);
+        $res = $this->client->post('/charts', ['json' => $request]);
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Chart());
@@ -62,7 +62,7 @@ class Charts
         if ($categories !== null) {
             $request->categories = $categories;
         }
-        $this->client->request('POST', '/charts/' . $key, ['json' => $request]);
+        $this->client->post('/charts/' . $key, ['json' => $request]);
     }
 
     /**
@@ -71,7 +71,7 @@ class Charts
      */
     public function retrieve($key)
     {
-        $res = $this->client->request('GET', '/charts/' . $key);
+        $res = $this->client->get('/charts/' . $key);
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Chart());
@@ -83,7 +83,7 @@ class Charts
      */
     public function retrievePublishedChart($key)
     {
-        $res = $this->client->request('GET', '/charts/' . $key . '/version/published');
+        $res = $this->client->get('/charts/' . $key . '/version/published');
         return \GuzzleHttp\json_decode($res->getBody());
     }
 
@@ -93,7 +93,7 @@ class Charts
      */
     public function publishDraft($key)
     {
-        $this->client->request('POST', '/charts/' . $key . '/version/draft/actions/publish');
+        $this->client->post('/charts/' . $key . '/version/draft/actions/publish');
     }
 
     /**
@@ -102,7 +102,7 @@ class Charts
      */
     public function discardDraft($key)
     {
-        $this->client->request('POST', '/charts/' . $key . '/version/draft/actions/discard');
+        $this->client->post('/charts/' . $key . '/version/draft/actions/discard');
     }
 
     /**
@@ -111,7 +111,7 @@ class Charts
      */
     public function moveToArchive($key)
     {
-        $this->client->request('POST', '/charts/archive/' . $key);
+        $this->client->post('/charts/archive/' . $key);
     }
 
     /**
@@ -120,7 +120,7 @@ class Charts
      */
     public function moveOutOfArchive($key)
     {
-        $this->client->request('DELETE', '/charts/archive/' . $key);
+        $this->client->delete('/charts/archive/' . $key);
     }
 
     /**
@@ -129,7 +129,7 @@ class Charts
      */
     public function copy($key)
     {
-        $res = $this->client->request('POST', '/charts/' . $key . '/version/published/actions/copy');
+        $res = $this->client->post('/charts/' . $key . '/version/published/actions/copy');
         return \GuzzleHttp\json_decode($res->getBody());
     }
 
@@ -139,7 +139,7 @@ class Charts
      */
     public function copyDraft($key)
     {
-        $res = $this->client->request('POST', '/charts/' . $key . '/version/draft/actions/copy');
+        $res = $this->client->post('/charts/' . $key . '/version/draft/actions/copy');
         return \GuzzleHttp\json_decode($res->getBody());
     }
 
@@ -149,7 +149,7 @@ class Charts
      */
     public function copyToSubaccount($key, $subaccountId)
     {
-        $res = $this->client->request('POST', '/charts/' . $key . '/version/published/actions/copy-to/' . $subaccountId);
+        $res = $this->client->post('/charts/' . $key . '/version/published/actions/copy-to/' . $subaccountId);
         return \GuzzleHttp\json_decode($res->getBody());
     }
 
@@ -159,7 +159,7 @@ class Charts
      */
     public function retrieveThumbnail($key)
     {
-        $res = $this->client->request('GET', '/charts/' . $key . '/version/published/thumbnail');
+        $res = $this->client->get('/charts/' . $key . '/version/published/thumbnail');
         return $res->getBody();
     }
 
@@ -168,7 +168,7 @@ class Charts
      */
     public function listAllTags()
     {
-        $res = $this->client->request('GET', '/charts/tags');
+        $res = $this->client->get('/charts/tags');
         return \GuzzleHttp\json_decode($res->getBody())->tags;
     }
 
@@ -178,7 +178,7 @@ class Charts
      */
     public function listTags($key)
     {
-        $res = $this->client->request('GET', '/charts/' . $key . '/tags');
+        $res = $this->client->get('/charts/' . $key . '/tags');
         return \GuzzleHttp\json_decode($res->getBody())->tags;
     }
 
@@ -189,7 +189,7 @@ class Charts
      */
     public function addTag($key, $tag)
     {
-        $this->client->request('POST', '/charts/' . $key . '/tags/' . $tag);
+        $this->client->post(\GuzzleHttp\uri_template('/charts/{key}/tags/{tag}', array("key" => $key, "tag" => $tag)));
     }
 
     /**
@@ -199,7 +199,7 @@ class Charts
      */
     public function removeTag($key, $tag)
     {
-        $this->client->request('DELETE', '/charts/' . $key . '/tags/' . $tag);
+        $this->client->delete(\GuzzleHttp\uri_template('/charts/{key}/tags/{tag}', array("key" => $key, "tag" => $tag)));
     }
 
     /**

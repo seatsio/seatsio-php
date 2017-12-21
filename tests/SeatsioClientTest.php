@@ -33,7 +33,7 @@ class SeatsioClientTest extends PHPUnit_Framework_TestCase
         $client = new Client();
         $randomEmail = 'test' . rand() . '@seats.io';
         $requestBody = ['email' => $randomEmail, 'password' => '12345678'];
-        $res = $client->request('POST', self::$BASE_URL . 'system/public/users', ['json' => $requestBody]);
+        $res = $client->post(self::$BASE_URL . 'system/public/users', ['json' => $requestBody]);
         return \GuzzleHttp\json_decode($res->getBody());
     }
 
@@ -42,8 +42,7 @@ class SeatsioClientTest extends PHPUnit_Framework_TestCase
         $client = new Client();
         $requestBody = file_get_contents(dirname(__FILE__) . '/sampleChart.json');
         $chartKey = self::uuid();
-        $client->request(
-            'POST',
+        $client->post(
             self::$BASE_URL . 'system/public/' . $this->user->designerKey . '/charts/' . $chartKey,
             ['body' => $requestBody]
         );

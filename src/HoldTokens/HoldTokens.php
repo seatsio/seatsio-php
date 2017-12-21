@@ -24,7 +24,7 @@ class HoldTokens
      */
     public function create()
     {
-        $res = $this->client->request('POST', '/hold-tokens');
+        $res = $this->client->post('/hold-tokens');
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new HoldToken());
@@ -39,7 +39,7 @@ class HoldTokens
     {
         $request = new \stdClass();
         $request->expiresInMinutes = $expiresInMintes;
-        $res = $this->client->request('PUT', '/hold-tokens/' . $holdToken, ['json' => $request]);
+        $res = $this->client->put('/hold-tokens/' . $holdToken, ['json' => $request]);
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new HoldToken());

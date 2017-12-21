@@ -27,7 +27,7 @@ class Subaccounts
      */
     public function retrieve($id)
     {
-        $res = $this->client->request('GET', '/subaccounts/' . $id);
+        $res = $this->client->get('/subaccounts/' . $id);
         return \GuzzleHttp\json_decode($res->getBody());
     }
 
@@ -41,7 +41,7 @@ class Subaccounts
         if ($name !== null) {
             $request->name = $name;
         }
-        $res = $this->client->request('POST', '/subaccounts', ['json' => $request]);
+        $res = $this->client->post('/subaccounts', ['json' => $request]);
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Subaccount());
@@ -56,7 +56,7 @@ class Subaccounts
     {
         $request = new \stdClass();
         $request->name = $name;
-        $this->client->request('POST', '/subaccounts/' . $id, ['json' => $request]);
+        $this->client->post('/subaccounts/' . $id, ['json' => $request]);
     }
 
     /**
@@ -65,7 +65,7 @@ class Subaccounts
      */
     public function activate($id)
     {
-        $this->client->request('POST', '/subaccounts/' . $id . '/actions/activate');
+        $this->client->post('/subaccounts/' . $id . '/actions/activate');
     }
 
     /**
@@ -74,7 +74,7 @@ class Subaccounts
      */
     public function deactivate($id)
     {
-        $this->client->request('POST', '/subaccounts/' . $id . '/actions/deactivate');
+        $this->client->post('/subaccounts/' . $id . '/actions/deactivate');
     }
 
     /**
@@ -83,7 +83,7 @@ class Subaccounts
      */
     public function regenerateSecretKey($id)
     {
-        $res = $this->client->request('POST', '/subaccounts/' . $id . '/secret-key/actions/regenerate');
+        $res = $this->client->post('/subaccounts/' . $id . '/secret-key/actions/regenerate');
         $json = \GuzzleHttp\json_decode($res->getBody());
         return $json->secretKey;
     }
@@ -94,7 +94,7 @@ class Subaccounts
      */
     public function regenerateDesignerKey($id)
     {
-        $res = $this->client->request('POST', '/subaccounts/' . $id . '/designer-key/actions/regenerate');
+        $res = $this->client->post('/subaccounts/' . $id . '/designer-key/actions/regenerate');
         $json = \GuzzleHttp\json_decode($res->getBody());
         return $json->designerKey;
     }
@@ -106,7 +106,7 @@ class Subaccounts
      */
     public function copyChartToParent($id, $chartKey)
     {
-        $res = $this->client->request('POST', '/subaccounts/' . $id . '/charts/' . $chartKey . '/actions/copy-to/parent');
+        $res = $this->client->post('/subaccounts/' . $id . '/charts/' . $chartKey . '/actions/copy-to/parent');
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Chart());
@@ -120,7 +120,7 @@ class Subaccounts
      */
     public function copyChartToSubaccount($fromId, $toId, $chartKey)
     {
-        $res = $this->client->request('POST', '/subaccounts/' . $fromId . '/charts/' . $chartKey . '/actions/copy-to/' . $toId);
+        $res = $this->client->post('/subaccounts/' . $fromId . '/charts/' . $chartKey . '/actions/copy-to/' . $toId);
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Chart());

@@ -36,7 +36,7 @@ class Events
         if ($bookWholeTables !== null) {
             $request->bookWholeTables = $bookWholeTables;
         }
-        $res = $this->client->request('POST', '/events', ['json' => $request]);
+        $res = $this->client->post('/events', ['json' => $request]);
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Event());
@@ -48,7 +48,7 @@ class Events
      */
     public function retrieve($key)
     {
-        $res = $this->client->request('GET', '/events/' . $key);
+        $res = $this->client->get('/events/' . $key);
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Event());
@@ -73,7 +73,7 @@ class Events
         if ($bookWholeTables !== null) {
             $request->bookWholeTables = $bookWholeTables;
         }
-        $this->client->request('POST', '/events/' . $key, ['json' => $request]);
+        $this->client->post('/events/' . $key, ['json' => $request]);
     }
 
     /**
@@ -118,7 +118,7 @@ class Events
         if ($categories !== null) {
             $request->categories = $categories;
         }
-        $this->client->request('POST', '/events/' . $key . '/actions/mark-as-for-sale', ['json' => $request]);
+        $this->client->post('/events/' . $key . '/actions/mark-as-for-sale', ['json' => $request]);
     }
 
     /**
@@ -136,7 +136,7 @@ class Events
         if ($categories !== null) {
             $request->categories = $categories;
         }
-        $this->client->request('POST', '/events/' . $key . '/actions/mark-as-not-for-sale', ['json' => $request]);
+        $this->client->post('/events/' . $key . '/actions/mark-as-not-for-sale', ['json' => $request]);
     }
 
     /**
@@ -145,7 +145,7 @@ class Events
      */
     public function markEverythingAsForSale($key)
     {
-        $this->client->request('POST', '/events/' . $key . '/actions/mark-everything-as-for-sale');
+        $this->client->post('/events/' . $key . '/actions/mark-everything-as-for-sale');
     }
 
     /**
@@ -158,9 +158,8 @@ class Events
     {
         $request = new \stdClass();
         $request->extraData = $extraData;
-        $this->client->request(
-            'POST',
-            '/events/' . $key . '/objects/' . $object . '/actions/update-extra-data',
+        $this->client->post(
+            \GuzzleHttp\uri_template('/events/{key}/objects/{object}/actions/update-extra-data', ["key" => $key, "object" => $object]),
             ['json' => $request]
         );
     }
@@ -172,7 +171,7 @@ class Events
      */
     public function getObjectStatus($key, $object)
     {
-        $res = $this->client->request('GET', '/events/' . $key . '/objects/' . $object);
+        $res = $this->client->get(\GuzzleHttp\uri_template('/events/{key}/objects/{object}', ["key" => $key, "object" => $object]));
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new ObjectStatus());
@@ -198,8 +197,7 @@ class Events
             $request->orderId = $orderId;
         }
         $request->events = is_array($keyOrKeys) ? $keyOrKeys : [$keyOrKeys];
-        $this->client->request(
-            'POST',
+        $this->client->post(
             '/seasons/actions/change-object-status',
             ['json' => $request]
         );
@@ -270,8 +268,7 @@ class Events
         if ($orderId !== null) {
             $request->orderId = $orderId;
         }
-        $res = $this->client->request(
-            'POST',
+        $res = $this->client->post(
             '/events/' . $key . '/actions/change-object-status',
             ['json' => $request]
         );
@@ -305,7 +302,7 @@ class Events
      */
     public function reportByStatus($key)
     {
-        $res = $this->client->request('GET', '/reports/events/' . $key . '/byStatus');
+        $res = $this->client->get('/reports/events/' . $key . '/byStatus');
         $json = \GuzzleHttp\json_decode($res->getBody());
         return $this->mapMultiValuedReport($json);
     }
@@ -316,7 +313,7 @@ class Events
      */
     public function reportByCategoryLabel($key)
     {
-        $res = $this->client->request('GET', '/reports/events/' . $key . '/byCategoryLabel');
+        $res = $this->client->get('/reports/events/' . $key . '/byCategoryLabel');
         $json = \GuzzleHttp\json_decode($res->getBody());
         return $this->mapMultiValuedReport($json);
     }
@@ -327,7 +324,7 @@ class Events
      */
     public function reportByCategoryKey($key)
     {
-        $res = $this->client->request('GET', '/reports/events/' . $key . '/byCategoryKey');
+        $res = $this->client->get('/reports/events/' . $key . '/byCategoryKey');
         $json = \GuzzleHttp\json_decode($res->getBody());
         return $this->mapMultiValuedReport($json);
     }
@@ -338,7 +335,7 @@ class Events
      */
     public function reportByLabel($key)
     {
-        $res = $this->client->request('GET', '/reports/events/' . $key . '/byLabel');
+        $res = $this->client->get('/reports/events/' . $key . '/byLabel');
         $json = \GuzzleHttp\json_decode($res->getBody());
         return $this->mapMultiValuedReport($json);
     }
@@ -349,7 +346,7 @@ class Events
      */
     public function reportByUuid($key)
     {
-        $res = $this->client->request('GET', '/reports/events/' . $key . '/byUuid');
+        $res = $this->client->get('/reports/events/' . $key . '/byUuid');
         $json = \GuzzleHttp\json_decode($res->getBody());
         return $this->mapSingleValuedReport($json);
     }
@@ -360,7 +357,7 @@ class Events
      */
     public function reportByOrderId($key)
     {
-        $res = $this->client->request('GET', '/reports/events/' . $key . '/byOrderId');
+        $res = $this->client->get('/reports/events/' . $key . '/byOrderId');
         $json = \GuzzleHttp\json_decode($res->getBody());
         return $this->mapMultiValuedReport($json);
     }
@@ -371,7 +368,7 @@ class Events
      */
     public function reportBySection($key)
     {
-        $res = $this->client->request('GET', '/reports/events/' . $key . '/bySection');
+        $res = $this->client->get('/reports/events/' . $key . '/bySection');
         $json = \GuzzleHttp\json_decode($res->getBody());
         return $this->mapMultiValuedReport($json);
     }
