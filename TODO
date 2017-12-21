@@ -18,6 +18,4 @@
 - document all parameter types
 - move docs for 'list events for a chart' to 'charts'
 - add examples to readme
-
-- list status change calls
-- reporting calls
+- event report item has 'numBooked', object status has 'quantity'

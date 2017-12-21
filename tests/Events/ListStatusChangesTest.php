@@ -5,7 +5,7 @@ namespace Seatsio\Charts;
 use Seatsio\Events\Object;
 use Seatsio\SeatsioClientTest;
 
-class ListEventsTest extends SeatsioClientTest
+class ListStatusChangesTest extends SeatsioClientTest
 {
 
     public function test()

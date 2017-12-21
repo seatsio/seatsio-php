@@ -297,4 +297,109 @@ class Events
         return self::normalizeObjects([$objectOrObjects]);
     }
 
+    /**
+     * @param $key string
+     * @return array
+     */
+    public function reportByStatus($key)
+    {
+        $res = $this->client->request('GET', '/reports/events/' . $key . '/byStatus');
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        return $this->mapMultiValuedReport($json);
+    }
+
+    /**
+     * @param $key string
+     * @return array
+     */
+    public function reportByCategoryLabel($key)
+    {
+        $res = $this->client->request('GET', '/reports/events/' . $key . '/byCategoryLabel');
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        return $this->mapMultiValuedReport($json);
+    }
+
+    /**
+     * @param $key string
+     * @return array
+     */
+    public function reportByCategoryKey($key)
+    {
+        $res = $this->client->request('GET', '/reports/events/' . $key . '/byCategoryKey');
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        return $this->mapMultiValuedReport($json);
+    }
+
+    /**
+     * @param $key string
+     * @return array
+     */
+    public function reportByLabel($key)
+    {
+        $res = $this->client->request('GET', '/reports/events/' . $key . '/byLabel');
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        return $this->mapMultiValuedReport($json);
+    }
+
+    /**
+     * @param $key string
+     * @return array
+     */
+    public function reportByUuid($key)
+    {
+        $res = $this->client->request('GET', '/reports/events/' . $key . '/byUuid');
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        return $this->mapSingleValuedReport($json);
+    }
+
+    /**
+     * @param $key string
+     * @return array
+     */
+    public function reportByOrderId($key)
+    {
+        $res = $this->client->request('GET', '/reports/events/' . $key . '/byOrderId');
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        return $this->mapMultiValuedReport($json);
+    }
+
+    /**
+     * @param $key string
+     * @return array
+     */
+    public function reportBySection($key)
+    {
+        $res = $this->client->request('GET', '/reports/events/' . $key . '/bySection');
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        return $this->mapMultiValuedReport($json);
+    }
+
+    /**
+     * @param $key string
+     * @return array
+     */
+    private static function mapMultiValuedReport($json)
+    {
+        $mapper = new JsonMapper();
+        $result = [];
+        foreach ($json as $status => $reportItems) {
+            $result[$status] = $mapper->mapArray($reportItems, array(), EventReportItem::class);
+        }
+        return $result;
+    }
+
+    /**
+     * @param $key string
+     * @return array
+     */
+    private static function mapSingleValuedReport($json)
+    {
+        $mapper = new JsonMapper();
+        $result = [];
+        foreach ($json as $status => $reportItem) {
+            $result[$status] = $mapper->map($reportItem, new EventReportItem());
+        }
+        return $result;
+    }
+
 }
