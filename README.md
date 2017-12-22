@@ -1,6 +1,8 @@
 # seatsio-php, the official Seats.io PHP client library
 
 [![Build Status](https://travis-ci.org/seatsio/seatsio-php.svg?branch=master)](https://travis-ci.org/seatsio/seatsio-php)
+[![Latest Stable Version](https://poser.pugx.org/seatsio/seatsio-php/v/stable)](https://packagist.org/packages/seatsio/seatsio-php)
+[![License](https://poser.pugx.org/seatsio/seatsio-php/license)](https://packagist.org/packages/seatsio/seatsio-php)
 
 This is the official PHP client library for the [Seats.io V2 REST API](https://www.seats.io/docs/api-v2).
 
