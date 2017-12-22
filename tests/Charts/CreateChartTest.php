@@ -44,19 +44,34 @@ class CreateChartTest extends SeatsioClientTest
         self::assertEmpty($retrievedChart->categories->list);
     }
 
-    public function testCreateChartWithCategories()
+    public function testCreateChartWithCategoriesAsAssociativeArray()
     {
-        $categories = [
-            (object)['key' => 1, 'label' => 'Category 1', 'color' => '#aaaaaa'],
-            (object)['key' => 2, 'label' => 'Category 2', 'color' => '#bbbbbb']
-        ];
+        $cat1 = ['key' => 1, 'label' => 'Category 1', 'color' => '#aaaaaa'];
+        $cat2 = ['key' => 2, 'label' => 'Category 2', 'color' => '#bbbbbb'];
 
-        $chart = $this->seatsioClient->charts()->create(null, null, $categories);
+        $chart = $this->seatsioClient->charts()->create(null, null, [$cat1, $cat2]);
 
         $retrievedChart = $this->seatsioClient->charts()->retrievePublishedChart($chart->key);
         self::assertEquals('Untitled chart', $retrievedChart->name);
         self::assertEquals('MIXED', $retrievedChart->venueType);
-        self::assertEquals($categories, $retrievedChart->categories->list);
+        self::assertEquals([(object)$cat1, (object)$cat2], $retrievedChart->categories->list);
+    }
+
+    public function testCreateChartWithCategoriesAsObjects()
+    {
+        $cat1 = (new Category())->setKey(1)->setLabel('Category 1')->setColor('#aaaaaa');
+        $cat2 = (new Category())->setKey(2)->setLabel('Category 2')->setColor('#bbbbbb');
+
+        $chart = $this->seatsioClient->charts()->create(null, null, [$cat1, $cat2]);
+
+        $expectedCategories = [
+            (object)['key' => 1, 'label' => 'Category 1', 'color' => '#aaaaaa'],
+            (object)['key' => 2, 'label' => 'Category 2', 'color' => '#bbbbbb']
+        ];
+        $retrievedChart = $this->seatsioClient->charts()->retrievePublishedChart($chart->key);
+        self::assertEquals('Untitled chart', $retrievedChart->name);
+        self::assertEquals('MIXED', $retrievedChart->venueType);
+        self::assertEquals($expectedCategories, $retrievedChart->categories->list);
     }
 
 }

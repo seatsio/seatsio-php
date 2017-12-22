@@ -26,7 +26,7 @@ class Charts
     /**
      * @param $name string
      * @param $venueType string
-     * @param $categories array
+     * @param $categories array|\Seatsio\Charts\Category[]
      * @return Chart
      */
     public function create($name = null, $venueType = null, $categories = null)
@@ -50,7 +50,7 @@ class Charts
     /**
      * @param $key string
      * @param $name string
-     * @param $categories array
+     * @param $categories array|\Seatsio\Charts\Category[]
      * @return void
      */
     public function update($key, $name = null, $categories = null)
