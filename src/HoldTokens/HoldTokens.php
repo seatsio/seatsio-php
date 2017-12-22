@@ -43,4 +43,16 @@ class HoldTokens
         return $mapper->map($json, new HoldToken());
     }
 
+    /**
+     * @param $holdToken string
+     * @return HoldToken
+     */
+    public function retrieve($holdToken)
+    {
+        $res = $this->client->get('/hold-tokens/' . $holdToken);
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        $mapper = SeatsioJsonMapper::create();
+        return $mapper->map($json, new HoldToken());
+    }
+
 }

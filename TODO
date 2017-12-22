@@ -1,6 +1,5 @@
 - add examples to readme
 
-- API: call to fetch a hold token
 - event report item has 'numBooked', object status has 'quantity'
 
 - document API call to fetch draft thumbnail
