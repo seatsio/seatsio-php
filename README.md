@@ -67,3 +67,12 @@ foreach($charts as $chart) {
     echo 'Chart ' . $chart->key;
 }
 ```
+
+## Error handling
+
+When an API call results in a 4xx or 5xx error (e.g. when a chart could not be found), a SeatsioException is thrown.
+
+This exception contains a message string describing what went wrong, and also two other properties:
+
+- `messages`: an array of error messages that the server returned. In most cases, this array will contain only one element.
+- `requestId`: the identifier of the request you made. Please mention this to us when you have questions, as it will make debugging easier.
