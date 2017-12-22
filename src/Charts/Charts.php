@@ -15,12 +15,10 @@ class Charts
      * @var \GuzzleHttp\Client
      */
     private $client;
-    private $pageSize;
 
-    public function __construct($client, $pageSize)
+    public function __construct($client)
     {
         $this->client = $client;
-        $this->pageSize = $pageSize;
     }
 
     /**
@@ -207,7 +205,7 @@ class Charts
      */
     public function lister()
     {
-        return new ChartLister(new PageFetcher('/charts', $this->client, $this->pageSize, function () {
+        return new ChartLister(new PageFetcher('/charts', $this->client, function () {
             return new ChartPage();
         }));
     }
@@ -217,7 +215,7 @@ class Charts
      */
     public function archive()
     {
-        return new ChartLister(new PageFetcher('/charts/archive', $this->client, $this->pageSize, function () {
+        return new ChartLister(new PageFetcher('/charts/archive', $this->client, function () {
             return new ChartPage();
         }));
     }
@@ -228,7 +226,7 @@ class Charts
      */
     public function events($key)
     {
-        return new EventLister(new PageFetcher('/charts/' . $key . '/events', $this->client, $this->pageSize, function () {
+        return new EventLister(new PageFetcher('/charts/' . $key . '/events', $this->client, function () {
             return new EventPage();
         }));
     }

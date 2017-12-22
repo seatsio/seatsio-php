@@ -12,12 +12,10 @@ class Events
      * @var \GuzzleHttp\Client
      */
     private $client;
-    private $pageSize;
 
-    public function __construct($client, $pageSize)
+    public function __construct($client)
     {
         $this->client = $client;
-        $this->pageSize = $pageSize;
     }
 
     /**
@@ -81,7 +79,7 @@ class Events
      */
     public function lister()
     {
-        return new EventLister(new PageFetcher('/events', $this->client, $this->pageSize, function () {
+        return new EventLister(new PageFetcher('/events', $this->client, function () {
             return new EventPage();
         }));
     }
@@ -94,11 +92,11 @@ class Events
     public function statusChanges($key, $objectId = null)
     {
         if ($objectId === null) {
-            return new StatusChangeLister(new PageFetcher('/events/' . $key . '/status-changes', $this->client, $this->pageSize, function () {
+            return new StatusChangeLister(new PageFetcher('/events/' . $key . '/status-changes', $this->client, function () {
                 return new StatusChangePage();
             }));
         }
-        return new StatusChangeLister(new PageFetcher('/events/' . $key . '/objects/' . $objectId . '/status-changes', $this->client, $this->pageSize, function () {
+        return new StatusChangeLister(new PageFetcher('/events/' . $key . '/objects/' . $objectId . '/status-changes', $this->client, function () {
             return new StatusChangePage();
         }));
     }

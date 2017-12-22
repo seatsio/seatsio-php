@@ -8,6 +8,35 @@ class ChartLister extends Lister
 {
 
     /**
+     * @param $filter string
+     * @return $this
+     */
+    public function setFilter($filter)
+    {
+        $this->pageFetcher->setQueryParam('filter', $filter);
+        return $this;
+    }
+
+    /**
+     * @param $tag string
+     * @return $this
+     */
+    public function setTag($tag)
+    {
+        $this->pageFetcher->setQueryParam('tag', $tag);
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setExpandEvents()
+    {
+        $this->pageFetcher->setQueryParam('expand', 'events');
+        return $this;
+    }
+
+    /**
      * @return ChartPagedIterator
      */
     public function all()
@@ -38,4 +67,5 @@ class ChartLister extends Lister
     {
         return parent::pageBefore($beforeId);
     }
+
 }

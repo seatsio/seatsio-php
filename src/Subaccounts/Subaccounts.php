@@ -13,12 +13,10 @@ class Subaccounts
      * @var \GuzzleHttp\Client
      */
     private $client;
-    private $pageSize;
 
-    public function __construct($client, $pageSize)
+    public function __construct($client)
     {
         $this->client = $client;
-        $this->pageSize = $pageSize;
     }
 
     /**
@@ -131,7 +129,7 @@ class Subaccounts
      */
     public function lister()
     {
-        return new SubaccountLister(new PageFetcher('/subaccounts', $this->client, $this->pageSize, function () {
+        return new SubaccountLister(new PageFetcher('/subaccounts', $this->client, function () {
             return new SubaccountPage();
         }));
     }
@@ -141,7 +139,7 @@ class Subaccounts
      */
     public function active()
     {
-        return new SubaccountLister(new PageFetcher('/subaccounts/active', $this->client, $this->pageSize, function () {
+        return new SubaccountLister(new PageFetcher('/subaccounts/active', $this->client, function () {
             return new SubaccountPage();
         }));
     }
@@ -151,7 +149,7 @@ class Subaccounts
      */
     public function inactive()
     {
-        return new SubaccountLister(new PageFetcher('/subaccounts/inactive', $this->client, $this->pageSize, function () {
+        return new SubaccountLister(new PageFetcher('/subaccounts/inactive', $this->client, function () {
             return new SubaccountPage();
         }));
     }

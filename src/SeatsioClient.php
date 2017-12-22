@@ -13,7 +13,6 @@ use Seatsio\Subaccounts\Subaccounts;
 class SeatsioClient
 {
     private $client;
-    private $pageSize;
 
     public function __construct($secretKey, $baseUrl = 'https://api.seats.io/')
     {
@@ -27,17 +26,12 @@ class SeatsioClient
         ]);
     }
 
-    public function setPageSize($pageSize)
-    {
-        $this->pageSize = $pageSize;
-    }
-
     /**
      * @return Charts
      */
     public function charts()
     {
-        return new Charts($this->client, $this->pageSize);
+        return new Charts($this->client);
     }
 
     /**
@@ -45,7 +39,7 @@ class SeatsioClient
      */
     public function events()
     {
-        return new Events($this->client, $this->pageSize);
+        return new Events($this->client);
     }
 
     /**
@@ -53,7 +47,7 @@ class SeatsioClient
      */
     public function subaccounts()
     {
-        return new Subaccounts($this->client, $this->pageSize);
+        return new Subaccounts($this->client);
     }
 
     /**
@@ -61,7 +55,7 @@ class SeatsioClient
      */
     public function holdTokens()
     {
-        return new HoldTokens($this->client, $this->pageSize);
+        return new HoldTokens($this->client);
     }
 
     private function errorHandler()

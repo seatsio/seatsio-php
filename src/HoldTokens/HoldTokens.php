@@ -11,12 +11,10 @@ class HoldTokens
      * @var \GuzzleHttp\Client
      */
     private $client;
-    private $pageSize;
 
-    public function __construct($client, $pageSize)
+    public function __construct($client)
     {
         $this->client = $client;
-        $this->pageSize = $pageSize;
     }
 
     /**

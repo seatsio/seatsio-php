@@ -1,5 +1,3 @@
-- allow filter, tag and expand to be passed in when retrieving charts
-
 - make it possible in the API to pass in 'null' as category color
 - make it possible in the API to pass in 'null' as ticketType, quantity etc. when changing object status
 - document API call to fetch draft thumbnail

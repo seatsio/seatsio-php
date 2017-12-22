@@ -32,4 +32,8 @@ class Chart
      * @var string
      */
     public $draftVersionThumbnailUrl;
+    /**
+     * @var \Seatsio\Events\Event[]
+     */
+    public $events;
 }

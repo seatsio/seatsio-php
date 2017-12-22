@@ -28,4 +28,14 @@ class Lister
     {
         return $this->pageFetcher->fetchBefore($beforeId);
     }
+
+    /**
+     * @param $pageSize int
+     * @return $this
+     */
+    public function setPageSize($pageSize)
+    {
+        $this->pageFetcher->setPageSize($pageSize);
+        return $this;
+    }
 }
