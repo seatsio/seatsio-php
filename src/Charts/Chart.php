@@ -36,4 +36,8 @@ class Chart
      * @var \Seatsio\Events\Event[]
      */
     public $events;
+    /**
+     * @var boolean
+     */
+    public $archived;
 }

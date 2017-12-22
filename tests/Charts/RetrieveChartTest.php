@@ -21,6 +21,7 @@ class RetrieveChartTest extends SeatsioClientTest
         self::assertNotNull($retrievedChart->publishedVersionThumbnailUrl);
         self::assertNull($retrievedChart->draftVersionThumbnailUrl);
         self::assertEquals(['tag1'], $retrievedChart->tags);
+        self::assertFalse($retrievedChart->archived);
     }
 
 }

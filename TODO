@@ -1,14 +1,13 @@
-- make it possible in the API to pass in 'null' as category color
-- make it possible in the API to pass in 'null' as ticketType, quantity etc. when changing object status
+- add examples to readme
+
+- API: change PUT to POST for updating hold token
+- API: call to fetch a hold token
+- event report item has 'numBooked', object status has 'quantity'
+
 - document API call to fetch draft thumbnail
 - document API call to fetch chart
-- add archived flag to chart
-- change chart name to 'chart2 (copy)' in https://www.seats.io/docs/api-v2#core-resources-charts-copy-published-version
 - update docs: rename 'copy published version' to 'copy chart' and 'copy published version to subaccount' to 'copy chart to subaccount'
 - update docs: rename 'published version' to 'published chart' and 'draft version' to 'draft' (?)
 - update docs: move all API calls for drafts together
-- API: change PUT to POST for updating hold token
-- API: call to fetch a hold token
+- change chart name to 'chart2 (copy)' in https://www.seats.io/docs/api-v2#core-resources-charts-copy-published-version
 - move docs for 'list events for a chart' to 'charts'
-- add examples to readme
-- event report item has 'numBooked', object status has 'quantity'

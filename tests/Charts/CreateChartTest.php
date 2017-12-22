@@ -18,6 +18,7 @@ class CreateChartTest extends SeatsioClientTest
         self::assertNotEmpty($chart->publishedVersionThumbnailUrl);
         self::assertEmpty($chart->draftVersionThumbnailUrl);
         self::assertEmpty($chart->tags);
+        self::assertFalse($chart->archived);
 
         $retrievedChart = $this->seatsioClient->charts()->retrievePublishedChart($chart->key);
         self::assertEquals('MIXED', $retrievedChart->venueType);
