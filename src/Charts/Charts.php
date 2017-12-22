@@ -203,7 +203,7 @@ class Charts
     /**
      * @return ChartLister
      */
-    public function lister()
+    public function iterator()
     {
         return new ChartLister(new PageFetcher('/charts', $this->client, function () {
             return new ChartPage();

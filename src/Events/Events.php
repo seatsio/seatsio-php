@@ -77,7 +77,7 @@ class Events
     /**
      * @return EventLister
      */
-    public function lister()
+    public function iterator()
     {
         return new EventLister(new PageFetcher('/events', $this->client, function () {
             return new EventPage();

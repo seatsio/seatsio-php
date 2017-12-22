@@ -14,7 +14,7 @@ class ListEventsTest extends SeatsioClientTest
         $event2 = $this->seatsioClient->events()->create($chart->key);
         $event3 = $this->seatsioClient->events()->create($chart->key);
 
-        $events = $this->seatsioClient->events()->lister()->all();
+        $events = $this->seatsioClient->events()->iterator()->all();
         $eventKeys = \Functional\map($events, function($event) { return $event->key; });
 
         self::assertEquals([$event3->key, $event2->key, $event1->key], array_values($eventKeys));

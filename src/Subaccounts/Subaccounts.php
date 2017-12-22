@@ -127,7 +127,7 @@ class Subaccounts
     /**
      * @return SubaccountLister
      */
-    public function lister()
+    public function iterator()
     {
         return new SubaccountLister(new PageFetcher('/subaccounts', $this->client, function () {
             return new SubaccountPage();
