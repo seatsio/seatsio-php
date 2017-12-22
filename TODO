@@ -1,6 +1,5 @@
 - add examples to readme
 
-- API: change PUT to POST for updating hold token
 - API: call to fetch a hold token
 - event report item has 'numBooked', object status has 'quantity'
 
