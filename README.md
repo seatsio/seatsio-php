@@ -19,7 +19,7 @@ The minimum required PHP version is 5.5.
 ### Creating a chart and an event
 
 ```php
-$seatsio = new \Seatsio\SeatsioClient(<SEATSIO_SECRET_KEY>); // can be found on https://app.seats.io/settings
+$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>); // can be found on https://app.seats.io/settings
 $chart = $seatsio->charts()->create();
 $event = $seatsio->events()->create($chart->key);
 echo 'Created event with key ' . $event->key;
@@ -28,20 +28,35 @@ echo 'Created event with key ' . $event->key;
 ### Booking objects
 
 ```php
-$seatsio = new \Seatsio\SeatsioClient(<SEATSIO_SECRET_KEY>);
+$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
 $seatsio->events()->book(<AN EVENT KEY>, ["A-1", "A-2"]);
 ```
 
 ### Releasing objects
 
 ```php
-$seatsio = new \Seatsio\SeatsioClient(<SEATSIO_SECRET_KEY>);
+$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
 $seatsio->events()->release(<AN EVENT KEY>, ["A-1", "A-2"]);
 ```
 
 ### Booking objects that have been held
 
 ```php
-$seatsio = new \Seatsio\SeatsioClient(<SEATSIO_SECRET_KEY>);
+$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
 $seatsio->events()->book(<AN EVENT KEY>, ["A-1", "A-2"], <A HOLD TOKEN>);
+```
+
+### Listing charts
+
+```php
+$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
+
+$chart1 = $seatsio->charts()->create();
+$chart2 = $seatsio->charts()->create();
+$chart3 = $seatsio->charts()->create();
+
+$charts = $seatsio->charts()->lister()->all();
+foreach($charts as $chart) {
+    echo 'Chart ' . $chart->key;
+}
 ```
