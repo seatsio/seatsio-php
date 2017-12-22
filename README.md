@@ -46,6 +46,13 @@ $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
 $seatsio->events()->book(<AN EVENT KEY>, ["A-1", "A-2"], <A HOLD TOKEN>);
 ```
 
+### Changing object status
+
+```php
+$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
+$seatsio->events()->changeObjectStatus(<AN EVENT KEY>, ["A-1", "A-2"], "unavailable");
+```
+
 ### Listing charts
 
 ```php
