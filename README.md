@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/seatsio/seatsio-php.svg?branch=master)](https://travis-ci.org/seatsio/seatsio-php)
 
-This is the official PHP client library for the [Seats.io REST API](https://www.seats.io/docs/api-v2).
+This is the official PHP client library for the [Seats.io V2 REST API](https://www.seats.io/docs/api-v2).
 
 ## Installing seatsio-php
 
