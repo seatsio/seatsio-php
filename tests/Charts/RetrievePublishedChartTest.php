@@ -19,12 +19,4 @@ class RetrievePublishedChartTest extends SeatsioClientTest
         self::assertNotEmpty($retrievedChart->subChart);
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\ClientException
-     */
-    public function testChartThatDoesNotExist()
-    {
-        $this->seatsioClient->charts()->retrievePublishedChart('unexistingChart');
-    }
-
 }

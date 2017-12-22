@@ -1,9 +1,9 @@
+- allow filter, tag and expand to be passed in when retrieving charts
 - add test for Charts->retrieve
 - add strong typing for categories
+
 - make it possible in the API to pass in 'null' as category color
 - make it possible in the API to pass in 'null' as ticketType, quantity etc. when changing object status
-- allow filter, tag and expand to be passed in when retrieving charts
-- don't expose Guzzle exceptions when an error occurs
 - document API call to fetch draft thumbnail
 - document API call to fetch chart
 - add archived flag to chart
