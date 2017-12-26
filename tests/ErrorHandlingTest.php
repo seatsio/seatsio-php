@@ -10,7 +10,7 @@ class ErrorHandlingTest extends \Seatsio\SeatsioClientTest
      */
     public function test4xx()
     {
-        $this->seatsioClient->charts()->retrievePublishedChart('unexistingChart');
+        $this->seatsioClient->charts()->retrievePublishedVersion('unexistingChart');
     }
 
 }

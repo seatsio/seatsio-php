@@ -20,7 +20,7 @@ class CreateChartTest extends SeatsioClientTest
         self::assertEmpty($chart->tags);
         self::assertFalse($chart->archived);
 
-        $retrievedChart = $this->seatsioClient->charts()->retrievePublishedChart($chart->key);
+        $retrievedChart = $this->seatsioClient->charts()->retrievePublishedVersion($chart->key);
         self::assertEquals('MIXED', $retrievedChart->venueType);
         self::assertEmpty($retrievedChart->categories->list);
     }
@@ -29,7 +29,7 @@ class CreateChartTest extends SeatsioClientTest
     {
         $chart = $this->seatsioClient->charts()->create('aChart');
 
-        $retrievedChart = $this->seatsioClient->charts()->retrievePublishedChart($chart->key);
+        $retrievedChart = $this->seatsioClient->charts()->retrievePublishedVersion($chart->key);
         self::assertEquals('aChart', $retrievedChart->name);
         self::assertEquals('MIXED', $retrievedChart->venueType);
         self::assertEmpty($retrievedChart->categories->list);
@@ -39,7 +39,7 @@ class CreateChartTest extends SeatsioClientTest
     {
         $chart = $this->seatsioClient->charts()->create(null, 'BOOTHS');
 
-        $retrievedChart = $this->seatsioClient->charts()->retrievePublishedChart($chart->key);
+        $retrievedChart = $this->seatsioClient->charts()->retrievePublishedVersion($chart->key);
         self::assertEquals('Untitled chart', $retrievedChart->name);
         self::assertEquals('BOOTHS', $retrievedChart->venueType);
         self::assertEmpty($retrievedChart->categories->list);
@@ -52,7 +52,7 @@ class CreateChartTest extends SeatsioClientTest
 
         $chart = $this->seatsioClient->charts()->create(null, null, [$cat1, $cat2]);
 
-        $retrievedChart = $this->seatsioClient->charts()->retrievePublishedChart($chart->key);
+        $retrievedChart = $this->seatsioClient->charts()->retrievePublishedVersion($chart->key);
         self::assertEquals('Untitled chart', $retrievedChart->name);
         self::assertEquals('MIXED', $retrievedChart->venueType);
         self::assertEquals([(object)$cat1, (object)$cat2], $retrievedChart->categories->list);
@@ -69,7 +69,7 @@ class CreateChartTest extends SeatsioClientTest
             (object)['key' => 1, 'label' => 'Category 1', 'color' => '#aaaaaa'],
             (object)['key' => 2, 'label' => 'Category 2', 'color' => '#bbbbbb']
         ];
-        $retrievedChart = $this->seatsioClient->charts()->retrievePublishedChart($chart->key);
+        $retrievedChart = $this->seatsioClient->charts()->retrievePublishedVersion($chart->key);
         self::assertEquals('Untitled chart', $retrievedChart->name);
         self::assertEquals('MIXED', $retrievedChart->venueType);
         self::assertEquals($expectedCategories, $retrievedChart->categories->list);

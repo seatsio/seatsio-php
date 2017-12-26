@@ -4,7 +4,7 @@ namespace Seatsio\Charts;
 
 use Seatsio\SeatsioClientTest;
 
-class DiscardDraftTest extends SeatsioClientTest
+class DiscardDraftVersionTest extends SeatsioClientTest
 {
 
     public function test()
@@ -13,7 +13,7 @@ class DiscardDraftTest extends SeatsioClientTest
         $this->seatsioClient->events()->create($chart->key);
         $this->seatsioClient->charts()->update($chart->key, 'newName');
 
-        $this->seatsioClient->charts()->discardDraft($chart->key);
+        $this->seatsioClient->charts()->discardDraftVersion($chart->key);
 
         $retrievedChart = $this->seatsioClient->charts()->retrieve($chart->key);
         self::assertEquals('PUBLISHED', $retrievedChart->status);

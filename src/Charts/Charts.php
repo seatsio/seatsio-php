@@ -79,7 +79,7 @@ class Charts
      * @param $key string
      * @return object
      */
-    public function retrievePublishedChart($key)
+    public function retrievePublishedVersion($key)
     {
         $res = $this->client->get('/charts/' . $key . '/version/published');
         return \GuzzleHttp\json_decode($res->getBody());
@@ -87,9 +87,19 @@ class Charts
 
     /**
      * @param $key string
+     * @return object
+     */
+    public function retrieveDraftVersion($key)
+    {
+        $res = $this->client->get('/charts/' . $key . '/version/draft');
+        return \GuzzleHttp\json_decode($res->getBody());
+    }
+
+    /**
+     * @param $key string
      * @return void
      */
-    public function publishDraft($key)
+    public function publishDraftVersion($key)
     {
         $this->client->post('/charts/' . $key . '/version/draft/actions/publish');
     }
@@ -98,7 +108,7 @@ class Charts
      * @param $key string
      * @return void
      */
-    public function discardDraft($key)
+    public function discardDraftVersion($key)
     {
         $this->client->post('/charts/' . $key . '/version/draft/actions/discard');
     }
@@ -135,7 +145,7 @@ class Charts
      * @param $key string
      * @return Chart
      */
-    public function copyDraft($key)
+    public function copyDraftVersion($key)
     {
         $res = $this->client->post('/charts/' . $key . '/version/draft/actions/copy');
         return \GuzzleHttp\json_decode($res->getBody());
@@ -155,9 +165,19 @@ class Charts
      * @param $key string
      * @return StreamInterface
      */
-    public function retrieveThumbnail($key)
+    public function retrievePublishedVersionThumbnail($key)
     {
         $res = $this->client->get('/charts/' . $key . '/version/published/thumbnail');
+        return $res->getBody();
+    }
+
+    /**
+     * @param $key string
+     * @return StreamInterface
+     */
+    public function retrieveDraftVersionThumbnail($key)
+    {
+        $res = $this->client->get('/charts/' . $key . '/version/draft/thumbnail');
         return $res->getBody();
     }
 

@@ -4,7 +4,7 @@ namespace Seatsio\Charts;
 
 use Seatsio\SeatsioClientTest;
 
-class CopyDraftTest extends SeatsioClientTest
+class CopyDraftVersionTest extends SeatsioClientTest
 {
 
     public function test()
@@ -13,7 +13,7 @@ class CopyDraftTest extends SeatsioClientTest
         $this->seatsioClient->events()->create($chart->key);
         $this->seatsioClient->charts()->update($chart->key, 'newName');
 
-        $copiedChart = $this->seatsioClient->charts()->copyDraft($chart->key);
+        $copiedChart = $this->seatsioClient->charts()->copyDraftVersion($chart->key);
 
         self::assertEquals('newName (copy)', $copiedChart->name);
         self::assertNotEquals($chart->key, $copiedChart->key);
