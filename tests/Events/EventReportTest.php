@@ -55,6 +55,19 @@ class EventReportsTest extends SeatsioClientTest
         self::assertCount(31, $report["free"]);
     }
 
+    public function testBySpecificStatus()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events()->create($chartKey);
+        $this->seatsioClient->events()->changeObjectStatus($event->key, "A-1", "lolzor");
+        $this->seatsioClient->events()->changeObjectStatus($event->key, "A-2", "lolzor");
+        $this->seatsioClient->events()->changeObjectStatus($event->key, "A-3", "booked");
+
+        $report = $this->seatsioClient->events()->reportByStatus($event->key, "lolzor");
+        self::assertCount(2, $report["lolzor"]);
+        self::assertCount(1, $report);
+    }
+
     public function testByCategoryLabel()
     {
         $chartKey = $this->createTestChart();
@@ -63,6 +76,16 @@ class EventReportsTest extends SeatsioClientTest
         $report = $this->seatsioClient->events()->reportByCategoryLabel($event->key);
         self::assertCount(17, $report["Cat1"]);
         self::assertCount(17, $report["Cat2"]);
+    }
+
+    public function testBySpecificCategoryLabel()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events()->create($chartKey);
+
+        $report = $this->seatsioClient->events()->reportByCategoryLabel($event->key, "Cat1");
+        self::assertCount(17, $report["Cat1"]);
+        self::assertCount(1, $report);
     }
 
     public function testByCategoryKey()
@@ -75,6 +98,16 @@ class EventReportsTest extends SeatsioClientTest
         self::assertCount(17, $report[10]);
     }
 
+    public function testBySpecificCategoryKey()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events()->create($chartKey);
+
+        $report = $this->seatsioClient->events()->reportByCategoryKey($event->key, 9);
+        self::assertCount(17, $report[9]);
+        self::assertCount(1, $report);
+    }
+
     public function testByLabel()
     {
         $chartKey = $this->createTestChart();
@@ -85,6 +118,16 @@ class EventReportsTest extends SeatsioClientTest
         self::assertCount(1, $report["A-2"]);
     }
 
+    public function testBySpecificLabel()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events()->create($chartKey);
+
+        $report = $this->seatsioClient->events()->reportByLabel($event->key, "A-1");
+        self::assertCount(1, $report["A-1"]);
+        self::assertCount(1, $report);
+    }
+
     public function testByUuid()
     {
         $chartKey = $this->createTestChart();
@@ -93,6 +136,16 @@ class EventReportsTest extends SeatsioClientTest
         $report = $this->seatsioClient->events()->reportByUuid($event->key);
         self::assertNotNull($report["uuid300"]);
         self::assertNotNull($report["uuid301"]);
+    }
+
+    public function testBySpecificUuid()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events()->create($chartKey);
+
+        $report = $this->seatsioClient->events()->reportByUuid($event->key, "uuid300");
+        self::assertNotNull($report["uuid300"]);
+        self::assertCount(1, $report);
     }
 
     public function testByOrderId()
@@ -109,6 +162,19 @@ class EventReportsTest extends SeatsioClientTest
         self::assertCount(31, $report["NO_ORDER_ID"]);
     }
 
+    public function testBySpecificOrderId()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events()->create($chartKey);
+        $this->seatsioClient->events()->book($event->key, "A-1", null, "order1");
+        $this->seatsioClient->events()->book($event->key, "A-2", null, "order1");
+        $this->seatsioClient->events()->book($event->key, "A-3", null, "order2");
+
+        $report = $this->seatsioClient->events()->reportByOrderId($event->key, "order1");
+        self::assertCount(2, $report["order1"]);
+        self::assertCount(1, $report);
+    }
+
     public function testBySection()
     {
         $chartKey = $this->createTestChart();
@@ -116,6 +182,16 @@ class EventReportsTest extends SeatsioClientTest
 
         $report = $this->seatsioClient->events()->reportBySection($event->key);
         self::assertCount(34, $report["NO_SECTION"]);
+    }
+
+    public function testBySpecificSection()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events()->create($chartKey);
+
+        $report = $this->seatsioClient->events()->reportBySection($event->key, "NO_SECTION");
+        self::assertCount(34, $report["NO_SECTION"]);
+        self::assertCount(1, $report);
     }
 
 }
