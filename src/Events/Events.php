@@ -303,7 +303,7 @@ class Events
     {
         $res = $this->client->get(self::reportUrl('byStatus', $key, $status));
         $json = \GuzzleHttp\json_decode($res->getBody());
-        return $this->mapMultiValuedReport($json);
+        return $this->mapMultiValuedReport($json, $status);
     }
 
     /**
@@ -315,7 +315,7 @@ class Events
     {
         $res = $this->client->get(self::reportUrl('byCategoryLabel', $key, $categoryLabel));
         $json = \GuzzleHttp\json_decode($res->getBody());
-        return $this->mapMultiValuedReport($json);
+        return $this->mapMultiValuedReport($json, $categoryLabel);
     }
 
     /**
@@ -327,7 +327,7 @@ class Events
     {
         $res = $this->client->get(self::reportUrl('byCategoryKey', $key, $categoryKey));
         $json = \GuzzleHttp\json_decode($res->getBody());
-        return $this->mapMultiValuedReport($json);
+        return $this->mapMultiValuedReport($json, $categoryKey);
     }
 
     /**
@@ -339,7 +339,7 @@ class Events
     {
         $res = $this->client->get(self::reportUrl('byLabel', $key, $label));
         $json = \GuzzleHttp\json_decode($res->getBody());
-        return $this->mapMultiValuedReport($json);
+        return $this->mapMultiValuedReport($json, $label);
     }
 
     /**
@@ -351,7 +351,7 @@ class Events
     {
         $res = $this->client->get(self::reportUrl('byUuid', $key, $uuid));
         $json = \GuzzleHttp\json_decode($res->getBody());
-        return $this->mapSingleValuedReport($json);
+        return $this->mapSingleValuedReport($json, $uuid);
     }
 
     /**
@@ -363,7 +363,7 @@ class Events
     {
         $res = $this->client->get(self::reportUrl('byOrderId', $key, $orderId));
         $json = \GuzzleHttp\json_decode($res->getBody());
-        return $this->mapMultiValuedReport($json);
+        return $this->mapMultiValuedReport($json, $orderId);
     }
 
     /**
@@ -375,35 +375,43 @@ class Events
     {
         $res = $this->client->get(self::reportUrl('bySection', $key, $section));
         $json = \GuzzleHttp\json_decode($res->getBody());
-        return $this->mapMultiValuedReport($json);
+        return $this->mapMultiValuedReport($json, $section);
     }
 
     /**
-     * @param $key string
+     * @param $json mixed
+     * @param $filter string
      * @return array
      */
-    private static function mapMultiValuedReport($json)
+    private static function mapMultiValuedReport($json, $filter)
     {
         $mapper = SeatsioJsonMapper::create();
         $result = [];
         foreach ($json as $status => $reportItems) {
             $result[$status] = $mapper->mapArray($reportItems, array(), EventReportItem::class);
         }
-        return $result;
+        if ($filter === null) {
+            return $result;
+        }
+        return $result[$filter];
     }
 
     /**
-     * @param $key string
+     * @param $json mixed
+     * @param $filter string
      * @return array
      */
-    private static function mapSingleValuedReport($json)
+    private static function mapSingleValuedReport($json, $filter)
     {
         $mapper = SeatsioJsonMapper::create();
         $result = [];
         foreach ($json as $status => $reportItem) {
             $result[$status] = $mapper->map($reportItem, new EventReportItem());
         }
-        return $result;
+        if ($filter === null) {
+            return $result;
+        }
+        return $result[$filter];
     }
 
     private static function reportUrl($reportType, $eventKey, $filter)
