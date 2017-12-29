@@ -14,6 +14,6 @@ class UpdateSubaccountTest extends SeatsioClientTest
         $this->seatsioClient->subaccounts()->update($subaccount->id, 'jefke');
 
         $retrievedSubaccount = $this->seatsioClient->subaccounts()->retrieve($subaccount->id);
-        self::assertEquals($retrievedSubaccount->name, 'jefke');
+        self::assertEquals('jefke', $retrievedSubaccount->name);
     }
 }
