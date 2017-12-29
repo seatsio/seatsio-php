@@ -14,7 +14,7 @@ class CreateSubaccountTest extends SeatsioClientTest
         self::assertNotEmpty($subaccount->secretKey);
         self::assertNotEmpty($subaccount->designerKey);
         self::assertNotEmpty($subaccount->publicKey);
-        self::assertEquals($subaccount->name, 'joske');
+        self::assertEquals('joske', $subaccount->name);
         self::assertTrue($subaccount->active);
     }
 
