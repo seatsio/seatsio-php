@@ -192,16 +192,6 @@ class Charts
 
     /**
      * @param $key string
-     * @return string[]
-     */
-    public function listTags($key)
-    {
-        $res = $this->client->get('/charts/' . $key . '/tags');
-        return \GuzzleHttp\json_decode($res->getBody())->tags;
-    }
-
-    /**
-     * @param $key string
      * @param $tag string
      * @return void
      */
