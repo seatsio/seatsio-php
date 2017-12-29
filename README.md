@@ -16,6 +16,12 @@ composer require seatsio/seatsio-php
 
 The minimum required PHP version is 5.5.
 
+## Versioning
+
+seatsio-php only uses major version numbers: v5, v6, v7 etc. Each release - backwards compatible or not - receives a new major version number.
+
+The reason: we want to play safe and assume that each release _might_ break backwards compatibility.
+
 ## Examples
 
 ### Creating a chart and an event
