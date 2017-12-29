@@ -30,13 +30,13 @@ class HoldTokens
 
     /**
      * @param $holdToken string
-     * @param $expiresInMintes int
+     * @param $minutes int
      * @return HoldToken
      */
-    public function update($holdToken, $expiresInMintes)
+    public function expireInMinutes($holdToken, $minutes)
     {
         $request = new \stdClass();
-        $request->expiresInMinutes = $expiresInMintes;
+        $request->expiresInMinutes = $minutes;
         $res = $this->client->post('/hold-tokens/' . $holdToken, ['json' => $request]);
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();

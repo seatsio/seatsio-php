@@ -21,10 +21,10 @@ class AddTagTest extends SeatsioClientTest
     {
         $chart = $this->seatsioClient->charts()->create();
 
-        $this->seatsioClient->charts()->addTag($chart->key, 'tag1/:"-');
+        $this->seatsioClient->charts()->addTag($chart->key, 'tag1/:"-<>');
 
         $retrievedChart = $this->seatsioClient->charts()->retrieve($chart->key);
-        self::assertEquals(['tag1/:"-'], $retrievedChart->tags, '', 0.0, 10, true);
+        self::assertEquals(['tag1/:"-<>'], $retrievedChart->tags, '', 0.0, 10, true);
     }
 
 }
