@@ -4,7 +4,7 @@ namespace Seatsio\Events;
 
 use Seatsio\SeatsioClientTest;
 
-class ChangeObjectStatusForSeasonTest extends SeatsioClientTest
+class ChangeObjectStatusForMultipleEventsTest extends SeatsioClientTest
 {
 
     public function test()
