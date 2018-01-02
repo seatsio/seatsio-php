@@ -46,7 +46,7 @@ class Events
      */
     public function retrieve($key)
     {
-        $res = $this->client->get('/events/' . $key);
+        $res = $this->client->get(\GuzzleHttp\uri_template('/events/{key}', array("key" => $key)));
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Event());
@@ -71,7 +71,7 @@ class Events
         if ($bookWholeTables !== null) {
             $request->bookWholeTables = $bookWholeTables;
         }
-        $this->client->post('/events/' . $key, ['json' => $request]);
+        $this->client->post(\GuzzleHttp\uri_template('/events/{key}', array("key" => $key)), ['json' => $request]);
     }
 
     /**
@@ -92,11 +92,11 @@ class Events
     public function statusChanges($key, $objectId = null)
     {
         if ($objectId === null) {
-            return new StatusChangeLister(new PageFetcher('/events/' . $key . '/status-changes', $this->client, function () {
+            return new StatusChangeLister(new PageFetcher(\GuzzleHttp\uri_template('/events/{key}/status-changes', array("key" => $key)), $this->client, function () {
                 return new StatusChangePage();
             }));
         }
-        return new StatusChangeLister(new PageFetcher('/events/' . $key . '/objects/' . $objectId . '/status-changes', $this->client, function () {
+        return new StatusChangeLister(new PageFetcher(\GuzzleHttp\uri_template('/events/{key}/objects/{objectId}/status-changes', array("key" => $key, "objectId" => $objectId)), $this->client, function () {
             return new StatusChangePage();
         }));
     }
@@ -116,7 +116,7 @@ class Events
         if ($categories !== null) {
             $request->categories = $categories;
         }
-        $this->client->post('/events/' . $key . '/actions/mark-as-for-sale', ['json' => $request]);
+        $this->client->post(\GuzzleHttp\uri_template('/events/{key}/actions/mark-as-for-sale', array("key" => $key)), ['json' => $request]);
     }
 
     /**
@@ -134,7 +134,7 @@ class Events
         if ($categories !== null) {
             $request->categories = $categories;
         }
-        $this->client->post('/events/' . $key . '/actions/mark-as-not-for-sale', ['json' => $request]);
+        $this->client->post(\GuzzleHttp\uri_template('/events/{key}/actions/mark-as-not-for-sale', array("key" => $key)), ['json' => $request]);
     }
 
     /**
@@ -143,7 +143,7 @@ class Events
      */
     public function markEverythingAsForSale($key)
     {
-        $this->client->post('/events/' . $key . '/actions/mark-everything-as-for-sale');
+        $this->client->post(\GuzzleHttp\uri_template('/events/{key}/actions/mark-everything-as-for-sale', array("key" => $key)));
     }
 
     /**
@@ -267,7 +267,7 @@ class Events
             $request->orderId = $orderId;
         }
         $res = $this->client->post(
-            '/events/' . $key . '/actions/change-object-status',
+            \GuzzleHttp\uri_template('/events/{key}/actions/change-object-status', array("key" => $key)),
             ['json' => $request]
         );
         $json = \GuzzleHttp\json_decode($res->getBody());
