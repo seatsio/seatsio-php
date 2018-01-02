@@ -119,7 +119,7 @@ class Charts
      */
     public function moveToArchive($key)
     {
-        $this->client->post('/charts/archive/' . $key);
+        $this->client->post('/charts/' . $key . '/actions/move-to-archive');
     }
 
     /**
@@ -128,7 +128,7 @@ class Charts
      */
     public function moveOutOfArchive($key)
     {
-        $this->client->delete('/charts/archive/' . $key);
+        $this->client->post('/charts/' . $key . '/actions/move-out-of-archive');
     }
 
     /**
