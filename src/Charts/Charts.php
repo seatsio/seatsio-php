@@ -77,6 +77,18 @@ class Charts
 
     /**
      * @param $key string
+     * @return Chart
+     */
+    public function retrieveWithEvents($key)
+    {
+        $res = $this->client->get('/charts/' . $key . '?expand=events');
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        $mapper = SeatsioJsonMapper::create();
+        return $mapper->map($json, new Chart());
+    }
+
+    /**
+     * @param $key string
      * @return object
      */
     public function retrievePublishedVersion($key)
@@ -227,17 +239,6 @@ class Charts
     {
         return new ChartLister(new PageFetcher('/charts/archive', $this->client, function () {
             return new ChartPage();
-        }));
-    }
-
-    /**
-     * @param $key string
-     * @return EventLister
-     */
-    public function events($key)
-    {
-        return new EventLister(new PageFetcher('/charts/' . $key . '/events', $this->client, function () {
-            return new EventPage();
         }));
     }
 
