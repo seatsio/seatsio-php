@@ -281,7 +281,7 @@ class Events
             if (count($objectOrObjects) === 0) {
                 return [];
             }
-            if ($objectOrObjects[0] instanceof SeatsioObject) {
+            if ($objectOrObjects[0] instanceof ObjectProperties) {
                 return $objectOrObjects;
             }
             if (is_string($objectOrObjects[0])) {
