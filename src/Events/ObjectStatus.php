@@ -4,6 +4,10 @@ namespace Seatsio\Events;
 
 class ObjectStatus
 {
+    public static $FREE = "free";
+    public static $BOOKED = "booked";
+    public static $HELD = "reservedByToken";
+
     /**
      * @var string
      */

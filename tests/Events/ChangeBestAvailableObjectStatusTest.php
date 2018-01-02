@@ -44,10 +44,10 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
         $event = $this->seatsioClient->events()->create($chartKey);
         $holdToken = $this->seatsioClient->holdTokens()->create();
 
-        $bestAvailableObjects = $this->seatsioClient->events()->changeBestAvailableObjectStatus($event->key, 1, "reservedByToken", null, null, $holdToken->holdToken);
+        $bestAvailableObjects = $this->seatsioClient->events()->changeBestAvailableObjectStatus($event->key, 1, ObjectStatus::$HELD, null, null, $holdToken->holdToken);
 
         $objectStatus = $this->seatsioClient->events()->getObjectStatus($event->key, $bestAvailableObjects->objects[0]);
-        self::assertEquals("reservedByToken", $objectStatus->status);
+        self::assertEquals(ObjectStatus::$HELD, $objectStatus->status);
         self::assertEquals($holdToken->holdToken, $objectStatus->holdToken);
     }
 

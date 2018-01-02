@@ -13,7 +13,7 @@ class GetObjectStatusTest extends SeatsioClientTest
         $event = $this->seatsioClient->events()->create($chartKey);
 
         $objectStatus = $this->seatsioClient->events()->getObjectStatus($event->key, "A-1");
-        self::assertEquals("free", $objectStatus->status);
+        self::assertEquals(ObjectStatus::$FREE, $objectStatus->status);
         self::assertNull($objectStatus->ticketType);
         self::assertNull($objectStatus->extraData);
     }

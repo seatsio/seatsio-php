@@ -210,7 +210,7 @@ class Events
      */
     public function book($keyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null)
     {
-        $this::changeObjectStatus($keyOrKeys, $objectOrObjects, "booked", $holdToken, $orderId);
+        $this::changeObjectStatus($keyOrKeys, $objectOrObjects, ObjectStatus::$BOOKED, $holdToken, $orderId);
     }
 
     /**
@@ -222,7 +222,7 @@ class Events
      */
     public function release($keyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null)
     {
-        $this::changeObjectStatus($keyOrKeys, $objectOrObjects, "free", $holdToken, $orderId);
+        $this::changeObjectStatus($keyOrKeys, $objectOrObjects, ObjectStatus::$FREE, $holdToken, $orderId);
     }
 
     /**
@@ -234,7 +234,7 @@ class Events
      */
     public function hold($keyOrKeys, $objectOrObjects, $holdToken, $orderId = null)
     {
-        $this::changeObjectStatus($keyOrKeys, $objectOrObjects, "reservedByToken", $holdToken, $orderId);
+        $this::changeObjectStatus($keyOrKeys, $objectOrObjects, ObjectStatus::$HELD, $holdToken, $orderId);
     }
 
     /**
@@ -295,131 +295,9 @@ class Events
     }
 
     /**
-     * @param $key string
-     * @param $status string
-     * @return array
+     * @return Reports
      */
-    public function reportByStatus($key, $status = null)
-    {
-        $res = $this->client->get(self::reportUrl('byStatus', $key, $status));
-        $json = \GuzzleHttp\json_decode($res->getBody());
-        return $this->mapMultiValuedReport($json, $status);
+    public function reports() {
+        return new Reports($this->client);
     }
-
-    /**
-     * @param $key string
-     * @param $categoryLabel string
-     * @return array
-     */
-    public function reportByCategoryLabel($key, $categoryLabel = null)
-    {
-        $res = $this->client->get(self::reportUrl('byCategoryLabel', $key, $categoryLabel));
-        $json = \GuzzleHttp\json_decode($res->getBody());
-        return $this->mapMultiValuedReport($json, $categoryLabel);
-    }
-
-    /**
-     * @param $key string
-     * @param $categoryKey string
-     * @return array
-     */
-    public function reportByCategoryKey($key, $categoryKey = null)
-    {
-        $res = $this->client->get(self::reportUrl('byCategoryKey', $key, $categoryKey));
-        $json = \GuzzleHttp\json_decode($res->getBody());
-        return $this->mapMultiValuedReport($json, $categoryKey);
-    }
-
-    /**
-     * @param $key string
-     * @param $label string
-     * @return array
-     */
-    public function reportByLabel($key, $label = null)
-    {
-        $res = $this->client->get(self::reportUrl('byLabel', $key, $label));
-        $json = \GuzzleHttp\json_decode($res->getBody());
-        return $this->mapMultiValuedReport($json, $label);
-    }
-
-    /**
-     * @param $key string
-     * @param $uuid string
-     * @return array
-     */
-    public function reportByUuid($key, $uuid = null)
-    {
-        $res = $this->client->get(self::reportUrl('byUuid', $key, $uuid));
-        $json = \GuzzleHttp\json_decode($res->getBody());
-        return $this->mapSingleValuedReport($json, $uuid);
-    }
-
-    /**
-     * @param $key string
-     * @param $orderId string
-     * @return array
-     */
-    public function reportByOrderId($key, $orderId = null)
-    {
-        $res = $this->client->get(self::reportUrl('byOrderId', $key, $orderId));
-        $json = \GuzzleHttp\json_decode($res->getBody());
-        return $this->mapMultiValuedReport($json, $orderId);
-    }
-
-    /**
-     * @param $key string
-     * @param $section string
-     * @return array
-     */
-    public function reportBySection($key, $section = null)
-    {
-        $res = $this->client->get(self::reportUrl('bySection', $key, $section));
-        $json = \GuzzleHttp\json_decode($res->getBody());
-        return $this->mapMultiValuedReport($json, $section);
-    }
-
-    /**
-     * @param $json mixed
-     * @param $filter string
-     * @return array
-     */
-    private static function mapMultiValuedReport($json, $filter)
-    {
-        $mapper = SeatsioJsonMapper::create();
-        $result = [];
-        foreach ($json as $status => $reportItems) {
-            $result[$status] = $mapper->mapArray($reportItems, array(), EventReportItem::class);
-        }
-        if ($filter === null) {
-            return $result;
-        }
-        return $result[$filter];
-    }
-
-    /**
-     * @param $json mixed
-     * @param $filter string
-     * @return array
-     */
-    private static function mapSingleValuedReport($json, $filter)
-    {
-        $mapper = SeatsioJsonMapper::create();
-        $result = [];
-        foreach ($json as $status => $reportItem) {
-            $result[$status] = $mapper->map($reportItem, new EventReportItem());
-        }
-        if ($filter === null) {
-            return $result;
-        }
-        return $result[$filter];
-    }
-
-    private static function reportUrl($reportType, $eventKey, $filter)
-    {
-        if ($filter === null) {
-            return \GuzzleHttp\uri_template('/reports/events/{key}/{reportType}', array("key" => $eventKey, "reportType" => $reportType));
-        }
-        return \GuzzleHttp\uri_template('/reports/events/{key}/{reportType}/{filter}', array("key" => $eventKey, "reportType" => $reportType, "filter" => $filter));
-    }
-
 }

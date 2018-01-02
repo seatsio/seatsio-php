@@ -15,8 +15,8 @@ class ReleaseObjectsTest extends SeatsioClientTest
 
         $this->seatsioClient->events()->release($event->key, ["A-1", "A-2"]);
 
-        self::assertEquals("free", $this->seatsioClient->events()->getObjectStatus($event->key, "A-1")->status);
-        self::assertEquals("free", $this->seatsioClient->events()->getObjectStatus($event->key, "A-2")->status);
+        self::assertEquals(ObjectStatus::$FREE, $this->seatsioClient->events()->getObjectStatus($event->key, "A-1")->status);
+        self::assertEquals(ObjectStatus::$FREE, $this->seatsioClient->events()->getObjectStatus($event->key, "A-2")->status);
     }
 
     public function testHoldToken()

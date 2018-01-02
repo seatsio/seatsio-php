@@ -36,7 +36,7 @@ class ListStatusChangesTest extends SeatsioClientTest
         self::assertNotNull($statusChange->date);
         self::assertEquals("orderId", $statusChange->orderId);
         self::assertEquals("A-1", $statusChange->objectLabelOrUuid);
-        self::assertEquals("booked", $statusChange->status);
+        self::assertEquals(ObjectStatus::$BOOKED, $statusChange->status);
         self::assertEquals($event->id, $statusChange->eventId);
         self::assertEquals((object)["foo" => "bar"], $statusChange->extraData);
     }
