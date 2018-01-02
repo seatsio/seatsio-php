@@ -41,37 +41,37 @@ class Events
     }
 
     /**
-     * @param $key string
+     * @param $eventKey string
      * @return Event
      */
-    public function retrieve($key)
+    public function retrieve($eventKey)
     {
-        $res = $this->client->get(\GuzzleHttp\uri_template('/events/{key}', array("key" => $key)));
+        $res = $this->client->get(\GuzzleHttp\uri_template('/events/{key}', array("key" => $eventKey)));
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Event());
     }
 
     /**
-     * @param $key string
-     * @param $chartKey string
      * @param $eventKey string
+     * @param $chartKey string
+     * @param $newEventKey string
      * @param $bookWholeTables string
      * @return void
      */
-    public function update($key, $chartKey = null, $eventKey = null, $bookWholeTables = null)
+    public function update($eventKey, $chartKey = null, $newEventKey = null, $bookWholeTables = null)
     {
         $request = new \stdClass();
         if ($chartKey !== null) {
             $request->chartKey = $chartKey;
         }
-        if ($eventKey !== null) {
-            $request->eventKey = $eventKey;
+        if ($newEventKey !== null) {
+            $request->eventKey = $newEventKey;
         }
         if ($bookWholeTables !== null) {
             $request->bookWholeTables = $bookWholeTables;
         }
-        $this->client->post(\GuzzleHttp\uri_template('/events/{key}', array("key" => $key)), ['json' => $request]);
+        $this->client->post(\GuzzleHttp\uri_template('/events/{key}', array("key" => $eventKey)), ['json' => $request]);
     }
 
     /**
@@ -85,29 +85,29 @@ class Events
     }
 
     /**
-     * @param $key string
+     * @param $eventKey string
      * @param $objectId string
      * @return StatusChangeLister
      */
-    public function statusChanges($key, $objectId = null)
+    public function statusChanges($eventKey, $objectId = null)
     {
         if ($objectId === null) {
-            return new StatusChangeLister(new PageFetcher(\GuzzleHttp\uri_template('/events/{key}/status-changes', array("key" => $key)), $this->client, function () {
+            return new StatusChangeLister(new PageFetcher(\GuzzleHttp\uri_template('/events/{key}/status-changes', array("key" => $eventKey)), $this->client, function () {
                 return new StatusChangePage();
             }));
         }
-        return new StatusChangeLister(new PageFetcher(\GuzzleHttp\uri_template('/events/{key}/objects/{objectId}/status-changes', array("key" => $key, "objectId" => $objectId)), $this->client, function () {
+        return new StatusChangeLister(new PageFetcher(\GuzzleHttp\uri_template('/events/{key}/objects/{objectId}/status-changes', array("key" => $eventKey, "objectId" => $objectId)), $this->client, function () {
             return new StatusChangePage();
         }));
     }
 
     /**
-     * @param $key string
+     * @param $eventKey string
      * @param $objects string[]
      * @param $categories string[]
      * @return void
      */
-    public function markAsForSale($key, $objects = null, $categories = null)
+    public function markAsForSale($eventKey, $objects = null, $categories = null)
     {
         $request = new \stdClass();
         if ($objects !== null) {
@@ -116,16 +116,16 @@ class Events
         if ($categories !== null) {
             $request->categories = $categories;
         }
-        $this->client->post(\GuzzleHttp\uri_template('/events/{key}/actions/mark-as-for-sale', array("key" => $key)), ['json' => $request]);
+        $this->client->post(\GuzzleHttp\uri_template('/events/{key}/actions/mark-as-for-sale', array("key" => $eventKey)), ['json' => $request]);
     }
 
     /**
-     * @param $key string
+     * @param $eventKey string
      * @param $objects string[]
      * @param $categories string[]
      * @return void
      */
-    public function markAsNotForSale($key, $objects = null, $categories = null)
+    public function markAsNotForSale($eventKey, $objects = null, $categories = null)
     {
         $request = new \stdClass();
         if ($objects !== null) {
@@ -134,56 +134,56 @@ class Events
         if ($categories !== null) {
             $request->categories = $categories;
         }
-        $this->client->post(\GuzzleHttp\uri_template('/events/{key}/actions/mark-as-not-for-sale', array("key" => $key)), ['json' => $request]);
+        $this->client->post(\GuzzleHttp\uri_template('/events/{key}/actions/mark-as-not-for-sale', array("key" => $eventKey)), ['json' => $request]);
     }
 
     /**
-     * @param $key string
+     * @param $eventKey string
      * @return void
      */
-    public function markEverythingAsForSale($key)
+    public function markEverythingAsForSale($eventKey)
     {
-        $this->client->post(\GuzzleHttp\uri_template('/events/{key}/actions/mark-everything-as-for-sale', array("key" => $key)));
+        $this->client->post(\GuzzleHttp\uri_template('/events/{key}/actions/mark-everything-as-for-sale', array("key" => $eventKey)));
     }
 
     /**
-     * @param $key string
+     * @param $eventKey string
      * @param $object string
      * @param $extraData object|array
      * @return void
      */
-    public function updateExtraData($key, $object, $extraData)
+    public function updateExtraData($eventKey, $object, $extraData)
     {
         $request = new \stdClass();
         $request->extraData = $extraData;
         $this->client->post(
-            \GuzzleHttp\uri_template('/events/{key}/objects/{object}/actions/update-extra-data', ["key" => $key, "object" => $object]),
+            \GuzzleHttp\uri_template('/events/{key}/objects/{object}/actions/update-extra-data', ["key" => $eventKey, "object" => $object]),
             ['json' => $request]
         );
     }
 
     /**
-     * @param $key string
+     * @param $eventKey string
      * @param $object string
      * @return ObjectStatus
      */
-    public function getObjectStatus($key, $object)
+    public function getObjectStatus($eventKey, $object)
     {
-        $res = $this->client->get(\GuzzleHttp\uri_template('/events/{key}/objects/{object}', ["key" => $key, "object" => $object]));
+        $res = $this->client->get(\GuzzleHttp\uri_template('/events/{key}/objects/{object}', ["key" => $eventKey, "object" => $object]));
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new ObjectStatus());
     }
 
     /**
-     * @param $keyOrKeys string|string[]
+     * @param $eventKeyOrKeys string|string[]
      * @param $objectOrObjects mixed
      * @param $status string
      * @param $holdToken string
      * @param $orderId string
      * @return void
      */
-    public function changeObjectStatus($keyOrKeys, $objectOrObjects, $status, $holdToken = null, $orderId = null)
+    public function changeObjectStatus($eventKeyOrKeys, $objectOrObjects, $status, $holdToken = null, $orderId = null)
     {
         $request = new \stdClass();
         $request->objects = self::normalizeObjects($objectOrObjects);
@@ -194,7 +194,7 @@ class Events
         if ($orderId !== null) {
             $request->orderId = $orderId;
         }
-        $request->events = is_array($keyOrKeys) ? $keyOrKeys : [$keyOrKeys];
+        $request->events = is_array($eventKeyOrKeys) ? $eventKeyOrKeys : [$eventKeyOrKeys];
         $this->client->post(
             '/seasons/actions/change-object-status',
             ['json' => $request]
@@ -202,43 +202,71 @@ class Events
     }
 
     /**
-     * @param $keyOrKeys string|string[]
+     * @param $eventKeyOrKeys string|string[]
      * @param $objectOrObjects mixed
      * @param $holdToken string
      * @param $orderId string
      * @return void
      */
-    public function book($keyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null)
+    public function book($eventKeyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null)
     {
-        $this::changeObjectStatus($keyOrKeys, $objectOrObjects, ObjectStatus::$BOOKED, $holdToken, $orderId);
+        $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$BOOKED, $holdToken, $orderId);
     }
 
     /**
-     * @param $keyOrKeys string|string[]
+     * @param $eventKey string
+     * @param $number int
+     * @param $categories string[]
+     * @param $useObjectUuidsInsteadOfLabels boolean
+     * @param $holdToken string
+     * @param $orderId string
+     * @return BestAvailableObjects
+     */
+    public function bookBestAvailable($eventKey, $number, $categories = null, $useObjectUuidsInsteadOfLabels = null, $holdToken = null, $orderId = null)
+    {
+        return $this::changeBestAvailableObjectStatus($eventKey, $number, ObjectStatus::$BOOKED, $categories, $useObjectUuidsInsteadOfLabels, $holdToken, $orderId);
+    }
+
+    /**
+     * @param $eventKeyOrKeys string|string[]
      * @param $objectOrObjects mixed
      * @param $holdToken string
      * @param $orderId string
      * @return void
      */
-    public function release($keyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null)
+    public function release($eventKeyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null)
     {
-        $this::changeObjectStatus($keyOrKeys, $objectOrObjects, ObjectStatus::$FREE, $holdToken, $orderId);
+        $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$FREE, $holdToken, $orderId);
     }
 
     /**
-     * @param $keyOrKeys string|string[]
+     * @param $eventKeyOrKeys string|string[]
      * @param $objectOrObjects mixed
      * @param $holdToken string
      * @param $orderId string
      * @return void
      */
-    public function hold($keyOrKeys, $objectOrObjects, $holdToken, $orderId = null)
+    public function hold($eventKeyOrKeys, $objectOrObjects, $holdToken, $orderId = null)
     {
-        $this::changeObjectStatus($keyOrKeys, $objectOrObjects, ObjectStatus::$HELD, $holdToken, $orderId);
+        $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$HELD, $holdToken, $orderId);
     }
 
     /**
-     * @param $key string
+     * @param $eventKey string
+     * @param $number int
+     * @param $categories string[]
+     * @param $useObjectUuidsInsteadOfLabels boolean
+     * @param $holdToken string
+     * @param $orderId string
+     * @return BestAvailableObjects
+     */
+    public function holdBestAvailable($eventKey, $number, $holdToken, $categories = null, $useObjectUuidsInsteadOfLabels = null, $orderId = null)
+    {
+        return $this::changeBestAvailableObjectStatus($eventKey, $number, ObjectStatus::$HELD, $categories, $useObjectUuidsInsteadOfLabels, $holdToken, $orderId);
+    }
+
+    /**
+     * @param $eventKey string
      * @param $number int
      * @param $status string
      * @param $categories string[]
@@ -247,7 +275,7 @@ class Events
      * @param $orderId string
      * @return BestAvailableObjects
      */
-    public function changeBestAvailableObjectStatus($key, $number, $status, $categories = null, $useObjectUuidsInsteadOfLabels = null, $holdToken = null, $orderId = null)
+    public function changeBestAvailableObjectStatus($eventKey, $number, $status, $categories = null, $useObjectUuidsInsteadOfLabels = null, $holdToken = null, $orderId = null)
     {
         $request = new \stdClass();
         $bestAvailable = new \stdClass();
@@ -267,7 +295,7 @@ class Events
             $request->orderId = $orderId;
         }
         $res = $this->client->post(
-            \GuzzleHttp\uri_template('/events/{key}/actions/change-object-status', array("key" => $key)),
+            \GuzzleHttp\uri_template('/events/{key}/actions/change-object-status', array("key" => $eventKey)),
             ['json' => $request]
         );
         $json = \GuzzleHttp\json_decode($res->getBody());
@@ -297,7 +325,8 @@ class Events
     /**
      * @return Reports
      */
-    public function reports() {
+    public function reports()
+    {
         return new Reports($this->client);
     }
 }
