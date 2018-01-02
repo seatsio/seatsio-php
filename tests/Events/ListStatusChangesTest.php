@@ -3,6 +3,7 @@
 namespace Seatsio\Charts;
 
 use Seatsio\Events\ObjectProperties;
+use Seatsio\Events\ObjectStatus;
 use Seatsio\SeatsioClientTest;
 
 class ListStatusChangesTest extends SeatsioClientTest
@@ -17,7 +18,9 @@ class ListStatusChangesTest extends SeatsioClientTest
         $this->seatsioClient->events()->book($event->key, "A-3");
 
         $statusChanges = $this->seatsioClient->events()->statusChanges($event->key)->all();
-        $objectIds = \Functional\map($statusChanges, function($statusChange) { return $statusChange->objectLabelOrUuid; });
+        $objectIds = \Functional\map($statusChanges, function ($statusChange) {
+            return $statusChange->objectLabelOrUuid;
+        });
 
         self::assertEquals(["A-3", "A-2", "A-1"], array_values($objectIds));
     }
