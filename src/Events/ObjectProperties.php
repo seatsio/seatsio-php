@@ -2,7 +2,7 @@
 
 namespace Seatsio\Events;
 
-class SeatsioObject
+class ObjectProperties
 {
     /**
      * @var string

@@ -2,7 +2,7 @@
 
 namespace Seatsio\Charts;
 
-use Seatsio\Events\SeatsioObject;
+use Seatsio\Events\ObjectProperties;
 use Seatsio\SeatsioClientTest;
 
 class ListStatusChangesForObjectTest extends SeatsioClientTest
