@@ -18,7 +18,6 @@ class EventReportsTest extends SeatsioClientTest
         $reportItem = $report["A-1"][0];
         self::assertEquals(ObjectStatus::$BOOKED, $reportItem->status);
         self::assertEquals("A-1", $reportItem->label);
-        self::assertEquals("uuid288", $reportItem->uuid);
         self::assertEquals("Cat1", $reportItem->categoryLabel);
         self::assertEquals(9, $reportItem->categoryKey);
         self::assertEquals("ticketType1", $reportItem->ticketType);
@@ -122,25 +121,6 @@ class EventReportsTest extends SeatsioClientTest
 
         $report = $this->seatsioClient->events()->reports()->byLabel($event->key, "A-1");
         self::assertCount(1, $report);
-    }
-
-    public function testByUuid()
-    {
-        $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events()->create($chartKey);
-
-        $report = $this->seatsioClient->events()->reports()->byUuid($event->key);
-        self::assertNotNull($report["uuid300"]);
-        self::assertNotNull($report["uuid301"]);
-    }
-
-    public function testBySpecificUuid()
-    {
-        $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events()->create($chartKey);
-
-        $report = $this->seatsioClient->events()->reports()->byUuid($event->key, "uuid300");
-        self::assertEquals("uuid300", $report->uuid);
     }
 
     public function testByOrderId()

@@ -67,18 +67,6 @@ class Reports
 
     /**
      * @param $eventKey string
-     * @param $uuid string
-     * @return array
-     */
-    public function byUuid($eventKey, $uuid = null)
-    {
-        $res = $this->client->get(self::reportUrl('byUuid', $eventKey, $uuid));
-        $json = \GuzzleHttp\json_decode($res->getBody());
-        return $this->mapSingleValuedReport($json, $uuid);
-    }
-
-    /**
-     * @param $eventKey string
      * @param $orderId string
      * @return array
      */

@@ -23,7 +23,7 @@ class StatusChange
     /**
      * @var string
      */
-    public $objectLabelOrUuid;
+    public $objectLabel;
     /**
      * @var \DateTime
      */

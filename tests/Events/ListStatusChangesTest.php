@@ -19,7 +19,7 @@ class ListStatusChangesTest extends SeatsioClientTest
 
         $statusChanges = $this->seatsioClient->events()->statusChanges($event->key)->all();
         $objectIds = \Functional\map($statusChanges, function ($statusChange) {
-            return $statusChange->objectLabelOrUuid;
+            return $statusChange->objectLabel;
         });
 
         self::assertEquals(["A-3", "A-2", "A-1"], array_values($objectIds));
@@ -38,7 +38,7 @@ class ListStatusChangesTest extends SeatsioClientTest
         self::assertNotNull($statusChange->id);
         self::assertNotNull($statusChange->date);
         self::assertEquals("orderId", $statusChange->orderId);
-        self::assertEquals("A-1", $statusChange->objectLabelOrUuid);
+        self::assertEquals("A-1", $statusChange->objectLabel);
         self::assertEquals(ObjectStatus::$BOOKED, $statusChange->status);
         self::assertEquals($event->id, $statusChange->eventId);
         self::assertEquals((object)["foo" => "bar"], $statusChange->extraData);

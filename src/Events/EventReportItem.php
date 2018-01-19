@@ -12,10 +12,6 @@ class EventReportItem
     /**
      * @var string
      */
-    public $uuid;
-    /**
-     * @var string
-     */
     public $status;
     /**
      * @var string

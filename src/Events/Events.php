@@ -217,14 +217,13 @@ class Events
      * @param $eventKey string
      * @param $number int
      * @param $categories string[]
-     * @param $useObjectUuidsInsteadOfLabels boolean
      * @param $holdToken string
      * @param $orderId string
      * @return BestAvailableObjects
      */
-    public function bookBestAvailable($eventKey, $number, $categories = null, $useObjectUuidsInsteadOfLabels = null, $holdToken = null, $orderId = null)
+    public function bookBestAvailable($eventKey, $number, $categories = null, $holdToken = null, $orderId = null)
     {
-        return $this::changeBestAvailableObjectStatus($eventKey, $number, ObjectStatus::$BOOKED, $categories, $useObjectUuidsInsteadOfLabels, $holdToken, $orderId);
+        return $this::changeBestAvailableObjectStatus($eventKey, $number, ObjectStatus::$BOOKED, $categories, $holdToken, $orderId);
     }
 
     /**
@@ -255,14 +254,13 @@ class Events
      * @param $eventKey string
      * @param $number int
      * @param $categories string[]
-     * @param $useObjectUuidsInsteadOfLabels boolean
      * @param $holdToken string
      * @param $orderId string
      * @return BestAvailableObjects
      */
-    public function holdBestAvailable($eventKey, $number, $holdToken, $categories = null, $useObjectUuidsInsteadOfLabels = null, $orderId = null)
+    public function holdBestAvailable($eventKey, $number, $holdToken, $categories = null, $orderId = null)
     {
-        return $this::changeBestAvailableObjectStatus($eventKey, $number, ObjectStatus::$HELD, $categories, $useObjectUuidsInsteadOfLabels, $holdToken, $orderId);
+        return $this::changeBestAvailableObjectStatus($eventKey, $number, ObjectStatus::$HELD, $categories, $holdToken, $orderId);
     }
 
     /**
@@ -270,21 +268,17 @@ class Events
      * @param $number int
      * @param $status string
      * @param $categories string[]
-     * @param $useObjectUuidsInsteadOfLabels boolean
      * @param $holdToken string
      * @param $orderId string
      * @return BestAvailableObjects
      */
-    public function changeBestAvailableObjectStatus($eventKey, $number, $status, $categories = null, $useObjectUuidsInsteadOfLabels = null, $holdToken = null, $orderId = null)
+    public function changeBestAvailableObjectStatus($eventKey, $number, $status, $categories = null, $holdToken = null, $orderId = null)
     {
         $request = new \stdClass();
         $bestAvailable = new \stdClass();
         $bestAvailable->number = $number;
         if ($categories !== null) {
             $bestAvailable->categories = $categories;
-        }
-        if ($useObjectUuidsInsteadOfLabels !== null) {
-            $bestAvailable->useObjectUuidsInsteadOfLabels = $useObjectUuidsInsteadOfLabels;
         }
         $request->bestAvailable = $bestAvailable;
         $request->status = $status;

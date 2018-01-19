@@ -28,23 +28,13 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
         self::assertEquals(["C-3", "C-4", "C-5"], $bestAvailableObjects->objects, '', 0.0, 10, true);
     }
 
-    public function testUseObjectUuidsInsteadOfLabels()
-    {
-        $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events()->create($chartKey);
-
-        $bestAvailableObjects = $this->seatsioClient->events()->changeBestAvailableObjectStatus($event->key, 3, "lolzor", null, true);
-
-        self::assertEquals(["uuid300", "uuid301", "uuid302"], $bestAvailableObjects->objects, '', 0.0, 10, true);
-    }
-
     public function testHoldToken()
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events()->create($chartKey);
         $holdToken = $this->seatsioClient->holdTokens()->create();
 
-        $bestAvailableObjects = $this->seatsioClient->events()->changeBestAvailableObjectStatus($event->key, 1, ObjectStatus::$HELD, null, null, $holdToken->holdToken);
+        $bestAvailableObjects = $this->seatsioClient->events()->changeBestAvailableObjectStatus($event->key, 1, ObjectStatus::$HELD, null, $holdToken->holdToken);
 
         $objectStatus = $this->seatsioClient->events()->getObjectStatus($event->key, $bestAvailableObjects->objects[0]);
         self::assertEquals(ObjectStatus::$HELD, $objectStatus->status);
@@ -56,7 +46,7 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events()->create($chartKey);
 
-        $bestAvailableObjects = $this->seatsioClient->events()->changeBestAvailableObjectStatus($event->key, 1, "lolzor", null, null, null, "anOrder");
+        $bestAvailableObjects = $this->seatsioClient->events()->changeBestAvailableObjectStatus($event->key, 1, "lolzor", null, null, "anOrder");
 
         $objectStatus = $this->seatsioClient->events()->getObjectStatus($event->key, $bestAvailableObjects->objects[0]);
         self::assertEquals("anOrder", $objectStatus->orderId);
