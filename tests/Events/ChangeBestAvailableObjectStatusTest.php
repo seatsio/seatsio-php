@@ -15,7 +15,7 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
         $bestAvailableObjects = $this->seatsioClient->events()->changeBestAvailableObjectStatus($event->key, 3, "lolzor");
 
         self::assertTrue($bestAvailableObjects->nextToEachOther);
-        self::assertEquals(["B-3", "B-4", "B-5"], $bestAvailableObjects->objects, '', 0.0, 10, true);
+        self::assertEquals(["B-4", "B-5", "B-6"], $bestAvailableObjects->objects, '', 0.0, 10, true);
     }
 
     public function testCategories()
@@ -25,7 +25,7 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
 
         $bestAvailableObjects = $this->seatsioClient->events()->changeBestAvailableObjectStatus($event->key, 3, "lolzor", ["cat2"]);
 
-        self::assertEquals(["C-3", "C-4", "C-5"], $bestAvailableObjects->objects, '', 0.0, 10, true);
+        self::assertEquals(["C-4", "C-5", "C-6"], $bestAvailableObjects->objects, '', 0.0, 10, true);
     }
 
     public function testHoldToken()
