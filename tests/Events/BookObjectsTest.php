@@ -14,8 +14,8 @@ class BookObjectsTest extends SeatsioClientTest
 
         $this->seatsioClient->events()->book($event->key, ["A-1", "A-2"]);
 
-        self::assertEquals(ObjectStatus::$BOOKED, $this->seatsioClient->events()->getObjectStatus($event->key, "A-1")->status);
-        self::assertEquals(ObjectStatus::$BOOKED, $this->seatsioClient->events()->getObjectStatus($event->key, "A-2")->status);
+        self::assertEquals(ObjectStatus::$BOOKED, $this->seatsioClient->events()->retrieveObjectStatus($event->key, "A-1")->status);
+        self::assertEquals(ObjectStatus::$BOOKED, $this->seatsioClient->events()->retrieveObjectStatus($event->key, "A-2")->status);
     }
 
     public function testHoldToken()
@@ -27,7 +27,7 @@ class BookObjectsTest extends SeatsioClientTest
 
         $this->seatsioClient->events()->book($event->key, "A-1", $holdToken->holdToken);
 
-        $objectStatus = $this->seatsioClient->events()->getObjectStatus($event->key, "A-1");
+        $objectStatus = $this->seatsioClient->events()->retrieveObjectStatus($event->key, "A-1");
         self::assertEquals(ObjectStatus::$BOOKED, $objectStatus->status);
         self::assertNull($objectStatus->holdToken);
     }
@@ -39,7 +39,7 @@ class BookObjectsTest extends SeatsioClientTest
 
         $this->seatsioClient->events()->book($event->key, "A-1", null, "order1");
 
-        $objectStatus = $this->seatsioClient->events()->getObjectStatus($event->key, "A-1");
+        $objectStatus = $this->seatsioClient->events()->retrieveObjectStatus($event->key, "A-1");
         self::assertEquals("order1", $objectStatus->orderId);
     }
 

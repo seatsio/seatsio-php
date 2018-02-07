@@ -167,7 +167,7 @@ class Events
      * @param $object string
      * @return ObjectStatus
      */
-    public function getObjectStatus($eventKey, $object)
+    public function retrieveObjectStatus($eventKey, $object)
     {
         $res = $this->client->get(\GuzzleHttp\uri_template('/events/{key}/objects/{object}', ["key" => $eventKey, "object" => $object]));
         $json = \GuzzleHttp\json_decode($res->getBody());
