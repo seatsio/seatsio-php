@@ -22,7 +22,8 @@ class SeatsioClient
             'base_uri' => $baseUrl,
             'auth' => [$secretKey, null],
             'http_errors' => false,
-            'handler' => $stack
+            'handler' => $stack,
+            'headers' => ['Accept-Encoding' => 'gzip']
         ]);
     }
 
