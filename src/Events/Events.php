@@ -269,16 +269,20 @@ class Events
      * @param $status string
      * @param $categories string[]
      * @param $holdToken string
+     * @param $extraData array
      * @param $orderId string
      * @return BestAvailableObjects
      */
-    public function changeBestAvailableObjectStatus($eventKey, $number, $status, $categories = null, $holdToken = null, $orderId = null)
+    public function changeBestAvailableObjectStatus($eventKey, $number, $status, $categories = null, $holdToken = null, $extraData = null, $orderId = null)
     {
         $request = new \stdClass();
         $bestAvailable = new \stdClass();
         $bestAvailable->number = $number;
         if ($categories !== null) {
             $bestAvailable->categories = $categories;
+        }
+        if ($extraData != null) {
+            $bestAvailable->extraData = $extraData;
         }
         $request->bestAvailable = $bestAvailable;
         $request->status = $status;
