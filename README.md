@@ -43,6 +43,13 @@ $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
 $seatsio->events()->book(<AN EVENT KEY>, ["A-1", "A-2"]);
 ```
 
+### Booking objects that have been held
+
+```php
+$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
+$seatsio->events()->book(<AN EVENT KEY>, ["A-1", "A-2"], <A HOLD TOKEN>);
+```
+
 ### Releasing objects
 
 Changes the object status to ‘free’. Free seats are selectable on a rendered chart.
@@ -52,13 +59,6 @@ Changes the object status to ‘free’. Free seats are selectable on a rendered
 ```php
 $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
 $seatsio->events()->release(<AN EVENT KEY>, ["A-1", "A-2"]);
-```
-
-### Booking objects that have been held
-
-```php
-$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
-$seatsio->events()->book(<AN EVENT KEY>, ["A-1", "A-2"], <A HOLD TOKEN>);
 ```
 
 ### Changing object status
