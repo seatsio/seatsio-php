@@ -34,16 +34,13 @@ echo 'Created event with key ' . $event->key;
 
 ### Booking objects
 
+Changes the object status to ‘booked’. Booked seats are not selectable on a rendered chart.
+
+[https://www.seats.io/docs/api-v2#core-resources-objects-book-objects](https://www.seats.io/docs/api-v2#core-resources-objects-book-objects)
+
 ```php
 $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
 $seatsio->events()->book(<AN EVENT KEY>, ["A-1", "A-2"]);
-```
-
-### Releasing objects
-
-```php
-$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
-$seatsio->events()->release(<AN EVENT KEY>, ["A-1", "A-2"]);
 ```
 
 ### Booking objects that have been held
@@ -53,11 +50,44 @@ $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
 $seatsio->events()->book(<AN EVENT KEY>, ["A-1", "A-2"], <A HOLD TOKEN>);
 ```
 
+### Releasing objects
+
+Changes the object status to ‘free’. Free seats are selectable on a rendered chart.
+
+[https://www.seats.io/docs/api-v2#core-resources-objects-release-objects](https://www.seats.io/docs/api-v2#core-resources-objects-release-objects)
+
+```php
+$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
+$seatsio->events()->release(<AN EVENT KEY>, ["A-1", "A-2"]);
+```
+
 ### Changing object status
+
+Changes the object status to a custom status of your choice. If you need more statuses than just booked and free, you can use this to change the status of a seat, table or booth to your own custom status.
+
+[https://www.seats.io/docs/api-v2#core-resources-objects-change-object-status](https://www.seats.io/docs/api-v2#core-resources-objects-change-object-status)
 
 ```php
 $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
 $seatsio->events()->changeObjectStatus(<AN EVENT KEY>, ["A-1", "A-2"], "unavailable");
+```
+
+### Event reports
+
+Want to know which seats of an event are booked, and which ones are free? That’s where reporting comes in handy.
+
+The report types you can choose from are:
+- byStatus
+- byCategoryLabel
+- byCategoryKey
+- byLabel
+- byOrderId
+
+[https://www.seats.io/docs/api-v2#core-resources-event-reports](https://www.seats.io/docs/api-v2#core-resources-event-reports)
+
+```php
+$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
+$seatsio->events()->reports()->byStatus(<AN EVENT KEY>, <OPTIONAL FILTER>);
 ```
 
 ### Listing charts
