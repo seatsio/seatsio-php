@@ -31,6 +31,17 @@ class Reports
 
     /**
      * @param $eventKey string
+     * @return array
+     */
+    public function summaryByStatus($eventKey)
+    {
+        $res = $this->client->get(self::summaryReportUrl('byStatus', $eventKey));
+        $json = \GuzzleHttp\json_decode($res->getBody(), true);
+        return $json;
+    }
+
+    /**
+     * @param $eventKey string
      * @param $categoryLabel string
      * @return array
      */
@@ -43,6 +54,16 @@ class Reports
 
     /**
      * @param $eventKey string
+     * @return array
+     */
+    public function summaryByCategoryLabel($eventKey)
+    {
+        $res = $this->client->get(self::summaryReportUrl('byCategoryLabel', $eventKey));
+        return \GuzzleHttp\json_decode($res->getBody(), true);
+    }
+
+    /**
+     * @param $eventKey string
      * @param $categoryKey string
      * @return array
      */
@@ -51,6 +72,16 @@ class Reports
         $res = $this->client->get(self::reportUrl('byCategoryKey', $eventKey, $categoryKey));
         $json = \GuzzleHttp\json_decode($res->getBody());
         return $this->mapMultiValuedReport($json, $categoryKey);
+    }
+
+    /**
+     * @param $eventKey string
+     * @return array
+     */
+    public function summaryByCategoryKey($eventKey)
+    {
+        $res = $this->client->get(self::summaryReportUrl('byCategoryKey', $eventKey));
+        return \GuzzleHttp\json_decode($res->getBody(), true);
     }
 
     /**
@@ -90,6 +121,16 @@ class Reports
     }
 
     /**
+     * @param $eventKey string
+     * @return array
+     */
+    public function summaryBySection($eventKey)
+    {
+        $res = $this->client->get(self::summaryReportUrl('bySection', $eventKey));
+        return \GuzzleHttp\json_decode($res->getBody(), true);
+    }
+
+    /**
      * @param $json mixed
      * @param $filter string
      * @return array
@@ -107,30 +148,17 @@ class Reports
         return $result[$filter];
     }
 
-    /**
-     * @param $json mixed
-     * @param $filter string
-     * @return array
-     */
-    private static function mapSingleValuedReport($json, $filter)
-    {
-        $mapper = SeatsioJsonMapper::create();
-        $result = [];
-        foreach ($json as $status => $reportItem) {
-            $result[$status] = $mapper->map($reportItem, new EventReportItem());
-        }
-        if ($filter === null) {
-            return $result;
-        }
-        return $result[$filter];
-    }
-
     private static function reportUrl($reportType, $eventKey, $filter)
     {
         if ($filter === null) {
             return \GuzzleHttp\uri_template('/reports/events/{key}/{reportType}', array("key" => $eventKey, "reportType" => $reportType));
         }
         return \GuzzleHttp\uri_template('/reports/events/{key}/{reportType}/{filter}', array("key" => $eventKey, "reportType" => $reportType, "filter" => $filter));
+    }
+
+    private static function summaryReportUrl($reportType, $eventKey)
+    {
+        return \GuzzleHttp\uri_template('/reports/events/{key}/{reportType}/summary', array("key" => $eventKey, "reportType" => $reportType));
     }
 
 }
