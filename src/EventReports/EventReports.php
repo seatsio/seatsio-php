@@ -1,10 +1,10 @@
 <?php
 
-namespace Seatsio\Events;
+namespace Seatsio\EventReports;
 
 use Seatsio\SeatsioJsonMapper;
 
-class Reports
+class EventReports
 {
 
     /**

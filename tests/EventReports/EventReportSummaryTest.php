@@ -1,7 +1,9 @@
 <?php
 
-namespace Seatsio\Events;
+namespace Seatsio\EventReports;
 
+use Seatsio\Events\ObjectProperties;
+use Seatsio\Events\ObjectStatus;
 use Seatsio\SeatsioClientTest;
 
 class EventReportsSummaryTest extends SeatsioClientTest
@@ -13,7 +15,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
         $event = $this->seatsioClient->events()->create($chartKey);
         $this->seatsioClient->events()->book($event->key, (new ObjectProperties("A-1"))->setTicketType("ticketType1"), null, "order1");
 
-        $report = $this->seatsioClient->events()->reports()->summaryByStatus($event->key);
+        $report = $this->seatsioClient->eventReports()->summaryByStatus($event->key);
 
         self::assertEquals(1, $report[ObjectStatus::$BOOKED]['count']);
         self::assertEquals(1, $report[ObjectStatus::$BOOKED]['bySection']['NO_SECTION']);
@@ -34,7 +36,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
         $event = $this->seatsioClient->events()->create($chartKey);
         $this->seatsioClient->events()->book($event->key, (new ObjectProperties("A-1"))->setTicketType("ticketType1"), null, "order1");
 
-        $report = $this->seatsioClient->events()->reports()->summaryByCategoryKey($event->key);
+        $report = $this->seatsioClient->eventReports()->summaryByCategoryKey($event->key);
 
         self::assertEquals(17, $report['9']['count']);
         self::assertEquals(17, $report['9']['bySection']['NO_SECTION']);
@@ -52,7 +54,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
         $event = $this->seatsioClient->events()->create($chartKey);
         $this->seatsioClient->events()->book($event->key, (new ObjectProperties("A-1"))->setTicketType("ticketType1"), null, "order1");
 
-        $report = $this->seatsioClient->events()->reports()->summaryByCategoryLabel($event->key);
+        $report = $this->seatsioClient->eventReports()->summaryByCategoryLabel($event->key);
 
         self::assertEquals(17, $report['Cat1']['count']);
         self::assertEquals(17, $report['Cat1']['bySection']['NO_SECTION']);
@@ -70,7 +72,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
         $event = $this->seatsioClient->events()->create($chartKey);
         $this->seatsioClient->events()->book($event->key, (new ObjectProperties("A-1"))->setTicketType("ticketType1"), null, "order1");
 
-        $report = $this->seatsioClient->events()->reports()->summaryBySection($event->key);
+        $report = $this->seatsioClient->eventReports()->summaryBySection($event->key);
 
         self::assertEquals(34, $report['NO_SECTION']['count']);
         self::assertEquals(1, $report['NO_SECTION']['byStatus'][ObjectStatus::$BOOKED]);

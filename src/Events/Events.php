@@ -320,11 +320,4 @@ class Events
         return self::normalizeObjects([$objectOrObjects]);
     }
 
-    /**
-     * @return Reports
-     */
-    public function reports()
-    {
-        return new Reports($this->client);
-    }
 }

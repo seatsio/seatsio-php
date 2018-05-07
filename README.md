@@ -87,7 +87,7 @@ The report types you can choose from are:
 
 ```php
 $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
-$seatsio->events()->reports()->byStatus(<AN EVENT KEY>, <OPTIONAL FILTER>);
+$seatsio->eventReports()->byStatus(<AN EVENT KEY>, <OPTIONAL FILTER>);
 ```
 
 ### Listing charts

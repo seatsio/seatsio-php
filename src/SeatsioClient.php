@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use Psr\Http\Message\ResponseInterface;
 use Seatsio\Charts\Charts;
+use Seatsio\EventReports\EventReports;
 use Seatsio\Events\Events;
 use Seatsio\HoldTokens\HoldTokens;
 use Seatsio\Subaccounts\Subaccounts;
@@ -41,6 +42,14 @@ class SeatsioClient
     public function events()
     {
         return new Events($this->client);
+    }
+
+    /**
+     * @return EventReports
+     */
+    public function eventReports()
+    {
+        return new EventReports($this->client);
     }
 
     /**
