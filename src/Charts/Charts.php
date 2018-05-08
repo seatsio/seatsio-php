@@ -14,9 +14,17 @@ class Charts
      */
     private $client;
 
+    /**
+     * @var ChartLister
+     */
+    public $archive;
+
     public function __construct($client)
     {
         $this->client = $client;
+        $this->archive = new ChartLister(new PageFetcher('/charts/archive', $this->client, function () {
+            return new ChartPage();
+        }));
     }
 
     /**
@@ -267,16 +275,6 @@ class Charts
     private function iterator()
     {
         return new FilterableChartLister(new PageFetcher('/charts', $this->client, function () {
-            return new ChartPage();
-        }));
-    }
-
-    /**
-     * @return ChartLister
-     */
-    public function archive()
-    {
-        return new ChartLister(new PageFetcher('/charts/archive', $this->client, function () {
             return new ChartPage();
         }));
     }

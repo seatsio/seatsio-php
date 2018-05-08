@@ -99,7 +99,7 @@ $chart1 = $seatsio->charts()->create();
 $chart2 = $seatsio->charts()->create();
 $chart3 = $seatsio->charts()->create();
 
-$charts = $seatsio->charts()->iterator()->all();
+$charts = $seatsio->charts()->listAll();
 foreach($charts as $chart) {
     echo 'Chart ' . $chart->key;
 }

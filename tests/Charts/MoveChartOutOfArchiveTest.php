@@ -14,7 +14,7 @@ class MoveChartOutOfArchiveTest extends SeatsioClientTest
 
         $this->seatsioClient->charts()->moveOutOfArchive($chart->key);
 
-        $archivedCharts = $this->seatsioClient->charts()->archive()->all();
+        $archivedCharts = $this->seatsioClient->charts()->archive->all();
         self::assertFalse($archivedCharts->valid());
     }
 

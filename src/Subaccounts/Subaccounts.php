@@ -14,9 +14,25 @@ class Subaccounts
      */
     private $client;
 
+    /**
+     * @var SubaccountLister
+     */
+    public $active;
+
+    /**
+     * @var SubaccountLister
+     */
+    public $inactive;
+
     public function __construct($client)
     {
         $this->client = $client;
+        $this->active = new SubaccountLister(new PageFetcher('/subaccounts/active', $this->client, function () {
+            return new SubaccountPage();
+        }));
+        $this->inactive = new SubaccountLister(new PageFetcher('/subaccounts/inactive', $this->client, function () {
+            return new SubaccountPage();
+        }));
     }
 
     /**
@@ -167,26 +183,6 @@ class Subaccounts
     private function iterator()
     {
         return new SubaccountLister(new PageFetcher('/subaccounts', $this->client, function () {
-            return new SubaccountPage();
-        }));
-    }
-
-    /**
-     * @return SubaccountLister
-     */
-    public function active()
-    {
-        return new SubaccountLister(new PageFetcher('/subaccounts/active', $this->client, function () {
-            return new SubaccountPage();
-        }));
-    }
-
-    /**
-     * @return SubaccountLister
-     */
-    public function inactive()
-    {
-        return new SubaccountLister(new PageFetcher('/subaccounts/inactive', $this->client, function () {
             return new SubaccountPage();
         }));
     }

@@ -17,7 +17,7 @@ class ListChartsInArchiveTest extends SeatsioClientTest
 
         $this->seatsioClient->charts()->create();
 
-        $charts = $this->seatsioClient->charts()->archive()->all();
+        $charts = $this->seatsioClient->charts()->archive->all();
         $chartKeys = \Functional\map($charts, function($chart) { return $chart->key; });
 
         self::assertEquals([$chart2->key, $chart1->key], array_values($chartKeys));
