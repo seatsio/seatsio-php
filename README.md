@@ -27,8 +27,8 @@ The reason: we want to play safe and assume that each release _might_ break back
 
 ```php
 $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>); // can be found on https://app.seats.io/settings
-$chart = $seatsio->charts()->create();
-$event = $seatsio->events()->create($chart->key);
+$chart = $seatsio->charts->create();
+$event = $seatsio->events->create($chart->key);
 echo 'Created event with key ' . $event->key;
 ```
 
@@ -40,14 +40,14 @@ Changes the object status to ‘booked’. Booked seats are not selectable on a 
 
 ```php
 $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
-$seatsio->events()->book(<AN EVENT KEY>, ["A-1", "A-2"]);
+$seatsio->events->book(<AN EVENT KEY>, ["A-1", "A-2"]);
 ```
 
 ### Booking objects that have been held
 
 ```php
 $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
-$seatsio->events()->book(<AN EVENT KEY>, ["A-1", "A-2"], <A HOLD TOKEN>);
+$seatsio->events->book(<AN EVENT KEY>, ["A-1", "A-2"], <A HOLD TOKEN>);
 ```
 
 ### Releasing objects
@@ -58,7 +58,7 @@ Changes the object status to ‘free’. Free seats are selectable on a rendered
 
 ```php
 $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
-$seatsio->events()->release(<AN EVENT KEY>, ["A-1", "A-2"]);
+$seatsio->events->release(<AN EVENT KEY>, ["A-1", "A-2"]);
 ```
 
 ### Changing object status
@@ -69,7 +69,7 @@ Changes the object status to a custom status of your choice. If you need more st
 
 ```php
 $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
-$seatsio->events()->changeObjectStatus(<AN EVENT KEY>, ["A-1", "A-2"], "unavailable");
+$seatsio->events->changeObjectStatus(<AN EVENT KEY>, ["A-1", "A-2"], "unavailable");
 ```
 
 ### Event reports
@@ -87,7 +87,7 @@ The report types you can choose from are:
 
 ```php
 $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
-$seatsio->eventReports()->byStatus(<AN EVENT KEY>, <OPTIONAL FILTER>);
+$seatsio->eventReports->byStatus(<AN EVENT KEY>, <OPTIONAL FILTER>);
 ```
 
 ### Listing charts
@@ -95,11 +95,11 @@ $seatsio->eventReports()->byStatus(<AN EVENT KEY>, <OPTIONAL FILTER>);
 ```php
 $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
 
-$chart1 = $seatsio->charts()->create();
-$chart2 = $seatsio->charts()->create();
-$chart3 = $seatsio->charts()->create();
+$chart1 = $seatsio->charts->create();
+$chart2 = $seatsio->charts->create();
+$chart3 = $seatsio->charts->create();
 
-$charts = $seatsio->charts()->listAll();
+$charts = $seatsio->charts->listAll();
 foreach($charts as $chart) {
     echo 'Chart ' . $chart->key;
 }
