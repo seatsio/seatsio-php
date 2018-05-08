@@ -125,9 +125,46 @@ class Subaccounts
     }
 
     /**
+     * @return SubaccountPagedIterator
+     */
+    public function listAll()
+    {
+        return $this->iterator()->all();
+    }
+
+    /**
+     * @param $pageSize int
+     * @return SubaccountsPage
+     */
+    public function listFirstPage($pageSize = null)
+    {
+        return $this->iterator()->firstPage($pageSize);
+    }
+
+    /**
+     * @param $afterId int
+     * @param $pageSize int
+     * @return SubaccountsPage
+     */
+    public function listPageAfter($afterId, $pageSize = null)
+    {
+        return $this->iterator()->pageAfter($afterId, $pageSize);
+    }
+
+    /**
+     * @param $beforeId int
+     * @param $pageSize int
+     * @return SubaccountsPage
+     */
+    public function listPageBefore($beforeId, $pageSize = null)
+    {
+        return $this->iterator()->pageBefore($beforeId, $pageSize);
+    }
+
+    /**
      * @return SubaccountLister
      */
-    public function iterator()
+    private function iterator()
     {
         return new SubaccountLister(new PageFetcher('/subaccounts', $this->client, function () {
             return new SubaccountPage();

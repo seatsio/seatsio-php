@@ -2,38 +2,14 @@
 
 namespace Seatsio\Charts;
 
-use Seatsio\Lister;
-
-class ChartLister extends Lister
+class ChartLister
 {
 
-    /**
-     * @param $filter string
-     * @return $this
-     */
-    public function setFilter($filter)
-    {
-        $this->pageFetcher->setQueryParam('filter', $filter);
-        return $this;
-    }
+    protected $pageFetcher;
 
-    /**
-     * @param $tag string
-     * @return $this
-     */
-    public function setTag($tag)
+    public function __construct($pageFetcher)
     {
-        $this->pageFetcher->setQueryParam('tag', $tag);
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setExpandEvents()
-    {
-        $this->pageFetcher->setQueryParam('expand', 'events');
-        return $this;
+        $this->pageFetcher = $pageFetcher;
     }
 
     /**
@@ -45,27 +21,32 @@ class ChartLister extends Lister
     }
 
     /**
+     * @param $pageSize int
      * @return ChartPage
      */
-    public function firstPage()
+    public function firstPage($pageSize = null)
     {
-        return parent::firstPage();
+        return $this->pageFetcher->fetchAfter(null, [], $pageSize);
     }
 
     /**
+     * @param $afterId int
+     * @param $pageSize int
      * @return ChartPage
      */
-    public function pageAfter($afterId)
+    public function pageAfter($afterId, $pageSize = null)
     {
-        return parent::pageAfter($afterId);
+        return $this->pageFetcher->fetchAfter($afterId, [], $pageSize);
     }
 
     /**
+     * @param $beforeId int
+     * @param $pageSize int
      * @return ChartPage
      */
-    public function pageBefore($beforeId)
+    public function pageBefore($beforeId, $pageSize = null)
     {
-        return parent::pageBefore($beforeId);
+        return $this->pageFetcher->fetchBefore($beforeId, [], $pageSize);
     }
 
 }

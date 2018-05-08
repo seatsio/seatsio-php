@@ -75,9 +75,46 @@ class Events
     }
 
     /**
+     * @return EventPagedIterator
+     */
+    public function listAll()
+    {
+        return $this->iterator()->all();
+    }
+
+    /**
+     * @param $pageSize int
+     * @return EventPage
+     */
+    public function listFirstPage($pageSize = null)
+    {
+        return $this->iterator()->firstPage($pageSize);
+    }
+
+    /**
+     * @param $afterId int
+     * @param $pageSize int
+     * @return EventPage
+     */
+    public function listPageAfter($afterId, $pageSize = null)
+    {
+        return $this->iterator()->pageAfter($afterId, $pageSize);
+    }
+
+    /**
+     * @param $beforeId int
+     * @param $pageSize int
+     * @return EventPage
+     */
+    public function listPageBefore($beforeId, $pageSize = null)
+    {
+        return $this->iterator()->pageBefore($beforeId, $pageSize);
+    }
+
+    /**
      * @return EventLister
      */
-    public function iterator()
+    private function iterator()
     {
         return new EventLister(new PageFetcher('/events', $this->client, function () {
             return new EventPage();

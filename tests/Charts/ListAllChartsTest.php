@@ -7,13 +7,13 @@ use Seatsio\SeatsioClientTest;
 class ListAllChartsTest extends SeatsioClientTest
 {
 
-    public function testOnePage()
+    public function test()
     {
         $chart1 = $this->seatsioClient->charts()->create();
         $chart2 = $this->seatsioClient->charts()->create();
         $chart3 = $this->seatsioClient->charts()->create();
 
-        $charts = $this->seatsioClient->charts()->iterator()->setPageSize(10)->all();
+        $charts = $this->seatsioClient->charts()->listAll();
         $chartKeys = \Functional\map($charts, function ($chart) {
             return $chart->key;
         });
@@ -23,23 +23,9 @@ class ListAllChartsTest extends SeatsioClientTest
 
     public function testNoCharts()
     {
-        $charts = $this->seatsioClient->charts()->iterator()->all();
+        $charts = $this->seatsioClient->charts()->listAll();
 
         self::assertFalse($charts->valid());
-    }
-
-    public function testMultiplePages()
-    {
-        $chart1 = $this->seatsioClient->charts()->create();
-        $chart2 = $this->seatsioClient->charts()->create();
-        $chart3 = $this->seatsioClient->charts()->create();
-
-        $charts = $this->seatsioClient->charts()->iterator()->setPageSize(2)->all();
-        $chartKeys = \Functional\map($charts, function ($chart) {
-            return $chart->key;
-        });
-
-        self::assertEquals([$chart3->key, $chart2->key, $chart1->key], array_values($chartKeys));
     }
 
     public function testFilter()
@@ -48,7 +34,7 @@ class ListAllChartsTest extends SeatsioClientTest
         $chart2 = $this->seatsioClient->charts()->create('bar');
         $chart3 = $this->seatsioClient->charts()->create('foofoo');
 
-        $charts = $this->seatsioClient->charts()->iterator()->setFilter('foo')->all();
+        $charts = $this->seatsioClient->charts()->listAll((new ChartListParams())->withFilter('foo'));
         $chartKeys = \Functional\map($charts, function ($chart) {
             return $chart->key;
         });
@@ -66,7 +52,7 @@ class ListAllChartsTest extends SeatsioClientTest
         $chart3 = $this->seatsioClient->charts()->create();
         $this->seatsioClient->charts()->addTag($chart3->key, 'foo');
 
-        $charts = $this->seatsioClient->charts()->iterator()->setTag('foo')->all();
+        $charts = $this->seatsioClient->charts()->listAll((new ChartListParams())->withTag('foo'));
         $chartKeys = \Functional\map($charts, function ($chart) {
             return $chart->key;
         });
@@ -87,7 +73,7 @@ class ListAllChartsTest extends SeatsioClientTest
 
         $chart4 = $this->seatsioClient->charts()->create('bar');
 
-        $charts = $this->seatsioClient->charts()->iterator()->setTag('foo')->setFilter('bar')->all();
+        $charts = $this->seatsioClient->charts()->listAll((new ChartListParams())->withFilter('bar')->withTag('foo'));
         $chartKeys = \Functional\map($charts, function ($chart) {
             return $chart->key;
         });
@@ -101,7 +87,7 @@ class ListAllChartsTest extends SeatsioClientTest
         $event1 = $this->seatsioClient->events()->create($chart->key);
         $event2 = $this->seatsioClient->events()->create($chart->key);
 
-        $charts = $this->seatsioClient->charts()->iterator()->setExpandEvents()->all();
+        $charts = $this->seatsioClient->charts()->listAll((new ChartListParams())->withExpandEvents(true));
         $eventIds = \Functional\map($charts->current()->events, function ($event) {
             return $event->id;
         });

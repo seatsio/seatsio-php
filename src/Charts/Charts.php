@@ -3,8 +3,6 @@
 namespace Seatsio\Charts;
 
 use Psr\Http\Message\StreamInterface;
-use Seatsio\Events\EventLister;
-use Seatsio\Events\EventPage;
 use Seatsio\PageFetcher;
 use Seatsio\SeatsioJsonMapper;
 
@@ -223,11 +221,52 @@ class Charts
     }
 
     /**
-     * @return ChartLister
+     * @param $chartListParams ChartListParams
+     * @return ChartPagedIterator
      */
-    public function iterator()
+    public function listAll($chartListParams = null)
     {
-        return new ChartLister(new PageFetcher('/charts', $this->client, function () {
+        return $this->iterator()->all($this->listParamsToArray($chartListParams));
+    }
+
+    /**
+     * @param $chartListParams ChartListParams
+     * @param $pageSize int
+     * @return ChartPage
+     */
+    public function listFirstPage($chartListParams = null, $pageSize = null)
+    {
+        return $this->iterator()->firstPage($this->listParamsToArray($chartListParams), $pageSize);
+    }
+
+    /**
+     * @param $afterId int
+     * @param $chartListParams ChartListParams
+     * @param $pageSize int
+     * @return ChartPage
+     */
+    public function listPageAfter($afterId, $chartListParams = null, $pageSize = null)
+    {
+        return $this->iterator()->pageAfter($afterId, $this->listParamsToArray($chartListParams), $pageSize);
+    }
+
+    /**
+     * @param $beforeId int
+     * @param $chartListParams ChartListParams
+     * @param $pageSize int
+     * @return ChartPage
+     */
+    public function listPageBefore($beforeId, $chartListParams = null, $pageSize = null)
+    {
+        return $this->iterator()->pageBefore($beforeId, $this->listParamsToArray($chartListParams), $pageSize);
+    }
+
+    /**
+     * @return FilterableChartLister
+     */
+    private function iterator()
+    {
+        return new FilterableChartLister(new PageFetcher('/charts', $this->client, function () {
             return new ChartPage();
         }));
     }
@@ -240,6 +279,14 @@ class Charts
         return new ChartLister(new PageFetcher('/charts/archive', $this->client, function () {
             return new ChartPage();
         }));
+    }
+
+    private function listParamsToArray($chartListParams)
+    {
+        if ($chartListParams == null) {
+            return [];
+        }
+        return $chartListParams->toArray();
     }
 
 }

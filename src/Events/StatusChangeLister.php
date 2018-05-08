@@ -2,10 +2,15 @@
 
 namespace Seatsio\Events;
 
-use Seatsio\Lister;
-
-class StatusChangeLister extends Lister
+class StatusChangeLister
 {
+
+    protected $pageFetcher;
+
+    public function __construct($pageFetcher)
+    {
+        $this->pageFetcher = $pageFetcher;
+    }
 
     /**
      * @return StatusChangePagedIterator
@@ -16,26 +21,31 @@ class StatusChangeLister extends Lister
     }
 
     /**
+     * @param $pageSize int
      * @return StatusChangePage
      */
-    public function firstPage()
+    public function firstPage($pageSize = null)
     {
-        return parent::firstPage();
+        return $this->pageFetcher->fetchAfter(null, [], $pageSize);
     }
 
     /**
+     * @param $afterId int
+     * @param $pageSize int
      * @return StatusChangePage
      */
-    public function pageAfter($afterId)
+    public function pageAfter($afterId, $pageSize = null)
     {
-        return parent::pageAfter($afterId);
+        return $this->pageFetcher->fetchAfter($afterId, [], $pageSize);
     }
 
     /**
+     * @param $beforeId int
+     * @param $pageSize int
      * @return StatusChangePage
      */
-    public function pageBefore($beforeId)
+    public function pageBefore($beforeId, $pageSize = null)
     {
-        return parent::pageBefore($beforeId);
+        return $this->pageFetcher->fetchBefore($beforeId, [], $pageSize);
     }
 }

@@ -2,10 +2,15 @@
 
 namespace Seatsio\Subaccounts;
 
-use Seatsio\Lister;
-
-class SubaccountLister extends Lister
+class SubaccountLister
 {
+
+    protected $pageFetcher;
+
+    public function __construct($pageFetcher)
+    {
+        $this->pageFetcher = $pageFetcher;
+    }
 
     /**
      * @return SubaccountPagedIterator
@@ -16,26 +21,31 @@ class SubaccountLister extends Lister
     }
 
     /**
+     * @param $pageSize int
      * @return SubaccountPage
      */
-    public function firstPage()
+    public function firstPage($pageSize = null)
     {
-        return parent::firstPage();
+        return $this->pageFetcher->fetchAfter(null, [], $pageSize);
     }
 
     /**
+     * @param $afterId int
+     * @param $pageSize int
      * @return SubaccountPage
      */
-    public function pageAfter($afterId)
+    public function pageAfter($afterId, $pageSize = null)
     {
-        return parent::pageAfter($afterId);
+        return $this->pageFetcher->fetchAfter($afterId, [], $pageSize);
     }
 
     /**
+     * @param $beforeId int
+     * @param $pageSize int
      * @return SubaccountPage
      */
-    public function pageBefore($beforeId)
+    public function pageBefore($beforeId, $pageSize = null)
     {
-        return parent::pageBefore($beforeId);
+        return $this->pageFetcher->fetchBefore($beforeId, [], $pageSize);
     }
 }

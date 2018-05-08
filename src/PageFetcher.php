@@ -9,9 +9,7 @@ class PageFetcher
      * @var \GuzzleHttp\Client
      */
     private $client;
-    private $pageSize;
     private $pageCreator;
-    private $queryParams = [];
 
     public function __construct($url, $client, $pageCreator)
     {
@@ -20,49 +18,31 @@ class PageFetcher
         $this->pageCreator = $pageCreator;
     }
 
-    public function fetchAfter($afterId = null)
+    public function fetchAfter($afterId, $queryParams, $pageSize)
     {
-        $query = [];
         if ($afterId !== null) {
-            $query['start_after_id'] = $afterId;
+            $queryParams['start_after_id'] = $afterId;
         }
-        return $this->fetch($query);
+        return $this->fetch($queryParams, $pageSize);
     }
 
-    public function fetchBefore($beforeId = null)
+    public function fetchBefore($beforeId, $queryParams, $pageSize)
     {
-        $query = [];
         if ($beforeId !== null) {
-            $query['end_before_id'] = $beforeId;
+            $queryParams['end_before_id'] = $beforeId;
         }
-        return $this->fetch($query);
+        return $this->fetch($queryParams, $pageSize);
     }
 
-    public function fetch($query)
+    public function fetch($queryParams, $pageSize)
     {
-        if ($this->pageSize) {
-            $query['limit'] = $this->pageSize;
+        if ($pageSize) {
+            $queryParams['limit'] = $pageSize;
         }
-        $res = $this->client->get($this->url, ['query' => array_merge($query, $this->queryParams)]);
+        $res = $this->client->get($this->url, ['query' => $queryParams]);
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, $this->pageCreator->__invoke());
     }
 
-    /**
-     * @param $name string
-     * @param $value mixed
-     */
-    public function setQueryParam($name, $value)
-    {
-        $this->queryParams[$name] = $value;
-    }
-
-    /**
-     * @param $pageSize int
-     */
-    public function setPageSize($pageSize)
-    {
-        $this->pageSize = $pageSize;
-    }
 }

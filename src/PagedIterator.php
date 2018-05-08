@@ -12,15 +12,17 @@ class PagedIterator implements Iterator
      */
     private $currentPage;
     private $indexInCurrentPage = 0;
+    private $params;
 
     /**
      * @var PageFetcher
      */
     private $pageFetcher;
 
-    public function __construct($pageFetcher)
+    public function __construct($pageFetcher, $params = [])
     {
         $this->pageFetcher = $pageFetcher;
+        $this->params = $params;
     }
 
     public function current()
@@ -53,9 +55,9 @@ class PagedIterator implements Iterator
     private function getCurrentPage()
     {
         if (!$this->currentPage) {
-            $this->currentPage = $this->pageFetcher->fetchAfter(null);
+            $this->currentPage = $this->pageFetcher->fetchAfter(null, $this->params, null);
         } else if ($this->nextPageMustBeFetched()) {
-            $this->currentPage = $this->pageFetcher->fetchAfter($this->currentPage->nextPageStartsAfter);
+            $this->currentPage = $this->pageFetcher->fetchAfter($this->currentPage->nextPageStartsAfter, $this->params, null);
             $this->indexInCurrentPage = 0;
         }
         return $this->currentPage;
