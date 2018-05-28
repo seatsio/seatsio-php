@@ -24,6 +24,7 @@ class EventReportsTest extends SeatsioClientTest
         self::assertEquals(9, $reportItem->categoryKey);
         self::assertEquals("ticketType1", $reportItem->ticketType);
         self::assertEquals("order1", $reportItem->orderId);
+        self::assertEquals("seat", $reportItem->objectType);
         self::assertTrue($reportItem->forSale);
         self::assertNull($reportItem->section);
         self::assertNull($reportItem->entrance);
@@ -40,6 +41,7 @@ class EventReportsTest extends SeatsioClientTest
         $reportItem = $report["GA1"][0];
         self::assertEquals(100, $reportItem->capacity);
         self::assertEquals(5, $reportItem->numBooked);
+        self::assertEquals("generalAdmission", $reportItem->objectType);
     }
 
     public function testByStatus()

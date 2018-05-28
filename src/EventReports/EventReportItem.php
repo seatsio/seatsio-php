@@ -32,6 +32,10 @@ class EventReportItem
     /**
      * @var string
      */
+    public $objectType;
+    /**
+     * @var string
+     */
     public $section;
     /**
      * @var string
