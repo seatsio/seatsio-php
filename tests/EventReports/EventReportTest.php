@@ -30,6 +30,19 @@ class EventReportsTest extends SeatsioClientTest
         self::assertNull($reportItem->entrance);
     }
 
+    public function testHoldToken()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events()->create($chartKey);
+        $holdToken = $this->seatsioClient->holdTokens()->create();
+        $this->seatsioClient->events()->hold($event->key, "A-1", $holdToken->holdToken);
+
+        $report = $this->seatsioClient->eventReports()->byLabel($event->key);
+
+        $reportItem = $report["A-1"][0];
+        self::assertEquals("$holdToken->holdToken", $reportItem->holdToken);
+    }
+
     public function testReportItemPropertiesForGA()
     {
         $chartKey = $this->createTestChart();

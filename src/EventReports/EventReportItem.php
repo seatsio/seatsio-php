@@ -46,6 +46,10 @@ class EventReportItem
      */
     public $forSale;
     /**
+     * @var string
+     */
+    public $holdToken;
+    /**
      * @var int
      */
     public $capacity;
