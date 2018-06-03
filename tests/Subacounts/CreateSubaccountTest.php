@@ -9,7 +9,7 @@ class CreateSubaccountTest extends SeatsioClientTest
 
     public function test()
     {
-        $subaccount = $this->seatsioClient->subaccounts()->create('joske');
+        $subaccount = $this->seatsioClient->subaccounts->create('joske');
 
         self::assertNotEmpty($subaccount->secretKey);
         self::assertNotEmpty($subaccount->designerKey);
@@ -20,7 +20,7 @@ class CreateSubaccountTest extends SeatsioClientTest
 
     public function testNameIsOptional()
     {
-        $subaccount = $this->seatsioClient->subaccounts()->create();
+        $subaccount = $this->seatsioClient->subaccounts->create();
 
         self::assertNull($subaccount->name);
     }

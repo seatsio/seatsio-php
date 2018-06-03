@@ -9,11 +9,11 @@ class DeactivateSubaccountTest extends SeatsioClientTest
 
     public function test()
     {
-        $subaccount = $this->seatsioClient->subaccounts()->create();
+        $subaccount = $this->seatsioClient->subaccounts->create();
 
-        $this->seatsioClient->subaccounts()->deactivate($subaccount->id);
+        $this->seatsioClient->subaccounts->deactivate($subaccount->id);
 
-        $retrievedSubaccount = $this->seatsioClient->subaccounts()->retrieve($subaccount->id);
+        $retrievedSubaccount = $this->seatsioClient->subaccounts->retrieve($subaccount->id);
         self::assertFalse($retrievedSubaccount->active);
     }
 }

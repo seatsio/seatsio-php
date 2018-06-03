@@ -9,9 +9,9 @@ class RegenerateDesignerKeyTest extends SeatsioClientTest
 
     public function test()
     {
-        $subaccount = $this->seatsioClient->subaccounts()->create();
+        $subaccount = $this->seatsioClient->subaccounts->create();
 
-        $newDesignerKey = $this->seatsioClient->subaccounts()->regenerateDesignerKey($subaccount->id);
+        $newDesignerKey = $this->seatsioClient->subaccounts->regenerateDesignerKey($subaccount->id);
 
         self::assertNotNull($newDesignerKey);
         self::assertNotEquals($subaccount->designerKey, $newDesignerKey);

@@ -9,9 +9,9 @@ class RetrieveSubaccountTest extends SeatsioClientTest
 
     public function test()
     {
-        $subaccount = $this->seatsioClient->subaccounts()->create('joske');
+        $subaccount = $this->seatsioClient->subaccounts->create('joske');
 
-        $retrievedSubaccount = $this->seatsioClient->subaccounts()->retrieve($subaccount->id);
+        $retrievedSubaccount = $this->seatsioClient->subaccounts->retrieve($subaccount->id);
 
         self::assertEquals($subaccount->id, $retrievedSubaccount->id);
         self::assertNotEmpty($retrievedSubaccount->secretKey);

@@ -12,12 +12,12 @@ class ListStatusChangesTest extends SeatsioClientTest
     public function test()
     {
         $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events()->create($chartKey);
-        $this->seatsioClient->events()->book($event->key, "A-1");
-        $this->seatsioClient->events()->book($event->key, "A-2");
-        $this->seatsioClient->events()->book($event->key, "A-3");
+        $event = $this->seatsioClient->events->create($chartKey);
+        $this->seatsioClient->events->book($event->key, "A-1");
+        $this->seatsioClient->events->book($event->key, "A-2");
+        $this->seatsioClient->events->book($event->key, "A-3");
 
-        $statusChanges = $this->seatsioClient->events()->statusChanges($event->key)->all();
+        $statusChanges = $this->seatsioClient->events->statusChanges($event->key)->all();
         $objectIds = \Functional\map($statusChanges, function ($statusChange) {
             return $statusChange->objectLabel;
         });
@@ -28,11 +28,11 @@ class ListStatusChangesTest extends SeatsioClientTest
     public function testPropertiesOfStatusChange()
     {
         $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events()->create($chartKey);
+        $event = $this->seatsioClient->events->create($chartKey);
         $object = (new ObjectProperties("A-1"))->setExtraData(["foo" => "bar"]);
-        $this->seatsioClient->events()->book($event->key, $object, null, "orderId");
+        $this->seatsioClient->events->book($event->key, $object, null, "orderId");
 
-        $statusChanges = $this->seatsioClient->events()->statusChanges($event->key)->all();
+        $statusChanges = $this->seatsioClient->events->statusChanges($event->key)->all();
         $statusChange = $statusChanges->current();
 
         self::assertNotNull($statusChange->id);

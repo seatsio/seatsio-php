@@ -9,11 +9,11 @@ class RetrieveDraftVersionThumbnailTest extends SeatsioClientTest
 
     public function test()
     {
-        $chart = $this->seatsioClient->charts()->create();
-        $this->seatsioClient->events()->create($chart->key);
-        $this->seatsioClient->charts()->update($chart->key, 'newName');
+        $chart = $this->seatsioClient->charts->create();
+        $this->seatsioClient->events->create($chart->key);
+        $this->seatsioClient->charts->update($chart->key, 'newName');
 
-        $retrievedChartThumbnail = $this->seatsioClient->charts()->retrieveDraftVersionThumbnail($chart->key);
+        $retrievedChartThumbnail = $this->seatsioClient->charts->retrieveDraftVersionThumbnail($chart->key);
 
         self::assertContains('<!DOCTYPE svg', (string)$retrievedChartThumbnail);
     }

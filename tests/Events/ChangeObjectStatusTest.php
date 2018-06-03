@@ -10,34 +10,34 @@ class ChangeObjectStatusTest extends SeatsioClientTest
     public function testObjectIdAsString()
     {
         $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events()->create($chartKey);
+        $event = $this->seatsioClient->events->create($chartKey);
 
-        $this->seatsioClient->events()->changeObjectStatus($event->key, "A-1", "lolzor");
+        $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", "lolzor");
 
-        $objectStatus = $this->seatsioClient->events()->retrieveObjectStatus($event->key, "A-1");
+        $objectStatus = $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-1");
         self::assertEquals("lolzor", $objectStatus->status);
     }
 
     public function testObjectIdInsideObject()
     {
         $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events()->create($chartKey);
+        $event = $this->seatsioClient->events->create($chartKey);
 
-        $this->seatsioClient->events()->changeObjectStatus($event->key, new ObjectProperties("A-1"), "lolzor");
+        $this->seatsioClient->events->changeObjectStatus($event->key, new ObjectProperties("A-1"), "lolzor");
 
-        $objectStatus = $this->seatsioClient->events()->retrieveObjectStatus($event->key, "A-1");
+        $objectStatus = $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-1");
         self::assertEquals("lolzor", $objectStatus->status);
     }
 
     public function testHoldToken()
     {
         $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events()->create($chartKey);
-        $holdToken = $this->seatsioClient->holdTokens()->create();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $holdToken = $this->seatsioClient->holdTokens->create();
 
-        $this->seatsioClient->events()->changeObjectStatus($event->key, "A-1", ObjectStatus::$HELD, $holdToken->holdToken);
+        $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", ObjectStatus::$HELD, $holdToken->holdToken);
 
-        $objectStatus = $this->seatsioClient->events()->retrieveObjectStatus($event->key, "A-1");
+        $objectStatus = $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-1");
         self::assertEquals(ObjectStatus::$HELD, $objectStatus->status);
         self::assertEquals($holdToken->holdToken, $objectStatus->holdToken);
     }
@@ -45,11 +45,11 @@ class ChangeObjectStatusTest extends SeatsioClientTest
     public function testOrderId()
     {
         $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events()->create($chartKey);
+        $event = $this->seatsioClient->events->create($chartKey);
 
-        $this->seatsioClient->events()->changeObjectStatus($event->key, "A-1", "lolzor", null, "order1");
+        $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", "lolzor", null, "order1");
 
-        $objectStatus = $this->seatsioClient->events()->retrieveObjectStatus($event->key, "A-1");
+        $objectStatus = $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-1");
         self::assertEquals("order1", $objectStatus->orderId);
     }
 

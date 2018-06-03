@@ -9,10 +9,10 @@ class RetrieveChartTest extends SeatsioClientTest
 
     public function test()
     {
-        $chart = $this->seatsioClient->charts()->create();
-        $this->seatsioClient->charts()->addTag($chart->key, "tag1");
+        $chart = $this->seatsioClient->charts->create();
+        $this->seatsioClient->charts->addTag($chart->key, "tag1");
 
-        $retrievedChart = $this->seatsioClient->charts()->retrieve($chart->key);
+        $retrievedChart = $this->seatsioClient->charts->retrieve($chart->key);
 
         self::assertEquals($chart->key, $retrievedChart->key);
         self::assertNotNull($retrievedChart->id);
@@ -27,11 +27,11 @@ class RetrieveChartTest extends SeatsioClientTest
 
     public function testRetrieveWithEvents()
     {
-        $chart = $this->seatsioClient->charts()->create();
-        $event1 = $this->seatsioClient->events()->create($chart->key);
-        $event2 = $this->seatsioClient->events()->create($chart->key);
+        $chart = $this->seatsioClient->charts->create();
+        $event1 = $this->seatsioClient->events->create($chart->key);
+        $event2 = $this->seatsioClient->events->create($chart->key);
 
-        $retrievedChart = $this->seatsioClient->charts()->retrieveWithEvents($chart->key);
+        $retrievedChart = $this->seatsioClient->charts->retrieveWithEvents($chart->key);
 
         $eventIds = \Functional\map($retrievedChart->events, function ($event) {
             return $event->id;

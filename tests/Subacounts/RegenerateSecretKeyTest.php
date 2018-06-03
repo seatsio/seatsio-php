@@ -9,9 +9,9 @@ class RegenerateSecretKeyTest extends SeatsioClientTest
 
     public function test()
     {
-        $subaccount = $this->seatsioClient->subaccounts()->create();
+        $subaccount = $this->seatsioClient->subaccounts->create();
 
-        $newSecretKey = $this->seatsioClient->subaccounts()->regenerateSecretKey($subaccount->id);
+        $newSecretKey = $this->seatsioClient->subaccounts->regenerateSecretKey($subaccount->id);
 
         self::assertNotNull($newSecretKey);
         self::assertNotEquals($subaccount->secretKey, $newSecretKey);

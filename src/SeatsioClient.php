@@ -15,57 +15,47 @@ class SeatsioClient
 {
     private $client;
 
+    /**
+     * @var Charts
+     */
+    public $charts;
+
+    /**
+     * @var Events
+     */
+    public $events;
+
+    /**
+     * @var EventReports
+     */
+    public $eventReports;
+
+    /**
+     * @var Subaccounts
+     */
+    public $subaccounts;
+
+    /**
+     * @var HoldTokens
+     */
+    public $holdTokens;
+
     public function __construct($secretKey, $baseUrl = 'https://api.seats.io/')
     {
         $stack = HandlerStack::create();
         $stack->push(self::errorHandler());
-        $this->client = new Client([
+        $client = new Client([
             'base_uri' => $baseUrl,
             'auth' => [$secretKey, null],
             'http_errors' => false,
             'handler' => $stack,
             'headers' => ['Accept-Encoding' => 'gzip']
         ]);
-    }
-
-    /**
-     * @return Charts
-     */
-    public function charts()
-    {
-        return new Charts($this->client);
-    }
-
-    /**
-     * @return Events
-     */
-    public function events()
-    {
-        return new Events($this->client);
-    }
-
-    /**
-     * @return EventReports
-     */
-    public function eventReports()
-    {
-        return new EventReports($this->client);
-    }
-
-    /**
-     * @return Subaccounts
-     */
-    public function subaccounts()
-    {
-        return new Subaccounts($this->client);
-    }
-
-    /**
-     * @return HoldTokens
-     */
-    public function holdTokens()
-    {
-        return new HoldTokens($this->client);
+        $this->charts = new Charts($client);
+        $this->events = new Events($client);
+        $this->eventReports = new EventReports($client);
+        $this->subaccounts = new Subaccounts($client);
+        $this->holdTokens = new HoldTokens($client);
     }
 
     private function errorHandler()

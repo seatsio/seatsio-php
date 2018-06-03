@@ -9,7 +9,7 @@ class CreateHoldTokenTest extends SeatsioClientTest
 
     public function test()
     {
-        $holdToken = $this->seatsioClient->holdTokens()->create();
+        $holdToken = $this->seatsioClient->holdTokens->create();
 
         self::assertNotEmpty($holdToken->holdToken);
         self::assertNotEmpty($holdToken->expiresAt);

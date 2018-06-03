@@ -10,9 +10,9 @@ class CreateEventTest extends SeatsioClientTest
 
     public function testOnlyChartKeyIsRequired()
     {
-        $chart = $this->seatsioClient->charts()->create();
+        $chart = $this->seatsioClient->charts->create();
 
-        $event = $this->seatsioClient->events()->create($chart->key);
+        $event = $this->seatsioClient->events->create($chart->key);
 
         self::assertNotNull($event->key);
         self::assertNotNull($event->id);
@@ -25,18 +25,18 @@ class CreateEventTest extends SeatsioClientTest
 
     public function testEventKeyCanBePassedIn()
     {
-        $chart = $this->seatsioClient->charts()->create();
+        $chart = $this->seatsioClient->charts->create();
 
-        $event = $this->seatsioClient->events()->create($chart->key, 'eventje');
+        $event = $this->seatsioClient->events->create($chart->key, 'eventje');
 
         self::assertEquals('eventje', $event->key);
     }
 
     public function testBookWholeTablesCanBePassedIn()
     {
-        $chart = $this->seatsioClient->charts()->create();
+        $chart = $this->seatsioClient->charts->create();
 
-        $event = $this->seatsioClient->events()->create($chart->key, null, false);
+        $event = $this->seatsioClient->events->create($chart->key, null, false);
 
         self::assertNotNull($event->key);
         self::assertFalse($event->bookWholeTables);
