@@ -13,7 +13,7 @@ class HoldObjectsTest extends SeatsioClientTest
         $event = $this->seatsioClient->events->create($chartKey);
         $holdToken = $this->seatsioClient->holdTokens->create();
 
-        $this->seatsioClient->events->hold($event->key, ["A-1", "A-2"], $holdToken->holdToken);
+        $res = $this->seatsioClient->events->hold($event->key, ["A-1", "A-2"], $holdToken->holdToken);
 
         $status1 = $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-1");
         self::assertEquals(ObjectStatus::$HELD, $status1->status);
@@ -22,6 +22,8 @@ class HoldObjectsTest extends SeatsioClientTest
         $status2 = $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-2");
         self::assertEquals(ObjectStatus::$HELD, $status2->status);
         self::assertEquals($holdToken->holdToken, $status2->holdToken);
+
+        self::assertEquals(["A-1" => ["own" => "1", "row" => "A"], "A-2" => ["own" => "2", "row" => "A"]], $res->labels);
     }
 
     public function testOrderId()

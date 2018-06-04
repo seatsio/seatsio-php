@@ -4,29 +4,21 @@ namespace Seatsio\Events;
 
 use Seatsio\SeatsioJsonMapper;
 
-class BestAvailableObjects
+class ChangeObjectStatusResult
 {
-    /**
-     * @var string[]
-     */
-    public $objects;
     /**
      * @var array
      */
-    public $labels;
-    /**
-     * @var boolean
-     */
-    public $nextToEachOther;
+    var $labels;
 
     /**
      * @param $json
-     * @return BestAvailableObjects
+     * @return ChangeObjectStatusResult
      */
     static function fromJson($json)
     {
         $mapper = SeatsioJsonMapper::create();
-        $result = $mapper->map($json, new BestAvailableObjects());
+        $result = $mapper->map($json, new ChangeObjectStatusResult());
         array_walk($result->labels, function ($labels, $id) use ($result) {
             $result->labels[$id] = (array)$labels;
         });

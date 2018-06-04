@@ -218,7 +218,7 @@ class Events
      * @param $status string
      * @param $holdToken string
      * @param $orderId string
-     * @return void
+     * @return ChangeObjectStatusResult
      */
     public function changeObjectStatus($eventKeyOrKeys, $objectOrObjects, $status, $holdToken = null, $orderId = null)
     {
@@ -232,10 +232,12 @@ class Events
             $request->orderId = $orderId;
         }
         $request->events = is_array($eventKeyOrKeys) ? $eventKeyOrKeys : [$eventKeyOrKeys];
-        $this->client->post(
+        $res = $this->client->post(
             '/seasons/actions/change-object-status',
-            ['json' => $request]
+            ['json' => $request, 'query' => ['expand' => 'labels']]
         );
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        return ChangeObjectStatusResult::fromJson($json);
     }
 
     /**
@@ -243,11 +245,11 @@ class Events
      * @param $objectOrObjects mixed
      * @param $holdToken string
      * @param $orderId string
-     * @return void
+     * @return ChangeObjectStatusResult
      */
     public function book($eventKeyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null)
     {
-        $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$BOOKED, $holdToken, $orderId);
+        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$BOOKED, $holdToken, $orderId);
     }
 
     /**
@@ -268,11 +270,11 @@ class Events
      * @param $objectOrObjects mixed
      * @param $holdToken string
      * @param $orderId string
-     * @return void
+     * @return ChangeObjectStatusResult
      */
     public function release($eventKeyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null)
     {
-        $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$FREE, $holdToken, $orderId);
+        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$FREE, $holdToken, $orderId);
     }
 
     /**
@@ -280,11 +282,11 @@ class Events
      * @param $objectOrObjects mixed
      * @param $holdToken string
      * @param $orderId string
-     * @return void
+     * @return ChangeObjectStatusResult
      */
     public function hold($eventKeyOrKeys, $objectOrObjects, $holdToken, $orderId = null)
     {
-        $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$HELD, $holdToken, $orderId);
+        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$HELD, $holdToken, $orderId);
     }
 
     /**
@@ -334,8 +336,7 @@ class Events
             ['json' => $request]
         );
         $json = \GuzzleHttp\json_decode($res->getBody());
-        $mapper = SeatsioJsonMapper::create();
-        return $mapper->map($json, new BestAvailableObjects());
+        return BestAvailableObjects::fromJson($json);
     }
 
     private static function normalizeObjects($objectOrObjects)

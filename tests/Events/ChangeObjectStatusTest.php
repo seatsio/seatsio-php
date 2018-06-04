@@ -7,6 +7,16 @@ use Seatsio\SeatsioClientTest;
 class ChangeObjectStatusTest extends SeatsioClientTest
 {
 
+    public function test()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $result = $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", "lolzor");
+
+        self::assertEquals(["A-1" => ["own" => "1", "row" => "A"]], $result->labels);
+    }
+
     public function testObjectIdAsString()
     {
         $chartKey = $this->createTestChart();
