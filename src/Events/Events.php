@@ -75,6 +75,15 @@ class Events
     }
 
     /**
+     * @param $eventKey string
+     * @return void
+     */
+    public function delete($eventKey)
+    {
+        $this->client->delete(\GuzzleHttp\uri_template('/events/{key}', array("key" => $eventKey)));
+    }
+
+    /**
      * @return EventPagedIterator
      */
     public function listAll()
