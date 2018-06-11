@@ -19,8 +19,8 @@ class ChangeObjectStatusResult
     {
         $mapper = SeatsioJsonMapper::create();
         $result = $mapper->map($json, new ChangeObjectStatusResult());
-        array_walk($result->labels, function ($labels, $id) use ($result) {
-            $result->labels[$id] = (array)$labels;
+        array_walk($result->labels, function ($labels, $id) use ($mapper, $result) {
+            $result->labels[$id] = $mapper->map($labels, new Labels());
         });
         return $result;
     }

@@ -14,7 +14,9 @@ class ChangeObjectStatusTest extends SeatsioClientTest
 
         $result = $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", "lolzor");
 
-        self::assertEquals(["A-1" => ["own" => "1", "row" => "A"]], $result->labels);
+        self::assertEquals([
+            "A-1" => someLabels("1", "seat", "A", "row")
+        ], $result->labels);
     }
 
     public function testObjectIdAsString()

@@ -17,9 +17,9 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
         self::assertTrue($bestAvailableObjects->nextToEachOther);
         self::assertEquals(["B-4", "B-5", "B-6"], $bestAvailableObjects->objects, '', 0.0, 10, true);
         self::assertEquals([
-            "B-4" => ["own" => "4", "row" => "B"],
-            "B-5" => ["own" => "5", "row" => "B"],
-            "B-6" => ["own" => "6", "row" => "B"]
+            "B-4" => someLabels("4", "seat", "B", "row"),
+            "B-5" => someLabels("5", "seat", "B", "row"),
+            "B-6" => someLabels("6", "seat", "B", "row")
         ], $bestAvailableObjects->labels);
     }
 
