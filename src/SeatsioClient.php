@@ -40,7 +40,7 @@ class SeatsioClient
      */
     public $holdTokens;
 
-    public function __construct($secretKey, $baseUrl = 'https://api.seats.io/')
+    public function __construct($secretKey, $baseUrl = 'https://api.seatsio.net/')
     {
         $stack = HandlerStack::create();
         $stack->push(self::errorHandler());
