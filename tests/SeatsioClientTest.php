@@ -39,8 +39,18 @@ class SeatsioClientTest extends PHPUnit_Framework_TestCase
 
     protected function createTestChart()
     {
+        return $this->createTestChartFromFile('sampleChart.json');
+    }
+
+    protected function createTestChartWithSections()
+    {
+        return $this->createTestChartFromFile('sampleChartWithSections.json');
+    }
+
+    private function createTestChartFromFile($file)
+    {
         $client = new Client();
-        $requestBody = file_get_contents(dirname(__FILE__) . '/sampleChart.json');
+        $requestBody = file_get_contents(dirname(__FILE__) . '/' . $file);
         $chartKey = self::uuid();
         $client->post(
             self::$BASE_URL . 'system/public/' . $this->user->designerKey . '/charts/' . $chartKey,

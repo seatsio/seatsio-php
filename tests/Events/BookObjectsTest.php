@@ -23,6 +23,22 @@ class BookObjectsTest extends SeatsioClientTest
         ], $res->labels);
     }
 
+    public function testSections()
+    {
+        $chartKey = $this->createTestChartWithSections();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $res = $this->seatsioClient->events->book($event->key, ["Section A-A-1", "Section A-A-2"]);
+
+        self::assertEquals(ObjectStatus::$BOOKED, $this->seatsioClient->events->retrieveObjectStatus($event->key, "Section A-A-1")->status);
+        self::assertEquals(ObjectStatus::$BOOKED, $this->seatsioClient->events->retrieveObjectStatus($event->key, "Section A-A-2")->status);
+
+        self::assertEquals([
+            "Section A-A-1" => someLabels("1", "seat", "A", "row", "Section A", "Entrance 1"),
+            "Section A-A-2" => someLabels("2", "seat", "A", "row", "Section A", "Entrance 1")
+        ], $res->labels);
+    }
+
     public function testHoldToken()
     {
         $chartKey = $this->createTestChart();

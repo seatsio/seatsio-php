@@ -1,0 +1,1021 @@
+{
+  "name": "Sample chart with sections",
+  "tablesLabelCounter": 1,
+  "uuidCounter": 101,
+  "categories": {
+    "list": [
+      {
+        "label": "cat1",
+        "color": "#AEDB54",
+        "accessible": false,
+        "key": 1
+      },
+      {
+        "label": "cat2",
+        "color": "#AFCA54",
+        "accessible": false,
+        "key": 4
+      }
+    ],
+    "maxCategoryKey": 11
+  },
+  "rowSpacing": 8,
+  "version": 17,
+  "venueType": "ROWS_WITH_SECTIONS",
+  "sectionScaleFactor": 100,
+  "subChart": {
+    "height": 276,
+    "width": 303,
+    "tables": [],
+    "texts": [],
+    "rows": [],
+    "shapes": [],
+    "booths": [],
+    "generalAdmissionAreas": [],
+    "sections": [
+      {
+        "points": [
+          {
+            "x": 0.75,
+            "y": 0.75
+          },
+          {
+            "x": 0.75,
+            "y": 240.75
+          },
+          {
+            "x": 132.75,
+            "y": 240.75
+          },
+          {
+            "x": 132.75,
+            "y": 0.75
+          }
+        ],
+        "label": "Section A",
+        "labelSize": 12,
+        "labelHorizontalOffset": 0,
+        "labelVerticalOffset": 0,
+        "labelRotationAngle": 0,
+        "uuid": "uuid2",
+        "categoryLabel": "cat1",
+        "categoryKey": 1,
+        "topLeft": {
+          "x": 0,
+          "y": 0
+        },
+        "entrance": "Entrance 1",
+        "viewFromYourSeatImage": null,
+        "subChart": {
+          "height": 242,
+          "width": 134,
+          "tables": [],
+          "texts": [],
+          "rows": [
+            {
+              "label": "A",
+              "seatLabeling": {
+                "algoName": "SimpleNumbers",
+                "startAtIndex": null,
+                "isInverted": null
+              },
+              "objectLabeling": {
+                "algoName": "SimpleLettersUppercase",
+                "prefix": null,
+                "startAtIndex": null
+              },
+              "seats": [
+                {
+                  "x": 18.25,
+                  "y": 41.25,
+                  "label": "1",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid5"
+                },
+                {
+                  "x": 38.25,
+                  "y": 41.25,
+                  "label": "2",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid6"
+                },
+                {
+                  "x": 58.25,
+                  "y": 41.25,
+                  "label": "3",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid7"
+                },
+                {
+                  "x": 78.25,
+                  "y": 41.25,
+                  "label": "4",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid8"
+                },
+                {
+                  "x": 98.25,
+                  "y": 41.25,
+                  "label": "5",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid9"
+                },
+                {
+                  "x": 118.25,
+                  "y": 41.25,
+                  "label": "6",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid10"
+                }
+              ],
+              "curve": 0,
+              "chairSpacing": 4,
+              "objectType": "row",
+              "uuid": "uuid12"
+            },
+            {
+              "label": "B",
+              "seatLabeling": {
+                "algoName": "SimpleNumbers",
+                "startAtIndex": null,
+                "isInverted": null
+              },
+              "objectLabeling": {
+                "algoName": "SimpleLettersUppercase",
+                "prefix": null,
+                "startAtIndex": null
+              },
+              "seats": [
+                {
+                  "x": 18.25,
+                  "y": 65.25,
+                  "label": "1",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid13"
+                },
+                {
+                  "x": 38.25,
+                  "y": 65.25,
+                  "label": "2",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid14"
+                },
+                {
+                  "x": 58.25,
+                  "y": 65.25,
+                  "label": "3",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid15"
+                },
+                {
+                  "x": 78.25,
+                  "y": 65.25,
+                  "label": "4",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid16"
+                },
+                {
+                  "x": 98.25,
+                  "y": 65.25,
+                  "label": "5",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid17"
+                },
+                {
+                  "x": 118.25,
+                  "y": 65.25,
+                  "label": "6",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid18"
+                }
+              ],
+              "curve": 0,
+              "chairSpacing": 4,
+              "objectType": "row",
+              "uuid": "uuid20"
+            },
+            {
+              "label": "C",
+              "seatLabeling": {
+                "algoName": "SimpleNumbers",
+                "startAtIndex": null,
+                "isInverted": null
+              },
+              "objectLabeling": {
+                "algoName": "SimpleLettersUppercase",
+                "prefix": null,
+                "startAtIndex": null
+              },
+              "seats": [
+                {
+                  "x": 18.25,
+                  "y": 89.25,
+                  "label": "1",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid21"
+                },
+                {
+                  "x": 38.25,
+                  "y": 89.25,
+                  "label": "2",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid22"
+                },
+                {
+                  "x": 58.25,
+                  "y": 89.25,
+                  "label": "3",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid23"
+                },
+                {
+                  "x": 78.25,
+                  "y": 89.25,
+                  "label": "4",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid24"
+                },
+                {
+                  "x": 98.25,
+                  "y": 89.25,
+                  "label": "5",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid25"
+                },
+                {
+                  "x": 118.25,
+                  "y": 89.25,
+                  "label": "6",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid26"
+                }
+              ],
+              "curve": 0,
+              "chairSpacing": 4,
+              "objectType": "row",
+              "uuid": "uuid28"
+            },
+            {
+              "label": "D",
+              "seatLabeling": {
+                "algoName": "SimpleNumbers",
+                "startAtIndex": null,
+                "isInverted": null
+              },
+              "objectLabeling": {
+                "algoName": "SimpleLettersUppercase",
+                "prefix": null,
+                "startAtIndex": null
+              },
+              "seats": [
+                {
+                  "x": 18.25,
+                  "y": 113.25,
+                  "label": "1",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid29"
+                },
+                {
+                  "x": 38.25,
+                  "y": 113.25,
+                  "label": "2",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid30"
+                },
+                {
+                  "x": 58.25,
+                  "y": 113.25,
+                  "label": "3",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid31"
+                },
+                {
+                  "x": 78.25,
+                  "y": 113.25,
+                  "label": "4",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid32"
+                },
+                {
+                  "x": 98.25,
+                  "y": 113.25,
+                  "label": "5",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid33"
+                },
+                {
+                  "x": 118.25,
+                  "y": 113.25,
+                  "label": "6",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid34"
+                }
+              ],
+              "curve": 0,
+              "chairSpacing": 4,
+              "objectType": "row",
+              "uuid": "uuid36"
+            },
+            {
+              "label": "E",
+              "seatLabeling": {
+                "algoName": "SimpleNumbers",
+                "startAtIndex": null,
+                "isInverted": null
+              },
+              "objectLabeling": {
+                "algoName": "SimpleLettersUppercase",
+                "prefix": null,
+                "startAtIndex": null
+              },
+              "seats": [
+                {
+                  "x": 18.25,
+                  "y": 137.25,
+                  "label": "1",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid37"
+                },
+                {
+                  "x": 38.25,
+                  "y": 137.25,
+                  "label": "2",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid38"
+                },
+                {
+                  "x": 58.25,
+                  "y": 137.25,
+                  "label": "3",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid39"
+                },
+                {
+                  "x": 78.25,
+                  "y": 137.25,
+                  "label": "4",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid40"
+                },
+                {
+                  "x": 98.25,
+                  "y": 137.25,
+                  "label": "5",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid41"
+                },
+                {
+                  "x": 118.25,
+                  "y": 137.25,
+                  "label": "6",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid42"
+                }
+              ],
+              "curve": 0,
+              "chairSpacing": 4,
+              "objectType": "row",
+              "uuid": "uuid44"
+            },
+            {
+              "label": "F",
+              "seatLabeling": {
+                "algoName": "SimpleNumbers",
+                "startAtIndex": null,
+                "isInverted": null
+              },
+              "objectLabeling": {
+                "algoName": "SimpleLettersUppercase",
+                "prefix": null,
+                "startAtIndex": null
+              },
+              "seats": [
+                {
+                  "x": 18.25,
+                  "y": 161.25,
+                  "label": "1",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid45"
+                },
+                {
+                  "x": 38.25,
+                  "y": 161.25,
+                  "label": "2",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid46"
+                },
+                {
+                  "x": 58.25,
+                  "y": 161.25,
+                  "label": "3",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid47"
+                },
+                {
+                  "x": 78.25,
+                  "y": 161.25,
+                  "label": "4",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid48"
+                },
+                {
+                  "x": 98.25,
+                  "y": 161.25,
+                  "label": "5",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid49"
+                },
+                {
+                  "x": 118.25,
+                  "y": 161.25,
+                  "label": "6",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid50"
+                }
+              ],
+              "curve": 0,
+              "chairSpacing": 4,
+              "objectType": "row",
+              "uuid": "uuid52"
+            }
+          ],
+          "shapes": [],
+          "booths": [],
+          "generalAdmissionAreas": []
+        }
+      },
+      {
+        "points": [
+          {
+            "x": 190.69,
+            "y": 0.75
+          },
+          {
+            "x": 190.69,
+            "y": 240.75
+          },
+          {
+            "x": 302.69,
+            "y": 240.75
+          },
+          {
+            "x": 302.69,
+            "y": 0.75
+          }
+        ],
+        "label": "Section B",
+        "labelSize": 12,
+        "labelHorizontalOffset": 0,
+        "labelVerticalOffset": 0,
+        "labelRotationAngle": 0,
+        "uuid": "uuid4",
+        "categoryLabel": "cat2",
+        "categoryKey": 4,
+        "topLeft": {
+          "x": 189.94,
+          "y": 0
+        },
+        "entrance": "Entrance 2",
+        "viewFromYourSeatImage": null,
+        "subChart": {
+          "height": 242,
+          "width": 114,
+          "tables": [],
+          "texts": [],
+          "rows": [
+            {
+              "label": "A",
+              "seatLabeling": {
+                "algoName": "SimpleNumbers",
+                "startAtIndex": null,
+                "isInverted": null
+              },
+              "objectLabeling": {
+                "algoName": "SimpleLettersUppercase",
+                "prefix": null,
+                "startAtIndex": null
+              },
+              "seats": [
+                {
+                  "x": 16.25,
+                  "y": 45.25,
+                  "label": "1",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid53"
+                },
+                {
+                  "x": 36.25,
+                  "y": 45.25,
+                  "label": "2",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid54"
+                },
+                {
+                  "x": 56.25,
+                  "y": 45.25,
+                  "label": "3",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid55"
+                },
+                {
+                  "x": 76.25,
+                  "y": 45.25,
+                  "label": "4",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid56"
+                },
+                {
+                  "x": 96.25,
+                  "y": 45.25,
+                  "label": "5",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid57"
+                }
+              ],
+              "curve": 0,
+              "chairSpacing": 4,
+              "objectType": "row",
+              "uuid": "uuid59"
+            },
+            {
+              "label": "B",
+              "seatLabeling": {
+                "algoName": "SimpleNumbers",
+                "startAtIndex": null,
+                "isInverted": null
+              },
+              "objectLabeling": {
+                "algoName": "SimpleLettersUppercase",
+                "prefix": null,
+                "startAtIndex": null
+              },
+              "seats": [
+                {
+                  "x": 16.25,
+                  "y": 69.25,
+                  "label": "1",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid60"
+                },
+                {
+                  "x": 36.25,
+                  "y": 69.25,
+                  "label": "2",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid61"
+                },
+                {
+                  "x": 56.25,
+                  "y": 69.25,
+                  "label": "3",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid62"
+                },
+                {
+                  "x": 76.25,
+                  "y": 69.25,
+                  "label": "4",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid63"
+                },
+                {
+                  "x": 96.25,
+                  "y": 69.25,
+                  "label": "5",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid64"
+                }
+              ],
+              "curve": 0,
+              "chairSpacing": 4,
+              "objectType": "row",
+              "uuid": "uuid66"
+            },
+            {
+              "label": "C",
+              "seatLabeling": {
+                "algoName": "SimpleNumbers",
+                "startAtIndex": null,
+                "isInverted": null
+              },
+              "objectLabeling": {
+                "algoName": "SimpleLettersUppercase",
+                "prefix": null,
+                "startAtIndex": null
+              },
+              "seats": [
+                {
+                  "x": 16.25,
+                  "y": 93.25,
+                  "label": "1",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid67"
+                },
+                {
+                  "x": 36.25,
+                  "y": 93.25,
+                  "label": "2",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid68"
+                },
+                {
+                  "x": 56.25,
+                  "y": 93.25,
+                  "label": "3",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid69"
+                },
+                {
+                  "x": 76.25,
+                  "y": 93.25,
+                  "label": "4",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid70"
+                },
+                {
+                  "x": 96.25,
+                  "y": 93.25,
+                  "label": "5",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid71"
+                }
+              ],
+              "curve": 0,
+              "chairSpacing": 4,
+              "objectType": "row",
+              "uuid": "uuid73"
+            },
+            {
+              "label": "D",
+              "seatLabeling": {
+                "algoName": "SimpleNumbers",
+                "startAtIndex": null,
+                "isInverted": null
+              },
+              "objectLabeling": {
+                "algoName": "SimpleLettersUppercase",
+                "prefix": null,
+                "startAtIndex": null
+              },
+              "seats": [
+                {
+                  "x": 16.25,
+                  "y": 117.25,
+                  "label": "1",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid74"
+                },
+                {
+                  "x": 36.25,
+                  "y": 117.25,
+                  "label": "2",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid75"
+                },
+                {
+                  "x": 56.25,
+                  "y": 117.25,
+                  "label": "3",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid76"
+                },
+                {
+                  "x": 76.25,
+                  "y": 117.25,
+                  "label": "4",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid77"
+                },
+                {
+                  "x": 96.25,
+                  "y": 117.25,
+                  "label": "5",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid78"
+                }
+              ],
+              "curve": 0,
+              "chairSpacing": 4,
+              "objectType": "row",
+              "uuid": "uuid80"
+            },
+            {
+              "label": "E",
+              "seatLabeling": {
+                "algoName": "SimpleNumbers",
+                "startAtIndex": null,
+                "isInverted": null
+              },
+              "objectLabeling": {
+                "algoName": "SimpleLettersUppercase",
+                "prefix": null,
+                "startAtIndex": null
+              },
+              "seats": [
+                {
+                  "x": 16.25,
+                  "y": 141.25,
+                  "label": "1",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid81"
+                },
+                {
+                  "x": 36.25,
+                  "y": 141.25,
+                  "label": "2",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid82"
+                },
+                {
+                  "x": 56.25,
+                  "y": 141.25,
+                  "label": "3",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid83"
+                },
+                {
+                  "x": 76.25,
+                  "y": 141.25,
+                  "label": "4",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid84"
+                },
+                {
+                  "x": 96.25,
+                  "y": 141.25,
+                  "label": "5",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid85"
+                }
+              ],
+              "curve": 0,
+              "chairSpacing": 4,
+              "objectType": "row",
+              "uuid": "uuid87"
+            },
+            {
+              "label": "F",
+              "seatLabeling": {
+                "algoName": "SimpleNumbers",
+                "startAtIndex": null,
+                "isInverted": null
+              },
+              "objectLabeling": {
+                "algoName": "SimpleLettersUppercase",
+                "prefix": null,
+                "startAtIndex": null
+              },
+              "seats": [
+                {
+                  "x": 16.25,
+                  "y": 165.25,
+                  "label": "1",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid88"
+                },
+                {
+                  "x": 36.25,
+                  "y": 165.25,
+                  "label": "2",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid89"
+                },
+                {
+                  "x": 56.25,
+                  "y": 165.25,
+                  "label": "3",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid90"
+                },
+                {
+                  "x": 76.25,
+                  "y": 165.25,
+                  "label": "4",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid91"
+                },
+                {
+                  "x": 96.25,
+                  "y": 165.25,
+                  "label": "5",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid92"
+                }
+              ],
+              "curve": 0,
+              "chairSpacing": 4,
+              "objectType": "row",
+              "uuid": "uuid94"
+            },
+            {
+              "label": "G",
+              "seatLabeling": {
+                "algoName": "SimpleNumbers",
+                "startAtIndex": null,
+                "isInverted": null
+              },
+              "objectLabeling": {
+                "algoName": "SimpleLettersUppercase",
+                "prefix": null,
+                "startAtIndex": null
+              },
+              "seats": [
+                {
+                  "x": 16.25,
+                  "y": 189.25,
+                  "label": "1",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid95"
+                },
+                {
+                  "x": 36.25,
+                  "y": 189.25,
+                  "label": "2",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid96"
+                },
+                {
+                  "x": 56.25,
+                  "y": 189.25,
+                  "label": "3",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid97"
+                },
+                {
+                  "x": 76.25,
+                  "y": 189.25,
+                  "label": "4",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid98"
+                },
+                {
+                  "x": 96.25,
+                  "y": 189.25,
+                  "label": "5",
+                  "categoryLabel": null,
+                  "categoryAccessible": null,
+                  "categoryKey": null,
+                  "uuid": "uuid99"
+                }
+              ],
+              "curve": 0,
+              "chairSpacing": 4,
+              "objectType": "row",
+              "uuid": "uuid101"
+            }
+          ],
+          "shapes": [],
+          "booths": [],
+          "generalAdmissionAreas": []
+        }
+      }
+    ],
+    "focalPoint": null,
+    "backgroundImage": null,
+    "referenceChart": null,
+    "snapOffset": {
+      "x": 3.25,
+      "y": 3.25
+    }
+  }
+}

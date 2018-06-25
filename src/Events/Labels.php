@@ -19,6 +19,11 @@ class Labels
      */
     public $section;
 
+    /**
+     * @var Entrance
+     */
+    public $entrance;
+
 }
 
 class LabelAndType
@@ -34,4 +39,12 @@ class LabelAndType
      */
     public $label;
 
+}
+
+class Entrance
+{
+    /**
+     * @var string
+     */
+    public $label;
 }
