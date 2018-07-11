@@ -42,6 +42,19 @@ class ChangeObjectStatusForMultipleObjectsTest extends SeatsioClientTest
         self::assertEquals("lolzor", $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-2")->status);
     }
 
+    public function testArrayOfAssociativeArraysWithGeneralAdmissionAreas()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $objects = [["objectId" => "A-1"], ["objectId" => "GA1", "quantity" => 5]];
+
+        $this->seatsioClient->events->changeObjectStatus($event->key, $objects, "lolzor");
+
+        self::assertEquals("lolzor", $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-1")->status);
+
+        self::assertEquals(5, $this->seatsioClient->events->retrieveObjectStatus($event->key, "GA1")->quantity);
+    }
+
     public function testTicketType()
     {
         $chartKey = $this->createTestChart();
@@ -78,6 +91,24 @@ class ChangeObjectStatusForMultipleObjectsTest extends SeatsioClientTest
 
         $status2 = $this->seatsioClient->events->retrieveObjectStatus($event->key, "GA2");
         self::assertEquals(10, $status2->quantity);
+    }
+
+    public function testCombinationOfGAAndSeats()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $objects = [
+            (new ObjectProperties("GA1"))->setQuantity(5),
+            new ObjectProperties("A-1")
+        ];
+
+        $this->seatsioClient->events->changeObjectStatus($event->key, $objects, "lolzor");
+
+        $status1 = $this->seatsioClient->events->retrieveObjectStatus($event->key, "GA1");
+        self::assertEquals(5, $status1->quantity);
+
+        $status2 = $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-1");
+        self::assertEquals("lolzor", $status2->status);
     }
 
     public function testExtraData()
