@@ -50,6 +50,22 @@ $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
 $seatsio->events->book(<AN EVENT KEY>, ["A-1", "A-2"], <A HOLD TOKEN>);
 ```
 
+### Booking general admission areas
+
+Either
+
+```php
+$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
+$seatsio->events->book(<AN EVENT KEY>, ["GA1", "GA1", "GA1"]);
+```
+
+Or
+
+```php
+$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
+$seatsio->events->book(<AN EVENT KEY>, ["objectId" => "GA1", "quantity" => 3]);
+```
+
 ### Releasing objects
 
 Changes the object status to ‘free’. Free seats are selectable on a rendered chart.
