@@ -354,15 +354,15 @@ class Events
             if (count($objectOrObjects) === 0) {
                 return [];
             }
-            if ($objectOrObjects[0] instanceof ObjectProperties) {
-                return $objectOrObjects;
-            }
-            if (is_string($objectOrObjects[0])) {
-                return array_map(function ($object) {
+            return array_map(function($object) {
+                if($object instanceof ObjectProperties) {
+                    return $object;
+                }
+                if(is_string($object)) {
                     return ["objectId" => $object];
-                }, $objectOrObjects);
-            }
-            return $objectOrObjects;
+                }
+                return $object;
+            }, $objectOrObjects);
         }
         return self::normalizeObjects([$objectOrObjects]);
     }

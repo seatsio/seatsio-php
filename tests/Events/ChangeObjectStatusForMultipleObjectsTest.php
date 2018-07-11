@@ -55,6 +55,19 @@ class ChangeObjectStatusForMultipleObjectsTest extends SeatsioClientTest
         self::assertEquals(5, $this->seatsioClient->events->retrieveObjectStatus($event->key, "GA1")->quantity);
     }
 
+    public function testCombinationOfStringsAndAssociativeArrays()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $objects = ["A-1", ["objectId" => "GA1", "quantity" => 5]];
+
+        $this->seatsioClient->events->changeObjectStatus($event->key, $objects, "lolzor");
+
+        self::assertEquals("lolzor", $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-1")->status);
+
+        self::assertEquals(5, $this->seatsioClient->events->retrieveObjectStatus($event->key, "GA1")->quantity);
+    }
+
     public function testTicketType()
     {
         $chartKey = $this->createTestChart();
