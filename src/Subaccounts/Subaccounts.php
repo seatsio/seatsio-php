@@ -63,12 +63,16 @@ class Subaccounts
 
     /**
      * @var $email string
+     * @var $name string
      * @return Subaccount
      */
-    public function createWithEmail($email)
+    public function createWithEmail($email, $name = null)
     {
         $request = new \stdClass();
         $request->email = $email;
+        if ($name !== null) {
+            $request->name = $name;
+        }
         $res = $this->client->post('/subaccounts', ['json' => $request]);
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
