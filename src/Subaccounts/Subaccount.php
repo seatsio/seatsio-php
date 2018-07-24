@@ -25,6 +25,10 @@ class Subaccount
      */
     public $name;
     /**
+     * @var string
+     */
+    public $email;
+    /**
      * @var boolean
      */
     public $active;
