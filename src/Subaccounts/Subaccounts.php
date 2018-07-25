@@ -87,10 +87,15 @@ class Subaccounts
      * @var $name string
      * @return void
      */
-    public function update($id, $name)
+    public function update($id, $name = null, $email = null)
     {
         $request = new \stdClass();
-        $request->name = $name;
+        if ($name != null) {
+            $request->name = $name;
+        }
+        if ($email != null) {
+            $request->email = $email;
+        }
         $this->client->post('/subaccounts/' . $id, ['json' => $request]);
     }
 
