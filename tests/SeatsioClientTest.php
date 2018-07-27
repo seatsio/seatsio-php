@@ -31,14 +31,13 @@ class SeatsioClientTest extends PHPUnit_Framework_TestCase
     private function createTestAccount()
     {
         $client = new Client();
-        $requestBody = ['email' => $this->randomEmail(), 'password' => '12345678'];
-        $res = $client->post(self::$BASE_URL . 'system/public/users', ['json' => $requestBody]);
+        $res = $client->post(self::$BASE_URL . 'system/public/users/actions/create-test-user');
         return \GuzzleHttp\json_decode($res->getBody());
     }
 
     protected function randomEmail()
     {
-        return 'test' . rand() . '@seats.io';
+        return self::uuid() . '@mailinator.com';
     }
 
     protected function createTestChart()
