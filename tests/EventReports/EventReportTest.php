@@ -13,7 +13,8 @@ class EventReportsTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
-        $this->seatsioClient->events->book($event->key, (new ObjectProperties("A-1"))->setTicketType("ticketType1"), null, "order1");
+        $extraData = ["foo" => "bar"];
+        $this->seatsioClient->events->book($event->key, (new ObjectProperties("A-1"))->setTicketType("ticketType1")->setExtraData($extraData), null, "order1");
 
         $report = $this->seatsioClient->eventReports->byLabel($event->key);
 
@@ -28,6 +29,7 @@ class EventReportsTest extends SeatsioClientTest
         self::assertTrue($reportItem->forSale);
         self::assertNull($reportItem->section);
         self::assertNull($reportItem->entrance);
+        self::assertEquals((object)$extraData, $reportItem->extraData);
     }
 
     public function testHoldToken()

@@ -57,4 +57,8 @@ class EventReportItem
      * @var int
      */
     public $numBooked;
+    /**
+     * @var object
+     */
+    public $extraData;
 }
