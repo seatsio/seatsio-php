@@ -210,6 +210,21 @@ class Events
 
     /**
      * @param $eventKey string
+     * @param $extraDatas object|array
+     * @return void
+     */
+    public function updateExtraDatas($eventKey, $extraDatas)
+    {
+        $request = new \stdClass();
+        $request->extraData = $extraDatas;
+        $this->client->post(
+            \GuzzleHttp\uri_template('/events/{key}/actions/update-extra-data', ["key" => $eventKey]),
+            ['json' => $request]
+        );
+    }
+
+    /**
+     * @param $eventKey string
      * @param $object string
      * @return ObjectStatus
      */
