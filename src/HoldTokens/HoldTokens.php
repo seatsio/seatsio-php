@@ -18,11 +18,16 @@ class HoldTokens
     }
 
     /**
+     * @param $expiresInMinutes int
      * @return HoldToken
      */
-    public function create()
+    public function create($expiresInMinutes = null)
     {
-        $res = $this->client->post('/hold-tokens');
+        $request = new \stdClass();
+        if (!is_null($expiresInMinutes)) {
+            $request->expiresInMinutes = $expiresInMinutes;
+        }
+        $res = $this->client->post('/hold-tokens', ['json' => $request]);
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new HoldToken());
