@@ -19,6 +19,42 @@ class ChangeObjectStatusTest extends SeatsioClientTest
         ], $result->labels);
     }
 
+    public function testTableSeat()
+    {
+        $chartKey = $this->createTestChartWithTables();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $result = $this->seatsioClient->events->changeObjectStatus($event->key, "T1-1", "lolzor");
+
+        self::assertEquals([
+            "T1-1" => someLabels("1", "seat", "T1", "table")
+        ], $result->labels);
+    }
+
+    public function testTable()
+    {
+        $chartKey = $this->createTestChartWithTables();
+        $event = $this->seatsioClient->events->create($chartKey, null, true);
+
+        $result = $this->seatsioClient->events->changeObjectStatus($event->key, "T1", "lolzor");
+
+        self::assertEquals([
+            "T1" => someLabels("T1", "table")
+        ], $result->labels);
+    }
+
+    public function testGA()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $result = $this->seatsioClient->events->changeObjectStatus($event->key, "GA1", "lolzor");
+
+        self::assertEquals([
+            "GA1" => someLabels("GA1", "generalAdmission")
+        ], $result->labels);
+    }
+
     public function testObjectIdAsString()
     {
         $chartKey = $this->createTestChart();

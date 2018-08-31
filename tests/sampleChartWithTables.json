@@ -1,0 +1,126 @@
+{
+  "name": "Sample chart",
+  "tablesLabelCounter": 3,
+  "uuidCounter": 369,
+  "categories": {
+    "list": [
+      {
+        "label": "Cat1",
+        "color": "#87A9CD",
+        "accessible": false,
+        "key": 9
+      },
+      {
+        "label": "Cat2",
+        "color": "#5E42ED",
+        "accessible": false,
+        "key": 10
+      }
+    ],
+    "maxCategoryKey": 10
+  },
+  "version": 17,
+  "venueType": "ROWS_WITHOUT_SECTIONS",
+  "showAllButtons": false,
+  "sectionScaleFactor": 100,
+  "subChart": {
+    "height": 95,
+    "width": 442,
+    "tables": [
+      {
+        "center": {
+          "x": 35.74,
+          "y": 39.87
+        },
+        "radius": 23.8732414637843,
+        "autoRadius": true,
+        "seats": [
+          {
+            "x": 35.74,
+            "y": 70.75,
+            "label": "1",
+            "categoryLabel": null,
+            "categoryAccessible": null,
+            "categoryKey": null,
+            "uuid": "uuid9"
+          },
+          {
+            "x": 9,
+            "y": 55.31,
+            "label": "2",
+            "categoryLabel": null,
+            "categoryAccessible": null,
+            "categoryKey": null,
+            "uuid": "uuid10"
+          },
+          {
+            "x": 9,
+            "y": 24.44,
+            "label": "3",
+            "categoryLabel": null,
+            "categoryAccessible": null,
+            "categoryKey": null,
+            "uuid": "uuid11"
+          },
+          {
+            "x": 35.74,
+            "y": 9,
+            "label": "4",
+            "categoryLabel": null,
+            "categoryAccessible": null,
+            "categoryKey": null,
+            "uuid": "uuid12"
+          },
+          {
+            "x": 62.47,
+            "y": 24.44,
+            "label": "5",
+            "categoryLabel": null,
+            "categoryAccessible": null,
+            "categoryKey": null,
+            "uuid": "uuid13"
+          },
+          {
+            "x": 62.47,
+            "y": 55.31,
+            "label": "6",
+            "categoryLabel": null,
+            "categoryAccessible": null,
+            "categoryKey": null,
+            "uuid": "uuid14"
+          }
+        ],
+        "rotationAngle": 0,
+        "openSpaces": 0,
+        "label": "T1",
+        "seatLabeling": {
+          "algoName": "SimpleNumbers",
+          "startAtIndex": 0,
+          "isInverted": false
+        },
+        "objectLabeling": {
+          "algoName": "SimpleNumbers",
+          "prefix": "T",
+          "startAtIndex": 0
+        },
+        "type": "round",
+        "objectType": "table",
+        "uuid": "uuid8"
+      }
+    ],
+    "texts": [],
+    "rows": [],
+    "shapes": [],
+    "booths": [],
+    "generalAdmissionAreas": [],
+    "sections": [],
+    "focalPoint": {
+      "x": 223.89,
+      "y": 42.67
+    },
+    "snapOffset": {
+      "x": 0.06,
+      "y": 3
+    }
+  }
+}
