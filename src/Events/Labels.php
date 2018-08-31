@@ -10,17 +10,17 @@ class Labels
     public $own;
 
     /**
-     * @var LabelAndType
+     * @var LabelAndType|null
      */
     public $parent;
 
     /**
-     * @var string
+     * @var string|null
      */
     public $section;
 
     /**
-     * @var Entrance
+     * @var Entrance|null
      */
     public $entrance;
 
