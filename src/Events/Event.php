@@ -17,6 +17,10 @@ class Event
      */
     public $bookWholeTables;
     /**
+     * @var boolean
+     */
+    public $supportsBestAvailable;
+    /**
      * @var ForSaleConfig
      */
     public $forSaleConfig;
