@@ -9,16 +9,16 @@ class RetrieveEventTest extends SeatsioClientTest
 
     public function test()
     {
-        $chart = $this->seatsioClient->charts->create();
-        $event = $this->seatsioClient->events->create($chart->key);
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
 
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
 
         self::assertEquals($event->key, $retrievedEvent->key);
         self::assertEquals($event->id, $retrievedEvent->id);
-        self::assertEquals($chart->key, $retrievedEvent->chartKey);
+        self::assertEquals($chartKey, $retrievedEvent->chartKey);
         self::assertFalse($retrievedEvent->bookWholeTables);
-        self::assertFalse($retrievedEvent->supportsBestAvailable);
+        self::assertTrue($retrievedEvent->supportsBestAvailable);
         self::assertEquals($event->createdOn, $retrievedEvent->createdOn);
         self::assertNull($retrievedEvent->forSaleConfig);
         self::assertNull($retrievedEvent->updatedOn);
