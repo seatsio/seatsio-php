@@ -18,6 +18,7 @@ class CreateEventTest extends SeatsioClientTest
         self::assertNotNull($event->id);
         self::assertEquals($chart->key, $event->chartKey);
         self::assertFalse($event->bookWholeTables);
+        self::assertFalse($event->supportsBestAvailable);
         self::assertNotNull($event->createdOn);
         self::assertNull($event->forSaleConfig);
         self::assertNull($event->updatedOn);
