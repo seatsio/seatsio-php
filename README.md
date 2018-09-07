@@ -63,7 +63,7 @@ Or
 
 ```php
 $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
-$seatsio->events->book(<AN EVENT KEY>, ["objectId" => "GA1", "quantity" => 3]);
+$seatsio->events->book(<AN EVENT KEY>, [["objectId" => "GA1", "quantity" => 3]]);
 ```
 
 ### Releasing objects
