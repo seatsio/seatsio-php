@@ -12,5 +12,9 @@ class HoldToken {
      * @var \DateTime
      */
     public $expiresAt;
+    /**
+     * @var int
+     */
+    public $expiresInSeconds;
 
 }

@@ -21,6 +21,8 @@ class UpdateHoldTokenExpirationDateTest extends SeatsioClientTest
         self::assertEquals($holdToken->holdToken, $updatedHoldToken->holdToken);
         self::assertGreaterThanOrEqual($lowerBound, $updatedHoldToken->expiresAt);
         self::assertLessThanOrEqual($upperBound, $updatedHoldToken->expiresAt);
+        self::assertGreaterThanOrEqual(29 * 60, $updatedHoldToken->expiresInSeconds);
+        self::assertLessThanOrEqual(30 * 60, $updatedHoldToken->expiresInSeconds);
     }
 
 }

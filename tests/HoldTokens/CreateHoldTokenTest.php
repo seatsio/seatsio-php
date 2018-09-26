@@ -19,6 +19,8 @@ class CreateHoldTokenTest extends SeatsioClientTest
         self::assertNotEmpty($holdToken->holdToken);
         self::assertGreaterThanOrEqual($lowerBound, $holdToken->expiresAt);
         self::assertLessThanOrEqual($upperBound, $holdToken->expiresAt);
+        self::assertGreaterThanOrEqual(14 * 60, $holdToken->expiresInSeconds);
+        self::assertLessThanOrEqual(15 * 60, $holdToken->expiresInSeconds);
     }
 
     public function testExpiresInMinutes()
@@ -31,6 +33,8 @@ class CreateHoldTokenTest extends SeatsioClientTest
         self::assertNotEmpty($holdToken->holdToken);
         self::assertGreaterThanOrEqual($lowerBound, $holdToken->expiresAt);
         self::assertLessThanOrEqual($upperBound, $holdToken->expiresAt);
+        self::assertGreaterThanOrEqual(4 * 60, $holdToken->expiresInSeconds);
+        self::assertLessThanOrEqual(5 * 60, $holdToken->expiresInSeconds);
     }
 
 }
