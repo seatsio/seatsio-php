@@ -145,6 +145,9 @@ class EventReports
         if ($filter === null) {
             return $result;
         }
+        if (!isset($result[$filter])) {
+            return [];
+        }
         return $result[$filter];
     }
 
