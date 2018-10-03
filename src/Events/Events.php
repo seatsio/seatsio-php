@@ -261,7 +261,8 @@ class Events
             ['json' => $request, 'query' => ['expand' => 'labels']]
         );
         $json = \GuzzleHttp\json_decode($res->getBody());
-        return ChangeObjectStatusResult::fromJson($json);
+        $mapper = SeatsioJsonMapper::create();
+        return $mapper->map($json, new ChangeObjectStatusResult());
     }
 
     /**
@@ -360,7 +361,8 @@ class Events
             ['json' => $request]
         );
         $json = \GuzzleHttp\json_decode($res->getBody());
-        return BestAvailableObjects::fromJson($json);
+        $mapper = SeatsioJsonMapper::create();
+        return $mapper->map($json, new BestAvailableObjects());
     }
 
     private static function normalizeObjects($objectOrObjects)

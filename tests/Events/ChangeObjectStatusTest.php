@@ -48,10 +48,10 @@ class ChangeObjectStatusTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
 
-        $result = $this->seatsioClient->events->changeObjectStatus($event->key, "GA1", "lolzor");
+        $result = $this->seatsioClient->events->changeObjectStatus($event->key, "34", "lolzor");
 
         self::assertEquals([
-            "GA1" => someLabels("GA1", "generalAdmission")
+            "34" => someLabels("34", "generalAdmission")
         ], $result->labels);
     }
 
