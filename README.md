@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/seatsio/seatsio-php.svg?branch=master)](https://travis-ci.org/seatsio/seatsio-php)
 [![Latest Stable Version](https://poser.pugx.org/seatsio/seatsio-php/v/stable)](https://packagist.org/packages/seatsio/seatsio-php)
 
-This is the official PHP client library for the [Seats.io V2 REST API](https://www.seats.io/docs/api-v2).
+This is the official PHP client library for the [Seats.io V2 REST API](https://docs.seats.io/docs/api-overview).
 
 ## Installing seatsio-php
 
@@ -36,7 +36,7 @@ echo 'Created event with key ' . $event->key;
 
 Changes the object status to ‘booked’. Booked seats are not selectable on a rendered chart.
 
-[https://www.seats.io/docs/api-v2#core-resources-objects-book-objects](https://www.seats.io/docs/api-v2#core-resources-objects-book-objects)
+[https://docs.seats.io/docs/api-book-objects](https://docs.seats.io/docs/api-book-objects)
 
 ```php
 $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
@@ -70,7 +70,7 @@ $seatsio->events->book(<AN EVENT KEY>, [["objectId" => "GA1", "quantity" => 3]])
 
 Changes the object status to ‘free’. Free seats are selectable on a rendered chart.
 
-[https://www.seats.io/docs/api-v2#core-resources-objects-release-objects](https://www.seats.io/docs/api-v2#core-resources-objects-release-objects)
+[https://docs.seats.io/docs/api-release-objects](https://docs.seats.io/docs/api-release-objects)
 
 ```php
 $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
@@ -99,7 +99,7 @@ The report types you can choose from are:
 - byLabel
 - byOrderId
 
-[https://www.seats.io/docs/api-v2#core-resources-event-reports](https://www.seats.io/docs/api-v2#core-resources-event-reports)
+[https://docs.seats.io/docs/api-event-reports](https://docs.seats.io/docs/api-event-reports)
 
 ```php
 $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
