@@ -2,3 +2,5 @@
 /vendor/*
 /composer.phar
 *.iml
+.DS_store
+
