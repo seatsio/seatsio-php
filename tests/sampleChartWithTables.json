@@ -39,54 +39,54 @@
             "x": 35.74,
             "y": 70.75,
             "label": "1",
-            "categoryLabel": null,
+            "categoryLabel": "Cat1",
             "categoryAccessible": null,
-            "categoryKey": null,
+            "categoryKey": 9,
             "uuid": "uuid9"
           },
           {
             "x": 9,
             "y": 55.31,
             "label": "2",
-            "categoryLabel": null,
+            "categoryLabel": "Cat1",
             "categoryAccessible": null,
-            "categoryKey": null,
+            "categoryKey": 9,
             "uuid": "uuid10"
           },
           {
             "x": 9,
             "y": 24.44,
             "label": "3",
-            "categoryLabel": null,
+            "categoryLabel": "Cat1",
             "categoryAccessible": null,
-            "categoryKey": null,
+            "categoryKey": 9,
             "uuid": "uuid11"
           },
           {
             "x": 35.74,
             "y": 9,
             "label": "4",
-            "categoryLabel": null,
+            "categoryLabel": "Cat1",
             "categoryAccessible": null,
-            "categoryKey": null,
+            "categoryKey": 9,
             "uuid": "uuid12"
           },
           {
             "x": 62.47,
             "y": 24.44,
             "label": "5",
-            "categoryLabel": null,
+            "categoryLabel": "Cat1",
             "categoryAccessible": null,
-            "categoryKey": null,
+            "categoryKey": 9,
             "uuid": "uuid13"
           },
           {
             "x": 62.47,
             "y": 55.31,
             "label": "6",
-            "categoryLabel": null,
+            "categoryLabel": "Cat1",
             "categoryAccessible": null,
-            "categoryKey": null,
+            "categoryKey": 9,
             "uuid": "uuid14"
           }
         ],
