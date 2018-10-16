@@ -2,13 +2,16 @@
 
 namespace Seatsio\Reports;
 
-
 class ChartReportItem
 {
     /**
      * @var string
      */
     public $label;
+    /**
+     * @var \Seatsio\Common\Labels
+     */
+    var $labels;
     /**
      * @var string
      */

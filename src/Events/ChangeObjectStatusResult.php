@@ -5,7 +5,7 @@ namespace Seatsio\Events;
 class ChangeObjectStatusResult
 {
     /**
-     * @var array[Labels]
+     * @var array[\Seatsio\Common\Labels]
      */
     var $labels;
 

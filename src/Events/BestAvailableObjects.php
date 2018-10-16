@@ -9,7 +9,7 @@ class BestAvailableObjects
      */
     public $objects;
     /**
-     * @var array[Labels]
+     * @var array[\Seatsio\Common\Labels]
      */
     public $labels;
     /**

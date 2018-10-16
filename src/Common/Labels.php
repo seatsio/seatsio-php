@@ -1,6 +1,6 @@
 <?php
 
-namespace Seatsio\Events;
+namespace Seatsio\Common;
 
 class Labels
 {

@@ -21,6 +21,7 @@ class EventReportsTest extends SeatsioClientTest
         $reportItem = $report["A-1"][0];
         self::assertEquals(ObjectStatus::$BOOKED, $reportItem->status);
         self::assertEquals("A-1", $reportItem->label);
+        self::assertEquals(someLabels("1", "seat", "A", "row"), $reportItem->labels);
         self::assertEquals("Cat1", $reportItem->categoryLabel);
         self::assertEquals(9, $reportItem->categoryKey);
         self::assertEquals("ticketType1", $reportItem->ticketType);

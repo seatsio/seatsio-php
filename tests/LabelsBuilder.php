@@ -1,6 +1,8 @@
 <?php
 
-namespace Seatsio\Events;
+use Seatsio\Common\Entrance;
+use Seatsio\Common\LabelAndType;
+use Seatsio\Common\Labels;
 
 function someLabels($ownLabel, $ownType, $parentLabel = null, $parentType = null, $section = null, $entrance = null)
 {
