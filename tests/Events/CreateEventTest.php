@@ -26,21 +26,32 @@ class CreateEventTest extends SeatsioClientTest
 
     public function testEventKeyCanBePassedIn()
     {
-        $chart = $this->seatsioClient->charts->create();
+        $chartKey = $this->createTestChart();
 
-        $event = $this->seatsioClient->events->create($chart->key, 'eventje');
+        $event = $this->seatsioClient->events->create($chartKey, 'eventje');
 
         self::assertEquals('eventje', $event->key);
     }
 
     public function testBookWholeTablesCanBePassedIn()
     {
-        $chart = $this->seatsioClient->charts->create();
+        $chartKey = $this->createTestChart();
 
-        $event = $this->seatsioClient->events->create($chart->key, null, false);
+        $event = $this->seatsioClient->events->create($chartKey, null, false);
 
         self::assertNotNull($event->key);
         self::assertFalse($event->bookWholeTables);
+    }
+
+    public function testTableBookingModesCanBePassedIn()
+    {
+        $chartKey = $this->createTestChartWithTables();
+
+        $event = $this->seatsioClient->events->create($chartKey, null, ["T1" => "BY_TABLE", "T2" => "BY_SEAT"]);
+
+        self::assertNotNull($event->key);
+        self::assertFalse($event->bookWholeTables);
+        self::assertEquals((object)["T1" => "BY_TABLE", "T2" => "BY_SEAT"], $event->tableBookingModes);
     }
 
 }

@@ -45,4 +45,18 @@ class UpdateEventTest extends SeatsioClientTest
         self::assertTrue($retrievedEvent->bookWholeTables);
     }
 
+    public function testUpdateTableBookingModes()
+    {
+        $chartKey = $this->createTestChartWithTables();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $this->seatsioClient->events->update($event->key, null, null, ["T1" => "BY_TABLE", "T2" => "BY_SEAT"]);
+
+        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+        self::assertEquals($chartKey, $retrievedEvent->chartKey);
+        self::assertEquals($event->key, $retrievedEvent->key);
+        self::assertFalse($retrievedEvent->bookWholeTables);
+        self::assertEquals((object)["T1" => "BY_TABLE", "T2" => "BY_SEAT"], $retrievedEvent->tableBookingModes);
+    }
+
 }

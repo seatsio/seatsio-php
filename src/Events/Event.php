@@ -25,6 +25,10 @@ class Event
      */
     public $forSaleConfig;
     /**
+     * @var object
+     */
+    public $tableBookingModes;
+    /**
      * @var string
      */
     public $chartKey;

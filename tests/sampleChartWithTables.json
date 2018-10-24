@@ -106,6 +106,86 @@
         "type": "round",
         "objectType": "table",
         "uuid": "uuid8"
+      },
+      {
+        "center": {
+          "x": 35.74,
+          "y": 39.87
+        },
+        "radius": 23.8732414637843,
+        "autoRadius": true,
+        "seats": [
+          {
+            "x": 35.74,
+            "y": 70.75,
+            "label": "1",
+            "categoryLabel": "Cat1",
+            "categoryAccessible": null,
+            "categoryKey": 9,
+            "uuid": "uuid934"
+          },
+          {
+            "x": 9,
+            "y": 55.31,
+            "label": "2",
+            "categoryLabel": "Cat1",
+            "categoryAccessible": null,
+            "categoryKey": 9,
+            "uuid": "uuid1043"
+          },
+          {
+            "x": 9,
+            "y": 24.44,
+            "label": "3",
+            "categoryLabel": "Cat1",
+            "categoryAccessible": null,
+            "categoryKey": 9,
+            "uuid": "uuid11342"
+          },
+          {
+            "x": 35.74,
+            "y": 9,
+            "label": "4",
+            "categoryLabel": "Cat1",
+            "categoryAccessible": null,
+            "categoryKey": 9,
+            "uuid": "uuid12432"
+          },
+          {
+            "x": 62.47,
+            "y": 24.44,
+            "label": "5",
+            "categoryLabel": "Cat1",
+            "categoryAccessible": null,
+            "categoryKey": 9,
+            "uuid": "uuid1334"
+          },
+          {
+            "x": 62.47,
+            "y": 55.31,
+            "label": "6",
+            "categoryLabel": "Cat1",
+            "categoryAccessible": null,
+            "categoryKey": 9,
+            "uuid": "uuid1432"
+          }
+        ],
+        "rotationAngle": 0,
+        "openSpaces": 0,
+        "label": "T2",
+        "seatLabeling": {
+          "algoName": "SimpleNumbers",
+          "startAtIndex": 0,
+          "isInverted": false
+        },
+        "objectLabeling": {
+          "algoName": "SimpleNumbers",
+          "prefix": "T",
+          "startAtIndex": 0
+        },
+        "type": "round",
+        "objectType": "table",
+        "uuid": "uuid88989"
       }
     ],
     "texts": [],

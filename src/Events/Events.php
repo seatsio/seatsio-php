@@ -21,18 +21,20 @@ class Events
     /**
      * @param $chartKey string
      * @param $eventKey string
-     * @param $bookWholeTables boolean
+     * @param $bookWholeTablesOrTableBookingModes boolean|object|array
      * @return Event
      */
-    public function create($chartKey, $eventKey = null, $bookWholeTables = null)
+    public function create($chartKey, $eventKey = null, $bookWholeTablesOrTableBookingModes = null)
     {
         $request = new \stdClass();
         $request->chartKey = $chartKey;
         if ($eventKey !== null) {
             $request->eventKey = $eventKey;
         }
-        if ($bookWholeTables !== null) {
-            $request->bookWholeTables = $bookWholeTables;
+        if (is_bool($bookWholeTablesOrTableBookingModes)) {
+            $request->bookWholeTables = $bookWholeTablesOrTableBookingModes;
+        } else if ($bookWholeTablesOrTableBookingModes !== null) {
+            $request->tableBookingModes = $bookWholeTablesOrTableBookingModes;
         }
         $res = $this->client->post('/events', ['json' => $request]);
         $json = \GuzzleHttp\json_decode($res->getBody());
@@ -56,10 +58,10 @@ class Events
      * @param $eventKey string
      * @param $chartKey string
      * @param $newEventKey string
-     * @param $bookWholeTables string
+     * @param $bookWholeTablesOrTableBookingModes boolean|object|array
      * @return void
      */
-    public function update($eventKey, $chartKey = null, $newEventKey = null, $bookWholeTables = null)
+    public function update($eventKey, $chartKey = null, $newEventKey = null, $bookWholeTablesOrTableBookingModes = null)
     {
         $request = new \stdClass();
         if ($chartKey !== null) {
@@ -68,8 +70,10 @@ class Events
         if ($newEventKey !== null) {
             $request->eventKey = $newEventKey;
         }
-        if ($bookWholeTables !== null) {
-            $request->bookWholeTables = $bookWholeTables;
+        if (is_bool($bookWholeTablesOrTableBookingModes)) {
+            $request->bookWholeTables = $bookWholeTablesOrTableBookingModes;
+        } else if ($bookWholeTablesOrTableBookingModes !== null) {
+            $request->tableBookingModes = $bookWholeTablesOrTableBookingModes;
         }
         $this->client->post(\GuzzleHttp\uri_template('/events/{key}', array("key" => $eventKey)), ['json' => $request]);
     }
