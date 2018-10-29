@@ -19,10 +19,10 @@ class UpdateSubaccountTest extends SeatsioClientTest
         self::assertEquals($email, $retrievedSubaccount->email);
     }
 
-    public function emailIsOptional()
+    public function testEmailIsOptional()
     {
         $email = $this->randomEmail();
-        $subaccount = $this->seatsioClient->subaccounts->createWithEmail('joske', $email);
+        $subaccount = $this->seatsioClient->subaccounts->createWithEmail($email, 'joske');
 
         $this->seatsioClient->subaccounts->update($subaccount->id, 'jefke');
 
@@ -31,10 +31,10 @@ class UpdateSubaccountTest extends SeatsioClientTest
         self::assertEquals($email, $retrievedSubaccount->email);
     }
 
-    public function nameIsOptional()
+    public function testNameIsOptional()
     {
         $email = $this->randomEmail();
-        $subaccount = $this->seatsioClient->subaccounts->createWithEmail('joske');
+        $subaccount = $this->seatsioClient->subaccounts->create('joske');
 
         $this->seatsioClient->subaccounts->update($subaccount->id, null, $email);
 
