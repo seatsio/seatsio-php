@@ -189,23 +189,20 @@
         },
         {
             "name": "netresearch/jsonmapper",
-            "version": "v1.4.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cweiske/jsonmapper.git",
-                "reference": "3868fe1128ce1169228acdb623359dca74db5ef3"
+                "reference": "899cf21e40f35b664b5366f7710d20d9d8abf7b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cweiske/jsonmapper/zipball/3868fe1128ce1169228acdb623359dca74db5ef3",
-                "reference": "3868fe1128ce1169228acdb623359dca74db5ef3",
+                "url": "https://api.github.com/repos/cweiske/jsonmapper/zipball/899cf21e40f35b664b5366f7710d20d9d8abf7b0",
+                "reference": "899cf21e40f35b664b5366f7710d20d9d8abf7b0",
                 "shasum": ""
             },
-            "require": {
-                "php": ">=5.6"
-            },
             "require-dev": {
-                "phpunit/phpunit": "~4.8.35 || ~5.7 || ~6.4",
+                "phpunit/phpunit": "4.2.*",
                 "squizlabs/php_codesniffer": "~1.5"
             },
             "type": "library",
@@ -227,7 +224,7 @@
                 }
             ],
             "description": "Map nested JSON structures onto PHP classes",
-            "time": "2017-11-28T21:30:01+00:00"
+            "time": "2017-07-13T19:08:45+00:00"
         },
         {
             "name": "psr/http-message",
@@ -283,32 +280,32 @@
     "packages-dev": [
         {
             "name": "doctrine/instantiator",
-            "version": "1.1.0",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "185b8868aa9bf7159f5f953ed5afb2d7fcdc3bda"
+                "reference": "8e884e78f9f0eb1329e445619e04456e64d8051d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/185b8868aa9bf7159f5f953ed5afb2d7fcdc3bda",
-                "reference": "185b8868aa9bf7159f5f953ed5afb2d7fcdc3bda",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/8e884e78f9f0eb1329e445619e04456e64d8051d",
+                "reference": "8e884e78f9f0eb1329e445619e04456e64d8051d",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1"
+                "php": ">=5.3,<8.0-DEV"
             },
             "require-dev": {
                 "athletic/athletic": "~0.1.8",
                 "ext-pdo": "*",
                 "ext-phar": "*",
-                "phpunit/phpunit": "^6.2.3",
-                "squizlabs/php_codesniffer": "^3.0.2"
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~2.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2.x-dev"
+                    "dev-master": "1.0.x-dev"
                 }
             },
             "autoload": {
@@ -333,124 +330,37 @@
                 "constructor",
                 "instantiate"
             ],
-            "time": "2017-07-22T11:58:36+00:00"
+            "time": "2015-06-14T21:17:01+00:00"
         },
         {
             "name": "lstrojny/functional-php",
-            "version": "1.8.0",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lstrojny/functional-php.git",
-                "reference": "7d677bbc1dbf8338946cd3b31f0d5c2beb2b5a26"
+                "reference": "dffae98dd0873aeab168246792fc0501735ef971"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lstrojny/functional-php/zipball/7d677bbc1dbf8338946cd3b31f0d5c2beb2b5a26",
-                "reference": "7d677bbc1dbf8338946cd3b31f0d5c2beb2b5a26",
+                "url": "https://api.github.com/repos/lstrojny/functional-php/zipball/dffae98dd0873aeab168246792fc0501735ef971",
+                "reference": "dffae98dd0873aeab168246792fc0501735ef971",
                 "shasum": ""
             },
             "require": {
-                "php": "~7"
+                "php": ">=5.3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~6"
+                "phpunit/phpunit": "~4"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2-dev"
+                    "dev-master": "1.0-dev"
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Functional\\": "src/Functional"
-                },
                 "files": [
-                    "src/Functional/Average.php",
-                    "src/Functional/ButLast.php",
-                    "src/Functional/Capture.php",
-                    "src/Functional/ConstFunction.php",
-                    "src/Functional/CompareOn.php",
-                    "src/Functional/CompareObjectHashOn.php",
-                    "src/Functional/Compose.php",
-                    "src/Functional/Concat.php",
-                    "src/Functional/Contains.php",
-                    "src/Functional/Curry.php",
-                    "src/Functional/CurryN.php",
-                    "src/Functional/Difference.php",
-                    "src/Functional/DropFirst.php",
-                    "src/Functional/DropLast.php",
-                    "src/Functional/Each.php",
-                    "src/Functional/Equal.php",
-                    "src/Functional/ErrorToException.php",
-                    "src/Functional/Every.php",
-                    "src/Functional/False.php",
-                    "src/Functional/Falsy.php",
-                    "src/Functional/Filter.php",
-                    "src/Functional/First.php",
-                    "src/Functional/FirstIndexOf.php",
-                    "src/Functional/FlatMap.php",
-                    "src/Functional/Flatten.php",
-                    "src/Functional/Flip.php",
-                    "src/Functional/GreaterThan.php",
-                    "src/Functional/GreaterThanOrEqual.php",
-                    "src/Functional/Group.php",
-                    "src/Functional/Head.php",
-                    "src/Functional/Id.php",
-                    "src/Functional/IfElse.php",
-                    "src/Functional/Identical.php",
-                    "src/Functional/IndexesOf.php",
-                    "src/Functional/Intersperse.php",
-                    "src/Functional/Invoke.php",
-                    "src/Functional/InvokeFirst.php",
-                    "src/Functional/InvokeIf.php",
-                    "src/Functional/InvokeLast.php",
-                    "src/Functional/Invoker.php",
-                    "src/Functional/Last.php",
-                    "src/Functional/LastIndexOf.php",
-                    "src/Functional/LessThan.php",
-                    "src/Functional/LessThanOrEqual.php",
-                    "src/Functional/LexicographicCompare.php",
-                    "src/Functional/Map.php",
-                    "src/Functional/Match.php",
-                    "src/Functional/Maximum.php",
-                    "src/Functional/Memoize.php",
-                    "src/Functional/Minimum.php",
-                    "src/Functional/None.php",
-                    "src/Functional/Not.php",
-                    "src/Functional/PartialAny.php",
-                    "src/Functional/PartialLeft.php",
-                    "src/Functional/PartialMethod.php",
-                    "src/Functional/PartialRight.php",
-                    "src/Functional/Partition.php",
-                    "src/Functional/Pick.php",
-                    "src/Functional/Pluck.php",
-                    "src/Functional/Poll.php",
-                    "src/Functional/Product.php",
-                    "src/Functional/Ratio.php",
-                    "src/Functional/ReduceLeft.php",
-                    "src/Functional/ReduceRight.php",
-                    "src/Functional/Reindex.php",
-                    "src/Functional/Reject.php",
-                    "src/Functional/Retry.php",
-                    "src/Functional/Select.php",
-                    "src/Functional/SelectKeys.php",
-                    "src/Functional/SequenceConstant.php",
-                    "src/Functional/SequenceExponential.php",
-                    "src/Functional/SequenceLinear.php",
-                    "src/Functional/Some.php",
-                    "src/Functional/Sort.php",
-                    "src/Functional/Sum.php",
-                    "src/Functional/SuppressError.php",
-                    "src/Functional/Tap.php",
-                    "src/Functional/Tail.php",
-                    "src/Functional/TailRecursion.php",
-                    "src/Functional/True.php",
-                    "src/Functional/Truthy.php",
-                    "src/Functional/Unique.php",
-                    "src/Functional/With.php",
-                    "src/Functional/Zip.php",
-                    "src/Functional/ZipAll.php"
+                    "src/Functional/_import.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -472,7 +382,7 @@
             "keywords": [
                 "functional"
             ],
-            "time": "2018-03-19T16:14:14+00:00"
+            "time": "2015-06-23T21:56:56+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -530,35 +440,29 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "4.3.0",
+            "version": "3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "94fd0001232e47129dd3504189fa1c7225010d08"
+                "reference": "4aada1f93c72c35e22fb1383b47fee43b8f1d157"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/94fd0001232e47129dd3504189fa1c7225010d08",
-                "reference": "94fd0001232e47129dd3504189fa1c7225010d08",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/4aada1f93c72c35e22fb1383b47fee43b8f1d157",
+                "reference": "4aada1f93c72c35e22fb1383b47fee43b8f1d157",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0",
-                "phpdocumentor/reflection-common": "^1.0.0",
-                "phpdocumentor/type-resolver": "^0.4.0",
+                "php": ">=5.5",
+                "phpdocumentor/reflection-common": "^1.0@dev",
+                "phpdocumentor/type-resolver": "^0.3.0",
                 "webmozart/assert": "^1.0"
             },
             "require-dev": {
-                "doctrine/instantiator": "~1.0.5",
-                "mockery/mockery": "^1.0",
-                "phpunit/phpunit": "^6.4"
+                "mockery/mockery": "^0.9.4",
+                "phpunit/phpunit": "^4.4"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "phpDocumentor\\Reflection\\": [
@@ -577,20 +481,20 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2017-11-30T07:14:17+00:00"
+            "time": "2017-08-08T06:39:58+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
-            "version": "0.4.0",
+            "version": "0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "9c977708995954784726e25d0cd1dddf4e65b0f7"
+                "reference": "fb3933512008d8162b3cdf9e18dba9309b7c3773"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/9c977708995954784726e25d0cd1dddf4e65b0f7",
-                "reference": "9c977708995954784726e25d0cd1dddf4e65b0f7",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/fb3933512008d8162b3cdf9e18dba9309b7c3773",
+                "reference": "fb3933512008d8162b3cdf9e18dba9309b7c3773",
                 "shasum": ""
             },
             "require": {
@@ -624,7 +528,7 @@
                     "email": "me@mikevanriel.com"
                 }
             ],
-            "time": "2017-07-14T14:27:02+00:00"
+            "time": "2017-06-03T08:32:36+00:00"
         },
         {
             "name": "phpspec/prophecy",
@@ -1439,7 +1343,7 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.10.0",
+            "version": "v1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
@@ -1497,16 +1401,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.4.18",
+            "version": "v3.4.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "640b6c27fed4066d64b64d5903a86043f4a4de7f"
+                "reference": "c2f4812ead9f847cb69e90917ca7502e6892d6b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/640b6c27fed4066d64b64d5903a86043f4a4de7f",
-                "reference": "640b6c27fed4066d64b64d5903a86043f4a4de7f",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/c2f4812ead9f847cb69e90917ca7502e6892d6b8",
+                "reference": "c2f4812ead9f847cb69e90917ca7502e6892d6b8",
                 "shasum": ""
             },
             "require": {
@@ -1552,7 +1456,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2018-10-02T16:33:53+00:00"
+            "time": "2018-08-10T07:34:36+00:00"
         },
         {
             "name": "webmozart/assert",
