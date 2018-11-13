@@ -81,7 +81,7 @@ $seatsio->events->release(<AN EVENT KEY>, ["A-1", "A-2"]);
 
 Changes the object status to a custom status of your choice. If you need more statuses than just booked and free, you can use this to change the status of a seat, table or booth to your own custom status.
 
-[https://www.seats.io/docs/api-v2#core-resources-objects-change-object-status](https://www.seats.io/docs/api-v2#core-resources-objects-change-object-status)
+[https://docs.seats.io/docs/api-custom-object-status](https://docs.seats.io/docs/api-custom-object-status)
 
 ```php
 $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
