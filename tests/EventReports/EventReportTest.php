@@ -86,6 +86,15 @@ class EventReportsTest extends SeatsioClientTest
         self::assertCount(2, $report);
     }
 
+    public function testBySpecificNonExistingStatus()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $report = $this->seatsioClient->eventReports->byStatus($event->key, "lolzor");
+        self::assertNull($report);
+    }
+
     public function testByCategoryLabel()
     {
         $chartKey = $this->createTestChart();
