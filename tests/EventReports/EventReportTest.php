@@ -74,6 +74,15 @@ class EventReportsTest extends SeatsioClientTest
         self::assertCount(31, $report[ObjectStatus::$FREE]);
     }
 
+    public function testByStatus_emptyChart()
+    {
+        $chartKey = $this->seatsioClient->charts->create()->key;
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $report = $this->seatsioClient->eventReports->byStatus($event->key);
+        self::assertEquals([], $report);
+    }
+
     public function testBySpecificStatus()
     {
         $chartKey = $this->createTestChart();
@@ -92,7 +101,7 @@ class EventReportsTest extends SeatsioClientTest
         $event = $this->seatsioClient->events->create($chartKey);
 
         $report = $this->seatsioClient->eventReports->byStatus($event->key, "lolzor");
-        self::assertNull($report);
+        self::assertEquals([], $report);
     }
 
     public function testByCategoryLabel()

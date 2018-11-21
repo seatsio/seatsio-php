@@ -148,7 +148,7 @@ class EventReports
         if (array_key_exists($filter, $result)) {
             return $result[$filter];
         }
-        return null;
+        return [];
     }
 
     private static function reportUrl($reportType, $eventKey, $filter)
