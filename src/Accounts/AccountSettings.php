@@ -10,6 +10,11 @@ class AccountSettings
     public $draftChartDrawingsEnabled;
 
     /**
+     * @var boolean
+     */
+    public $holdOnSelectForGAs;
+
+    /**
      * @var ChartValidationSettings
      */
     public $chartValidation;

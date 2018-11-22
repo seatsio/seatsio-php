@@ -16,6 +16,7 @@ class RetrieveMyAccountTest extends SeatsioClientTest
         self::assertNotEmpty($account->publicKey);
         self::assertNotEmpty($account->email);
         self::assertTrue($account->settings->draftChartDrawingsEnabled);
+        self::assertTrue($account->settings->holdOnSelectForGAs);
         self::assertEquals("ERROR", $account->settings->chartValidation->VALIDATE_DUPLICATE_LABELS);
         self::assertEquals("ERROR", $account->settings->chartValidation->VALIDATE_OBJECTS_WITHOUT_CATEGORIES);
         self::assertEquals("ERROR", $account->settings->chartValidation->VALIDATE_UNLABELED_OBJECTS);
