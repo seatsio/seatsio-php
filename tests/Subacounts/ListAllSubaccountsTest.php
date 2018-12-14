@@ -31,4 +31,21 @@ class ListAllSubaccountsTest extends SeatsioClientTest
         self::assertEquals([$subaccount2->id], array_values($subaccountIds));
     }
 
+    public function testWithFilterContainingSpecialCharacter()
+    {
+        $createdSubaccountKeys = array();
+
+        for ($i = 0; $i < 55; $i++) {
+            $subaccount = $this->seatsioClient->subaccounts->create("test-/@/" . $i);
+            if($i >= 40 && $i <=49) {
+                $createdSubaccountKeys[] = $subaccount->id;
+            }
+        }
+
+        $subaccounts = $this->seatsioClient->subaccounts->listAll((new SubaccountListParams())->withFilter('test-/@/4'));
+        $retrievedSubaccountKeys = \Functional\map($subaccounts, function($subaccount) { return $subaccount->id; });
+
+        self::assertEquals(sort(array_values($createdSubaccountKeys)), sort(array_values($retrievedSubaccountKeys)));
+    }
+
 }
