@@ -37,7 +37,7 @@ class ListAllSubaccountsTest extends SeatsioClientTest
 
         for ($i = 0; $i < 55; $i++) {
             $subaccount = $this->seatsioClient->subaccounts->create("test-/@/" . $i);
-            if($i >= 40 && $i <=49) {
+            if($i == 4 || ($i >= 40 && $i <=49)) {
                 $createdSubaccountIds[] = $subaccount->id;
             }
         }
@@ -45,7 +45,7 @@ class ListAllSubaccountsTest extends SeatsioClientTest
         $subaccounts = $this->seatsioClient->subaccounts->listAll((new SubaccountListParams())->withFilter('test-/@/4'));
         $retrievedSubaccountIds = \Functional\map($subaccounts, function($subaccount) { return $subaccount->id; });
 
-        self::assertEquals(sort(array_values($createdSubaccountIds)), sort(array_values($retrievedSubaccountIds)));
+        self::assertEquals($createdSubaccountIds, $retrievedSubaccountIds, "\$canonicalize = true", 0.0, 10, true);
     }
 
 }
