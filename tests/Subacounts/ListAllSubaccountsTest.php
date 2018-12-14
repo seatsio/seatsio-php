@@ -30,7 +30,7 @@ class ListAllSubaccountsTest extends SeatsioClientTest
 
         self::assertEquals([$subaccount2->id], array_values($subaccountIds));
     }
-    
+
     public function testWithFilterContainingSpecialCharacter()
     {
         $createdSubaccountIds = array();
@@ -45,7 +45,7 @@ class ListAllSubaccountsTest extends SeatsioClientTest
         $subaccounts = $this->seatsioClient->subaccounts->listAll((new SubaccountListParams())->withFilter('test-/@/4'));
         $retrievedSubaccountIds = \Functional\map($subaccounts, function($subaccount) { return $subaccount->id; });
 
-        self::assertEquals($createdSubaccountIds, $retrievedSubaccountIds, "\$canonicalize = true", 0.0, 10, true);
+        self::assertEquals($createdSubaccountIds, $retrievedSubaccountIds, "", 0.0, 10, true);
     }
 
 }
