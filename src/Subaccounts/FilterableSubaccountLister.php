@@ -26,7 +26,7 @@ class FilterableSubaccountLister
      * @param $queryParams SubaccountListParams[]
      * @return SubaccountPage
      */
-    public function firstPage($pageSize = null, $queryParams = null)
+    public function firstPage($pageSize = null, $queryParams = [])
     {
         return $this->pageFetcher->fetchAfter(null, $queryParams, $pageSize);
     }
@@ -37,7 +37,7 @@ class FilterableSubaccountLister
      * @param $queryParams SubaccountListParams[]
      * @return SubaccountPage
      */
-    public function pageAfter($afterId, $pageSize = null, $queryParams = null)
+    public function pageAfter($afterId, $pageSize = null, $queryParams = [])
     {
         return $this->pageFetcher->fetchAfter($afterId, $queryParams, $pageSize);
     }
@@ -48,7 +48,7 @@ class FilterableSubaccountLister
      * @param $queryParams SubaccountListParams[]
      * @return SubaccountPage
      */
-    public function pageBefore($beforeId, $pageSize = null, $queryParams = null)
+    public function pageBefore($beforeId, $pageSize = null, $queryParams = [])
     {
         return $this->pageFetcher->fetchBefore($beforeId, $queryParams, $pageSize);
     }
