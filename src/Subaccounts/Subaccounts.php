@@ -182,29 +182,29 @@ class Subaccounts
      */
     public function listFirstPage($pageSize = null, $subaccountListParams = null)
     {
-        return $this->iterator()->firstPage($this->listParamsToArray($subaccountListParams), $pageSize);
+        return $this->iterator()->firstPage($pageSize, $this->listParamsToArray($subaccountListParams));
     }
 
     /**
      * @param $afterId int
-     * @param $subaccountListParams SubaccountListParams
      * @param $pageSize int
+     * @param $subaccountListParams SubaccountListParams
      * @return SubaccountPage
      */
     public function listPageAfter($afterId, $pageSize = null, $subaccountListParams = null)
     {
-        return $this->iterator()->pageAfter($afterId, $this->listParamsToArray($subaccountListParams), $pageSize);
+        return $this->iterator()->pageAfter($afterId, $pageSize, $this->listParamsToArray($subaccountListParams));
     }
 
     /**
      * @param $beforeId int
-     * @param $subaccountListParams SubaccountListParams
      * @param $pageSize int
+     * @param $subaccountListParams SubaccountListParams
      * @return SubaccountPage
      */
     public function listPageBefore($beforeId, $pageSize = null, $subaccountListParams = null)
     {
-        return $this->iterator()->pageBefore($beforeId, $this->listParamsToArray($subaccountListParams), $pageSize);
+        return $this->iterator()->pageBefore($beforeId, $pageSize, $this->listParamsToArray($subaccountListParams));
     }
 
     /**

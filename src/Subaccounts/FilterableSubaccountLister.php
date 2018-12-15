@@ -16,39 +16,39 @@ class FilterableSubaccountLister
      * @param $queryParams SubaccountListParams[]
      * @return SubaccountPagedIterator
      */
-    public function all($queryParams)
+    public function all($queryParams = null)
     {
         return new SubaccountPagedIterator($this->pageFetcher, $queryParams);
     }
 
     /**
-     * @param $queryParams SubaccountListParams[]
      * @param $pageSize int
+     * @param $queryParams SubaccountListParams[]
      * @return SubaccountPage
      */
-    public function firstPage($queryParams, $pageSize = null)
+    public function firstPage($pageSize = null, $queryParams = null)
     {
         return $this->pageFetcher->fetchAfter(null, $queryParams, $pageSize);
     }
 
     /**
      * @param $afterId int
-     * @param $queryParams SubaccountListParams[]
      * @param $pageSize int
+     * @param $queryParams SubaccountListParams[]
      * @return SubaccountPage
      */
-    public function pageAfter($afterId, $queryParams, $pageSize = null)
+    public function pageAfter($afterId, $pageSize = null, $queryParams = null)
     {
         return $this->pageFetcher->fetchAfter($afterId, $queryParams, $pageSize);
     }
 
     /**
      * @param $beforeId int
-     * @param $queryParams SubaccountListParams[]
      * @param $pageSize int
+     * @param $queryParams SubaccountListParams[]
      * @return SubaccountPage
      */
-    public function pageBefore($beforeId, $queryParams, $pageSize = null)
+    public function pageBefore($beforeId, $pageSize = null, $queryParams = null)
     {
         return $this->pageFetcher->fetchBefore($beforeId, $queryParams, $pageSize);
     }
