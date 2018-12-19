@@ -167,50 +167,62 @@ class Subaccounts
     }
 
     /**
+     * @param $subaccountListParams SubaccountListParams
      * @return SubaccountPagedIterator
      */
-    public function listAll()
+    public function listAll($subaccountListParams = null)
     {
-        return $this->iterator()->all();
+        return $this->iterator()->all($this->listParamsToArray($subaccountListParams));
     }
 
     /**
      * @param $pageSize int
-     * @return SubaccountsPage
+     * @param $subaccountListParams SubaccountListParams
+     * @return SubaccountPage
      */
-    public function listFirstPage($pageSize = null)
+    public function listFirstPage($pageSize = null, $subaccountListParams = null)
     {
-        return $this->iterator()->firstPage($pageSize);
+        return $this->iterator()->firstPage($pageSize, $this->listParamsToArray($subaccountListParams));
     }
 
     /**
      * @param $afterId int
      * @param $pageSize int
-     * @return SubaccountsPage
+     * @param $subaccountListParams SubaccountListParams
+     * @return SubaccountPage
      */
-    public function listPageAfter($afterId, $pageSize = null)
+    public function listPageAfter($afterId, $pageSize = null, $subaccountListParams = null)
     {
-        return $this->iterator()->pageAfter($afterId, $pageSize);
+        return $this->iterator()->pageAfter($afterId, $pageSize, $this->listParamsToArray($subaccountListParams));
     }
 
     /**
      * @param $beforeId int
      * @param $pageSize int
-     * @return SubaccountsPage
+     * @param $subaccountListParams SubaccountListParams
+     * @return SubaccountPage
      */
-    public function listPageBefore($beforeId, $pageSize = null)
+    public function listPageBefore($beforeId, $pageSize = null, $subaccountListParams = null)
     {
-        return $this->iterator()->pageBefore($beforeId, $pageSize);
+        return $this->iterator()->pageBefore($beforeId, $pageSize, $this->listParamsToArray($subaccountListParams));
     }
 
     /**
-     * @return SubaccountLister
+     * @return FilterableSubaccountLister
      */
     private function iterator()
     {
-        return new SubaccountLister(new PageFetcher('/subaccounts', $this->client, function () {
+        return new FilterableSubaccountLister(new PageFetcher('/subaccounts', $this->client, function () {
             return new SubaccountPage();
         }));
+    }
+
+    private function listParamsToArray($subaccountListParams)
+    {
+        if ($subaccountListParams == null) {
+            return [];
+        }
+        return $subaccountListParams->toArray();
     }
 
 }
