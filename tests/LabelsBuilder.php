@@ -1,10 +1,9 @@
 <?php
 
-use Seatsio\Common\Entrance;
 use Seatsio\Common\LabelAndType;
 use Seatsio\Common\Labels;
 
-function someLabels($ownLabel, $ownType, $parentLabel = null, $parentType = null, $section = null, $entrance = null)
+function someLabels($ownLabel, $ownType, $parentLabel = null, $parentType = null, $section = null)
 {
     $labels = new Labels();
     $labels->own = aLabelAndType($ownLabel, $ownType);
@@ -12,10 +11,6 @@ function someLabels($ownLabel, $ownType, $parentLabel = null, $parentType = null
         $labels->parent = aLabelAndType($parentLabel, $parentType);
     }
     $labels->section = $section;
-    if ($entrance) {
-        $labels->entrance = new Entrance();
-        $labels->entrance->label = $entrance;
-    }
     return $labels;
 }
 

@@ -14,9 +14,18 @@ class ChangeObjectStatusTest extends SeatsioClientTest
 
         $result = $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", "lolzor");
 
-        self::assertEquals([
-            "A-1" => someLabels("1", "seat", "A", "row")
-        ], $result->labels);
+        $reportItem = $result->objects["A-1"];
+        self::assertEquals("lolzor", $reportItem->status);
+        self::assertEquals("A-1", $reportItem->label);
+        self::assertEquals(someLabels("1", "seat", "A", "row"), $reportItem->labels);
+        self::assertEquals("Cat1", $reportItem->categoryLabel);
+        self::assertEquals(9, $reportItem->categoryKey);
+        self::assertNull($reportItem->ticketType);
+        self::assertNull($reportItem->orderId);
+        self::assertEquals("seat", $reportItem->objectType);
+        self::assertTrue($reportItem->forSale);
+        self::assertNull($reportItem->section);
+        self::assertNull($reportItem->entrance);
     }
 
     public function testTableSeat()
@@ -26,9 +35,7 @@ class ChangeObjectStatusTest extends SeatsioClientTest
 
         $result = $this->seatsioClient->events->changeObjectStatus($event->key, "T1-1", "lolzor");
 
-        self::assertEquals([
-            "T1-1" => someLabels("1", "seat", "T1", "table")
-        ], $result->labels);
+        self::assertEquals(["T1-1"], array_keys($result->labels));
     }
 
     public function testTable()
@@ -38,9 +45,7 @@ class ChangeObjectStatusTest extends SeatsioClientTest
 
         $result = $this->seatsioClient->events->changeObjectStatus($event->key, "T1", "lolzor");
 
-        self::assertEquals([
-            "T1" => someLabels("T1", "table")
-        ], $result->labels);
+        self::assertEquals(["T1"], array_keys($result->labels));
     }
 
     public function testGA()
@@ -50,9 +55,7 @@ class ChangeObjectStatusTest extends SeatsioClientTest
 
         $result = $this->seatsioClient->events->changeObjectStatus($event->key, "34", "lolzor");
 
-        self::assertEquals([
-            "34" => someLabels("34", "generalAdmission")
-        ], $result->labels);
+        self::assertEquals(["34"], array_keys($result->labels));
     }
 
     public function testObjectIdAsString()
