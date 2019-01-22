@@ -9,9 +9,9 @@ class BestAvailableObjects
      */
     public $objects;
     /**
-     * @var array[\Seatsio\Common\Labels]
+     * @var array[\Seatsio\Reports\EventReportItem]
      */
-    public $labels;
+    public $objectDetails;
     /**
      * @var boolean
      */

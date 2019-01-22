@@ -262,7 +262,7 @@ class Events
         $request->events = is_array($eventKeyOrKeys) ? $eventKeyOrKeys : [$eventKeyOrKeys];
         $res = $this->client->post(
             '/seasons/actions/change-object-status',
-            ['json' => $request, 'query' => ['expand' => 'labels']]
+            ['json' => $request, 'query' => ['expand' => 'objects']]
         );
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();

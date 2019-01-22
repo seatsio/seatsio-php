@@ -12,15 +12,31 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
 
-        $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 3, "lolzor");
+        $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 2, "lolzor");
 
         self::assertTrue($bestAvailableObjects->nextToEachOther);
-        self::assertEquals(["B-4", "B-5", "B-6"], $bestAvailableObjects->objects, '', 0.0, 10, true);
-        self::assertEquals([
-            "B-4" => someLabels("4", "seat", "B", "row"),
-            "B-5" => someLabels("5", "seat", "B", "row"),
-            "B-6" => someLabels("6", "seat", "B", "row")
-        ], $bestAvailableObjects->labels);
+        self::assertEquals(["B-4", "B-5"], $bestAvailableObjects->objects, '', 0.0, 10, true);
+    }
+
+    public function testObjectDetails()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 1, "lolzor");
+
+        $objectDetails = $bestAvailableObjects->objectDetails["B-5"];
+        self::assertEquals("lolzor", $objectDetails->status);
+        self::assertEquals("B-5", $objectDetails->label);
+        self::assertEquals(someLabels("5", "seat", "B", "row"), $objectDetails->labels);
+        self::assertEquals("Cat1", $objectDetails->categoryLabel);
+        self::assertEquals(9, $objectDetails->categoryKey);
+        self::assertNull($objectDetails->ticketType);
+        self::assertNull($objectDetails->orderId);
+        self::assertEquals("seat", $objectDetails->objectType);
+        self::assertTrue($objectDetails->forSale);
+        self::assertNull($objectDetails->section);
+        self::assertNull($objectDetails->entrance);
     }
 
     public function testCategories()
