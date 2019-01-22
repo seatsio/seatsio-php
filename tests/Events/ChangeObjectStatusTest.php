@@ -14,18 +14,18 @@ class ChangeObjectStatusTest extends SeatsioClientTest
 
         $result = $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", "lolzor");
 
-        $reportItem = $result->objects["A-1"];
-        self::assertEquals("lolzor", $reportItem->status);
-        self::assertEquals("A-1", $reportItem->label);
-        self::assertEquals(someLabels("1", "seat", "A", "row"), $reportItem->labels);
-        self::assertEquals("Cat1", $reportItem->categoryLabel);
-        self::assertEquals(9, $reportItem->categoryKey);
-        self::assertNull($reportItem->ticketType);
-        self::assertNull($reportItem->orderId);
-        self::assertEquals("seat", $reportItem->objectType);
-        self::assertTrue($reportItem->forSale);
-        self::assertNull($reportItem->section);
-        self::assertNull($reportItem->entrance);
+        $objectDetails = $result->objects["A-1"];
+        self::assertEquals("lolzor", $objectDetails->status);
+        self::assertEquals("A-1", $objectDetails->label);
+        self::assertEquals(someLabels("1", "seat", "A", "row"), $objectDetails->labels);
+        self::assertEquals("Cat1", $objectDetails->categoryLabel);
+        self::assertEquals(9, $objectDetails->categoryKey);
+        self::assertNull($objectDetails->ticketType);
+        self::assertNull($objectDetails->orderId);
+        self::assertEquals("seat", $objectDetails->objectType);
+        self::assertTrue($objectDetails->forSale);
+        self::assertNull($objectDetails->section);
+        self::assertNull($objectDetails->entrance);
     }
 
     public function testTableSeat()
@@ -35,7 +35,7 @@ class ChangeObjectStatusTest extends SeatsioClientTest
 
         $result = $this->seatsioClient->events->changeObjectStatus($event->key, "T1-1", "lolzor");
 
-        self::assertEquals(["T1-1"], array_keys($result->labels));
+        self::assertEquals(["T1-1"], array_keys($result->objects));
     }
 
     public function testTable()
@@ -45,7 +45,7 @@ class ChangeObjectStatusTest extends SeatsioClientTest
 
         $result = $this->seatsioClient->events->changeObjectStatus($event->key, "T1", "lolzor");
 
-        self::assertEquals(["T1"], array_keys($result->labels));
+        self::assertEquals(["T1"], array_keys($result->objects));
     }
 
     public function testGA()
@@ -55,7 +55,7 @@ class ChangeObjectStatusTest extends SeatsioClientTest
 
         $result = $this->seatsioClient->events->changeObjectStatus($event->key, "34", "lolzor");
 
-        self::assertEquals(["34"], array_keys($result->labels));
+        self::assertEquals(["34"], array_keys($result->objects));
     }
 
     public function testObjectIdAsString()

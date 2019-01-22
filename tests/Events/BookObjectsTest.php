@@ -17,7 +17,7 @@ class BookObjectsTest extends SeatsioClientTest
         self::assertEquals(ObjectStatus::$BOOKED, $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-1")->status);
         self::assertEquals(ObjectStatus::$BOOKED, $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-2")->status);
 
-        self::assertEquals(["A-1", "A-2"], array_keys($res->labels));
+        self::assertEquals(["A-1", "A-2"], array_keys($res->objects));
     }
 
     public function testSections()
@@ -30,10 +30,10 @@ class BookObjectsTest extends SeatsioClientTest
         self::assertEquals(ObjectStatus::$BOOKED, $this->seatsioClient->events->retrieveObjectStatus($event->key, "Section A-A-1")->status);
         self::assertEquals(ObjectStatus::$BOOKED, $this->seatsioClient->events->retrieveObjectStatus($event->key, "Section A-A-2")->status);
 
-        $r = $res->objects["Section A-A-1"];
-        self::assertEquals("Section A", $r->section);
-        self::assertEquals("Entrance 1", $r->entrance);
-        self::assertEquals(someLabels("1", "seat", "A", "row", "Section A"), $r->labels);
+        $a1Status = $res->objects["Section A-A-1"];
+        self::assertEquals("Section A", $a1Status->section);
+        self::assertEquals("Entrance 1", $a1Status->entrance);
+        self::assertEquals(someLabels("1", "seat", "A", "row", "Section A"), $a1Status->labels);
     }
 
     public function testHoldToken()

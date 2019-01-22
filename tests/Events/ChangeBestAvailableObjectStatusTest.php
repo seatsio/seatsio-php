@@ -25,18 +25,18 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
 
         $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 1, "lolzor");
 
-        $reportItem = $bestAvailableObjects->objectDetails["B-5"];
-        self::assertEquals("lolzor", $reportItem->status);
-        self::assertEquals("B-5", $reportItem->label);
-        self::assertEquals(someLabels("5", "seat", "B", "row"), $reportItem->labels);
-        self::assertEquals("Cat1", $reportItem->categoryLabel);
-        self::assertEquals(9, $reportItem->categoryKey);
-        self::assertNull($reportItem->ticketType);
-        self::assertNull($reportItem->orderId);
-        self::assertEquals("seat", $reportItem->objectType);
-        self::assertTrue($reportItem->forSale);
-        self::assertNull($reportItem->section);
-        self::assertNull($reportItem->entrance);
+        $objectDetails = $bestAvailableObjects->objectDetails["B-5"];
+        self::assertEquals("lolzor", $objectDetails->status);
+        self::assertEquals("B-5", $objectDetails->label);
+        self::assertEquals(someLabels("5", "seat", "B", "row"), $objectDetails->labels);
+        self::assertEquals("Cat1", $objectDetails->categoryLabel);
+        self::assertEquals(9, $objectDetails->categoryKey);
+        self::assertNull($objectDetails->ticketType);
+        self::assertNull($objectDetails->orderId);
+        self::assertEquals("seat", $objectDetails->objectType);
+        self::assertTrue($objectDetails->forSale);
+        self::assertNull($objectDetails->section);
+        self::assertNull($objectDetails->entrance);
     }
 
     public function testCategories()
