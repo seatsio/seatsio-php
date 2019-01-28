@@ -42,6 +42,29 @@ class Events
         return $mapper->map($json, new Event());
     }
 
+    public function createMultiple($chartKey, $eventCreationParams)
+    {
+        $request = new \stdClass();
+        $request->chartKey = $chartKey;
+        $request->events = array();
+        foreach ($eventCreationParams as $param) {
+            $eventToCreate = new \stdClass();
+            if ($param->eventKey !== null) {
+                $eventToCreate->eventKey = $param->eventKey;
+            }
+            if(is_bool($param->bookWholeTablesOrTableBookingModes)) {
+                $eventToCreate->bookWholeTables = $param->bookWholeTablesOrTableBookingModes;
+            } else if ($param->bookWholeTablesOrTableBookingModes !== null) {
+                $eventToCreate -> tableBookingModes = $param->bookWholeTablesOrTableBookingModes;
+            }
+            $request->events[] = $eventToCreate;
+        }
+        $res = $this->client->post('/events/actions/create-multiple', ['json' => $request]);
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        $mapper = SeatsioJsonMapper::create();
+        return $mapper->mapArray($json->events, array(), 'Seatsio\Events\Event');
+    }
+
     /**
      * @param $eventKey string
      * @return Event
