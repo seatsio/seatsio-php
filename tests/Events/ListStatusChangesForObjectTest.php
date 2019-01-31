@@ -17,7 +17,7 @@ class ListStatusChangesForObjectTest extends SeatsioClientTest
         $this->seatsioClient->events->changeObjectStatus($event->key, "A-2", "s4");
         $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", "s3");
 
-        $statusChanges = $this->seatsioClient->events->statusChanges($event->key, "A-1")->all();
+        $statusChanges = $this->seatsioClient->events->statusChangesForObject($event->key, "A-1")->all();
         $statuses = \Functional\map($statusChanges, function($statusChange) { return $statusChange->status; });
 
         self::assertEquals(["s3", "s2", "s1"], array_values($statuses));

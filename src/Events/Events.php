@@ -52,10 +52,10 @@ class Events
             if ($param->eventKey !== null) {
                 $eventToCreate->eventKey = $param->eventKey;
             }
-            if(is_bool($param->bookWholeTablesOrTableBookingModes)) {
+            if (is_bool($param->bookWholeTablesOrTableBookingModes)) {
                 $eventToCreate->bookWholeTables = $param->bookWholeTablesOrTableBookingModes;
             } else if ($param->bookWholeTablesOrTableBookingModes !== null) {
-                $eventToCreate -> tableBookingModes = $param->bookWholeTablesOrTableBookingModes;
+                $eventToCreate->tableBookingModes = $param->bookWholeTablesOrTableBookingModes;
             }
             $request->events[] = $eventToCreate;
         }
@@ -159,16 +159,36 @@ class Events
 
     /**
      * @param $eventKey string
+     * @param $filter string
+     * @param $sortField string
+     * @param $sortDirection string
+     * @return StatusChangeLister
+     */
+    public function statusChanges($eventKey, $filter = null, $sortField = null, $sortDirection = null)
+    {
+        return new StatusChangeLister(new PageFetcher(\GuzzleHttp\uri_template('/events/{key}/status-changes', array("key" => $eventKey)), $this->client, function () {
+            return new StatusChangePage();
+        }, array("filter" => $filter, "sort" => self::toSort($sortField, $sortDirection))));
+    }
+
+    private static function toSort($sortField, $sortDirection)
+    {
+        if (!$sortField) {
+            return null;
+        }
+        if ($sortDirection) {
+            return $sortField . ":" . $sortDirection;
+        }
+        return $sortField;
+    }
+
+    /**
+     * @param $eventKey string
      * @param $objectId string
      * @return StatusChangeLister
      */
-    public function statusChanges($eventKey, $objectId = null)
+    public function statusChangesForObject($eventKey, $objectId)
     {
-        if ($objectId === null) {
-            return new StatusChangeLister(new PageFetcher(\GuzzleHttp\uri_template('/events/{key}/status-changes', array("key" => $eventKey)), $this->client, function () {
-                return new StatusChangePage();
-            }));
-        }
         return new StatusChangeLister(new PageFetcher(\GuzzleHttp\uri_template('/events/{key}/objects/{objectId}/status-changes', array("key" => $eventKey, "objectId" => $objectId)), $this->client, function () {
             return new StatusChangePage();
         }));
@@ -398,11 +418,11 @@ class Events
             if (count($objectOrObjects) === 0) {
                 return [];
             }
-            return array_map(function($object) {
-                if($object instanceof ObjectProperties) {
+            return array_map(function ($object) {
+                if ($object instanceof ObjectProperties) {
                     return $object;
                 }
-                if(is_string($object)) {
+                if (is_string($object)) {
                     return ["objectId" => $object];
                 }
                 return $object;
