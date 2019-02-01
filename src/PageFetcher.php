@@ -41,7 +41,8 @@ class PageFetcher
         if ($pageSize) {
             $queryParams['limit'] = $pageSize;
         }
-        $res = $this->client->get($this->url, ['query' => array_merge($queryParams, $this->queryParams)]);
+        $mergedQueryParams = $this->queryParams ? array_merge($queryParams, $this->queryParams) : $queryParams;
+        $res = $this->client->get($this->url, ['query' => $mergedQueryParams]);
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, $this->pageCreator->__invoke());
