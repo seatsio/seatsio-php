@@ -2,6 +2,7 @@ language: php
 php:
   - 5.5
   - 7.2
-
 install: composer install
+before_script:
+  - export TZ=Europe/Brussels
 script: vendor/bin/phpunit --configuration tests/phpunit.xml

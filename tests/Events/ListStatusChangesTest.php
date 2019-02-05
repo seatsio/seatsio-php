@@ -44,4 +44,94 @@ class ListStatusChangesTest extends SeatsioClientTest
         self::assertEquals((object)["foo" => "bar"], $statusChange->extraData);
     }
 
+    public function testFilter()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $this->seatsioClient->events->book($event->key, "A-1");
+        $this->seatsioClient->events->book($event->key, "A-2");
+        $this->seatsioClient->events->book($event->key, "B-1");
+        $this->seatsioClient->events->book($event->key, "A-3");
+
+        $statusChanges = $this->seatsioClient->events->statusChanges($event->key, "A-")->all();
+        $objectIds = \Functional\map($statusChanges, function ($statusChange) {
+            return $statusChange->objectLabel;
+        });
+
+        self::assertEquals(["A-3", "A-2", "A-1"], array_values($objectIds));
+    }
+
+    public function testSortAsc()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $this->seatsioClient->events->book($event->key, "A-1");
+        $this->seatsioClient->events->book($event->key, "A-2");
+        $this->seatsioClient->events->book($event->key, "B-1");
+        $this->seatsioClient->events->book($event->key, "A-3");
+
+        $statusChanges = $this->seatsioClient->events->statusChanges($event->key, null, "objectLabel")->all();
+        $objectIds = \Functional\map($statusChanges, function ($statusChange) {
+            return $statusChange->objectLabel;
+        });
+
+        self::assertEquals(["A-1", "A-2", "A-3", "B-1"], array_values($objectIds));
+    }
+
+    public function testSortAscPageBefore()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $this->seatsioClient->events->book($event->key, "A-1");
+        $this->seatsioClient->events->book($event->key, "A-2");
+        $this->seatsioClient->events->book($event->key, "B-1");
+        $this->seatsioClient->events->book($event->key, "A-3");
+
+        $statusChangeLister = $this->seatsioClient->events->statusChanges($event->key, null, "objectLabel");
+        $allStatusChanges = iterator_to_array($statusChangeLister->all(), false);
+        $b1ID = $allStatusChanges[2]->id;
+        $statusChanges = $statusChangeLister->pageBefore($b1ID, 2)->items;
+        $objectIds = \Functional\map($statusChanges, function ($statusChange) {
+            return $statusChange->objectLabel;
+        });
+
+        self::assertEquals(["A-1", "A-2"], array_values($objectIds));
+    }
+
+    public function testSortAscPageAfter()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $this->seatsioClient->events->book($event->key, "A-1");
+        $this->seatsioClient->events->book($event->key, "A-2");
+        $this->seatsioClient->events->book($event->key, "B-1");
+        $this->seatsioClient->events->book($event->key, "A-3");
+
+        $statusChangeLister = $this->seatsioClient->events->statusChanges($event->key, null, "objectLabel");
+        $allStatusChanges = iterator_to_array($statusChangeLister->all(), false);
+        $a1ID = $allStatusChanges[0]->id;
+        $statusChanges = $statusChangeLister->pageAfter($a1ID, 2)->items;
+        $objectIds = \Functional\map($statusChanges, function ($statusChange) {
+            return $statusChange->objectLabel;
+        });
+
+        self::assertEquals(["A-2", "A-3"], array_values($objectIds));
+    }
+
+    public function testSortDesc()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $this->seatsioClient->events->book($event->key, "A-1");
+        $this->seatsioClient->events->book($event->key, "A-2");
+        $this->seatsioClient->events->book($event->key, "B-1");
+        $this->seatsioClient->events->book($event->key, "A-3");
+
+        $statusChanges = $this->seatsioClient->events->statusChanges($event->key, null, "objectLabel", "DESC")->all();
+        $objectIds = \Functional\map($statusChanges, function ($statusChange) {
+            return $statusChange->objectLabel;
+        });
+
+        self::assertEquals(["B-1", "A-3", "A-2", "A-1"], array_values($objectIds));
+    }
 }

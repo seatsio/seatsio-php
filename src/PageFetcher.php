@@ -10,12 +10,14 @@ class PageFetcher
      */
     private $client;
     private $pageCreator;
+    private $queryParams;
 
-    public function __construct($url, $client, $pageCreator)
+    public function __construct($url, $client, $pageCreator, $queryParams = null)
     {
         $this->url = $url;
         $this->client = $client;
         $this->pageCreator = $pageCreator;
+        $this->queryParams = $queryParams;
     }
 
     public function fetchAfter($afterId, $queryParams, $pageSize)
@@ -39,7 +41,8 @@ class PageFetcher
         if ($pageSize) {
             $queryParams['limit'] = $pageSize;
         }
-        $res = $this->client->get($this->url, ['query' => $queryParams]);
+        $mergedQueryParams = $this->queryParams ? array_merge($queryParams, $this->queryParams) : $queryParams;
+        $res = $this->client->get($this->url, ['query' => $mergedQueryParams]);
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, $this->pageCreator->__invoke());
