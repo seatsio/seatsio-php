@@ -130,14 +130,18 @@ $firstPage = $seatsio->charts->listFirstPage();
 foreach($firstPage->items as $chart) {
     echo 'Chart ' . $chart->key;
 }
+```
 
+```php
 // ... user clicks on 'next' button ...
 
 $nextPage = $seatsio->charts->listPageAfter($firstPage->nextPageStartsAfter);
 foreach($nextPage->items as $chart) {
     echo 'Chart ' . $chart->key;
 }
+```
 
+```php
 // ... user clicks on 'previous' button ...
 
 $previousPage = $seatsio->charts->listPageBefore($nextPage->previousPageEndsBefore);
