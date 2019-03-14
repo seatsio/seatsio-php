@@ -133,7 +133,7 @@ foreach($firstPage->items as $chart) {
 ```
 
 ```php
-// ... user clicks on 'next' button ...
+// ... user clicks on 'next page' button ...
 
 $nextPage = $seatsio->charts->listPageAfter($firstPage->nextPageStartsAfter);
 foreach($nextPage->items as $chart) {
@@ -142,7 +142,7 @@ foreach($nextPage->items as $chart) {
 ```
 
 ```php
-// ... user clicks on 'previous' button ...
+// ... user clicks on 'previous page' button ...
 
 $previousPage = $seatsio->charts->listPageBefore($nextPage->previousPageEndsBefore);
 foreach($page->items as $chart) {
