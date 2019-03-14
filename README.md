@@ -106,17 +106,42 @@ $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
 $seatsio->eventReports->byStatus(<AN EVENT KEY>, <OPTIONAL FILTER>);
 ```
 
-### Listing charts
+### Listing all charts
 
 ```php
 $seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
 
-$chart1 = $seatsio->charts->create();
-$chart2 = $seatsio->charts->create();
-$chart3 = $seatsio->charts->create();
-
 $charts = $seatsio->charts->listAll();
 foreach($charts as $chart) {
+    echo 'Chart ' . $chart->key;
+}
+```
+
+Note: `listAll()` returns an iterator, which under the hood calls the seats.io API to fetch charts page by page. So multiple API calls may be done underneath to fetch all charts.
+
+### Listing charts page by page
+
+E.g. to show charts in a paginated list on a dashboard.
+
+```php
+$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
+
+$firstPage = $seatsio->charts->listFirstPage();
+foreach($firstPage->items as $chart) {
+    echo 'Chart ' . $chart->key;
+}
+
+// ... user clicks on 'next' button ...
+
+$nextPage = $seatsio->charts->listPageAfter($firstPage->nextPageStartsAfter);
+foreach($nextPage->items as $chart) {
+    echo 'Chart ' . $chart->key;
+}
+
+// ... user clicks on 'previous' button ...
+
+$previousPage = $seatsio->charts->listPageBefore($nextPage->previousPageEndsBefore);
+foreach($page->items as $chart) {
     echo 'Chart ' . $chart->key;
 }
 ```
