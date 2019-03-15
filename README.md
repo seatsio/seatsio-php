@@ -124,7 +124,7 @@ Note: `listAll()` returns an iterator, which under the hood calls the seats.io A
 E.g. to show charts in a paginated list on a dashboard.
 
 ```php
-$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
+// ... user initially opens the screen ...
 
 $firstPage = $seatsio->charts->listFirstPage();
 foreach($firstPage->items as $chart) {
