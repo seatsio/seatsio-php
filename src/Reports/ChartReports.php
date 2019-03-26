@@ -35,6 +35,13 @@ class ChartReports
         return \GuzzleHttp\uri_template('/reports/charts/{key}/{reportType}', array("key" => $eventKey, "reportType" => $reportType));
     }
 
+    public function byCategoryKey($chartKey)
+    {
+        $res = $this->client->get(self::reportUrl('byCategoryKey', $chartKey));
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        return $this->mapMultiValuedReport($json);
+    }
+
     /**
      * @param $json mixed
      * @return array
