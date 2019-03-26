@@ -17,17 +17,31 @@ class ChartReports
         $this->client = $client;
     }
 
-
     /**
      * @param $chartKey string
-     * @param $label string
      * @return array
      */
     public function byLabel($chartKey)
     {
-        $res = $this->client->get(self::reportUrl('byLabel', $chartKey));
-        $json = \GuzzleHttp\json_decode($res->getBody());
-        return $this->mapMultiValuedReport($json);
+        return $this->getChartReport('byLabel', $chartKey);
+    }
+
+    /**
+     * @param $chartKey string
+     * @return array
+     */
+    public function byCategoryKey($chartKey)
+    {
+        return $this->getChartReport('byCategoryKey', $chartKey);
+    }
+
+    /**
+     * @param $chartKey string
+     * @return array
+     */
+    public function byCategoryLabel($chartKey)
+    {
+        return $this->getChartReport('byCategoryLabel', $chartKey);
     }
 
     private static function reportUrl($reportType, $eventKey)
@@ -35,17 +49,13 @@ class ChartReports
         return \GuzzleHttp\uri_template('/reports/charts/{key}/{reportType}', array("key" => $eventKey, "reportType" => $reportType));
     }
 
-    public function byCategoryKey($chartKey)
+    private function getChartReport($reportType, $chartKey)
     {
-        $res = $this->client->get(self::reportUrl('byCategoryKey', $chartKey));
+        $res = $this->client->get(self::reportUrl($reportType, $chartKey));
         $json = \GuzzleHttp\json_decode($res->getBody());
         return $this->mapMultiValuedReport($json);
     }
 
-    /**
-     * @param $json mixed
-     * @return array
-     */
     private static function mapMultiValuedReport($json)
     {
         $mapper = SeatsioJsonMapper::create();
@@ -55,6 +65,5 @@ class ChartReports
         }
         return $result;
     }
-
 
 }
