@@ -43,4 +43,23 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertCount(1, $report["A-2"]);
     }
 
+
+    public function testByCategoryKey()
+    {
+        $chartKey = $this->createTestChart();
+
+        $report = $this->seatsioClient->chartReports->byCategoryKey($chartKey);
+        self::assertCount(17, $report["9"]);
+        self::assertCount(17, $report["10"]);
+    }
+
+    public function testByCategoryLabel()
+    {
+        $chartKey = $this->createTestChart();
+
+        $report = $this->seatsioClient->chartReports->byCategoryLabel($chartKey);
+        self::assertCount(17, $report["Cat1"]);
+        self::assertCount(17, $report["Cat2"]);
+    }
+
 }
