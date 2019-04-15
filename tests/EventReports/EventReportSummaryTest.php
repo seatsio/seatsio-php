@@ -22,12 +22,12 @@ class EventReportsSummaryTest extends SeatsioClientTest
         self::assertEquals(1, $report[ObjectStatus::$BOOKED]['byCategoryKey']['9']);
         self::assertEquals(1, $report[ObjectStatus::$BOOKED]['byCategoryLabel']['Cat1']);
 
-        self::assertEquals(33, $report[ObjectStatus::$FREE]['count']);
-        self::assertEquals(33, $report[ObjectStatus::$FREE]['bySection']['NO_SECTION']);
-        self::assertEquals(16, $report[ObjectStatus::$FREE]['byCategoryKey']['9']);
-        self::assertEquals(17, $report[ObjectStatus::$FREE]['byCategoryKey']['10']);
-        self::assertEquals(16, $report[ObjectStatus::$FREE]['byCategoryLabel']['Cat1']);
-        self::assertEquals(17, $report[ObjectStatus::$FREE]['byCategoryLabel']['Cat2']);
+        self::assertEquals(231, $report[ObjectStatus::$FREE]['count']);
+        self::assertEquals(231, $report[ObjectStatus::$FREE]['bySection']['NO_SECTION']);
+        self::assertEquals(115, $report[ObjectStatus::$FREE]['byCategoryKey']['9']);
+        self::assertEquals(116, $report[ObjectStatus::$FREE]['byCategoryKey']['10']);
+        self::assertEquals(115, $report[ObjectStatus::$FREE]['byCategoryLabel']['Cat1']);
+        self::assertEquals(116, $report[ObjectStatus::$FREE]['byCategoryLabel']['Cat2']);
     }
 
     public function testSummaryByCategoryKey()
@@ -38,14 +38,14 @@ class EventReportsSummaryTest extends SeatsioClientTest
 
         $report = $this->seatsioClient->eventReports->summaryByCategoryKey($event->key);
 
-        self::assertEquals(17, $report['9']['count']);
-        self::assertEquals(17, $report['9']['bySection']['NO_SECTION']);
+        self::assertEquals(116, $report['9']['count']);
+        self::assertEquals(116, $report['9']['bySection']['NO_SECTION']);
         self::assertEquals(1, $report['9']['byStatus'][ObjectStatus::$BOOKED]);
-        self::assertEquals(16, $report['9']['byStatus'][ObjectStatus::$FREE]);
+        self::assertEquals(115, $report['9']['byStatus'][ObjectStatus::$FREE]);
 
-        self::assertEquals(17, $report['10']['count']);
-        self::assertEquals(17, $report['10']['bySection']['NO_SECTION']);
-        self::assertEquals(17, $report['10']['byStatus'][ObjectStatus::$FREE]);
+        self::assertEquals(116, $report['10']['count']);
+        self::assertEquals(116, $report['10']['bySection']['NO_SECTION']);
+        self::assertEquals(116, $report['10']['byStatus'][ObjectStatus::$FREE]);
     }
 
     public function testSummaryByCategoryLabel()
@@ -56,14 +56,14 @@ class EventReportsSummaryTest extends SeatsioClientTest
 
         $report = $this->seatsioClient->eventReports->summaryByCategoryLabel($event->key);
 
-        self::assertEquals(17, $report['Cat1']['count']);
-        self::assertEquals(17, $report['Cat1']['bySection']['NO_SECTION']);
+        self::assertEquals(116, $report['Cat1']['count']);
+        self::assertEquals(116, $report['Cat1']['bySection']['NO_SECTION']);
         self::assertEquals(1, $report['Cat1']['byStatus'][ObjectStatus::$BOOKED]);
-        self::assertEquals(16, $report['Cat1']['byStatus'][ObjectStatus::$FREE]);
+        self::assertEquals(115, $report['Cat1']['byStatus'][ObjectStatus::$FREE]);
 
-        self::assertEquals(17, $report['Cat2']['count']);
-        self::assertEquals(17, $report['Cat2']['bySection']['NO_SECTION']);
-        self::assertEquals(17, $report['Cat2']['byStatus'][ObjectStatus::$FREE]);
+        self::assertEquals(116, $report['Cat2']['count']);
+        self::assertEquals(116, $report['Cat2']['bySection']['NO_SECTION']);
+        self::assertEquals(116, $report['Cat2']['byStatus'][ObjectStatus::$FREE]);
     }
 
     public function testSummaryBySection()
@@ -74,13 +74,13 @@ class EventReportsSummaryTest extends SeatsioClientTest
 
         $report = $this->seatsioClient->eventReports->summaryBySection($event->key);
 
-        self::assertEquals(34, $report['NO_SECTION']['count']);
+        self::assertEquals(232, $report['NO_SECTION']['count']);
         self::assertEquals(1, $report['NO_SECTION']['byStatus'][ObjectStatus::$BOOKED]);
-        self::assertEquals(33, $report['NO_SECTION']['byStatus'][ObjectStatus::$FREE]);
-        self::assertEquals(17, $report['NO_SECTION']['byCategoryKey']['9']);
-        self::assertEquals(17, $report['NO_SECTION']['byCategoryKey']['10']);
-        self::assertEquals(17, $report['NO_SECTION']['byCategoryLabel']['Cat1']);
-        self::assertEquals(17, $report['NO_SECTION']['byCategoryLabel']['Cat2']);
+        self::assertEquals(231, $report['NO_SECTION']['byStatus'][ObjectStatus::$FREE]);
+        self::assertEquals(116, $report['NO_SECTION']['byCategoryKey']['9']);
+        self::assertEquals(116, $report['NO_SECTION']['byCategoryKey']['10']);
+        self::assertEquals(116, $report['NO_SECTION']['byCategoryLabel']['Cat1']);
+        self::assertEquals(116, $report['NO_SECTION']['byCategoryLabel']['Cat2']);
     }
 
 }
