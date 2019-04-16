@@ -10,9 +10,9 @@ class ValidateChartTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChartWithErrors();
 
-        $validationErrors = $this->seatsioClient->charts->validatePublishedVersion($chartKey);
+        $validationRes = $this->seatsioClient->charts->validatePublishedVersion($chartKey);
 
-        $errors = \Functional\map($validationErrors->errors, function($error) { return $error->validatorKey; });
-        self::assertEquals(['VALIDATE_UNLABELED_OBJECTS', 'VALIDATE_DUPLICATE_LABELS', 'VALIDATE_OBJECTS_WITHOUT_CATEGORIES'], $errors, '', 0.0, 10, true);
+        self::assertEmpty($validationRes->warnings);
+        self::assertEquals(['VALIDATE_UNLABELED_OBJECTS', 'VALIDATE_DUPLICATE_LABELS', 'VALIDATE_OBJECTS_WITHOUT_CATEGORIES'], $validationRes->errors, '', 0.0, 10, true);
     }
 }
