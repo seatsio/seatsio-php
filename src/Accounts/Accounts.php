@@ -28,4 +28,16 @@ class Accounts
         return \GuzzleHttp\json_decode($res->getBody());
     }
 
+    /**
+   * @param $key string
+   * @param $value string
+   * @return void
+   */
+  public function updateSetting ($key, $value) {
+    $request = new \stdClass();
+    $request->key = $key;
+    $request->value = $value;
+    $this->client->post('/accounts/me/settings', ['json' => $request]);
+  }
+
 }
