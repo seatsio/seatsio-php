@@ -51,12 +51,16 @@ class EventReportsTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
         $this->seatsioClient->events->book($event->key, (new ObjectProperties("GA1"))->setQuantity(5));
+        $holdToken = $this->seatsioClient->holdTokens->create();
+        $this->seatsioClient->events->hold($event->key, (new ObjectProperties("GA1"))->setQuantity(3), $holdToken->holdToken);
 
         $report = $this->seatsioClient->eventReports->byLabel($event->key);
 
         $reportItem = $report["GA1"][0];
         self::assertEquals(100, $reportItem->capacity);
         self::assertEquals(5, $reportItem->numBooked);
+        self::assertEquals(3, $reportItem->numHeld);
+        self::assertEquals(92, $reportItem->numFree);
         self::assertEquals("generalAdmission", $reportItem->objectType);
     }
 
