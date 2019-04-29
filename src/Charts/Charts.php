@@ -191,6 +191,26 @@ class Charts
 
     /**
      * @param $key string
+     * @return object
+     */
+    public function validatePublishedVersion($key)
+    {
+        $res = $this->client->post('/charts/' . $key . '/version/published/actions/validate');
+         return \GuzzleHttp\json_decode($res->getBody());
+    }
+
+    /**
+     * @param $key string
+     * @return object
+     */
+    public function validateDraftVersion($key)
+    {
+        $res = $this->client->post('/charts/' . $key . '/version/draft/actions/validate');
+         return \GuzzleHttp\json_decode($res->getBody());
+    }
+
+    /**
+     * @param $key string
      * @return StreamInterface
      */
     public function retrieveDraftVersionThumbnail($key)
