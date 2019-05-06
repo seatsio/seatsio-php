@@ -61,4 +61,17 @@ class BookObjectsTest extends SeatsioClientTest
         self::assertEquals("order1", $objectStatus->orderId);
     }
 
+    public function testKeepExtraData()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $extraData = ["foo" => "bar"];
+        $this->seatsioClient->events->updateExtraData($event->key, "A-1", $extraData);
+
+        $this->seatsioClient->events->book($event->key, "A-1", null, null, true);
+
+        $objectStatus = $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-1");
+        self::assertEquals((object)$extraData, $objectStatus->extraData);
+    }
+
 }

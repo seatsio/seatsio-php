@@ -114,4 +114,17 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
         self::assertEquals(ObjectStatus::$HELD, $objectStatus->status);
         self::assertEquals($holdToken->holdToken, $objectStatus->holdToken);
     }
+
+    public function testKeepExtraData()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $extraData = ["foo" => "bar"];
+        $this->seatsioClient->events->updateExtraData($event->key, "B-5", $extraData);
+
+        $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 1, "lolzor", null, null, null, null, true);
+
+        $objectStatus = $this->seatsioClient->events->retrieveObjectStatus($event->key, "B-5");
+        self::assertEquals((object)$extraData, $objectStatus->extraData);
+    }
 }
