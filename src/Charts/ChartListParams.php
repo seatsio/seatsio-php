@@ -26,11 +26,12 @@ class ChartListParams
      * @param $tag string
      * @param $expandEvents boolean
      */
-    public function __construct($filter = null, $tag = null, $expandEvents = null)
+    public function __construct($filter = null, $tag = null, $expandEvents = null, $withValidation = false)
     {
         $this->filter = $filter;
         $this->tag = $tag;
         $this->expandEvents = $expandEvents;
+        $this->validation = $withValidation;
     }
 
     /**
@@ -63,6 +64,16 @@ class ChartListParams
         return $this;
     }
 
+    /**
+     * @param $withValidation boolean
+     * @return $this
+     */
+    public function withValidation($withValidation)
+    {
+        $this->validation = $withValidation;
+        return $this;
+    }
+
     public function toArray()
     {
         $result = [];
@@ -77,6 +88,10 @@ class ChartListParams
 
         if ($this->expandEvents) {
             $result["expand"] = "events";
+        }
+
+        if ($this->validation != false) {
+            $result["validation"] = "true";
         }
 
         return $result;

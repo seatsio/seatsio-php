@@ -40,4 +40,9 @@ class Chart
      * @var boolean
      */
     public $archived;
+
+    /**
+     * @var array 
+     */
+    public $validation;
 }
