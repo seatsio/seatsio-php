@@ -11,7 +11,7 @@ use Seatsio\Events\Events;
 use Seatsio\HoldTokens\HoldTokens;
 use Seatsio\Reports\Charts\ChartReports;
 use Seatsio\Reports\Events\EventReports;
-use Seatsio\Reports\usage\UsageReports;
+use Seatsio\Reports\Usage\UsageReports;
 use Seatsio\Subaccounts\Subaccounts;
 
 class SeatsioClient
