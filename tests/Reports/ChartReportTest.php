@@ -1,6 +1,6 @@
 <?php
 
-namespace Seatsio\ChartReports;
+namespace Seatsio\Reports;
 
 use Seatsio\SeatsioClientTest;
 
