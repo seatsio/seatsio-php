@@ -90,7 +90,7 @@ class ChartListParams
             $result["expand"] = "events";
         }
 
-        if ($this->validation != false) {
+        if ($this->validation) {
             $result["validation"] = "true";
         }
 
