@@ -1,6 +1,6 @@
 <?php
 
-namespace Seatsio\Reports;
+namespace Seatsio\Reports\Events;
 
 class EventReportItem
 {
