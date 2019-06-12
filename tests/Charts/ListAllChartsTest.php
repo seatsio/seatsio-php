@@ -95,4 +95,38 @@ class ListAllChartsTest extends SeatsioClientTest
         self::assertEquals([$event2->id, $event1->id], array_values($eventIds));
     }
 
+    public function testWithValidation()
+    {
+        self::createTestChartWithErrors();
+
+        $charts = $this->seatsioClient->charts->listAll((new ChartListParams())->withValidation(true));
+        $validations = \Functional\map($charts, function ($chart) {
+            return $chart->validation;
+        });
+
+        $expected = [
+            ["errors" => [
+                "VALIDATE_DUPLICATE_LABELS",
+                "VALIDATE_UNLABELED_OBJECTS",
+                "VALIDATE_OBJECTS_WITHOUT_CATEGORIES"
+            ], "warnings" => []]
+        ];
+
+        self::assertEquals($expected, array_values($validations));
+    }
+
+    public function testWithoutValidation()
+    {
+        $this->seatsioClient->charts->create();
+
+        $charts = $this->seatsioClient->charts->listAll((new ChartListParams()));
+        $validations = \Functional\map($charts, function ($chart) {
+            return $chart->validation;
+        });
+
+        $expected = [null];
+
+        self::assertEquals($expected, array_values($validations));
+    }
+
 }
