@@ -36,4 +36,8 @@ class StatusChange
      * @var object
      */
     public $extraData;
+    /**
+     * @var StatusChangeOrigin
+     */
+    public $origin;
 }

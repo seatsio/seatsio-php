@@ -42,6 +42,8 @@ class ListStatusChangesTest extends SeatsioClientTest
         self::assertEquals(ObjectStatus::$BOOKED, $statusChange->status);
         self::assertEquals($event->id, $statusChange->eventId);
         self::assertEquals((object)["foo" => "bar"], $statusChange->extraData);
+        self::assertEquals("API_CALL", $statusChange->origin->type);
+        self::assertNotNull($statusChange->origin->ip);
     }
 
     public function testFilter()
