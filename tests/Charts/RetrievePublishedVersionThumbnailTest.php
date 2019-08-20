@@ -13,7 +13,7 @@ class RetrievePublishedVersionThumbnailTest extends SeatsioClientTest
 
         $retrievedChartThumbnail = $this->seatsioClient->charts->retrievePublishedVersionThumbnail($chart->key);
 
-        self::assertContains('<!DOCTYPE svg', (string)$retrievedChartThumbnail);
+        self::assertNotEmpty($retrievedChartThumbnail);
     }
 
 }

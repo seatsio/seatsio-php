@@ -6,7 +6,7 @@ class Category
 {
 
     /**
-     * @param $key int
+     * @param $key int|string
      * @return $this
      */
     public function setKey($key)

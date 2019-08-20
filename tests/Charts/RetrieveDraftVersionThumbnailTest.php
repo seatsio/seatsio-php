@@ -15,7 +15,7 @@ class RetrieveDraftVersionThumbnailTest extends SeatsioClientTest
 
         $retrievedChartThumbnail = $this->seatsioClient->charts->retrieveDraftVersionThumbnail($chart->key);
 
-        self::assertContains('<!DOCTYPE svg', (string)$retrievedChartThumbnail);
+        self::assertNotEmpty($retrievedChartThumbnail);
     }
 
 }
