@@ -10,7 +10,7 @@ class UpdateChartTest extends SeatsioClientTest
     public function testUpdateName()
     {
         $categories = [
-            (object)['key' => 1, 'label' => 'Category 1', 'color' => '#aaaaaa']
+            (object)['key' => 1, 'label' => 'Category 1', 'color' => '#aaaaaa', 'accessible' => false]
         ];
         $chart = $this->seatsioClient->charts->create(null, null, $categories);
 
@@ -25,7 +25,7 @@ class UpdateChartTest extends SeatsioClientTest
     {
         $chart = $this->seatsioClient->charts->create('aChart');
         $categories = [
-            (object)['key' => 1, 'label' => 'Category 1', 'color' => '#aaaaaa']
+            (object)['key' => 1, 'label' => 'Category 1', 'color' => '#aaaaaa', 'accessible' => true]
         ];
 
         $this->seatsioClient->charts->update($chart->key, null, $categories);

@@ -34,4 +34,14 @@ class Category
         $this->color = $color;
         return $this;
     }
+
+    /**
+     * @param $accessible boolean
+     * @return $this
+     */
+    public function setAccessible($accessible)
+    {
+        $this->accessible = $accessible;
+        return $this;
+    }
 }

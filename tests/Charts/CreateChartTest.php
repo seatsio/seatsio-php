@@ -47,8 +47,8 @@ class CreateChartTest extends SeatsioClientTest
 
     public function testCreateChartWithCategoriesAsAssociativeArray()
     {
-        $cat1 = ['key' => 1, 'label' => 'Category 1', 'color' => '#aaaaaa'];
-        $cat2 = ['key' => 2, 'label' => 'Category 2', 'color' => '#bbbbbb'];
+        $cat1 = ['key' => 1, 'label' => 'Category 1', 'color' => '#aaaaaa', 'accessible' => false];
+        $cat2 = ['key' => 2, 'label' => 'Category 2', 'color' => '#bbbbbb', 'accessible' => true];
 
         $chart = $this->seatsioClient->charts->create(null, null, [$cat1, $cat2]);
 
@@ -61,13 +61,13 @@ class CreateChartTest extends SeatsioClientTest
     public function testCreateChartWithCategoriesAsObjects()
     {
         $cat1 = (new Category())->setKey(1)->setLabel('Category 1')->setColor('#aaaaaa');
-        $cat2 = (new Category())->setKey(2)->setLabel('Category 2')->setColor('#bbbbbb');
+        $cat2 = (new Category())->setKey(2)->setLabel('Category 2')->setColor('#bbbbbb')->setAccessible(true);
 
         $chart = $this->seatsioClient->charts->create(null, null, [$cat1, $cat2]);
 
         $expectedCategories = [
-            (object)['key' => 1, 'label' => 'Category 1', 'color' => '#aaaaaa'],
-            (object)['key' => 2, 'label' => 'Category 2', 'color' => '#bbbbbb']
+            (object)['key' => 1, 'label' => 'Category 1', 'color' => '#aaaaaa', 'accessible' => false],
+            (object)['key' => 2, 'label' => 'Category 2', 'color' => '#bbbbbb', 'accessible' => true]
         ];
         $retrievedChart = $this->seatsioClient->charts->retrievePublishedVersion($chart->key);
         self::assertEquals('Untitled chart', $retrievedChart->name);
