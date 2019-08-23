@@ -16,6 +16,7 @@ class RetrieveObjectStatusTest extends SeatsioClientTest
         self::assertEquals(ObjectStatus::$FREE, $objectStatus->status);
         self::assertNull($objectStatus->ticketType);
         self::assertNull($objectStatus->extraData);
+        self::assertTrue($objectStatus->forSale);
     }
 
 }

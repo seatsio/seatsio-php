@@ -32,4 +32,8 @@ class ObjectStatus
      * @var int
      */
     public $quantity;
+    /**
+     * @var boolean
+     */
+    public $forSale;
 }
