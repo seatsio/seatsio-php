@@ -12,7 +12,7 @@ class SeatsioClientTest extends PHPUnit_Framework_TestCase
     /** @var SeatsioClient */
     protected $seatsioClient;
 
-    private $user;
+    protected $user;
 
     protected function setUp()
     {
@@ -23,9 +23,9 @@ class SeatsioClientTest extends PHPUnit_Framework_TestCase
     /**
      * @return SeatsioClient
      */
-    protected static function createSeatsioClient($secretKey)
+    protected static function createSeatsioClient($secretKey, $accountId = null)
     {
-        return new SeatsioClient($secretKey, self::$BASE_URL);
+        return new SeatsioClient($secretKey, $accountId, self::$BASE_URL);
     }
 
     private function createTestAccount()

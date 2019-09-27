@@ -53,7 +53,7 @@ class SeatsioClient
      */
     public $holdTokens;
 
-    public function __construct($secretKey, $baseUrl = 'https://api.seatsio.net/')
+    public function __construct($secretKey, $accountId = null, $baseUrl = 'https://api.seatsio.net/')
     {
         $stack = HandlerStack::create();
         $stack->push(self::errorHandler());
@@ -62,7 +62,7 @@ class SeatsioClient
             'auth' => [$secretKey, null],
             'http_errors' => false,
             'handler' => $stack,
-            'headers' => ['Accept-Encoding' => 'gzip']
+            'headers' => ['Accept-Encoding' => 'gzip', 'X-Account-ID' => $accountId]
         ]);
         $this->charts = new Charts($client);
         $this->events = new Events($client);

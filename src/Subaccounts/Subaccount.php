@@ -9,6 +9,10 @@ class Subaccount
      */
     public $id;
     /**
+     * @var int
+     */
+    public $accountId;
+    /**
      * @var string
      */
     public $secretKey;

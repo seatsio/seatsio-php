@@ -2,7 +2,8 @@
 
 namespace Seatsio\HoldTokens;
 
-class HoldToken {
+class HoldToken
+{
 
     /**
      * @var string
@@ -16,5 +17,9 @@ class HoldToken {
      * @var int
      */
     public $expiresInSeconds;
+    /**
+     * @var int
+     */
+    public $accountId;
 
 }
