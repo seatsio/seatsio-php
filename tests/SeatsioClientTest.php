@@ -23,9 +23,9 @@ class SeatsioClientTest extends PHPUnit_Framework_TestCase
     /**
      * @return SeatsioClient
      */
-    protected static function createSeatsioClient($secretKey, $accountId = null)
+    protected static function createSeatsioClient($secretKey, $workspaceKey = null)
     {
-        return new SeatsioClient($secretKey, $accountId, self::$BASE_URL);
+        return new SeatsioClient($secretKey, $workspaceKey, self::$BASE_URL);
     }
 
     private function createTestAccount()

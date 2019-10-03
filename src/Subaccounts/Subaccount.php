@@ -9,9 +9,9 @@ class Subaccount
      */
     public $id;
     /**
-     * @var int
+     * @var string
      */
-    public $accountId;
+    public $workspaceKey;
     /**
      * @var string
      */

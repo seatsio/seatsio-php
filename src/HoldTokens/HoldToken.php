@@ -18,8 +18,8 @@ class HoldToken
      */
     public $expiresInSeconds;
     /**
-     * @var int
+     * @var string
      */
-    public $accountId;
+    public $workspaceKey;
 
 }
