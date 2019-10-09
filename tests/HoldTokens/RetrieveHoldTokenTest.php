@@ -17,6 +17,7 @@ class RetrieveHoldTokenTest extends SeatsioClientTest
         self::assertEquals($holdToken->expiresAt, $retrievedHoldToken->expiresAt);
         self::assertGreaterThanOrEqual(14 * 60, $holdToken->expiresInSeconds);
         self::assertLessThanOrEqual(15 * 60, $holdToken->expiresInSeconds);
+        self::assertNotNull($holdToken->workspaceKey);
     }
 
 }

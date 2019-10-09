@@ -53,17 +53,9 @@ class SeatsioClient
      */
     public $holdTokens;
 
-    public function __construct($secretKey, $baseUrl = 'https://api.seatsio.net/')
+    public function __construct($secretKey, $workspaceKey = null, $baseUrl = 'https://api.seatsio.net/')
     {
-        $stack = HandlerStack::create();
-        $stack->push(self::errorHandler());
-        $client = new Client([
-            'base_uri' => $baseUrl,
-            'auth' => [$secretKey, null],
-            'http_errors' => false,
-            'handler' => $stack,
-            'headers' => ['Accept-Encoding' => 'gzip']
-        ]);
+        $client = new Client($this->clientConfig($secretKey, $workspaceKey, $baseUrl));
         $this->charts = new Charts($client);
         $this->events = new Events($client);
         $this->eventReports = new EventReports($client);
@@ -72,6 +64,23 @@ class SeatsioClient
         $this->accounts = new Accounts($client);
         $this->subaccounts = new Subaccounts($client);
         $this->holdTokens = new HoldTokens($client);
+    }
+
+    private function clientConfig($secretKey, $workspaceKey, $baseUrl)
+    {
+        $stack = HandlerStack::create();
+        $stack->push(self::errorHandler());
+        $config = [
+            'base_uri' => $baseUrl,
+            'auth' => [$secretKey, null],
+            'http_errors' => false,
+            'handler' => $stack,
+            'headers' => ['Accept-Encoding' => 'gzip']
+        ];
+        if ($workspaceKey) {
+            $config['headers']['X-Workspace-Key'] = $workspaceKey;
+        }
+        return $config;
     }
 
     private function errorHandler()

@@ -11,6 +11,10 @@ class Subaccount
     /**
      * @var string
      */
+    public $workspaceKey;
+    /**
+     * @var string
+     */
     public $secretKey;
     /**
      * @var string
