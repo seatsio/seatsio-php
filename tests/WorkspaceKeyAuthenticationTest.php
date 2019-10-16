@@ -9,10 +9,10 @@ class WorkspaceKeyAuthenticationTest extends \Seatsio\SeatsioClientTest
     {
         $subaccount = $this->seatsioClient->subaccounts->create();
 
-        $subaccountClient = self::createSeatsioClient($this->user->secretKey, $subaccount->workspaceKey);
+        $subaccountClient = self::createSeatsioClient($this->user->secretKey, $subaccount->workspace->key);
         $holdToken = $subaccountClient->holdTokens->create();
 
-        self::assertEquals($subaccount->workspaceKey, $holdToken->workspaceKey);
+        self::assertEquals($subaccount->workspace->key, $holdToken->workspaceKey);
     }
 
 }

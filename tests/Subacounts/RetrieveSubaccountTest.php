@@ -19,6 +19,8 @@ class RetrieveSubaccountTest extends SeatsioClientTest
         self::assertNotEmpty($retrievedSubaccount->publicKey);
         self::assertEquals('joske', $retrievedSubaccount->name);
         self::assertTrue($retrievedSubaccount->active);
-        self::assertNotNull($retrievedSubaccount->workspaceKey);
+        self::assertNotNull($retrievedSubaccount->workspace);
+        self::assertNotNull($retrievedSubaccount->workspace->id);
+        self::assertNotEmpty($retrievedSubaccount->workspace->key);
     }
 }

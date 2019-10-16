@@ -9,9 +9,9 @@ class Subaccount
      */
     public $id;
     /**
-     * @var string
+     * @var \Seatsio\Workspaces\Workspace
      */
-    public $workspaceKey;
+    public $workspace;
     /**
      * @var string
      */
