@@ -21,10 +21,6 @@ class Account
      */
     public $email;
     /**
-     * @var boolean
-     */
-    public $isSubaccount;
-    /**
      * @var AccountSettings
      */
     public $settings;
