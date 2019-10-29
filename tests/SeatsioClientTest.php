@@ -66,8 +66,11 @@ class SeatsioClientTest extends PHPUnit_Framework_TestCase
         $requestBody = file_get_contents(dirname(__FILE__) . '/' . $file);
         $chartKey = self::uuid();
         $client->post(
-            self::$BASE_URL . 'system/public/' . $this->user->designerKey . '/charts/' . $chartKey,
-            ['body' => $requestBody]
+            self::$BASE_URL . 'system/public/charts/' . $chartKey,
+            [
+                'body' => $requestBody,
+                'auth' => [$this->user->secretKey, null]
+            ]
         );
         return $chartKey;
     }
