@@ -105,11 +105,7 @@ class ListAllChartsTest extends SeatsioClientTest
         });
 
         $expected = [
-            ["errors" => [
-                "VALIDATE_DUPLICATE_LABELS",
-                "VALIDATE_UNLABELED_OBJECTS",
-                "VALIDATE_OBJECTS_WITHOUT_CATEGORIES"
-            ], "warnings" => []]
+            ["errors" => [], "warnings" => []]
         ];
 
         self::assertEquals($expected, array_values($validations));

@@ -51,28 +51,7 @@ class Subaccounts
      */
     public function create($name = null)
     {
-        return $this->doCreate(null, $name);
-    }
-
-    /**
-     * @var $email string
-     * @var $name string
-     * @return Subaccount
-     */
-    public function createWithEmail($email, $name = null)
-    {
-        return $this->doCreate($email, $name);
-    }
-
-    /**
-     * @return Subaccount
-     */
-    private function doCreate($email = null, $name = null)
-    {
         $request = new \stdClass();
-        if ($email !== null) {
-            $request->email = $email;
-        }
         if ($name !== null) {
             $request->name = $name;
         }
@@ -87,14 +66,11 @@ class Subaccounts
      * @var $name string
      * @return void
      */
-    public function update($id, $name = null, $email = null)
+    public function update($id, $name = null)
     {
         $request = new \stdClass();
         if ($name != null) {
             $request->name = $name;
-        }
-        if ($email != null) {
-            $request->email = $email;
         }
         $this->client->post('/subaccounts/' . $id, ['json' => $request]);
     }

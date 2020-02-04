@@ -22,32 +22,7 @@ class CreateSubaccountTest extends SeatsioClientTest
     {
         $subaccount = $this->seatsioClient->subaccounts->create();
 
-        self::assertNull($subaccount->name);
+        self::assertNotNull($subaccount->name);
     }
 
-    public function testWithEmail()
-    {
-        $randomEmail = $this->randomEmail();
-        $subaccount = $this->seatsioClient->subaccounts->createWithEmail($randomEmail);
-
-        self::assertNotEmpty($subaccount->secretKey);
-        self::assertNotEmpty($subaccount->designerKey);
-        self::assertNotEmpty($subaccount->publicKey);
-        self::assertEmpty($subaccount->name);
-        self::assertTrue($subaccount->active);
-        self::assertEquals($randomEmail, $subaccount->email);
-    }
-
-    public function testWithEmailAndName()
-    {
-        $randomEmail = $this->randomEmail();
-        $subaccount = $this->seatsioClient->subaccounts->createWithEmail($randomEmail, 'jeff');
-
-        self::assertNotEmpty($subaccount->secretKey);
-        self::assertNotEmpty($subaccount->designerKey);
-        self::assertNotEmpty($subaccount->publicKey);
-        self::assertEquals('jeff', $subaccount->name);
-        self::assertTrue($subaccount->active);
-        self::assertEquals($randomEmail, $subaccount->email);
-    }
 }

@@ -15,10 +15,6 @@ class Account
     /**
      * @var string
      */
-    public $publicKey;
-    /**
-     * @var string
-     */
     public $email;
     /**
      * @var AccountSettings
