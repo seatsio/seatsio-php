@@ -317,6 +317,41 @@ class Events
     }
 
     /**
+     * @param $statusChangeRequests StatusChangeRequest[]
+     * @return ChangeObjectStatusResult[]
+     */
+    public function changeObjectStatusInBatch($statusChangeRequests) {
+        $request = new \stdClass();
+        $request->statusChanges = \Functional\map($statusChangeRequests, function($statusChangeRequest) {
+            return $this->serializeStatusChangeRequest($statusChangeRequest);
+        });
+        $res = $this->client->post(
+            '/events/actions/change-object-status',
+            ['json' => $request, 'query' => ['expand' => 'objects']]
+        );
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        $mapper = SeatsioJsonMapper::create();
+        return $mapper->mapArray($json->results, array(), ChangeObjectStatusResult::class);
+    }
+
+    private function serializeStatusChangeRequest($statusChangeRequest) {
+        $request = new \stdClass();
+        $request->event = $statusChangeRequest->event;
+        $request->objects = self::normalizeObjects($statusChangeRequest->objectOrObjects);
+        $request->status = $statusChangeRequest->status;
+        if ($statusChangeRequest->holdToken !== null) {
+            $request->holdToken = $statusChangeRequest->holdToken;
+        }
+        if ($statusChangeRequest->orderId !== null) {
+            $request->orderId = $statusChangeRequest->orderId;
+        }
+        if ($statusChangeRequest->keepExtraData !== null) {
+            $request->keepExtraData = $statusChangeRequest->keepExtraData;
+        }
+        return $request;
+    }
+
+    /**
      * @param $eventKeyOrKeys string|string[]
      * @param $objectOrObjects mixed
      * @param $holdToken string
