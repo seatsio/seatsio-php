@@ -7,7 +7,7 @@ use PHPUnit_Framework_TestCase;
 
 class SeatsioClientTest extends PHPUnit_Framework_TestCase
 {
-    private static $BASE_URL = 'https://api-staging.seatsio.net/';
+    private static $BASE_URL = 'http://localhost:9006/';
 
     /** @var SeatsioClient */
     protected $seatsioClient;
