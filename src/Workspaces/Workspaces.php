@@ -61,50 +61,62 @@ class Workspaces
     }
 
     /**
+     * @param $filter string
      * @return WorkspacePagedIterator
      */
-    public function listAll()
+    public function listAll($filter = null)
     {
-        return $this->iterator()->all();
+        return $this->iterator()->all($this->filterToArray($filter));
     }
 
     /**
      * @param $pageSize int
+     * @param $filter string
      * @return WorkspacePage
      */
-    public function listFirstPage($pageSize = null)
+    public function listFirstPage($pageSize = null, $filter = null)
     {
-        return $this->iterator()->firstPage($pageSize);
+        return $this->iterator()->firstPage($pageSize, $this->filterToArray($filter));
     }
 
     /**
      * @param $afterId int
      * @param $pageSize int
+     * @param $filter string
      * @return WorkspacePage
      */
-    public function listPageAfter($afterId, $pageSize = null)
+    public function listPageAfter($afterId, $pageSize = null, $filter = null)
     {
-        return $this->iterator()->pageAfter($afterId, $pageSize);
+        return $this->iterator()->pageAfter($afterId, $pageSize, $this->filterToArray($filter));
     }
 
     /**
      * @param $beforeId int
      * @param $pageSize int
+     * @param $filter string
      * @return WorkspacePage
      */
-    public function listPageBefore($beforeId, $pageSize = null)
+    public function listPageBefore($beforeId, $pageSize = null, $filter = null)
     {
-        return $this->iterator()->pageBefore($beforeId, $pageSize);
+        return $this->iterator()->pageBefore($beforeId, $pageSize, $this->filterToArray($filter));
     }
 
     /**
-     * @return WorkspaceLister
+     * @return FilterableWorkspaceLister
      */
     private function iterator()
     {
-        return new WorkspaceLister(new PageFetcher('/workspaces', $this->client, function () {
+        return new FilterableWorkspaceLister(new PageFetcher('/workspaces', $this->client, function () {
             return new WorkspacePage();
         }));
     }
 
+    private function filterToArray($filter)
+    {
+        $result = [];
+        if ($filter !== null) {
+            $result['filter'] = $filter;
+        }
+        return $result;
+    }
 }
