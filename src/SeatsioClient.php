@@ -5,7 +5,6 @@ namespace Seatsio;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use Psr\Http\Message\ResponseInterface;
-use Seatsio\Accounts\Accounts;
 use Seatsio\Charts\Charts;
 use Seatsio\Events\Events;
 use Seatsio\HoldTokens\HoldTokens;
@@ -40,11 +39,6 @@ class SeatsioClient
     public $chartReports;
 
     /**
-     * @var Accounts
-     */
-    public $accounts;
-
-    /**
      * @var Subaccounts
      */
     public $subaccounts;
@@ -67,7 +61,6 @@ class SeatsioClient
         $this->eventReports = new EventReports($client);
         $this->chartReports = new ChartReports($client);
         $this->usageReports = new UsageReports($client);
-        $this->accounts = new Accounts($client);
         $this->subaccounts = new Subaccounts($client);
         $this->workspaces = new Workspaces($client);
         $this->holdTokens = new HoldTokens($client);
