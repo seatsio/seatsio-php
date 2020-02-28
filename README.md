@@ -152,6 +152,13 @@ foreach($page->items as $chart) {
 }
 ```
 
+### Creating a workspace
+
+```php
+$seatsio = new \Seatsio\SeatsioClient(<COMPANY ADMIN KEY>);
+$seatsio->workspaces->create("a workspace");
+```
+
 ## Error handling
 
 When an API call results in a 4xx or 5xx error (e.g. when a chart could not be found), a SeatsioException is thrown.
