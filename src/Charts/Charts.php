@@ -170,12 +170,24 @@ class Charts
     }
 
     /**
-     * @param $key string
+     * @param $chartKey string
+     * @param $subaccountId int
      * @return Chart
      */
-    public function copyToSubaccount($key, $subaccountId)
+    public function copyToSubaccount($chartKey, $subaccountId)
     {
-        $res = $this->client->post('/charts/' . $key . '/version/published/actions/copy-to/' . $subaccountId);
+        $res = $this->client->post('/charts/' . $chartKey . '/version/published/actions/copy-to/' . $subaccountId);
+        return \GuzzleHttp\json_decode($res->getBody());
+    }
+
+    /**
+     * @param $chartKey string
+     * @param $toWorkspaceKey string
+     * @return Chart
+     */
+    public function copyToWorkspace($chartKey, $toWorkspaceKey)
+    {
+        $res = $this->client->post('/charts/' . $chartKey . '/version/published/actions/copy-to-workspace/' . $toWorkspaceKey);
         return \GuzzleHttp\json_decode($res->getBody());
     }
 
