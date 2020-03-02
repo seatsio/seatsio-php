@@ -17,7 +17,7 @@ class ListActiveSubaccountsTest extends SeatsioClientTest
         $subaccounts = $this->seatsioClient->subaccounts->active->all();
         $subaccountIds = \Functional\map($subaccounts, function($subaccount) { return $subaccount->id; });
 
-        self::assertEquals([$subaccount2->id, $subaccount1->id, $this->user->mainWorkspace->primaryUser->id], array_values($subaccountIds));
+        self::assertEquals([$subaccount2->id, $subaccount1->id, $this->subaccount->id], array_values($subaccountIds));
     }
 
 }

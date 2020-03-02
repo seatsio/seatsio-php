@@ -4,6 +4,7 @@ namespace Seatsio;
 
 use GuzzleHttp\Client;
 use PHPUnit_Framework_TestCase;
+use Seatsio\Subaccounts\Subaccount;
 
 class SeatsioClientTest extends PHPUnit_Framework_TestCase
 {
@@ -14,9 +15,14 @@ class SeatsioClientTest extends PHPUnit_Framework_TestCase
 
     protected $user;
 
+    /** @var Subaccount */
+    protected $subaccount;
+
     protected function setUp()
     {
-        $this->user = $this->createTestAccount();
+        $company = $this->createTestCompany();
+        $this->user = $company.admin;
+        $this->subaccount = $company.subaccount;
         $this->seatsioClient = self::createSeatsioClient($this->user->secretKey);
     }
 
@@ -28,10 +34,10 @@ class SeatsioClientTest extends PHPUnit_Framework_TestCase
         return new SeatsioClient($secretKey, $workspaceKey, self::$BASE_URL);
     }
 
-    private function createTestAccount()
+    private function createTestCompany()
     {
         $client = new Client();
-        $res = $client->post(self::$BASE_URL . 'system/public/users/actions/create-test-user');
+        $res = $client->post(self::$BASE_URL . 'system/public/users/actions/create-test-company');
         return \GuzzleHttp\json_decode($res->getBody());
     }
 
