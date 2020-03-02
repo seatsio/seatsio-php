@@ -21,8 +21,8 @@ class SeatsioClientTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $company = $this->createTestCompany();
-        $this->user = $company.admin;
-        $this->subaccount = $company.subaccount;
+        $this->user = $company->admin;
+        $this->subaccount = $company->subaccount;
         $this->seatsioClient = self::createSeatsioClient($this->user->secretKey);
     }
 
