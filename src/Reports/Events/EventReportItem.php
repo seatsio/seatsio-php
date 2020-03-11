@@ -72,4 +72,21 @@ class EventReportItem
      * @var object
      */
     public $extraData;
+    /**
+     * @var boolean
+     */
+    public $isAccessible;
+    /**
+     * @var boolean
+     */
+    public $isCompanionSeat;
+    /**
+     * @var boolean
+     */
+    public $hasRestrictedView;
+    /**
+     * @var string
+     */
+    public $displayedObjectType;
+
 }

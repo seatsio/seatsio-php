@@ -31,6 +31,10 @@ class EventReportsTest extends SeatsioClientTest
         self::assertNull($reportItem->section);
         self::assertNull($reportItem->entrance);
         self::assertEquals((object)$extraData, $reportItem->extraData);
+        self::assertFalse($reportItem->isAccessible);
+        self::assertFalse($reportItem->hasRestrictedView);
+        self::assertFalse($reportItem->isCompanionSeat);
+        self::assertNull($reportItem->displayedObjectType);
     }
 
     public function testHoldToken()
