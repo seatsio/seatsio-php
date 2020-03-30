@@ -17,7 +17,7 @@ The minimum required PHP version is 5.5.
 
 ## Versioning
 
-seatsio-java follows semver since v62.3.0.
+seatsio-php follows semver since v62.3.0.
 
 ## Examples
 
