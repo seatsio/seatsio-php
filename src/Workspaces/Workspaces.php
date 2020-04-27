@@ -50,6 +50,17 @@ class Workspaces
 
     /**
      * @param $key string
+     * @return string
+     */
+    public function regenerateSecretKey($key)
+    {
+        $res = $this->client->post(\GuzzleHttp\uri_template('/workspaces/{key}/actions/regenerate-secret-key', array("key" => $key)));
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        return $json->secretKey;
+    }
+
+    /**
+     * @param $key string
      * @return Workspace
      */
     public function retrieve($key)

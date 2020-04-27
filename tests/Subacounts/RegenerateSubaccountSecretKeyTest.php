@@ -4,7 +4,7 @@ namespace Seatsio\Subaccounts;
 
 use Seatsio\SeatsioClientTest;
 
-class RegenerateSecretKeyTest extends SeatsioClientTest
+class RegenerateSubaccountSecretKeyTest extends SeatsioClientTest
 {
 
     public function test()
