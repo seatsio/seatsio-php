@@ -37,14 +37,14 @@ Changes the object status to ‘booked’. Booked seats are not selectable on a 
 [https://docs.seats.io/docs/api-book-objects](https://docs.seats.io/docs/api-book-objects)
 
 ```php
-$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
+$seatsio = new \Seatsio\SeatsioClient(<WORKSPACE SECRET KEY>);
 $seatsio->events->book(<AN EVENT KEY>, ["A-1", "A-2"]);
 ```
 
 ### Booking objects that have been held
 
 ```php
-$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
+$seatsio = new \Seatsio\SeatsioClient(<WORKSPACE SECRET KEY>);
 $seatsio->events->book(<AN EVENT KEY>, ["A-1", "A-2"], <A HOLD TOKEN>);
 ```
 
@@ -53,14 +53,14 @@ $seatsio->events->book(<AN EVENT KEY>, ["A-1", "A-2"], <A HOLD TOKEN>);
 Either
 
 ```php
-$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
+$seatsio = new \Seatsio\SeatsioClient(<WORKSPACE SECRET KEY>);
 $seatsio->events->book(<AN EVENT KEY>, ["GA1", "GA1", "GA1"]);
 ```
 
 Or
 
 ```php
-$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
+$seatsio = new \Seatsio\SeatsioClient(<WORKSPACE SECRET KEY>);
 $seatsio->events->book(<AN EVENT KEY>, [["objectId" => "GA1", "quantity" => 3]]);
 ```
 
@@ -71,7 +71,7 @@ Changes the object status to ‘free’. Free seats are selectable on a rendered
 [https://docs.seats.io/docs/api-release-objects](https://docs.seats.io/docs/api-release-objects)
 
 ```php
-$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
+$seatsio = new \Seatsio\SeatsioClient(<WORKSPACE SECRET KEY>);
 $seatsio->events->release(<AN EVENT KEY>, ["A-1", "A-2"]);
 ```
 
@@ -82,7 +82,7 @@ Changes the object status to a custom status of your choice. If you need more st
 [https://docs.seats.io/docs/api-custom-object-status](https://docs.seats.io/docs/api-custom-object-status)
 
 ```php
-$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
+$seatsio = new \Seatsio\SeatsioClient(<WORKSPACE SECRET KEY>);
 $seatsio->events->changeObjectStatus(<AN EVENT KEY>, ["A-1", "A-2"], "unavailable");
 ```
 
@@ -100,14 +100,14 @@ The report types you can choose from are:
 [https://docs.seats.io/docs/api-event-reports](https://docs.seats.io/docs/api-event-reports)
 
 ```php
-$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
+$seatsio = new \Seatsio\SeatsioClient(<WORKSPACE SECRET KEY>);
 $seatsio->eventReports->byStatus(<AN EVENT KEY>, <OPTIONAL FILTER>);
 ```
 
 ### Listing all charts
 
 ```php
-$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>);
+$seatsio = new \Seatsio\SeatsioClient(<WORKSPACE SECRET KEY>);
 
 $charts = $seatsio->charts->listAll();
 foreach($charts as $chart) {
