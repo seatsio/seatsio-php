@@ -24,7 +24,7 @@ seatsio-php follows semver since v62.3.0.
 ### Creating a chart and an event
 
 ```php
-$seatsio = new \Seatsio\SeatsioClient(<SECRET KEY>); // can be found on https://app.seats.io/settings
+$seatsio = new \Seatsio\SeatsioClient(<WORKSPACE SECRET KEY>); // can be found on https://app.seats.io/workspace-settings
 $chart = $seatsio->charts->create();
 $event = $seatsio->events->create($chart->key);
 echo 'Created event with key ' . $event->key;
