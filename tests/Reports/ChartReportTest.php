@@ -21,6 +21,8 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertEquals("seat", $reportItem->objectType);
         self::assertNull($reportItem->section);
         self::assertNull($reportItem->entrance);
+        self::assertNull($reportItem->leftNeighbour);
+        self::assertEquals("A-2", $reportItem->rightNeighbour);
     }
 
     public function testReportItemPropertiesForGA()

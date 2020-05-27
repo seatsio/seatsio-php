@@ -37,6 +37,8 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
         self::assertTrue($objectDetails->forSale);
         self::assertNull($objectDetails->section);
         self::assertNull($objectDetails->entrance);
+        self::assertEquals("B-4", $objectDetails->leftNeighbour);
+        self::assertEquals("B-6", $objectDetails->rightNeighbour);
     }
 
     public function testCategories()

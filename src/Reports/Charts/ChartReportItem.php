@@ -36,4 +36,12 @@ class ChartReportItem
      * @var int
      */
     public $capacity;
+    /**
+     * @var string
+     */
+    public $leftNeighbour;
+    /**
+     * @var string
+     */
+    public $rightNeighbour;
 }

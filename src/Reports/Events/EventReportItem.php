@@ -88,5 +88,13 @@ class EventReportItem
      * @var string
      */
     public $displayedObjectType;
+    /**
+     * @var string
+     */
+    public $leftNeighbour;
+    /**
+     * @var string
+     */
+    public $rightNeighbour;
 
 }

@@ -26,6 +26,8 @@ class ChangeObjectStatusTest extends SeatsioClientTest
         self::assertTrue($objectDetails->forSale);
         self::assertNull($objectDetails->section);
         self::assertNull($objectDetails->entrance);
+        self::assertNull($objectDetails->leftNeighbour);
+        self::assertEquals("A-2", $objectDetails->rightNeighbour);
     }
 
     public function testTableSeat()
