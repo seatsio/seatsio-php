@@ -205,6 +205,13 @@ class Events
         $this->client->post(\GuzzleHttp\uri_template('/events/{key}/channels/update', array("key" => $eventKey)), ['json' => $request]);
     }
 
+    public function assignObjectsToChannels($eventKey, $channelConfig)
+    {
+        $request = new \stdClass();
+        $request->channelConfig = $channelConfig;
+        $this->client->post(\GuzzleHttp\uri_template('/events/{key}/channels/assign-objects', array("key" => $eventKey)), ['json' => $request]);
+    }
+
     /**
      * @param $eventKey string
      * @param $objects string[]
