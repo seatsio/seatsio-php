@@ -6,4 +6,4 @@ dist: trusty
 install: composer install
 before_script:
   - export TZ=Europe/Brussels
-script: vendor/bin/phpunit --configuration tests/phpunit.xml
+script: vendor/bin/phpunit
