@@ -196,6 +196,17 @@ class Events
 
     /**
      * @param $eventKey string
+     * @param $channels object
+     */
+    public function updateChannels($eventKey, $channels)
+    {
+        $request = new \stdClass();
+        $request->channels = $channels;
+        $this->client->post(\GuzzleHttp\uri_template('/events/{key}/channels/update', array("key" => $eventKey)), ['json' => $request]);
+    }
+
+    /**
+     * @param $eventKey string
      * @param $objects string[]
      * @param $categories string[]
      * @return void

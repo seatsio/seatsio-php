@@ -40,4 +40,9 @@ class Event
      * @var \DateTime
      */
     public $updatedOn;
+
+    /**
+     * @var Channel[]
+     */
+    public $channels;
 }
