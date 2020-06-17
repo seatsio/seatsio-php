@@ -208,7 +208,7 @@ class Charts
     public function validatePublishedVersion($key)
     {
         $res = $this->client->post('/charts/' . $key . '/version/published/actions/validate');
-         return \GuzzleHttp\json_decode($res->getBody());
+        return \GuzzleHttp\json_decode($res->getBody());
     }
 
     /**
@@ -218,7 +218,7 @@ class Charts
     public function validateDraftVersion($key)
     {
         $res = $this->client->post('/charts/' . $key . '/version/draft/actions/validate');
-         return \GuzzleHttp\json_decode($res->getBody());
+        return \GuzzleHttp\json_decode($res->getBody());
     }
 
     /**
@@ -258,6 +258,13 @@ class Charts
     public function removeTag($key, $tag)
     {
         $this->client->delete(\GuzzleHttp\uri_template('/charts/{key}/tags/{tag}', array("key" => $key, "tag" => $tag)));
+    }
+
+    public function saveSocialDistancingRulesets($key, $rulesets)
+    {
+        $request = new \stdClass();
+        $request->socialDistancingRulesets = $rulesets;
+        $this->client->post(\GuzzleHttp\uri_template('/charts/{key}/social-distancing-rulesets', array("key" => $key)), ['json' => $request]);
     }
 
     /**

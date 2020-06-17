@@ -24,18 +24,26 @@ class Events
      * @param $bookWholeTablesOrTableBookingModes boolean|object|array
      * @return Event
      */
-    public function create($chartKey, $eventKey = null, $bookWholeTablesOrTableBookingModes = null)
+    public function create($chartKey, $eventKey = null, $bookWholeTablesOrTableBookingModes = null, $socialDistancingRulesetKey = null)
     {
         $request = new \stdClass();
+
         $request->chartKey = $chartKey;
+
         if ($eventKey !== null) {
             $request->eventKey = $eventKey;
         }
+
         if (is_bool($bookWholeTablesOrTableBookingModes)) {
             $request->bookWholeTables = $bookWholeTablesOrTableBookingModes;
         } else if ($bookWholeTablesOrTableBookingModes !== null) {
             $request->tableBookingModes = $bookWholeTablesOrTableBookingModes;
         }
+
+        if($socialDistancingRulesetKey !== null) {
+            $request->socialDistancingRulesetKey = $socialDistancingRulesetKey;
+        }
+
         $res = $this->client->post('/events', ['json' => $request]);
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
