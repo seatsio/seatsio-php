@@ -40,7 +40,7 @@ class Events
             $request->tableBookingModes = $bookWholeTablesOrTableBookingModes;
         }
 
-        if($socialDistancingRulesetKey !== null) {
+        if ($socialDistancingRulesetKey !== null) {
             $request->socialDistancingRulesetKey = $socialDistancingRulesetKey;
         }
 
@@ -50,6 +50,11 @@ class Events
         return $mapper->map($json, new Event());
     }
 
+    /**
+     * @param $chartKey string
+     * @param $eventCreationParams array[\Seatsio\Events\EventCreationParams]
+     * @return array[\Seatsio\Events\Event]
+     */
     public function createMultiple($chartKey, $eventCreationParams)
     {
         $request = new \stdClass();
@@ -57,14 +62,21 @@ class Events
         $request->events = array();
         foreach ($eventCreationParams as $param) {
             $eventToCreate = new \stdClass();
+
             if ($param->eventKey !== null) {
                 $eventToCreate->eventKey = $param->eventKey;
             }
+
             if (is_bool($param->bookWholeTablesOrTableBookingModes)) {
                 $eventToCreate->bookWholeTables = $param->bookWholeTablesOrTableBookingModes;
             } else if ($param->bookWholeTablesOrTableBookingModes !== null) {
                 $eventToCreate->tableBookingModes = $param->bookWholeTablesOrTableBookingModes;
             }
+
+            if ($param->socialDistancingRulesetKey !== null) {
+                $eventToCreate->socialDistancingRulesetKey = $param->socialDistancingRulesetKey;
+            }
+
             $request->events[] = $eventToCreate;
         }
         $res = $this->client->post('/events/actions/create-multiple', ['json' => $request]);
@@ -90,22 +102,31 @@ class Events
      * @param $chartKey string
      * @param $newEventKey string
      * @param $bookWholeTablesOrTableBookingModes boolean|object|array
+     * @param $socialDistancingRulesetKey string
      * @return void
      */
-    public function update($eventKey, $chartKey = null, $newEventKey = null, $bookWholeTablesOrTableBookingModes = null)
+    public function update($eventKey, $chartKey = null, $newEventKey = null, $bookWholeTablesOrTableBookingModes = null, $socialDistancingRulesetKey = null)
     {
         $request = new \stdClass();
+
         if ($chartKey !== null) {
             $request->chartKey = $chartKey;
         }
+
         if ($newEventKey !== null) {
             $request->eventKey = $newEventKey;
         }
+
         if (is_bool($bookWholeTablesOrTableBookingModes)) {
             $request->bookWholeTables = $bookWholeTablesOrTableBookingModes;
         } else if ($bookWholeTablesOrTableBookingModes !== null) {
             $request->tableBookingModes = $bookWholeTablesOrTableBookingModes;
         }
+
+        if ($socialDistancingRulesetKey !== null) {
+            $request->socialDistancingRulesetKey = $socialDistancingRulesetKey;
+        }
+
         $this->client->post(\GuzzleHttp\uri_template('/events/{key}', array("key" => $eventKey)), ['json' => $request]);
     }
 
@@ -346,9 +367,10 @@ class Events
      * @param $statusChangeRequests StatusChangeRequest[]
      * @return ChangeObjectStatusResult[]
      */
-    public function changeObjectStatusInBatch($statusChangeRequests) {
+    public function changeObjectStatusInBatch($statusChangeRequests)
+    {
         $request = new \stdClass();
-        $request->statusChanges = \Functional\map($statusChangeRequests, function($statusChangeRequest) {
+        $request->statusChanges = \Functional\map($statusChangeRequests, function ($statusChangeRequest) {
             return $this->serializeStatusChangeRequest($statusChangeRequest);
         });
         $res = $this->client->post(
@@ -360,7 +382,8 @@ class Events
         return $mapper->mapArray($json->results, array(), ChangeObjectStatusResult::class);
     }
 
-    private function serializeStatusChangeRequest($statusChangeRequest) {
+    private function serializeStatusChangeRequest($statusChangeRequest)
+    {
         $request = new \stdClass();
         $request->event = $statusChangeRequest->event;
         $request->objects = self::normalizeObjects($statusChangeRequest->objectOrObjects);

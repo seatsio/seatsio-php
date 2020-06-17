@@ -2,6 +2,7 @@
 
 namespace Seatsio\Events;
 
+use Seatsio\Charts\SocialDistancingRuleset;
 use Seatsio\SeatsioClientTest;
 
 class CreateEventsTest extends SeatsioClientTest
@@ -77,5 +78,17 @@ class CreateEventsTest extends SeatsioClientTest
         self::assertEquals((object)["T1" => "BY_SEAT", "T2" => "BY_TABLE"], $events[1]->tableBookingModes);
     }
 
+    public function testSocialDistancingRulesetKeyCanBePassedIn()
+    {
+        $chartKey = $this->createTestChartWithTables();
+        $this->seatsioClient->charts->saveSocialDistancingRulesets($chartKey, [ "ruleset1" => new SocialDistancingRuleset(0, "My ruleset")]);
+        $params = [(new EventCreationParams())->setSocialDistancingRulesetKey("ruleset1"), (new EventCreationParams())->setSocialDistancingRulesetKey("ruleset1")];
+
+        $events = $this->seatsioClient->events->createMultiple($chartKey, $params);
+
+        self::assertEquals(2, sizeof($events));
+        self::assertEquals("ruleset1", $events[0]->socialDistancingRulesetKey);
+        self::assertEquals("ruleset1", $events[1]->socialDistancingRulesetKey);
+    }
 
 }
