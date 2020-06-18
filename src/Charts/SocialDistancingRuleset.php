@@ -44,7 +44,7 @@ class SocialDistancingRuleset
      */
     public $enabledSeats;
 
-    public function __construct($index, $name, $numberOfDisabledSeatsToTheSides = 0, $disableSeatsInFrontAndBehind = false, $numberOfDisabledAisleSeats = 0, $maxGroupSize = 0, $disabledSeats = [], $enabledSeats = [])
+    public function __construct($index = 0, $name = null, $numberOfDisabledSeatsToTheSides = 0, $disableSeatsInFrontAndBehind = false, $numberOfDisabledAisleSeats = 0, $maxGroupSize = 0, $disabledSeats = [], $enabledSeats = [])
     {
         $this->index = $index;
         $this->name = $name;
