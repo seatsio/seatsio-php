@@ -17,6 +17,11 @@ class EventCreationParams
      */
     public $bookWholeTablesOrTableBookingModes;
 
+    /**
+     * @var string
+     */
+    public $socialDistancingRulesetKey;
+
     public function __construct($eventKey = null)
     {
         $this->eventKey = $eventKey;
@@ -54,6 +59,16 @@ class EventCreationParams
         } else {
             throw new Exception('expected array param');
         }
+    }
+
+    /**
+     * @param $socialDistancingRulesetKey string
+     * @return EventCreationParams
+     */
+    public function setSocialDistancingRulesetKey($socialDistancingRulesetKey)
+    {
+        $this->socialDistancingRulesetKey = $socialDistancingRulesetKey;
+        return $this;
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace Seatsio\Events;
 
+use Seatsio\Charts\SocialDistancingRuleset;
 use Seatsio\SeatsioClientTest;
 
 class UpdateEventTest extends SeatsioClientTest
@@ -57,6 +58,35 @@ class UpdateEventTest extends SeatsioClientTest
         self::assertEquals($event->key, $retrievedEvent->key);
         self::assertFalse($retrievedEvent->bookWholeTables);
         self::assertEquals((object)["T1" => "BY_TABLE", "T2" => "BY_SEAT"], $retrievedEvent->tableBookingModes);
+    }
+
+    public function testUpdateSocialDistancingRulesetKey()
+    {
+        $chartKey = $this->createTestChartWithTables();
+        $this->seatsioClient->charts->saveSocialDistancingRulesets($chartKey, [
+            "ruleset1" => new SocialDistancingRuleset(0, "My first ruleset"),
+            "ruleset2" => new SocialDistancingRuleset(1, "My second ruleset")
+        ]);
+        $event = $this->seatsioClient->events->create($chartKey, null, null, "ruleset1");
+
+        $this->seatsioClient->events->update($event->key, null, null, null, "ruleset2");
+
+        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+        self::assertEquals("ruleset2", $retrievedEvent->socialDistancingRulesetKey);
+    }
+
+    public function testRemoveSocialDistancingRulesetKey()
+    {
+        $chartKey = $this->createTestChartWithTables();
+        $this->seatsioClient->charts->saveSocialDistancingRulesets($chartKey, [
+            "ruleset1" => new SocialDistancingRuleset(0, "My first ruleset")
+        ]);
+        $event = $this->seatsioClient->events->create($chartKey, null, null, "ruleset1");
+
+        $this->seatsioClient->events->update($event->key, null, null, null, "");
+
+        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+        self::assertNull($retrievedEvent->socialDistancingRulesetKey);
     }
 
 }

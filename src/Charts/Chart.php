@@ -42,7 +42,12 @@ class Chart
     public $archived;
 
     /**
-     * @var array 
+     * @var array
      */
     public $validation;
+
+    /**
+     * @var array[\Seatsio\Charts\SocialDistancingRuleset]
+     */
+    public $socialDistancingRulesets;
 }
