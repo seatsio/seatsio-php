@@ -3,7 +3,6 @@
 namespace Seatsio\Reports;
 
 use Seatsio\Events\ObjectProperties;
-use Seatsio\Events\ObjectStatus;
 use Seatsio\SeatsioClientTest;
 
 class EventReportsSummaryTest extends SeatsioClientTest
@@ -13,74 +12,124 @@ class EventReportsSummaryTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
-        $this->seatsioClient->events->book($event->key, (new ObjectProperties("A-1"))->setTicketType("ticketType1"), null, "order1");
+        $this->seatsioClient->events->book($event->key, (new ObjectProperties("A-1")));
 
         $report = $this->seatsioClient->eventReports->summaryByStatus($event->key);
 
-        self::assertEquals(1, $report[ObjectStatus::$BOOKED]['count']);
-        self::assertEquals(1, $report[ObjectStatus::$BOOKED]['bySection']['NO_SECTION']);
-        self::assertEquals(1, $report[ObjectStatus::$BOOKED]['byCategoryKey']['9']);
-        self::assertEquals(1, $report[ObjectStatus::$BOOKED]['byCategoryLabel']['Cat1']);
-
-        self::assertEquals(231, $report[ObjectStatus::$FREE]['count']);
-        self::assertEquals(231, $report[ObjectStatus::$FREE]['bySection']['NO_SECTION']);
-        self::assertEquals(115, $report[ObjectStatus::$FREE]['byCategoryKey']['9']);
-        self::assertEquals(116, $report[ObjectStatus::$FREE]['byCategoryKey']['10']);
-        self::assertEquals(115, $report[ObjectStatus::$FREE]['byCategoryLabel']['Cat1']);
-        self::assertEquals(116, $report[ObjectStatus::$FREE]['byCategoryLabel']['Cat2']);
+        $expectedReport = [
+            'free' => [
+                'count' => 231,
+                'byCategoryKey' => [9 => 115, 10 => 116],
+                'byCategoryLabel' => ['Cat2' => 116, 'Cat1' => 115],
+                'bySection' => ['NO_SECTION' => 231],
+                'bySelectability' => ['selectable' => 231],
+            ],
+            'booked' => [
+                'count' => 1,
+                'byCategoryKey' => [9 => 1],
+                'byCategoryLabel' => ['Cat1' => 1],
+                'bySection' => ['NO_SECTION' => 1],
+                'bySelectability' => ['not_selectable' => 1],
+            ]
+        ];
+        self::assertEquals($expectedReport, $report);
     }
 
     public function testSummaryByCategoryKey()
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
-        $this->seatsioClient->events->book($event->key, (new ObjectProperties("A-1"))->setTicketType("ticketType1"), null, "order1");
+        $this->seatsioClient->events->book($event->key, (new ObjectProperties("A-1")));
 
         $report = $this->seatsioClient->eventReports->summaryByCategoryKey($event->key);
 
-        self::assertEquals(116, $report['9']['count']);
-        self::assertEquals(116, $report['9']['bySection']['NO_SECTION']);
-        self::assertEquals(1, $report['9']['byStatus'][ObjectStatus::$BOOKED]);
-        self::assertEquals(115, $report['9']['byStatus'][ObjectStatus::$FREE]);
-
-        self::assertEquals(116, $report['10']['count']);
-        self::assertEquals(116, $report['10']['bySection']['NO_SECTION']);
-        self::assertEquals(116, $report['10']['byStatus'][ObjectStatus::$FREE]);
+        $expectedReport = [
+            '9' => [
+                'count' => 116,
+                'bySection' => ['NO_SECTION' => 116],
+                'byStatus' => ['free' => 115, 'booked' => 1],
+                'bySelectability' => ['selectable' => 115, 'not_selectable' => 1],
+            ],
+            '10' => [
+                'count' => 116,
+                'bySection' => ['NO_SECTION' => 116],
+                'byStatus' => ['free' => 116],
+                'bySelectability' => ['selectable' => 116],
+            ]
+        ];
+        self::assertEquals($expectedReport, $report);
     }
 
     public function testSummaryByCategoryLabel()
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
-        $this->seatsioClient->events->book($event->key, (new ObjectProperties("A-1"))->setTicketType("ticketType1"), null, "order1");
+        $this->seatsioClient->events->book($event->key, (new ObjectProperties("A-1")));
 
         $report = $this->seatsioClient->eventReports->summaryByCategoryLabel($event->key);
 
-        self::assertEquals(116, $report['Cat1']['count']);
-        self::assertEquals(116, $report['Cat1']['bySection']['NO_SECTION']);
-        self::assertEquals(1, $report['Cat1']['byStatus'][ObjectStatus::$BOOKED]);
-        self::assertEquals(115, $report['Cat1']['byStatus'][ObjectStatus::$FREE]);
-
-        self::assertEquals(116, $report['Cat2']['count']);
-        self::assertEquals(116, $report['Cat2']['bySection']['NO_SECTION']);
-        self::assertEquals(116, $report['Cat2']['byStatus'][ObjectStatus::$FREE]);
+        $expectedReport = [
+            'Cat1' => [
+                'count' => 116,
+                'bySection' => ['NO_SECTION' => 116],
+                'byStatus' => ['free' => 115, 'booked' => 1],
+                'bySelectability' => ['selectable' => 115, 'not_selectable' => 1],
+            ],
+            'Cat2' => [
+                'count' => 116,
+                'bySection' => ['NO_SECTION' => 116],
+                'byStatus' => ['free' => 116],
+                'bySelectability' => ['selectable' => 116],
+            ]
+        ];
+        self::assertEquals($expectedReport, $report);
     }
 
     public function testSummaryBySection()
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
-        $this->seatsioClient->events->book($event->key, (new ObjectProperties("A-1"))->setTicketType("ticketType1"), null, "order1");
+        $this->seatsioClient->events->book($event->key, (new ObjectProperties("A-1")));
 
         $report = $this->seatsioClient->eventReports->summaryBySection($event->key);
 
-        self::assertEquals(232, $report['NO_SECTION']['count']);
-        self::assertEquals(1, $report['NO_SECTION']['byStatus'][ObjectStatus::$BOOKED]);
-        self::assertEquals(231, $report['NO_SECTION']['byStatus'][ObjectStatus::$FREE]);
-        self::assertEquals(116, $report['NO_SECTION']['byCategoryKey']['9']);
-        self::assertEquals(116, $report['NO_SECTION']['byCategoryKey']['10']);
-        self::assertEquals(116, $report['NO_SECTION']['byCategoryLabel']['Cat1']);
-        self::assertEquals(116, $report['NO_SECTION']['byCategoryLabel']['Cat2']);
+        $expectedReport = [
+            'NO_SECTION' => [
+                'count' => 232,
+                'byCategoryKey' => [9 => 116, 10 => 116],
+                'byCategoryLabel' => ['Cat2' => 116, 'Cat1' => 116],
+                'byStatus' => ['free' => 231, 'booked' => 1],
+                'bySelectability' => ['selectable' => 231, 'not_selectable' => 1],
+            ]
+        ];
+        self::assertEquals($expectedReport, $report);
+    }
+
+    public function testSummaryBySelectability()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $this->seatsioClient->events->book($event->key, (new ObjectProperties("A-1")));
+
+        $report = $this->seatsioClient->eventReports->summaryBySelectability($event->key);
+
+        $expectedReport = [
+            'selectable' => [
+                'count' => 231,
+                'byCategoryKey' => [9 => 115, 10 => 116],
+                'byCategoryLabel' => ['Cat2' => 116, 'Cat1' => 115],
+                'bySection' => ['NO_SECTION' => 231],
+                'byStatus' => ['free' => 231],
+            ],
+            'not_selectable' => [
+                'count' => 1,
+                'byCategoryKey' => [9 => 1],
+                'byCategoryLabel' => ['Cat1' => 1],
+                'bySection' => ['NO_SECTION' => 1],
+                'byStatus' => ['booked' => 1],
+            ]
+        ];
+        self::assertEquals($expectedReport, $report);
     }
 
 }
