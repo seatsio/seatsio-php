@@ -96,5 +96,13 @@ class EventReportItem
      * @var string
      */
     public $rightNeighbour;
+    /**
+     * @var boolean
+     */
+    public $isSelectable;
+    /**
+     * @var boolean
+     */
+    public $isDisabledBySocialDistancing;
 
 }

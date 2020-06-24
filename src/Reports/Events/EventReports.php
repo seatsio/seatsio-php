@@ -131,6 +131,28 @@ class EventReports
     }
 
     /**
+     * @param $eventKey string
+     * @param $selectability string
+     * @return array
+     */
+    public function bySelectability($eventKey, $selectability = null)
+    {
+        $res = $this->client->get(self::reportUrl('bySelectability', $eventKey, $selectability));
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        return $this->mapMultiValuedReport($json, $selectability);
+    }
+
+    /**
+     * @param $eventKey string
+     * @return array
+     */
+    public function summaryBySelectability($eventKey)
+    {
+        $res = $this->client->get(self::summaryReportUrl('bySelectability', $eventKey));
+        return \GuzzleHttp\json_decode($res->getBody(), true);
+    }
+
+    /**
      * @param $json mixed
      * @param $filter string
      * @return array
