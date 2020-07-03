@@ -16,6 +16,7 @@ class CreateWorkspaceTest extends SeatsioClientTest
         self::assertNotNull($workspace->key);
         self::assertNotNull($workspace->secretKey);
         self::assertFalse($workspace->isTest);
+        self::assertTrue($workspace->isActive);
     }
 
     public function testCreateTestWorkspace()
@@ -26,6 +27,7 @@ class CreateWorkspaceTest extends SeatsioClientTest
         self::assertNotNull($workspace->key);
         self::assertNotNull($workspace->secretKey);
         self::assertTrue($workspace->isTest);
+        self::assertTrue($workspace->isActive);
     }
 
 }

@@ -61,6 +61,22 @@ class Workspaces
 
     /**
      * @param $key string
+     */
+    public function activate($key)
+    {
+        $this->client->post(\GuzzleHttp\uri_template('/workspaces/{key}/actions/activate', array("key" => $key)));
+    }
+
+    /**
+     * @param $key string
+     */
+    public function deactivate($key)
+    {
+        $this->client->post(\GuzzleHttp\uri_template('/workspaces/{key}/actions/deactivate', array("key" => $key)));
+    }
+
+    /**
+     * @param $key string
      * @return Workspace
      */
     public function retrieve($key)
