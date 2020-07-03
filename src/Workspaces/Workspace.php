@@ -29,4 +29,9 @@ class Workspace
      */
     public $isTest;
 
+    /**
+     * @var boolean
+     */
+    public $isActive;
+
 }

@@ -18,6 +18,7 @@ class RetrieveWorkspaceTest extends SeatsioClientTest
         self::assertNotNull($retrievedWorkspace->key);
         self::assertNotNull($retrievedWorkspace->secretKey);
         self::assertFalse($retrievedWorkspace->isTest);
+        self::assertTrue($retrievedWorkspace->isActive);
     }
 
 }
