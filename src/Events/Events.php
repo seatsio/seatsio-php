@@ -337,9 +337,10 @@ class Events
      * @param $holdToken string
      * @param $orderId string
      * @param $keepExtraData boolean
+     * @param $channelKeys string[]
      * @return ChangeObjectStatusResult
      */
-    public function changeObjectStatus($eventKeyOrKeys, $objectOrObjects, $status, $holdToken = null, $orderId = null, $keepExtraData = null)
+    public function changeObjectStatus($eventKeyOrKeys, $objectOrObjects, $status, $holdToken = null, $orderId = null, $keepExtraData = null, $channelKeys = null)
     {
         $request = new \stdClass();
         $request->objects = self::normalizeObjects($objectOrObjects);
@@ -352,6 +353,9 @@ class Events
         }
         if ($keepExtraData !== null) {
             $request->keepExtraData = $keepExtraData;
+        }
+        if ($channelKeys !== null) {
+            $request->channelKeys = $channelKeys;
         }
         $request->events = is_array($eventKeyOrKeys) ? $eventKeyOrKeys : [$eventKeyOrKeys];
         $res = $this->client->post(
@@ -406,11 +410,12 @@ class Events
      * @param $holdToken string
      * @param $orderId string
      * @param $keepExtraData boolean
+     * @param $channelKeys string[]
      * @return ChangeObjectStatusResult
      */
-    public function book($eventKeyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null, $keepExtraData = null)
+    public function book($eventKeyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null, $keepExtraData = null, $channelKeys = null)
     {
-        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$BOOKED, $holdToken, $orderId, $keepExtraData);
+        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$BOOKED, $holdToken, $orderId, $keepExtraData, $channelKeys);
     }
 
     /**
@@ -433,11 +438,12 @@ class Events
      * @param $holdToken string
      * @param $orderId string
      * @param $keepExtraData boolean
+     * @param $channelKeys string[]
      * @return ChangeObjectStatusResult
      */
-    public function release($eventKeyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null, $keepExtraData = null)
+    public function release($eventKeyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null, $keepExtraData = null, $channelKeys = null)
     {
-        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$FREE, $holdToken, $orderId, $keepExtraData);
+        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$FREE, $holdToken, $orderId, $keepExtraData, $channelKeys);
     }
 
     /**
@@ -446,11 +452,12 @@ class Events
      * @param $holdToken string
      * @param $orderId string
      * @param $keepExtraData boolean
+     * @param $channelKeys string[]
      * @return ChangeObjectStatusResult
      */
-    public function hold($eventKeyOrKeys, $objectOrObjects, $holdToken, $orderId = null, $keepExtraData = null)
+    public function hold($eventKeyOrKeys, $objectOrObjects, $holdToken, $orderId = null, $keepExtraData = null, $channelKeys = null)
     {
-        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$HELD, $holdToken, $orderId, $keepExtraData);
+        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$HELD, $holdToken, $orderId, $keepExtraData, $channelKeys);
     }
 
     /**
