@@ -77,6 +77,14 @@ class Workspaces
 
     /**
      * @param $key string
+     */
+    public function setDefault($key)
+    {
+        $this->client->post(\GuzzleHttp\uri_template('/workspaces/actions/set-default/{key}', array("key" => $key)));
+    }
+
+    /**
+     * @param $key string
      * @return Workspace
      */
     public function retrieve($key)

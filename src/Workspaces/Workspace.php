@@ -32,6 +32,11 @@ class Workspace
     /**
      * @var boolean
      */
+    public $isDefault;
+
+    /**
+     * @var boolean
+     */
     public $isActive;
 
 }
