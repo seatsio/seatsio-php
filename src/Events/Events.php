@@ -337,10 +337,11 @@ class Events
      * @param $holdToken string
      * @param $orderId string
      * @param $keepExtraData boolean
+     * @param $ignoreChannels boolean
      * @param $channelKeys string[]
      * @return ChangeObjectStatusResult
      */
-    public function changeObjectStatus($eventKeyOrKeys, $objectOrObjects, $status, $holdToken = null, $orderId = null, $keepExtraData = null, $channelKeys = null)
+    public function changeObjectStatus($eventKeyOrKeys, $objectOrObjects, $status, $holdToken = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
     {
         $request = new \stdClass();
         $request->objects = self::normalizeObjects($objectOrObjects);
@@ -353,6 +354,9 @@ class Events
         }
         if ($keepExtraData !== null) {
             $request->keepExtraData = $keepExtraData;
+        }
+        if ($ignoreChannels !== null) {
+            $request->ignoreChannels = $ignoreChannels;
         }
         if ($channelKeys !== null) {
             $request->channelKeys = $channelKeys;
@@ -410,12 +414,13 @@ class Events
      * @param $holdToken string
      * @param $orderId string
      * @param $keepExtraData boolean
+     * @param $ignoreChannels boolean
      * @param $channelKeys string[]
      * @return ChangeObjectStatusResult
      */
-    public function book($eventKeyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null, $keepExtraData = null, $channelKeys = null)
+    public function book($eventKeyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
     {
-        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$BOOKED, $holdToken, $orderId, $keepExtraData, $channelKeys);
+        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$BOOKED, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
 
     /**
@@ -425,11 +430,13 @@ class Events
      * @param $holdToken string
      * @param $orderId string
      * @param $keepExtraData boolean
+     * @param $ignoreChannels boolean
+     * @param $channelKeys string[]
      * @return BestAvailableObjects
      */
-    public function bookBestAvailable($eventKey, $number, $categories = null, $holdToken = null, $orderId = null, $keepExtraData = null)
+    public function bookBestAvailable($eventKey, $number, $categories = null, $holdToken = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
     {
-        return $this::changeBestAvailableObjectStatus($eventKey, $number, ObjectStatus::$BOOKED, $categories, $holdToken, $orderId, $keepExtraData);
+        return $this::changeBestAvailableObjectStatus($eventKey, $number, ObjectStatus::$BOOKED, $categories, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
 
     /**
@@ -438,12 +445,13 @@ class Events
      * @param $holdToken string
      * @param $orderId string
      * @param $keepExtraData boolean
+     * @param $ignoreChannels boolean
      * @param $channelKeys string[]
      * @return ChangeObjectStatusResult
      */
-    public function release($eventKeyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null, $keepExtraData = null, $channelKeys = null)
+    public function release($eventKeyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
     {
-        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$FREE, $holdToken, $orderId, $keepExtraData, $channelKeys);
+        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$FREE, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
 
     /**
@@ -452,12 +460,13 @@ class Events
      * @param $holdToken string
      * @param $orderId string
      * @param $keepExtraData boolean
+     * @param $ignoreChannels boolean
      * @param $channelKeys string[]
      * @return ChangeObjectStatusResult
      */
-    public function hold($eventKeyOrKeys, $objectOrObjects, $holdToken, $orderId = null, $keepExtraData = null, $channelKeys = null)
+    public function hold($eventKeyOrKeys, $objectOrObjects, $holdToken, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
     {
-        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$HELD, $holdToken, $orderId, $keepExtraData, $channelKeys);
+        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$HELD, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
 
     /**
@@ -467,11 +476,13 @@ class Events
      * @param $holdToken string
      * @param $orderId string
      * @param $keepExtraData boolean
+     * @param $ignoreChannels boolean
+     * @param $channelKeys string[]
      * @return BestAvailableObjects
      */
-    public function holdBestAvailable($eventKey, $number, $holdToken, $categories = null, $orderId = null, $keepExtraData = null)
+    public function holdBestAvailable($eventKey, $number, $holdToken, $categories = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
     {
-        return $this::changeBestAvailableObjectStatus($eventKey, $number, ObjectStatus::$HELD, $categories, $holdToken, $orderId, $keepExtraData);
+        return $this::changeBestAvailableObjectStatus($eventKey, $number, ObjectStatus::$HELD, $categories, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
 
     /**
@@ -483,9 +494,11 @@ class Events
      * @param $extraData array
      * @param $orderId string
      * @param $keepExtraData boolean
+     * @param $ignoreChannels boolean
+     * @param $channelKeys string[]
      * @return BestAvailableObjects
      */
-    public function changeBestAvailableObjectStatus($eventKey, $number, $status, $categories = null, $holdToken = null, $extraData = null, $orderId = null, $keepExtraData = null)
+    public function changeBestAvailableObjectStatus($eventKey, $number, $status, $categories = null, $holdToken = null, $extraData = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
     {
         $request = new \stdClass();
         $bestAvailable = new \stdClass();
@@ -506,6 +519,12 @@ class Events
         }
         if ($keepExtraData !== null) {
             $request->keepExtraData = $keepExtraData;
+        }
+        if ($ignoreChannels !== null) {
+            $request->ignoreChannels = $ignoreChannels;
+        }
+        if ($channelKeys !== null) {
+            $request->channelKeys = $channelKeys;
         }
         $res = $this->client->post(
             \GuzzleHttp\uri_template('/events/{key}/actions/change-object-status', array("key" => $eventKey)),

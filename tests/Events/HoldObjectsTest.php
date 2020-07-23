@@ -52,7 +52,7 @@ class HoldObjectsTest extends SeatsioClientTest
         self::assertEquals((object)$extraData, $objectStatus->extraData);
     }
 
-    public function testAcceptChannelKeys()
+    public function testChannelKeys()
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
@@ -64,11 +64,27 @@ class HoldObjectsTest extends SeatsioClientTest
             "channelKey1" => ["A-1", "A-2"]
         ]);
 
-        $this->seatsioClient->events->hold($event->key, "A-1", $holdToken->holdToken, null, null, ["channelKey1"]);
+        $this->seatsioClient->events->hold($event->key, "A-1", $holdToken->holdToken, null, null, null, ["channelKey1"]);
 
         $objectStatus = $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-1");
         self::assertEquals(ObjectStatus::$HELD, $objectStatus->status);
     }
 
+    public function testIgnoreChannels()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $holdToken = $this->seatsioClient->holdTokens->create();
+        $this->seatsioClient->events->updateChannels($event->key, [
+            "channelKey1" => new Channel("channel 1", "#FF0000", 1)
+        ]);
+        $this->seatsioClient->events->assignObjectsToChannels($event->key, [
+            "channelKey1" => ["A-1", "A-2"]
+        ]);
 
+        $this->seatsioClient->events->hold($event->key, "A-1", $holdToken->holdToken, null, null, true);
+
+        $objectStatus = $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-1");
+        self::assertEquals(ObjectStatus::$HELD, $objectStatus->status);
+    }
 }

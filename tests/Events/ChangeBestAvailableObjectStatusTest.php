@@ -129,4 +129,36 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
         $objectStatus = $this->seatsioClient->events->retrieveObjectStatus($event->key, "B-5");
         self::assertEquals((object)$extraData, $objectStatus->extraData);
     }
+
+    public function testChannelKeys()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $this->seatsioClient->events->updateChannels($event->key, [
+            "channelKey1" => new Channel("channel 1", "#FF0000", 1)
+        ]);
+        $this->seatsioClient->events->assignObjectsToChannels($event->key, [
+            "channelKey1" => ["B-6"]
+        ]);
+
+        $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 1, "lolzor", null, null, null, null, null, null, ["channelKey1"]);
+
+        self::assertEquals(["B-6"], $bestAvailableObjects->objects);
+    }
+
+    public function testIgnoreChannels()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $this->seatsioClient->events->updateChannels($event->key, [
+            "channelKey1" => new Channel("channel 1", "#FF0000", 1)
+        ]);
+        $this->seatsioClient->events->assignObjectsToChannels($event->key, [
+            "channelKey1" => ["B-5"]
+        ]);
+
+        $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 1, "lolzor", null, null, null, null, null, true);
+
+        self::assertEquals(["B-5"], $bestAvailableObjects->objects);
+    }
 }
