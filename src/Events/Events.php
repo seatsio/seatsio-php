@@ -405,6 +405,12 @@ class Events
         if ($statusChangeRequest->keepExtraData !== null) {
             $request->keepExtraData = $statusChangeRequest->keepExtraData;
         }
+        if ($statusChangeRequest->ignoreChannels !== null) {
+            $request->ignoreChannels = $statusChangeRequest->ignoreChannels;
+        }
+        if ($statusChangeRequest->channelKeys !== null) {
+            $request->channelKeys = $statusChangeRequest->channelKeys;
+        }
         return $request;
     }
 
