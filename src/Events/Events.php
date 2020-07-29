@@ -434,15 +434,17 @@ class Events
      * @param $number int
      * @param $categories string[]
      * @param $holdToken string
+     * @param $extraData array
+     * @param $ticketTypes string[]
      * @param $orderId string
      * @param $keepExtraData boolean
      * @param $ignoreChannels boolean
      * @param $channelKeys string[]
      * @return BestAvailableObjects
      */
-    public function bookBestAvailable($eventKey, $number, $categories = null, $holdToken = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
+    public function bookBestAvailable($eventKey, $number, $categories = null, $holdToken = null, $extraData = null, $ticketTypes = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
     {
-        return $this::changeBestAvailableObjectStatus($eventKey, $number, ObjectStatus::$BOOKED, $categories, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
+        return $this::changeBestAvailableObjectStatus($eventKey, $number, ObjectStatus::$BOOKED, $categories, $holdToken, $extraData, $ticketTypes, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
 
     /**
@@ -480,15 +482,17 @@ class Events
      * @param $number int
      * @param $categories string[]
      * @param $holdToken string
+     * @param $extraData array
+     * @param $ticketTypes string[]
      * @param $orderId string
      * @param $keepExtraData boolean
      * @param $ignoreChannels boolean
      * @param $channelKeys string[]
      * @return BestAvailableObjects
      */
-    public function holdBestAvailable($eventKey, $number, $holdToken, $categories = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
+    public function holdBestAvailable($eventKey, $number, $holdToken, $categories = null, $extraData = null, $ticketTypes = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
     {
-        return $this::changeBestAvailableObjectStatus($eventKey, $number, ObjectStatus::$HELD, $categories, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
+        return $this::changeBestAvailableObjectStatus($eventKey, $number, ObjectStatus::$HELD, $categories, $holdToken, $extraData, $ticketTypes, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
 
     /**
@@ -498,14 +502,14 @@ class Events
      * @param $categories string[]
      * @param $holdToken string
      * @param $extraData array
+     * @param $ticketTypes string[]
      * @param $orderId string
      * @param $keepExtraData boolean
      * @param $ignoreChannels boolean
      * @param $channelKeys string[]
-     * @param $ticketTypes string[]
      * @return BestAvailableObjects
      */
-    public function changeBestAvailableObjectStatus($eventKey, $number, $status, $categories = null, $holdToken = null, $extraData = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null, $ticketTypes = null)
+    public function changeBestAvailableObjectStatus($eventKey, $number, $status, $categories = null, $holdToken = null, $extraData = null, $ticketTypes = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
     {
         $request = new \stdClass();
         $bestAvailable = new \stdClass();
