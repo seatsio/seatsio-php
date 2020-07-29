@@ -69,6 +69,20 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
         self::assertEquals($b5Status->extraData, (object)["foo" => "baz"]);
     }
 
+    public function testTicketTypes()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 2, "lolzor", null, null, null, null, null, null, null, ["adult", "child"]);
+
+        self::assertEquals(["B-4", "B-5"], $bestAvailableObjects->objects, '', 0.0, 10, true);
+        $b4Status = $this->seatsioClient->events->retrieveObjectStatus($event->key, "B-4");
+        self::assertEquals($b4Status->ticketType, "adult");
+        $b5Status = $this->seatsioClient->events->retrieveObjectStatus($event->key, "B-5");
+        self::assertEquals($b5Status->ticketType, "child");
+    }
+
     public function testHoldToken()
     {
         $chartKey = $this->createTestChart();

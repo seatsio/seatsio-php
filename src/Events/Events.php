@@ -502,9 +502,10 @@ class Events
      * @param $keepExtraData boolean
      * @param $ignoreChannels boolean
      * @param $channelKeys string[]
+     * @param $ticketTypes string[]
      * @return BestAvailableObjects
      */
-    public function changeBestAvailableObjectStatus($eventKey, $number, $status, $categories = null, $holdToken = null, $extraData = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
+    public function changeBestAvailableObjectStatus($eventKey, $number, $status, $categories = null, $holdToken = null, $extraData = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null, $ticketTypes = null)
     {
         $request = new \stdClass();
         $bestAvailable = new \stdClass();
@@ -514,6 +515,9 @@ class Events
         }
         if ($extraData != null) {
             $bestAvailable->extraData = $extraData;
+        }
+        if ($ticketTypes !== null) {
+            $bestAvailable->ticketTypes = $ticketTypes;
         }
         $request->bestAvailable = $bestAvailable;
         $request->status = $status;
