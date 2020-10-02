@@ -2,6 +2,7 @@
 
 namespace Seatsio\Reports;
 
+use Seatsio\Events\Channel;
 use Seatsio\Events\ObjectProperties;
 use Seatsio\Events\ObjectStatus;
 use Seatsio\SeatsioClientTest;
@@ -15,6 +16,10 @@ class EventReportsTest extends SeatsioClientTest
         $event = $this->seatsioClient->events->create($chartKey);
         $extraData = ["foo" => "bar"];
         $this->seatsioClient->events->book($event->key, (new ObjectProperties("A-1"))->setTicketType("ticketType1")->setExtraData($extraData), null, "order1");
+        $this->seatsioClient->events->updateChannels($event->key, [
+            "channel1" => new Channel("channel 1", "#FF0000", 1)
+        ]);
+        $this->seatsioClient->events->assignObjectsToChannels($event->key, ["channel1" => ["A-1"]]);
 
         $report = $this->seatsioClient->eventReports->byLabel($event->key);
 
@@ -39,6 +44,7 @@ class EventReportsTest extends SeatsioClientTest
         self::assertNull($reportItem->displayedObjectType);
         self::assertNull($reportItem->leftNeighbour);
         self::assertEquals("A-2", $reportItem->rightNeighbour);
+        self::assertEquals("channel1", $reportItem->channel);
     }
 
     public function testHoldToken()
@@ -240,6 +246,35 @@ class EventReportsTest extends SeatsioClientTest
 
         $report = $this->seatsioClient->eventReports->bySelectability($event->key, "selectable");
         self::assertCount(34, $report);
+    }
+
+    public function testByChannel()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $this->seatsioClient->events->updateChannels($event->key, [
+            "channel1" => new Channel("channel 1", "#FF0000", 1)
+        ]);
+        $this->seatsioClient->events->assignObjectsToChannels($event->key, ["channel1" => ["A-1", "A-2"]]);
+
+        $report = $this->seatsioClient->eventReports->byChannel($event->key);
+
+        self::assertCount(2, $report["channel1"]);
+        self::assertCount(32, $report["NO_CHANNEL"]);
+    }
+
+    public function testBySpecificChannel()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $this->seatsioClient->events->updateChannels($event->key, [
+            "channel1" => new Channel("channel 1", "#FF0000", 1)
+        ]);
+        $this->seatsioClient->events->assignObjectsToChannels($event->key, ["channel1" => ["A-1", "A-2"]]);
+
+        $report = $this->seatsioClient->eventReports->byChannel($event->key, 'channel1');
+
+        self::assertCount(2, $report);
     }
 
 }

@@ -104,5 +104,9 @@ class EventReportItem
      * @var boolean
      */
     public $isDisabledBySocialDistancing;
+    /**
+     * @var string
+     */
+    public $channel;
 
 }

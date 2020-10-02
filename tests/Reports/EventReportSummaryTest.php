@@ -2,6 +2,7 @@
 
 namespace Seatsio\Reports;
 
+use Seatsio\Events\Channel;
 use Seatsio\Events\ObjectProperties;
 use Seatsio\SeatsioClientTest;
 
@@ -23,6 +24,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byCategoryLabel' => ['Cat2' => 116, 'Cat1' => 115],
                 'bySection' => ['NO_SECTION' => 231],
                 'bySelectability' => ['selectable' => 231],
+                'byChannel' => ['NO_CHANNEL' => 231]
             ],
             'booked' => [
                 'count' => 1,
@@ -30,6 +32,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byCategoryLabel' => ['Cat1' => 1],
                 'bySection' => ['NO_SECTION' => 1],
                 'bySelectability' => ['not_selectable' => 1],
+                'byChannel' => ['NO_CHANNEL' => 1]
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -49,12 +52,14 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'bySection' => ['NO_SECTION' => 116],
                 'byStatus' => ['free' => 115, 'booked' => 1],
                 'bySelectability' => ['selectable' => 115, 'not_selectable' => 1],
+                'byChannel' => ['NO_CHANNEL' => 116]
             ],
             '10' => [
                 'count' => 116,
                 'bySection' => ['NO_SECTION' => 116],
                 'byStatus' => ['free' => 116],
                 'bySelectability' => ['selectable' => 116],
+                'byChannel' => ['NO_CHANNEL' => 116]
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -74,12 +79,14 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'bySection' => ['NO_SECTION' => 116],
                 'byStatus' => ['free' => 115, 'booked' => 1],
                 'bySelectability' => ['selectable' => 115, 'not_selectable' => 1],
+                'byChannel' => ['NO_CHANNEL' => 116]
             ],
             'Cat2' => [
                 'count' => 116,
                 'bySection' => ['NO_SECTION' => 116],
                 'byStatus' => ['free' => 116],
                 'bySelectability' => ['selectable' => 116],
+                'byChannel' => ['NO_CHANNEL' => 116]
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -100,6 +107,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byCategoryLabel' => ['Cat2' => 116, 'Cat1' => 116],
                 'byStatus' => ['free' => 231, 'booked' => 1],
                 'bySelectability' => ['selectable' => 231, 'not_selectable' => 1],
+                'byChannel' => ['NO_CHANNEL' => 232]
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -120,6 +128,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byCategoryLabel' => ['Cat2' => 116, 'Cat1' => 115],
                 'bySection' => ['NO_SECTION' => 231],
                 'byStatus' => ['free' => 231],
+                'byChannel' => ['NO_CHANNEL' => 231]
             ],
             'not_selectable' => [
                 'count' => 1,
@@ -127,6 +136,39 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byCategoryLabel' => ['Cat1' => 1],
                 'bySection' => ['NO_SECTION' => 1],
                 'byStatus' => ['booked' => 1],
+                'byChannel' => ['NO_CHANNEL' => 1]
+            ]
+        ];
+        self::assertEquals($expectedReport, $report);
+    }
+
+    public function testSummaryByChannel()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $this->seatsioClient->events->updateChannels($event->key, [
+            "channel1" => new Channel("channel 1", "#FF0000", 1)
+        ]);
+        $this->seatsioClient->events->assignObjectsToChannels($event->key, ["channel1" => ["A-1", "A-2"]]);
+
+        $report = $this->seatsioClient->eventReports->summaryByChannel($event->key);
+
+        $expectedReport = [
+            'NO_CHANNEL' => [
+                'count' => 230,
+                'byCategoryKey' => [9 => 114, 10 => 116],
+                'byCategoryLabel' => ['Cat2' => 116, 'Cat1' => 114],
+                'bySection' => ['NO_SECTION' => 230],
+                'byStatus' => ['free' => 230],
+                'bySelectability' => ['selectable' => 230]
+            ],
+            'channel1' => [
+                'count' => 2,
+                'byCategoryKey' => [9 => 2],
+                'byCategoryLabel' => ['Cat1' => 2],
+                'bySection' => ['NO_SECTION' => 2],
+                'byStatus' => ['free' => 2],
+                'bySelectability' => ['selectable' => 2]
             ]
         ];
         self::assertEquals($expectedReport, $report);

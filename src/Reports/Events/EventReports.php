@@ -132,6 +132,28 @@ class EventReports
 
     /**
      * @param $eventKey string
+     * @param $channel string
+     * @return array
+     */
+    public function byChannel($eventKey, $channel = null)
+    {
+        $res = $this->client->get(self::reportUrl('byChannel', $eventKey, $channel));
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        return $this->mapMultiValuedReport($json, $channel);
+    }
+
+    /**
+     * @param $eventKey string
+     * @return array
+     */
+    public function summaryByChannel($eventKey)
+    {
+        $res = $this->client->get(self::summaryReportUrl('byChannel', $eventKey));
+        return \GuzzleHttp\json_decode($res->getBody(), true);
+    }
+
+    /**
+     * @param $eventKey string
      * @param $selectability string
      * @return array
      */
