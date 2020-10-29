@@ -4,13 +4,13 @@
   "type": "library",
   "license": "MIT",
   "require": {
-    "php": ">=5.5.0",
-    "guzzlehttp/guzzle": "^6.3.0",
+    "php": ">=7.0.0",
+    "guzzlehttp/guzzle": "^6.5.5",
     "netresearch/jsonmapper": "^v1.6.0",
-    "lstrojny/functional-php": "^1.0.0"
+    "lstrojny/functional-php": "^1.14.1"
   },
   "require-dev": {
-    "phpunit/phpunit": "^4.5.1"
+    "brianium/paratest": "^3.1.2"
   },
   "autoload": {
     "psr-4": {

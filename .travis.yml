@@ -1,9 +1,9 @@
 language: php
 php:
-  - 5.5
-  - 7.2
+  - 7.0
+  - 7.4
 dist: trusty
 install: composer install
 before_script:
   - export TZ=Europe/Brussels
-script: vendor/bin/phpunit
+script: vendor/bin/paratest
