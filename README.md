@@ -13,7 +13,7 @@ The recommended way to install seatsio-php is through [Composer](http://getcompo
 composer require seatsio/seatsio-php
 ```
 
-The minimum required PHP version is 5.5.
+The minimum required PHP version is 7.1.
 
 ## Versioning
 
