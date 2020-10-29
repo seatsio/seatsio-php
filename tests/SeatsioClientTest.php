@@ -18,7 +18,7 @@ class SeatsioClientTest extends TestCase
     /** @var Subaccount */
     protected $subaccount;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $company = $this->createTestCompany();
         $this->user = $company->admin;
