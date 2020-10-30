@@ -170,6 +170,7 @@
             "uuid": "uuid1432"
           }
         ],
+        "bookAsAWhole": true,
         "rotationAngle": 0,
         "openSpaces": 0,
         "label": "T2",

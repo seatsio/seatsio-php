@@ -45,6 +45,37 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertCount(1, $report["A-2"]);
     }
 
+    public function testByLabel_bookWholeTablesNull()
+    {
+        $chartKey = $this->createTestChartWithTables();
+
+        $report = $this->seatsioClient->chartReports->byLabel($chartKey);
+        self::assertCount(14, array_keys($report));
+    }
+
+    public function testByLabel_bookWholeTablesChart()
+    {
+        $chartKey = $this->createTestChartWithTables();
+
+        $report = $this->seatsioClient->chartReports->byLabel($chartKey, 'chart');
+        self::assertCount(7, array_keys($report));
+    }
+
+    public function testByLabel_bookWholeTablesTrue()
+    {
+        $chartKey = $this->createTestChartWithTables();
+
+        $report = $this->seatsioClient->chartReports->byLabel($chartKey, 'true');
+        self::assertCount(2, array_keys($report));
+    }
+
+    public function testByLabel_bookWholeTablesFalse()
+    {
+        $chartKey = $this->createTestChartWithTables();
+
+        $report = $this->seatsioClient->chartReports->byLabel($chartKey, 'false');
+        self::assertCount(12, array_keys($report));
+    }
 
     public function testByCategoryKey()
     {
