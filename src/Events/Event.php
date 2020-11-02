@@ -17,11 +17,6 @@ class Event
     /**
      * @var boolean
      */
-    public $bookWholeTables;
-
-    /**
-     * @var boolean
-     */
     public $supportsBestAvailable;
 
     /**
@@ -30,9 +25,9 @@ class Event
     public $forSaleConfig;
 
     /**
-     * @var object
+     * @var TableBookingConfig
      */
-    public $tableBookingModes;
+    public $tableBookingConfig;
 
     /**
      * @var string

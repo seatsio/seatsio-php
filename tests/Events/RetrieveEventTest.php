@@ -17,7 +17,7 @@ class RetrieveEventTest extends SeatsioClientTest
         self::assertEquals($event->key, $retrievedEvent->key);
         self::assertEquals($event->id, $retrievedEvent->id);
         self::assertEquals($chartKey, $retrievedEvent->chartKey);
-        self::assertFalse($retrievedEvent->bookWholeTables);
+        self::assertEquals(TableBookingConfig::inherit(), $retrievedEvent->tableBookingConfig);
         self::assertTrue($retrievedEvent->supportsBestAvailable);
         self::assertEquals($event->createdOn, $retrievedEvent->createdOn);
         self::assertNull($retrievedEvent->forSaleConfig);

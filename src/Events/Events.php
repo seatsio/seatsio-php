@@ -21,10 +21,11 @@ class Events
     /**
      * @param $chartKey string
      * @param $eventKey string
-     * @param $bookWholeTablesOrTableBookingModes boolean|object|array
+     * @param $tableBookingConfig TableBookingConfig
+     * @param $socialDistancingRulesetKey string
      * @return Event
      */
-    public function create($chartKey, $eventKey = null, $bookWholeTablesOrTableBookingModes = null, $socialDistancingRulesetKey = null)
+    public function create($chartKey, $eventKey = null, $tableBookingConfig = null, $socialDistancingRulesetKey = null)
     {
         $request = new \stdClass();
 
@@ -34,10 +35,8 @@ class Events
             $request->eventKey = $eventKey;
         }
 
-        if (is_bool($bookWholeTablesOrTableBookingModes)) {
-            $request->bookWholeTables = $bookWholeTablesOrTableBookingModes;
-        } else if ($bookWholeTablesOrTableBookingModes !== null) {
-            $request->tableBookingModes = $bookWholeTablesOrTableBookingModes;
+        if ($tableBookingConfig != null) {
+            $request->tableBookingConfig = $this->serializeTableBookingConfig($tableBookingConfig);
         }
 
         if ($socialDistancingRulesetKey !== null) {
@@ -67,10 +66,8 @@ class Events
                 $eventToCreate->eventKey = $param->eventKey;
             }
 
-            if (is_bool($param->bookWholeTablesOrTableBookingModes)) {
-                $eventToCreate->bookWholeTables = $param->bookWholeTablesOrTableBookingModes;
-            } else if ($param->bookWholeTablesOrTableBookingModes !== null) {
-                $eventToCreate->tableBookingModes = $param->bookWholeTablesOrTableBookingModes;
+            if ($param->tableBookingConfig !== null) {
+                $eventToCreate->tableBookingConfig = $param->tableBookingConfig;
             }
 
             if ($param->socialDistancingRulesetKey !== null) {
@@ -101,11 +98,11 @@ class Events
      * @param $eventKey string
      * @param $chartKey string
      * @param $newEventKey string
-     * @param $bookWholeTablesOrTableBookingModes boolean|object|array
+     * @param $tableBookingConfig TableBookingConfig
      * @param $socialDistancingRulesetKey string
      * @return void
      */
-    public function update($eventKey, $chartKey = null, $newEventKey = null, $bookWholeTablesOrTableBookingModes = null, $socialDistancingRulesetKey = null)
+    public function update($eventKey, $chartKey = null, $newEventKey = null, $tableBookingConfig = null, $socialDistancingRulesetKey = null)
     {
         $request = new \stdClass();
 
@@ -117,10 +114,8 @@ class Events
             $request->eventKey = $newEventKey;
         }
 
-        if (is_bool($bookWholeTablesOrTableBookingModes)) {
-            $request->bookWholeTables = $bookWholeTablesOrTableBookingModes;
-        } else if ($bookWholeTablesOrTableBookingModes !== null) {
-            $request->tableBookingModes = $bookWholeTablesOrTableBookingModes;
+        if ($tableBookingConfig !== null) {
+            $request->tableBookingConfig = $this->serializeTableBookingConfig($tableBookingConfig);
         }
 
         if ($socialDistancingRulesetKey !== null) {
@@ -410,6 +405,16 @@ class Events
         }
         if ($statusChangeRequest->channelKeys !== null) {
             $request->channelKeys = $statusChangeRequest->channelKeys;
+        }
+        return $request;
+    }
+
+    private function serializeTableBookingConfig($tableBookingConfig)
+    {
+        $request = new \stdClass();
+        $request->mode = $tableBookingConfig->mode;
+        if ($tableBookingConfig->tables !== null) {
+            $request->tables = $tableBookingConfig->tables;
         }
         return $request;
     }

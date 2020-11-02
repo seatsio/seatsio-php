@@ -34,7 +34,7 @@ class CreateEventsTest extends SeatsioClientTest
         self::assertNotNull($event->id);
         self::assertNotNull($event->key);
         self::assertEquals($chartKey, $event->chartKey);
-        self::assertFalse($event->bookWholeTables);
+        self::assertEquals(TableBookingConfig::inherit(), $event->tableBookingConfig);
         self::assertNull($event->supportsBestAvailable);
         self::assertNull($event->forSaleConfig);
         self::assertNull($event->updatedOn);
@@ -52,36 +52,25 @@ class CreateEventsTest extends SeatsioClientTest
         self::assertEquals("event2", $events[1]->key);
     }
 
-    public function test_bookWholeTablesCanBePassedIn()
+    public function test_tableBookingConfigCanBePassedIn()
     {
-        $chartKey = $this->createTestChart();
-        $params = [(new EventCreationParams())->setBookWholeTables(true), (new EventCreationParams())->setBookWholeTables(false)];
+        $chartKey = $this->createTestChartWithTables();
+        $params = [
+            (new EventCreationParams())->setTableBookingConfig(TableBookingConfig::custom(["T1" => "BY_TABLE", "T2" => "BY_SEAT"])),
+            (new EventCreationParams())->setTableBookingConfig(TableBookingConfig::custom(["T1" => "BY_SEAT", "T2" => "BY_TABLE"]))
+        ];
 
         $events = $this->seatsioClient->events->createMultiple($chartKey, $params);
 
         self::assertEquals(2, sizeof($events));
-        self::assertTrue($events[0]->bookWholeTables);
-        self::assertFalse($events[1]->bookWholeTables);
+        self::assertEquals(TableBookingConfig::custom(["T1" => "BY_TABLE", "T2" => "BY_SEAT"]), $events[0]->tableBookingConfig);
+        self::assertEquals(TableBookingConfig::custom(["T1" => "BY_SEAT", "T2" => "BY_TABLE"]), $events[1]->tableBookingConfig);
     }
 
-    public function test_tableBookingModesCanBePassedIn()
+    public function test_socialDistancingRulesetKeyCanBePassedIn()
     {
         $chartKey = $this->createTestChartWithTables();
-        $params = [(new EventCreationParams())->setTableBookingModes(["T1" => "BY_TABLE", "T2" => "BY_SEAT"]), (new EventCreationParams())->setTableBookingModes(["T1" => "BY_SEAT", "T2" => "BY_TABLE"])];
-
-        $events = $this->seatsioClient->events->createMultiple($chartKey, $params);
-
-        self::assertEquals(2, sizeof($events));
-        self::assertFalse($events[0]->bookWholeTables);
-        self::assertEquals((object)["T1" => "BY_TABLE", "T2" => "BY_SEAT"], $events[0]->tableBookingModes);
-        self::assertFalse($events[1]->bookWholeTables);
-        self::assertEquals((object)["T1" => "BY_SEAT", "T2" => "BY_TABLE"], $events[1]->tableBookingModes);
-    }
-
-    public function testSocialDistancingRulesetKeyCanBePassedIn()
-    {
-        $chartKey = $this->createTestChartWithTables();
-        $this->seatsioClient->charts->saveSocialDistancingRulesets($chartKey, [ "ruleset1" => new SocialDistancingRuleset(0, "My ruleset")]);
+        $this->seatsioClient->charts->saveSocialDistancingRulesets($chartKey, ["ruleset1" => new SocialDistancingRuleset(0, "My ruleset")]);
         $params = [(new EventCreationParams())->setSocialDistancingRulesetKey("ruleset1"), (new EventCreationParams())->setSocialDistancingRulesetKey("ruleset1")];
 
         $events = $this->seatsioClient->events->createMultiple($chartKey, $params);

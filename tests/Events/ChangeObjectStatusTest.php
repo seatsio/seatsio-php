@@ -43,7 +43,7 @@ class ChangeObjectStatusTest extends SeatsioClientTest
     public function testTable()
     {
         $chartKey = $this->createTestChartWithTables();
-        $event = $this->seatsioClient->events->create($chartKey, null, true);
+        $event = $this->seatsioClient->events->create($chartKey, null, TableBookingConfig::allByTable());
 
         $result = $this->seatsioClient->events->changeObjectStatus($event->key, "T1", "lolzor");
 
