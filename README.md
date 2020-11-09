@@ -165,3 +165,74 @@ This exception contains a message string describing what went wrong, and also tw
 
 - `messages`: an array of error messages that the server returned. In most cases, this array will contain only one element.
 - `requestId`: the identifier of the request you made. Please mention this to us when you have questions, as it will make debugging easier.
+
+## Upgrading
+
+### v67 -> v68
+
+#### Retrieving an event
+
+The `Event` class does not have `$bookWholeTables` and `$tableBookingModes` properties anymore. Those are replaced by a single
+`$tableBookingConfig` property:
+
+- `$bookWholeTables` equal to `true` corresponds to a `$tableBookingConfig` with `$mode` equal to `ALL_BY_TABLE`
+- `$bookWholeTables` equal to `false` corresponds to a `$tableBookingConfig` with `$mode` either `ALL_BY_SEAT`, `INHERIT` or `CUSTOM`
+- The list of tables in `$tableBookingModes` is now `$tableBookingConfig->tables` (but only if `$mode` equals `CUSTOM`)
+
+#### Creating an event
+
+When creating an event, you now pass in an (optional) `$tableBookingConfig` instead of `$bookWholeTablesOrTableBookingModes`:
+
+```php
+$seatsioClient->events->create(
+  "4250fffc-e41f-c7cb-986a-2c5e728b8c28", null,
+  TableBookingConfig::custom(["T1" => "BY_TABLE", "T2" => "BY_SEAT"])
+);
+```
+
+#### Creating multiple events
+
+When creating multiple events, you now pass in an (optional) `$tableBookingConfig` instead of `$bookWholeTables` and `$tableBookingModes`:
+
+```php
+$params = [
+    (new EventCreationParams())
+    ->setEventKey("event34")
+    ->setTableBookingConfig(TableBookingConfig::allByTable()),
+    (new EventCreationParams())
+    ->setEventKey("event35")
+    ->setTableBookingConfig(TableBookingConfig::allBySeat())
+];
+
+$events = $seatsioClient->events->createMultiple("4250fffc-e41f-c7cb-986a-2c5e728b8c28", $params);
+```
+
+### v66 -> v67
+
+No migration needed
+
+### v65 -> v66
+
+You now need to be on PHP 7.1 or newer to use this library.
+
+### v64 -> v65
+
+Added boolean parameter `$oneGroupPerTable` to the constructor of `SocialDistancingRuleset`. Pass in `false` to not force only one group
+to sit at a table.
+
+Also added this parameter to `SocialDistancingRuleset::ruleBased()`
+
+### v63 -> v64
+
+Added `$maxOccupancyAbsolute`, `$maxOccupancyPercentage` and `$fixedGroupLayout` to the constructor of `SocialDistancingRuleset`.
+
+To keep the default behaviour, pass in the following:
+
+- `$maxOccupancyAbsolute = 0`
+- `$maxOccupancyPercentage = 0`
+- `$fixedGroupLayout = false`
+
+### v62 -> v63
+
+`events->bookBestAvailable()`, `events->holdBestAvailable()` and `events->changeBestAvailableObjectStatus()` take optional `$extraData` and
+`$ticketTypes` parameters. Pass in `null` to keep the default behaviour.
