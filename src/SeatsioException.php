@@ -10,9 +10,10 @@ class SeatsioException extends RuntimeException
 {
 
     /**
-     * @var string[]
+     * @var ApiError[]
      */
-    public $messages;
+    public $errors;
+
     /**
      * @var string
      */
@@ -26,7 +27,7 @@ class SeatsioException extends RuntimeException
     {
         $info = self::extractInfo($response);
         parent::__construct(self::message($request, $response, $info['messages']));
-        $this->messages = $info['messages'];
+        $this->errors = $info['errors'];
         $this->requestId = $info['requestId'];
     }
 
@@ -59,8 +60,10 @@ class SeatsioException extends RuntimeException
         $contentType = $response->getHeaderLine("content-type");
         if (strpos($contentType, 'application/json') !== false) {
             $json = \GuzzleHttp\json_decode($response->getBody());
-            return ["messages" => $json->messages, "requestId" => $json->requestId];
+            $mapper = SeatsioJsonMapper::create();
+            $errors = $mapper->mapArray($json->errors, array(), 'Seatsio\ApiError');
+            return ["messages" => $json->messages, "errors" => $errors, "requestId" => $json->requestId];
         }
-        return ["messages" => null, "requestId" => null];
+        return ["messages" => [], "errors" => [], "requestId" => null];
     }
 }

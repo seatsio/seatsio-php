@@ -168,6 +168,12 @@ This exception contains a message string describing what went wrong, and also tw
 
 ## Upgrading
 
+### v68 -> v69
+
+Replaced `SeatsioException->$messages` by `SeatsioException->$errors`. An error contains both a `$code` and a `$message`.
+
+To implement logic based on the exception type, use the techincal `$code` instead of the human-readable `$message`.
+
 ### v67 -> v68
 
 #### Retrieving an event

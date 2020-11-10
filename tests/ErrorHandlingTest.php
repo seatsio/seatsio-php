@@ -5,12 +5,16 @@ namespace Seatsio;
 class ErrorHandlingTest extends SeatsioClientTest
 {
 
-    /**
-     * @expectedException \Seatsio\SeatsioException
-     */
     public function test4xx()
     {
-        $this->seatsioClient->charts->retrievePublishedVersion('unexistingChart');
+        try {
+            $this->seatsioClient->charts->retrievePublishedVersion('unexistingChart');
+            $this->fail();
+        } catch (SeatsioException $e) {
+            self::assertEquals('CHART_NOT_FOUND', $e->errors[0]->code);
+            self::assertEquals('Chart not found: unexistingChart', $e->errors[0]->message);
+            self::assertNotNull($e->requestId);
+        }
     }
 
 }
