@@ -3,6 +3,7 @@
 namespace Seatsio\Charts;
 
 use Seatsio\SeatsioClientTest;
+use function Functional\map;
 
 class RetrieveChartTest extends SeatsioClientTest
 {
@@ -33,7 +34,7 @@ class RetrieveChartTest extends SeatsioClientTest
 
         $retrievedChart = $this->seatsioClient->charts->retrieveWithEvents($chart->key);
 
-        $eventIds = \Functional\map($retrievedChart->events, function ($event) {
+        $eventIds = map($retrievedChart->events, function ($event) {
             return $event->id;
         });
 

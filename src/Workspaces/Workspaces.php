@@ -2,14 +2,17 @@
 
 namespace Seatsio\Workspaces;
 
+use GuzzleHttp\Client;
 use Seatsio\PageFetcher;
 use Seatsio\SeatsioJsonMapper;
+use stdClass;
+use function GuzzleHttp\uri_template;
 
 class Workspaces
 {
 
     /**
-     * @var \GuzzleHttp\Client
+     * @var Client
      */
     private $client;
 
@@ -25,7 +28,7 @@ class Workspaces
      */
     public function create($name, $isTest = null)
     {
-        $request = new \stdClass();
+        $request = new stdClass();
         $request->name = $name;
         if ($isTest !== null) {
             $request->isTest = $isTest;
@@ -43,9 +46,9 @@ class Workspaces
      */
     public function update($key, $name)
     {
-        $request = new \stdClass();
+        $request = new stdClass();
         $request->name = $name;
-        $this->client->post(\GuzzleHttp\uri_template('/workspaces/{key}', array("key" => $key)), ['json' => $request]);
+        $this->client->post(uri_template('/workspaces/{key}', array("key" => $key)), ['json' => $request]);
     }
 
     /**
@@ -54,7 +57,7 @@ class Workspaces
      */
     public function regenerateSecretKey($key)
     {
-        $res = $this->client->post(\GuzzleHttp\uri_template('/workspaces/{key}/actions/regenerate-secret-key', array("key" => $key)));
+        $res = $this->client->post(uri_template('/workspaces/{key}/actions/regenerate-secret-key', array("key" => $key)));
         $json = \GuzzleHttp\json_decode($res->getBody());
         return $json->secretKey;
     }
@@ -64,7 +67,7 @@ class Workspaces
      */
     public function activate($key)
     {
-        $this->client->post(\GuzzleHttp\uri_template('/workspaces/{key}/actions/activate', array("key" => $key)));
+        $this->client->post(uri_template('/workspaces/{key}/actions/activate', array("key" => $key)));
     }
 
     /**
@@ -72,7 +75,7 @@ class Workspaces
      */
     public function deactivate($key)
     {
-        $this->client->post(\GuzzleHttp\uri_template('/workspaces/{key}/actions/deactivate', array("key" => $key)));
+        $this->client->post(uri_template('/workspaces/{key}/actions/deactivate', array("key" => $key)));
     }
 
     /**
@@ -80,7 +83,7 @@ class Workspaces
      */
     public function setDefault($key)
     {
-        $this->client->post(\GuzzleHttp\uri_template('/workspaces/actions/set-default/{key}', array("key" => $key)));
+        $this->client->post(uri_template('/workspaces/actions/set-default/{key}', array("key" => $key)));
     }
 
     /**
@@ -89,7 +92,7 @@ class Workspaces
      */
     public function retrieve($key)
     {
-        $res = $this->client->get(\GuzzleHttp\uri_template('/workspaces/{key}', array("key" => $key)));
+        $res = $this->client->get(uri_template('/workspaces/{key}', array("key" => $key)));
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Workspace());

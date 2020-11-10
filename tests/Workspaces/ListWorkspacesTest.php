@@ -3,6 +3,7 @@
 namespace Seatsio\Charts;
 
 use Seatsio\SeatsioClientTest;
+use function Functional\map;
 
 class ListWorkspacesTest extends SeatsioClientTest
 {
@@ -14,7 +15,7 @@ class ListWorkspacesTest extends SeatsioClientTest
         $this->seatsioClient->workspaces->create("ws3");
 
         $workspaces = $this->seatsioClient->workspaces->listAll();
-        $workspaceNames = \Functional\map($workspaces, function ($workspace) {
+        $workspaceNames = map($workspaces, function ($workspace) {
             return $workspace->name;
         });
 
@@ -28,7 +29,7 @@ class ListWorkspacesTest extends SeatsioClientTest
         $this->seatsioClient->workspaces->create("anotherAnotherWorkspace");
 
         $workspaces = $this->seatsioClient->workspaces->listAll("another");
-        $workspaceNames = \Functional\map($workspaces, function ($workspace) {
+        $workspaceNames = map($workspaces, function ($workspace) {
             return $workspace->name;
         });
 

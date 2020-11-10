@@ -55,12 +55,12 @@ class SocialDistancingRuleset
     public $fixedGroupLayout;
 
     /**
-     * @var array[string]
+     * @var string[]
      */
     public $disabledSeats;
 
     /**
-     * @var array[string]
+     * @var string[]
      */
     public $enabledSeats;
 

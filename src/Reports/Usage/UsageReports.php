@@ -2,6 +2,7 @@
 
 namespace Seatsio\Reports\Usage;
 
+use GuzzleHttp\Client;
 use Seatsio\Reports\Usage\DetailsForEventInMonth\UsageForObject;
 use Seatsio\Reports\Usage\DetailsForMonth\UsageDetails;
 use Seatsio\Reports\Usage\SummaryForMonths\Month;
@@ -12,7 +13,7 @@ class UsageReports
 {
 
     /**
-     * @var \GuzzleHttp\Client
+     * @var Client
      */
     private $client;
 

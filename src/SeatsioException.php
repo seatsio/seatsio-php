@@ -4,8 +4,9 @@ namespace Seatsio;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use RuntimeException;
 
-class SeatsioException extends \RuntimeException
+class SeatsioException extends RuntimeException
 {
 
     /**

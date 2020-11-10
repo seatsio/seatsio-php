@@ -2,13 +2,15 @@
 
 namespace Seatsio\HoldTokens;
 
+use GuzzleHttp\Client;
 use Seatsio\SeatsioJsonMapper;
+use stdClass;
 
 class HoldTokens
 {
 
     /**
-     * @var \GuzzleHttp\Client
+     * @var Client
      */
     private $client;
 
@@ -23,7 +25,7 @@ class HoldTokens
      */
     public function create($expiresInMinutes = null)
     {
-        $request = new \stdClass();
+        $request = new stdClass();
         if (!is_null($expiresInMinutes)) {
             $request->expiresInMinutes = $expiresInMinutes;
         }
@@ -40,7 +42,7 @@ class HoldTokens
      */
     public function expireInMinutes($holdToken, $minutes)
     {
-        $request = new \stdClass();
+        $request = new stdClass();
         $request->expiresInMinutes = $minutes;
         $res = $this->client->post('/hold-tokens/' . $holdToken, ['json' => $request]);
         $json = \GuzzleHttp\json_decode($res->getBody());

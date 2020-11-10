@@ -5,6 +5,7 @@ namespace Seatsio\Charts;
 use Seatsio\Events\ObjectProperties;
 use Seatsio\Events\ObjectStatus;
 use Seatsio\SeatsioClientTest;
+use function Functional\map;
 
 class ListStatusChangesTest extends SeatsioClientTest
 {
@@ -18,7 +19,7 @@ class ListStatusChangesTest extends SeatsioClientTest
         $this->seatsioClient->events->book($event->key, "A-3");
 
         $statusChanges = $this->seatsioClient->events->statusChanges($event->key)->all();
-        $objectIds = \Functional\map($statusChanges, function ($statusChange) {
+        $objectIds = map($statusChanges, function ($statusChange) {
             return $statusChange->objectLabel;
         });
 
@@ -56,7 +57,7 @@ class ListStatusChangesTest extends SeatsioClientTest
         $this->seatsioClient->events->book($event->key, "A-3");
 
         $statusChanges = $this->seatsioClient->events->statusChanges($event->key, "A-")->all();
-        $objectIds = \Functional\map($statusChanges, function ($statusChange) {
+        $objectIds = map($statusChanges, function ($statusChange) {
             return $statusChange->objectLabel;
         });
 
@@ -73,7 +74,7 @@ class ListStatusChangesTest extends SeatsioClientTest
         $this->seatsioClient->events->book($event->key, "A-3");
 
         $statusChanges = $this->seatsioClient->events->statusChanges($event->key, null, "objectLabel")->all();
-        $objectIds = \Functional\map($statusChanges, function ($statusChange) {
+        $objectIds = map($statusChanges, function ($statusChange) {
             return $statusChange->objectLabel;
         });
 
@@ -93,7 +94,7 @@ class ListStatusChangesTest extends SeatsioClientTest
         $allStatusChanges = iterator_to_array($statusChangeLister->all(), false);
         $b1ID = $allStatusChanges[2]->id;
         $statusChanges = $statusChangeLister->pageBefore($b1ID, 2)->items;
-        $objectIds = \Functional\map($statusChanges, function ($statusChange) {
+        $objectIds = map($statusChanges, function ($statusChange) {
             return $statusChange->objectLabel;
         });
 
@@ -113,7 +114,7 @@ class ListStatusChangesTest extends SeatsioClientTest
         $allStatusChanges = iterator_to_array($statusChangeLister->all(), false);
         $a1ID = $allStatusChanges[0]->id;
         $statusChanges = $statusChangeLister->pageAfter($a1ID, 2)->items;
-        $objectIds = \Functional\map($statusChanges, function ($statusChange) {
+        $objectIds = map($statusChanges, function ($statusChange) {
             return $statusChange->objectLabel;
         });
 
@@ -130,7 +131,7 @@ class ListStatusChangesTest extends SeatsioClientTest
         $this->seatsioClient->events->book($event->key, "A-3");
 
         $statusChanges = $this->seatsioClient->events->statusChanges($event->key, null, "objectLabel", "DESC")->all();
-        $objectIds = \Functional\map($statusChanges, function ($statusChange) {
+        $objectIds = map($statusChanges, function ($statusChange) {
             return $statusChange->objectLabel;
         });
 

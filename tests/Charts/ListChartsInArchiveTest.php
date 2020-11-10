@@ -3,6 +3,7 @@
 namespace Seatsio\Charts;
 
 use Seatsio\SeatsioClientTest;
+use function Functional\map;
 
 class ListChartsInArchiveTest extends SeatsioClientTest
 {
@@ -18,7 +19,7 @@ class ListChartsInArchiveTest extends SeatsioClientTest
         $this->seatsioClient->charts->create();
 
         $charts = $this->seatsioClient->charts->archive->all();
-        $chartKeys = \Functional\map($charts, function($chart) { return $chart->key; });
+        $chartKeys = map($charts, function($chart) { return $chart->key; });
 
         self::assertEquals([$chart2->key, $chart1->key], array_values($chartKeys));
     }

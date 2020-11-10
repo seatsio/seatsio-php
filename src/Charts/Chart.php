@@ -47,7 +47,7 @@ class Chart
     public $validation;
 
     /**
-     * @var array[\Seatsio\Charts\SocialDistancingRuleset]
+     * @var SocialDistancingRuleset[]
      */
     public $socialDistancingRulesets;
 }

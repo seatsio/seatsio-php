@@ -3,6 +3,7 @@
 namespace Seatsio\Subaccounts;
 
 use Seatsio\SeatsioClientTest;
+use function Functional\map;
 
 class ListAllSubaccountsTest extends SeatsioClientTest
 {
@@ -14,7 +15,7 @@ class ListAllSubaccountsTest extends SeatsioClientTest
         $subaccount3 = $this->seatsioClient->subaccounts->create();
 
         $subaccounts = $this->seatsioClient->subaccounts->listAll();
-        $subaccountIds = \Functional\map($subaccounts, function($subaccount) { return $subaccount->id; });
+        $subaccountIds = map($subaccounts, function($subaccount) { return $subaccount->id; });
 
         self::assertEquals([$subaccount3->id, $subaccount2->id, $subaccount1->id, $this->subaccount->id], array_values($subaccountIds));
     }
@@ -26,7 +27,7 @@ class ListAllSubaccountsTest extends SeatsioClientTest
         $this->seatsioClient->subaccounts->create();
 
         $subaccounts = $this->seatsioClient->subaccounts->listAll((new SubaccountListParams())->withFilter('subaccount2'));
-        $subaccountIds = \Functional\map($subaccounts, function($subaccount) { return $subaccount->id; });
+        $subaccountIds = map($subaccounts, function($subaccount) { return $subaccount->id; });
 
         self::assertEquals([$subaccount2->id], array_values($subaccountIds));
     }
@@ -43,7 +44,7 @@ class ListAllSubaccountsTest extends SeatsioClientTest
         }
 
         $subaccounts = $this->seatsioClient->subaccounts->listAll((new SubaccountListParams())->withFilter('test-/@/4'));
-        $retrievedSubaccountIds = \Functional\map($subaccounts, function($subaccount) { return $subaccount->id; });
+        $retrievedSubaccountIds = map($subaccounts, function($subaccount) { return $subaccount->id; });
 
         self::assertEquals($createdSubaccountIds, $retrievedSubaccountIds, "", 0.0, 10, true);
     }
@@ -51,7 +52,7 @@ class ListAllSubaccountsTest extends SeatsioClientTest
     public function testWithFilterNoResult()
     {
         $subaccounts = $this->seatsioClient->subaccounts->listAll((new SubaccountListParams())->withFilter('test'));
-        $subaccountIds = \Functional\map($subaccounts, function($subaccount) { return $subaccount->id; });
+        $subaccountIds = map($subaccounts, function($subaccount) { return $subaccount->id; });
 
         self::assertEmpty(array_values($subaccountIds));
     }
@@ -63,7 +64,7 @@ class ListAllSubaccountsTest extends SeatsioClientTest
         $this->seatsioClient->subaccounts->create("test-/@/3");
 
         $subaccounts = $this->seatsioClient->subaccounts->listFirstPage(null, (new SubaccountListParams())->withFilter('test-/@/2'));
-        $subaccountIds = \Functional\map($subaccounts->items, function($subaccount) { return $subaccount->id; });
+        $subaccountIds = map($subaccounts->items, function($subaccount) { return $subaccount->id; });
 
         self::assertEquals([$subaccount2->id], array_values($subaccountIds));
         self::assertEmpty($subaccounts->nextPageStartsAfter);
@@ -82,7 +83,7 @@ class ListAllSubaccountsTest extends SeatsioClientTest
         $this->seatsioClient->subaccounts->create("test-/@/8");
 
         $subaccounts = $this->seatsioClient->subaccounts->listPageAfter($subaccount3->id, null, (new SubaccountListParams())->withFilter('test-/@/1'));
-        $subaccountIds = \Functional\map($subaccounts->items, function($subaccount) { return $subaccount->id; });
+        $subaccountIds = map($subaccounts->items, function($subaccount) { return $subaccount->id; });
 
         self::assertEquals([$subaccount1->id, $subaccount2->id], $subaccountIds, "", 0.0, 10, true);
         self::assertEmpty($subaccounts->nextPageStartsAfter);
@@ -101,7 +102,7 @@ class ListAllSubaccountsTest extends SeatsioClientTest
         $this->seatsioClient->subaccounts->create("test-/@/8");
 
         $subaccounts = $this->seatsioClient->subaccounts->listPageBefore($subaccount1->id, null, (new SubaccountListParams())->withFilter('test-/@/1'));
-        $subaccountIds = \Functional\map($subaccounts->items, function($subaccount) { return $subaccount->id; });
+        $subaccountIds = map($subaccounts->items, function($subaccount) { return $subaccount->id; });
 
         self::assertEquals([$subaccount3->id, $subaccount2->id], $subaccountIds, "", 0.0, 10, true);
         self::assertEmpty($subaccounts->previousPageEndsBefore);

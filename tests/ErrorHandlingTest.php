@@ -2,7 +2,7 @@
 
 namespace Seatsio;
 
-class ErrorHandlingTest extends \Seatsio\SeatsioClientTest
+class ErrorHandlingTest extends SeatsioClientTest
 {
 
     /**

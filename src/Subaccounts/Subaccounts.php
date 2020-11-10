@@ -2,15 +2,17 @@
 
 namespace Seatsio\Subaccounts;
 
+use GuzzleHttp\Client;
 use Seatsio\Charts\Chart;
 use Seatsio\PageFetcher;
 use Seatsio\SeatsioJsonMapper;
+use stdClass;
 
 class Subaccounts
 {
 
     /**
-     * @var \GuzzleHttp\Client
+     * @var Client
      */
     private $client;
 
@@ -51,7 +53,7 @@ class Subaccounts
      */
     public function create($name = null)
     {
-        $request = new \stdClass();
+        $request = new stdClass();
         if ($name !== null) {
             $request->name = $name;
         }
@@ -68,7 +70,7 @@ class Subaccounts
      */
     public function update($id, $name = null)
     {
-        $request = new \stdClass();
+        $request = new stdClass();
         if ($name != null) {
             $request->name = $name;
         }

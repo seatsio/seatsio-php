@@ -2,15 +2,18 @@
 
 namespace Seatsio\Charts;
 
+use GuzzleHttp\Client;
 use Psr\Http\Message\StreamInterface;
 use Seatsio\PageFetcher;
 use Seatsio\SeatsioJsonMapper;
+use stdClass;
+use function GuzzleHttp\uri_template;
 
 class Charts
 {
 
     /**
-     * @var \GuzzleHttp\Client
+     * @var Client
      */
     private $client;
 
@@ -30,12 +33,12 @@ class Charts
     /**
      * @param $name string
      * @param $venueType string
-     * @param $categories array|\Seatsio\Charts\Category[]
+     * @param $categories array|Category[]
      * @return Chart
      */
     public function create($name = null, $venueType = null, $categories = null)
     {
-        $request = new \stdClass();
+        $request = new stdClass();
         if ($name !== null) {
             $request->name = $name;
         }
@@ -54,12 +57,12 @@ class Charts
     /**
      * @param $key string
      * @param $name string
-     * @param $categories array|\Seatsio\Charts\Category[]
+     * @param $categories array|Category[]
      * @return void
      */
     public function update($key, $name = null, $categories = null)
     {
-        $request = new \stdClass();
+        $request = new stdClass();
         if ($name !== null) {
             $request->name = $name;
         }
@@ -247,7 +250,7 @@ class Charts
      */
     public function addTag($key, $tag)
     {
-        $this->client->post(\GuzzleHttp\uri_template('/charts/{key}/tags/{tag}', array("key" => $key, "tag" => $tag)));
+        $this->client->post(uri_template('/charts/{key}/tags/{tag}', array("key" => $key, "tag" => $tag)));
     }
 
     /**
@@ -257,14 +260,14 @@ class Charts
      */
     public function removeTag($key, $tag)
     {
-        $this->client->delete(\GuzzleHttp\uri_template('/charts/{key}/tags/{tag}', array("key" => $key, "tag" => $tag)));
+        $this->client->delete(uri_template('/charts/{key}/tags/{tag}', array("key" => $key, "tag" => $tag)));
     }
 
     public function saveSocialDistancingRulesets($key, $rulesets)
     {
-        $request = new \stdClass();
+        $request = new stdClass();
         $request->socialDistancingRulesets = $rulesets;
-        $this->client->post(\GuzzleHttp\uri_template('/charts/{key}/social-distancing-rulesets', array("key" => $key)), ['json' => $request]);
+        $this->client->post(uri_template('/charts/{key}/social-distancing-rulesets', array("key" => $key)), ['json' => $request]);
     }
 
     /**

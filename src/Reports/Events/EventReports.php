@@ -3,6 +3,7 @@
 namespace Seatsio\Reports\Events;
 
 use Seatsio\SeatsioJsonMapper;
+use function GuzzleHttp\uri_template;
 
 class EventReports
 {
@@ -198,14 +199,14 @@ class EventReports
     private static function reportUrl($reportType, $eventKey, $filter)
     {
         if ($filter === null) {
-            return \GuzzleHttp\uri_template('/reports/events/{key}/{reportType}', array("key" => $eventKey, "reportType" => $reportType));
+            return uri_template('/reports/events/{key}/{reportType}', array("key" => $eventKey, "reportType" => $reportType));
         }
-        return \GuzzleHttp\uri_template('/reports/events/{key}/{reportType}/{filter}', array("key" => $eventKey, "reportType" => $reportType, "filter" => $filter));
+        return uri_template('/reports/events/{key}/{reportType}/{filter}', array("key" => $eventKey, "reportType" => $reportType, "filter" => $filter));
     }
 
     private static function summaryReportUrl($reportType, $eventKey)
     {
-        return \GuzzleHttp\uri_template('/reports/events/{key}/{reportType}/summary', array("key" => $eventKey, "reportType" => $reportType));
+        return uri_template('/reports/events/{key}/{reportType}/summary', array("key" => $eventKey, "reportType" => $reportType));
     }
 
 }

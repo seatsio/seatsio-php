@@ -3,6 +3,7 @@
 namespace Seatsio\Subaccounts;
 
 use Seatsio\SeatsioClientTest;
+use function Functional\map;
 
 class ListActiveSubaccountsTest extends SeatsioClientTest
 {
@@ -15,7 +16,7 @@ class ListActiveSubaccountsTest extends SeatsioClientTest
         $this->seatsioClient->subaccounts->deactivate($subaccount3->id);
 
         $subaccounts = $this->seatsioClient->subaccounts->active->all();
-        $subaccountIds = \Functional\map($subaccounts, function($subaccount) { return $subaccount->id; });
+        $subaccountIds = map($subaccounts, function($subaccount) { return $subaccount->id; });
 
         self::assertEquals([$subaccount2->id, $subaccount1->id, $this->subaccount->id], array_values($subaccountIds));
     }

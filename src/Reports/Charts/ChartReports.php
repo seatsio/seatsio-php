@@ -2,13 +2,15 @@
 
 namespace Seatsio\Reports\Charts;
 
+use GuzzleHttp\Client;
 use Seatsio\SeatsioJsonMapper;
+use function GuzzleHttp\uri_template;
 
 class ChartReports
 {
 
     /**
-     * @var \GuzzleHttp\Client
+     * @var Client
      */
     private $client;
 
@@ -49,7 +51,7 @@ class ChartReports
 
     private static function reportUrl($reportType, $eventKey)
     {
-        return \GuzzleHttp\uri_template('/reports/charts/{key}/{reportType}', array("key" => $eventKey, "reportType" => $reportType));
+        return uri_template('/reports/charts/{key}/{reportType}', array("key" => $eventKey, "reportType" => $reportType));
     }
 
     private function getChartReport($reportType, $chartKey, $bookWholeTables)

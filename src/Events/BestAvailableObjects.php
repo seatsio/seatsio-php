@@ -9,7 +9,7 @@ class BestAvailableObjects
      */
     public $objects;
     /**
-     * @var array[\Seatsio\Reports\Events\EventReportItem]
+     * @var \Seatsio\Reports\Events\EventReportItem[]
      */
     public $objectDetails;
     /**

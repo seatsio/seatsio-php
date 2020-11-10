@@ -2,11 +2,13 @@
 
 namespace Seatsio;
 
+use GuzzleHttp\Client;
+
 class PageFetcher
 {
     private $url;
     /**
-     * @var \GuzzleHttp\Client
+     * @var Client
      */
     private $client;
     private $pageCreator;
