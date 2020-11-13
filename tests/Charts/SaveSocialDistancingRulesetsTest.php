@@ -11,42 +11,27 @@ class SaveSocialDistancingRulesetsTest extends SeatsioClientTest
     {
         $chart = $this->seatsioClient->charts->create();
 
-        $rulesets = [
-            "ruleset1" => new SocialDistancingRuleset(0, "My first ruleset", 1, true, 2, 1, 10, 0, true, false, ["A-1"], ["A-2"]),
-            "ruleset2" => new SocialDistancingRuleset(1, "My second ruleset")
-        ];
+        $ruleset1 = SocialDistancingRuleset::ruleBased("My first ruleset")
+            ->setIndex(0)
+            ->setNumberOfDisabledSeatsToTheSides(1)
+            ->setDisableSeatsInFrontAndBehind(true)
+            ->setDisableDiagonalSeatsInFrontAndBehind(true)
+            ->setNumberOfDisabledAisleSeats(2)
+            ->setMaxGroupSize(1)
+            ->setMaxOccupancyAbsolute(10)
+            ->setOneGroupPerTable(true)
+            ->setDisabledSeats(["A-1"])
+            ->setEnabledSeats(["A-2"])
+            ->build();
+
+        $ruleset2 = SocialDistancingRuleset::fixed("My second ruleset")
+            ->setIndex(1)
+            ->setDisabledSeats(["A-1"])
+            ->build();
+
+        $rulesets = ["ruleset1" => $ruleset1, "ruleset2" => $ruleset2];
         $this->seatsioClient->charts->saveSocialDistancingRulesets($chart->key, $rulesets);
 
-        $retrievedChart = $this->seatsioClient->charts->retrieve($chart->key);
-        self::assertEquals($rulesets, $retrievedChart->socialDistancingRulesets);
-    }
-
-    public function testFixed()
-    {
-        $chart = $this->seatsioClient->charts->create();
-
-        $this->seatsioClient->charts->saveSocialDistancingRulesets($chart->key, [
-            "ruleset1" => SocialDistancingRuleset::fixed(0, "My first ruleset", ["A-1"])
-        ]);
-
-        $rulesets = [
-            "ruleset1" => new SocialDistancingRuleset(0, "My first ruleset", 0, false, 0, 0, 0, 0, false, true, ["A-1"], []),
-        ];
-        $retrievedChart = $this->seatsioClient->charts->retrieve($chart->key);
-        self::assertEquals($rulesets, $retrievedChart->socialDistancingRulesets);
-    }
-
-    public function testRuleBased()
-    {
-        $chart = $this->seatsioClient->charts->create();
-
-        $this->seatsioClient->charts->saveSocialDistancingRulesets($chart->key, [
-            "ruleset1" => SocialDistancingRuleset::ruleBased(0, "My first ruleset", 1, true, 2, 1, 10, 0, true, ["A-1"], ["A-2"])
-        ]);
-
-        $rulesets = [
-            "ruleset1" => new SocialDistancingRuleset(0, "My first ruleset", 1, true, 2, 1, 10, 0, true, false, ["A-1"], ["A-2"]),
-        ];
         $retrievedChart = $this->seatsioClient->charts->retrieve($chart->key);
         self::assertEquals($rulesets, $retrievedChart->socialDistancingRulesets);
     }

@@ -50,8 +50,8 @@ class UpdateEventTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChartWithTables();
         $this->seatsioClient->charts->saveSocialDistancingRulesets($chartKey, [
-            "ruleset1" => new SocialDistancingRuleset(0, "My first ruleset"),
-            "ruleset2" => new SocialDistancingRuleset(1, "My second ruleset")
+            "ruleset1" => SocialDistancingRuleset::ruleBased("My first ruleset")->setIndex(0)->build(),
+            "ruleset2" => SocialDistancingRuleset::ruleBased("My second ruleset")->setIndex(1)->build()
         ]);
         $event = $this->seatsioClient->events->create($chartKey, null, null, "ruleset1");
 
@@ -65,7 +65,7 @@ class UpdateEventTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChartWithTables();
         $this->seatsioClient->charts->saveSocialDistancingRulesets($chartKey, [
-            "ruleset1" => new SocialDistancingRuleset(0, "My first ruleset")
+            "ruleset1" => SocialDistancingRuleset::ruleBased("My first ruleset")->build()
         ]);
         $event = $this->seatsioClient->events->create($chartKey, null, null, "ruleset1");
 

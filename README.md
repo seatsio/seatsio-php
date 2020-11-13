@@ -168,6 +168,36 @@ This exception contains a message string describing what went wrong, and also tw
 
 ## Upgrading
 
+### v69 -> v70
+
+Switched to builder pattern for creating social distancing rulesets. Removed constructor of `SocialDistancingRuleset` class.
+
+Rule-based rulesets:
+
+```php
+$ruleset = SocialDistancingRuleset::ruleBased("My first ruleset")
+    ->setIndex(0)
+    ->setNumberOfDisabledSeatsToTheSides(1)
+    ->setDisableSeatsInFrontAndBehind(true)
+    ->setDisableDiagonalSeatsInFrontAndBehind(true)
+    ->setNumberOfDisabledAisleSeats(2)
+    ->setMaxGroupSize(1)
+    ->setMaxOccupancyAbsolute(10)
+    ->setOneGroupPerTable(true)
+    ->setDisabledSeats(["A-1"])
+    ->setEnabledSeats(["A-2"])
+    ->build();
+```
+
+Fixed rulesets:
+
+```php
+$ruleset = SocialDistancingRuleset::fixed("My second ruleset")
+    ->setIndex(1)
+    ->setDisabledSeats(["A-1"])
+    ->build();
+```
+
 ### v68 -> v69
 
 Replaced `SeatsioException->$messages` by `SeatsioException->$errors`. An error contains both a `$code` and a `$message`.

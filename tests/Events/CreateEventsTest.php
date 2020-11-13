@@ -70,7 +70,7 @@ class CreateEventsTest extends SeatsioClientTest
     public function test_socialDistancingRulesetKeyCanBePassedIn()
     {
         $chartKey = $this->createTestChartWithTables();
-        $this->seatsioClient->charts->saveSocialDistancingRulesets($chartKey, ["ruleset1" => new SocialDistancingRuleset(0, "My ruleset")]);
+        $this->seatsioClient->charts->saveSocialDistancingRulesets($chartKey, ["ruleset1" => SocialDistancingRuleset::ruleBased("My ruleset")->build()]);
         $params = [(new EventCreationParams())->setSocialDistancingRulesetKey("ruleset1"), (new EventCreationParams())->setSocialDistancingRulesetKey("ruleset1")];
 
         $events = $this->seatsioClient->events->createMultiple($chartKey, $params);
