@@ -2,6 +2,7 @@
 
 namespace Seatsio\Events;
 
+use Seatsio\Charts\SocialDistancingRuleset;
 use Seatsio\SeatsioClientTest;
 
 class ChangeObjectStatusTest extends SeatsioClientTest
@@ -148,6 +149,20 @@ class ChangeObjectStatusTest extends SeatsioClientTest
         ]);
 
         $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", "someStatus", null, null, null, true);
+
+        $objectStatus = $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-1");
+        self::assertEquals("someStatus", $objectStatus->status);
+    }
+
+    public function testIgnoreSocialDistancing()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $ruleset = SocialDistancingRuleset::fixed("ruleset")->setDisabledSeats(["A-1"])->build();
+        $this->seatsioClient->charts->saveSocialDistancingRulesets($chartKey, ["ruleset" => $ruleset]);
+        $this->seatsioClient->events->update($event->key, null, null, null, "ruleset");
+
+        $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", "someStatus", null, null, null, null, null, true);
 
         $objectStatus = $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-1");
         self::assertEquals("someStatus", $objectStatus->status);

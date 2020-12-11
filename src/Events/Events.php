@@ -338,9 +338,11 @@ class Events
      * @param $keepExtraData boolean
      * @param $ignoreChannels boolean
      * @param $channelKeys string[]
+     * @param $ignoreSocialDistancing boolean
      * @return ChangeObjectStatusResult
      */
-    public function changeObjectStatus($eventKeyOrKeys, $objectOrObjects, $status, $holdToken = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
+    public function changeObjectStatus($eventKeyOrKeys, $objectOrObjects, $status, $holdToken = null, $orderId = null,
+                                       $keepExtraData = null, $ignoreChannels = null, $channelKeys = null, $ignoreSocialDistancing = null)
     {
         $request = new stdClass();
         $request->objects = self::normalizeObjects($objectOrObjects);
@@ -359,6 +361,9 @@ class Events
         }
         if ($channelKeys !== null) {
             $request->channelKeys = $channelKeys;
+        }
+        if ($ignoreSocialDistancing !== null) {
+            $request->ignoreSocialDistancing = $ignoreSocialDistancing;
         }
         $request->events = is_array($eventKeyOrKeys) ? $eventKeyOrKeys : [$eventKeyOrKeys];
         $res = $this->client->post(
@@ -431,11 +436,12 @@ class Events
      * @param $keepExtraData boolean
      * @param $ignoreChannels boolean
      * @param $channelKeys string[]
+     * @param $ignoreSocialDistancing boolean
      * @return ChangeObjectStatusResult
      */
-    public function book($eventKeyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
+    public function book($eventKeyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null, $ignoreSocialDistancing = null)
     {
-        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$BOOKED, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
+        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$BOOKED, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys, $ignoreSocialDistancing);
     }
 
     /**
@@ -479,11 +485,12 @@ class Events
      * @param $keepExtraData boolean
      * @param $ignoreChannels boolean
      * @param $channelKeys string[]
+     * @param $ignoreSocialDistancing boolean
      * @return ChangeObjectStatusResult
      */
-    public function hold($eventKeyOrKeys, $objectOrObjects, $holdToken, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
+    public function hold($eventKeyOrKeys, $objectOrObjects, $holdToken, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null, $ignoreSocialDistancing = null)
     {
-        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$HELD, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
+        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$HELD, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys, $ignoreSocialDistancing);
     }
 
     /**
