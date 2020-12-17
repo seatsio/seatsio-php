@@ -31,7 +31,7 @@ class SeatsioClientTest extends TestCase
      */
     protected static function createSeatsioClient($secretKey, $workspaceKey = null)
     {
-        return new SeatsioClient($secretKey, $workspaceKey, self::$BASE_URL);
+        return new SeatsioClient(Region::withUrl(self::$BASE_URL), $secretKey, $workspaceKey);
     }
 
     private function createTestCompany()

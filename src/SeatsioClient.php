@@ -53,9 +53,9 @@ class SeatsioClient
      */
     public $holdTokens;
 
-    public function __construct($secretKey, $workspaceKey = null, $baseUrl = 'https://api.seatsio.net/')
+    public function __construct($region, $secretKey, $workspaceKey = null)
     {
-        $client = new Client($this->clientConfig($secretKey, $workspaceKey, $baseUrl));
+        $client = new Client($this->clientConfig($secretKey, $workspaceKey, $region->url()));
         $this->charts = new Charts($client);
         $this->events = new Events($client);
         $this->eventReports = new EventReports($client);
