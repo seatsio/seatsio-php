@@ -43,6 +43,17 @@ class EventReports
 
     /**
      * @param $eventKey string
+     * @return array
+     */
+    public function deepSummaryByStatus($eventKey)
+    {
+        $res = $this->client->get(self::deepSummaryReportUrl('byStatus', $eventKey));
+        $json = \GuzzleHttp\json_decode($res->getBody(), true);
+        return $json;
+    }
+
+    /**
+     * @param $eventKey string
      * @param $categoryLabel string
      * @return array
      */
@@ -65,6 +76,16 @@ class EventReports
 
     /**
      * @param $eventKey string
+     * @return array
+     */
+    public function deepSummaryByCategoryLabel($eventKey)
+    {
+        $res = $this->client->get(self::deepSummaryReportUrl('byCategoryLabel', $eventKey));
+        return \GuzzleHttp\json_decode($res->getBody(), true);
+    }
+
+    /**
+     * @param $eventKey string
      * @param $categoryKey string
      * @return array
      */
@@ -82,6 +103,16 @@ class EventReports
     public function summaryByCategoryKey($eventKey)
     {
         $res = $this->client->get(self::summaryReportUrl('byCategoryKey', $eventKey));
+        return \GuzzleHttp\json_decode($res->getBody(), true);
+    }
+
+    /**
+     * @param $eventKey string
+     * @return array
+     */
+    public function deepSummaryByCategoryKey($eventKey)
+    {
+        $res = $this->client->get(self::deepSummaryReportUrl('byCategoryKey', $eventKey));
         return \GuzzleHttp\json_decode($res->getBody(), true);
     }
 
@@ -133,6 +164,16 @@ class EventReports
 
     /**
      * @param $eventKey string
+     * @return array
+     */
+    public function deepSummaryBySection($eventKey)
+    {
+        $res = $this->client->get(self::deepSummaryReportUrl('bySection', $eventKey));
+        return \GuzzleHttp\json_decode($res->getBody(), true);
+    }
+
+    /**
+     * @param $eventKey string
      * @param $channel string
      * @return array
      */
@@ -155,6 +196,16 @@ class EventReports
 
     /**
      * @param $eventKey string
+     * @return array
+     */
+    public function deepSummaryByChannel($eventKey)
+    {
+        $res = $this->client->get(self::deepSummaryReportUrl('byChannel', $eventKey));
+        return \GuzzleHttp\json_decode($res->getBody(), true);
+    }
+
+    /**
+     * @param $eventKey string
      * @param $selectability string
      * @return array
      */
@@ -172,6 +223,16 @@ class EventReports
     public function summaryBySelectability($eventKey)
     {
         $res = $this->client->get(self::summaryReportUrl('bySelectability', $eventKey));
+        return \GuzzleHttp\json_decode($res->getBody(), true);
+    }
+
+    /**
+     * @param $eventKey string
+     * @return array
+     */
+    public function deepSummaryBySelectability($eventKey)
+    {
+        $res = $this->client->get(self::deepSummaryReportUrl('bySelectability', $eventKey));
         return \GuzzleHttp\json_decode($res->getBody(), true);
     }
 
@@ -207,6 +268,11 @@ class EventReports
     private static function summaryReportUrl($reportType, $eventKey)
     {
         return uri_template('/reports/events/{key}/{reportType}/summary', array("key" => $eventKey, "reportType" => $reportType));
+    }
+
+    private static function deepSummaryReportUrl($reportType, $eventKey)
+    {
+        return uri_template('/reports/events/{key}/{reportType}/summary/deep', array("key" => $eventKey, "reportType" => $reportType));
     }
 
 }
