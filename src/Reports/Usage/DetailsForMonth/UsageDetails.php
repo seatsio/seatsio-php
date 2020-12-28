@@ -8,9 +8,9 @@ class UsageDetails
 {
 
     /**
-     * @var Subaccount
+     * @var Workspace
      */
-    public $subaccount;
+    public $workspace;
 
     /**
      * @var UsageByChart[]

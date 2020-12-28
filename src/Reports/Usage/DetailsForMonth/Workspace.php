@@ -4,7 +4,7 @@
 namespace Seatsio\Reports\Usage\DetailsForMonth;
 
 
-class Subaccount
+class Workspace
 {
 
     /**
