@@ -8,7 +8,7 @@ class UsageDetails
 {
 
     /**
-     * @var Workspace
+     * @var int
      */
     public $workspace;
 
