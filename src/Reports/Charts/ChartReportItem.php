@@ -37,6 +37,10 @@ class ChartReportItem
      */
     public $capacity;
     /**
+     * @var bool
+     */
+    public $bookAsAWhole;
+    /**
      * @var string
      */
     public $leftNeighbour;
