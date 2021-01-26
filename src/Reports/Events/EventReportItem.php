@@ -57,6 +57,10 @@ class EventReportItem
      */
     public $capacity;
     /**
+     * @var bool
+     */
+    public $bookAsAWhole;
+    /**
      * @var int
      */
     public $numBooked;

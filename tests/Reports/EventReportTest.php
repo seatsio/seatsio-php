@@ -76,6 +76,7 @@ class EventReportsTest extends SeatsioClientTest
         self::assertEquals(3, $reportItem->numHeld);
         self::assertEquals(92, $reportItem->numFree);
         self::assertEquals("generalAdmission", $reportItem->objectType);
+        self::assertEquals(false, $reportItem->bookAsAWhole);
         self::assertNull($reportItem->isAccessible);
         self::assertNull($reportItem->hasRestrictedView);
         self::assertNull($reportItem->isCompanionSeat);
