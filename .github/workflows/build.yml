@@ -33,7 +33,7 @@ jobs:
     - if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress --no-suggest
 
-    - uses: zcong1993/setup-timezone@v1
+    - uses: zcong1993/setup-timezone@master
       with:
         timezone: Europe/Brussels
 
