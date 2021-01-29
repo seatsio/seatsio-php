@@ -1,9 +1,0 @@
-language: php
-php:
-  - 7.1
-  - 7.4
-dist: trusty
-install: composer install
-before_script:
-  - export TZ=Europe/Brussels
-script: vendor/bin/paratest
