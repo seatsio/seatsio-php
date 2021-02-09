@@ -60,6 +60,13 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byStatus' => ['free' => 116],
                 'bySelectability' => ['selectable' => 116],
                 'byChannel' => ['NO_CHANNEL' => 116]
+            ],
+            'NO_CATEGORY' => [
+                'count' => 0,
+                'bySection' => [],
+                'byStatus' => [],
+                'bySelectability' => [],
+                'byChannel' => []
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -87,6 +94,13 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byStatus' => ['free' => 116],
                 'bySelectability' => ['selectable' => 116],
                 'byChannel' => ['NO_CHANNEL' => 116]
+            ],
+            'NO_CATEGORY' => [
+                'count' => 0,
+                'bySection' => [],
+                'byStatus' => [],
+                'bySelectability' => [],
+                'byChannel' => []
             ]
         ];
         self::assertEquals($expectedReport, $report);
