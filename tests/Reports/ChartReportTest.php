@@ -34,6 +34,7 @@ class ChartReportsTest extends SeatsioClientTest
         $reportItem = $report["GA1"][0];
         self::assertEquals(100, $reportItem->capacity);
         self::assertEquals("generalAdmission", $reportItem->objectType);
+        self::assertEquals(false, $reportItem->bookAsAWhole);
     }
 
     public function testByLabel()

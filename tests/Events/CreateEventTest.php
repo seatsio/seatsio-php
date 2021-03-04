@@ -34,7 +34,7 @@ class CreateEventTest extends SeatsioClientTest
         self::assertEquals('eventje', $event->key);
     }
 
-    public function testTableBookingConfigCanBePassedIn()
+    public function testTableBookingConfigCustomCanBePassedIn()
     {
         $chartKey = $this->createTestChartWithTables();
 
@@ -42,6 +42,16 @@ class CreateEventTest extends SeatsioClientTest
 
         self::assertNotNull($event->key);
         self::assertEquals(TableBookingConfig::custom(["T1" => "BY_TABLE", "T2" => "BY_SEAT"]), $event->tableBookingConfig);
+    }
+
+    public function testTableBookingConfigInheritCanBePassedIn()
+    {
+        $chartKey = $this->createTestChartWithTables();
+
+        $event = $this->seatsioClient->events->create($chartKey, null, TableBookingConfig::inherit());
+
+        self::assertNotNull($event->key);
+        self::assertEquals(TableBookingConfig::inherit(), $event->tableBookingConfig);
     }
 
     public function testSocialDistancingRulesetKeyCanBePassedIn()
