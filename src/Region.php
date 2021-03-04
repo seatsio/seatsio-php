@@ -7,14 +7,24 @@ class Region
     /** @var string */
     private $url;
 
-    public static function US()
-    {
-        return new Region(self::urlForId("us"));
-    }
-
     public static function EU()
     {
         return new Region(self::urlForId("eu"));
+    }
+
+    public static function NA()
+    {
+        return new Region(self::urlForId("na"));
+    }
+
+    public static function SA()
+    {
+        return new Region(self::urlForId("sa"));
+    }
+
+    public static function OC()
+    {
+        return new Region(self::urlForId("oc"));
     }
 
     /**
