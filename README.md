@@ -170,6 +170,10 @@ This exception contains a message string describing what went wrong, and also tw
 
 ## Upgrading
 
+### v72 -> v73
+
+The `SeatsioClient` now takes a region as first parameter. This is the region of your account.
+
 ### v69 -> v70
 
 Switched to builder pattern for creating social distancing rulesets. Removed constructor of `SocialDistancingRuleset` class.
