@@ -8,7 +8,7 @@ use Seatsio\Subaccounts\Subaccount;
 
 class SeatsioClientTest extends TestCase
 {
-    private static $BASE_URL = 'https://api-staging.seatsio.net/';
+    private static $BASE_URL = 'https://api-staging-eu.seatsio.net/';
 
     /** @var SeatsioClient */
     protected $seatsioClient;
@@ -31,7 +31,7 @@ class SeatsioClientTest extends TestCase
      */
     protected static function createSeatsioClient($secretKey, $workspaceKey = null)
     {
-        return new SeatsioClient($secretKey, $workspaceKey, self::$BASE_URL);
+        return new SeatsioClient(Region::withUrl(self::$BASE_URL), $secretKey, $workspaceKey);
     }
 
     private function createTestCompany()
