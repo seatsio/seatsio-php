@@ -168,6 +168,13 @@ This exception contains a message string describing what went wrong, and also tw
 - `messages`: an array of error messages that the server returned. In most cases, this array will contain only one element.
 - `requestId`: the identifier of the request you made. Please mention this to us when you have questions, as it will make debugging easier.
 
+## Rate limiting - exponential backoff
+
+This library supports [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff).
+
+When you send too many concurrent requests, the server returns an error `429 - Too Many Requests`. We react to this by waiting for a while, and then retrying the request.
+If the request still fails with an error `429`, we wait a little longer, and try again. This happens at most 5 times, before we give up (after approximately 15 seconds).
+
 ## Upgrading
 
 ### v72 -> v73
