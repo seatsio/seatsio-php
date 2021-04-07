@@ -4,6 +4,7 @@ namespace Seatsio;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
 use Psr\Http\Message\ResponseInterface;
 use Seatsio\Charts\Charts;
 use Seatsio\Events\Events;
@@ -16,7 +17,7 @@ use Seatsio\Workspaces\Workspaces;
 
 class SeatsioClient
 {
-    private $client;
+    public $client;
 
     /**
      * @var Charts
@@ -56,6 +57,7 @@ class SeatsioClient
     public function __construct($region, $secretKey, $workspaceKey = null)
     {
         $client = new Client($this->clientConfig($secretKey, $workspaceKey, $region->url()));
+        $this->client = $client;
         $this->charts = new Charts($client);
         $this->events = new Events($client);
         $this->eventReports = new EventReports($client);
@@ -70,6 +72,14 @@ class SeatsioClient
     {
         $stack = HandlerStack::create();
         $stack->push(self::errorHandler());
+        $stack->push(Middleware::retry(
+            function ($numRetries, $request, $response) {
+                return $numRetries < 4 && $response->getStatusCode() == 429;
+            },
+            function ($numRetries) {
+                return pow(2, $numRetries + 2) * 100;
+            }
+        ));
         $config = [
             'base_uri' => $baseUrl,
             'auth' => [$secretKey, null],
