@@ -24,6 +24,9 @@ seatsio-php follows semver since v62.3.0.
 ### Creating a chart and an event
 
 ```php
+use Seatsio\Region;
+use Seatsio\SeatsioClient;
+
 // pass in the region in which you created your seats.io account
 // workspace secret key can be found on https://app.seats.io/workspace-settings
 $seatsio = new SeatsioClient(Region::EU(), <WORKSPACE SECRET KEY>);
@@ -39,6 +42,9 @@ Changes the object status to ‘booked’. Booked seats are not selectable on a 
 [https://docs.seats.io/docs/api-book-objects](https://docs.seats.io/docs/api-book-objects)
 
 ```php
+use Seatsio\Region;
+use Seatsio\SeatsioClient;
+
 $seatsio = new SeatsioClient(Region::EU(), <WORKSPACE SECRET KEY>);
 $seatsio->events->book(<AN EVENT KEY>, ["A-1", "A-2"]);
 ```
@@ -46,6 +52,9 @@ $seatsio->events->book(<AN EVENT KEY>, ["A-1", "A-2"]);
 ### Booking objects that have been held
 
 ```php
+use Seatsio\Region;
+use Seatsio\SeatsioClient;
+
 $seatsio = new SeatsioClient(Region::EU(), <WORKSPACE SECRET KEY>);
 $seatsio->events->book(<AN EVENT KEY>, ["A-1", "A-2"], <A HOLD TOKEN>);
 ```
@@ -55,6 +64,9 @@ $seatsio->events->book(<AN EVENT KEY>, ["A-1", "A-2"], <A HOLD TOKEN>);
 Either
 
 ```php
+use Seatsio\Region;
+use Seatsio\SeatsioClient;
+
 $seatsio = new SeatsioClient(Region::EU(), <WORKSPACE SECRET KEY>);
 $seatsio->events->book(<AN EVENT KEY>, ["GA1", "GA1", "GA1"]);
 ```
@@ -62,6 +74,9 @@ $seatsio->events->book(<AN EVENT KEY>, ["GA1", "GA1", "GA1"]);
 Or
 
 ```php
+use Seatsio\Region;
+use Seatsio\SeatsioClient;
+
 $seatsio = new SeatsioClient(Region::EU(), <WORKSPACE SECRET KEY>);
 $seatsio->events->book(<AN EVENT KEY>, [["objectId" => "GA1", "quantity" => 3]]);
 ```
@@ -73,6 +88,9 @@ Changes the object status to ‘free’. Free seats are selectable on a rendered
 [https://docs.seats.io/docs/api-release-objects](https://docs.seats.io/docs/api-release-objects)
 
 ```php
+use Seatsio\Region;
+use Seatsio\SeatsioClient;
+
 $seatsio = new SeatsioClient(Region::EU(), <WORKSPACE SECRET KEY>);
 $seatsio->events->release(<AN EVENT KEY>, ["A-1", "A-2"]);
 ```
@@ -84,6 +102,9 @@ Changes the object status to a custom status of your choice. If you need more st
 [https://docs.seats.io/docs/api-custom-object-status](https://docs.seats.io/docs/api-custom-object-status)
 
 ```php
+use Seatsio\Region;
+use Seatsio\SeatsioClient;
+
 $seatsio = new SeatsioClient(Region::EU(), <WORKSPACE SECRET KEY>);
 $seatsio->events->changeObjectStatus(<AN EVENT KEY>, ["A-1", "A-2"], "unavailable");
 ```
@@ -102,6 +123,9 @@ The report types you can choose from are:
 [https://docs.seats.io/docs/api-event-reports](https://docs.seats.io/docs/api-event-reports)
 
 ```php
+use Seatsio\Region;
+use Seatsio\SeatsioClient;
+
 $seatsio = new SeatsioClient(Region::EU(), <WORKSPACE SECRET KEY>);
 $seatsio->eventReports->byStatus(<AN EVENT KEY>, <OPTIONAL FILTER>);
 ```
@@ -109,6 +133,9 @@ $seatsio->eventReports->byStatus(<AN EVENT KEY>, <OPTIONAL FILTER>);
 ### Listing all charts
 
 ```php
+use Seatsio\Region;
+use Seatsio\SeatsioClient;
+
 $seatsio = new SeatsioClient(Region::EU(), <WORKSPACE SECRET KEY>);
 
 $charts = $seatsio->charts->listAll();
@@ -155,6 +182,9 @@ foreach($page->items as $chart) {
 ### Creating a workspace
 
 ```php
+use Seatsio\Region;
+use Seatsio\SeatsioClient;
+
 $seatsio = new SeatsioClient(Region::EU(), <COMPANY ADMIN KEY>);
 $seatsio->workspaces->create("a workspace");
 ```
