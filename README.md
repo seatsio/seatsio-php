@@ -1,6 +1,6 @@
 # seatsio-php, the official Seats.io PHP client library
 
-![Build](https://github.com/seatsio/seatsio-php/workflows/Build/badge.svg)
+[![Build](https://github.com/seatsio/seatsio-php/workflows/Build/badge.svg)](https://github.com/seatsio/seatsio-php/actions/workflows/build.yml)
 [![Latest Stable Version](https://poser.pugx.org/seatsio/seatsio-php/v/stable)](https://packagist.org/packages/seatsio/seatsio-php)
 
 This is the official PHP client library for the [Seats.io V2 REST API](https://docs.seats.io/docs/api-overview).
