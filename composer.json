@@ -6,7 +6,7 @@
   "require": {
     "php": ">=7.1.0",
     "guzzlehttp/guzzle": "^6.5.5",
-    "netresearch/jsonmapper": "^v1.6.0 || ^4.0.0",
+    "netresearch/jsonmapper": "^4.0.0",
     "lstrojny/functional-php": "^1.14.1"
   },
   "require-dev": {
