@@ -18,7 +18,7 @@ class BookObjectsTest extends SeatsioClientTest
         self::assertEquals(ObjectStatus::$BOOKED, $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-1")->status);
         self::assertEquals(ObjectStatus::$BOOKED, $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-2")->status);
 
-        self::assertEquals(["A-1", "A-2"], array_keys($res->objects));
+        self::assertEquals(["A-1", "A-2"], SeatsioClientTest::sort(array_keys($res->objects)));
     }
 
     public function testSections()

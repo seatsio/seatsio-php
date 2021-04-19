@@ -24,7 +24,7 @@ class HoldObjectsTest extends SeatsioClientTest
         self::assertEquals(ObjectStatus::$HELD, $status2->status);
         self::assertEquals($holdToken->holdToken, $status2->holdToken);
 
-        self::assertEquals(["A-1", "A-2"], array_keys($res->objects));
+        self::assertEquals(["A-1", "A-2"], SeatsioClientTest::sort(array_keys($res->objects)));
     }
 
     public function testOrderId()

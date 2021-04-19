@@ -103,4 +103,10 @@ class SeatsioClientTest extends TestCase
             mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
         );
     }
+
+    protected static function sort($array)
+    {
+        sort($array);
+        return $array;
+    }
 }
