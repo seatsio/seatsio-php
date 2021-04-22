@@ -46,6 +46,15 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertCount(1, $report["A-2"]);
     }
 
+    public function testByObjectType()
+    {
+        $chartKey = $this->createTestChart();
+
+        $report = $this->seatsioClient->chartReports->byObjectType($chartKey);
+        self::assertCount(32, $report["seat"]);
+        self::assertCount(2, $report["generalAdmission"]);
+    }
+
     public function testByLabel_bookWholeTablesNull()
     {
         $chartKey = $this->createTestChartWithTables();

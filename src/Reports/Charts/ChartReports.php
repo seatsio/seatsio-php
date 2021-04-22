@@ -31,6 +31,16 @@ class ChartReports
 
     /**
      * @param $chartKey string
+     * @param $objectType string
+     * @return array
+     */
+    public function byObjectType($chartKey, $bookWholeTables = null)
+    {
+        return $this->getChartReport('byObjectType', $chartKey, $bookWholeTables);
+    }
+
+    /**
+     * @param $chartKey string
      * @param $bookWholeTables string
      * @return array
      */

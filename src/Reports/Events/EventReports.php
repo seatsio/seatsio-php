@@ -54,6 +54,40 @@ class EventReports
 
     /**
      * @param $eventKey string
+     * @param $objectType string
+     * @return array
+     */
+    public function byObjectType($eventKey, $objectType = null)
+    {
+        $res = $this->client->get(self::reportUrl('byObjectType', $eventKey, $objectType));
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        return $this->mapMultiValuedReport($json, $objectType);
+    }
+
+    /**
+     * @param $eventKey string
+     * @return array
+     */
+    public function summaryByObjectType($eventKey)
+    {
+        $res = $this->client->get(self::summaryReportUrl('byObjectType', $eventKey));
+        $json = \GuzzleHttp\json_decode($res->getBody(), true);
+        return $json;
+    }
+
+    /**
+     * @param $eventKey string
+     * @return array
+     */
+    public function deepSummaryByObjectType($eventKey)
+    {
+        $res = $this->client->get(self::deepSummaryReportUrl('byObjectType', $eventKey));
+        $json = \GuzzleHttp\json_decode($res->getBody(), true);
+        return $json;
+    }
+
+    /**
+     * @param $eventKey string
      * @param $categoryLabel string
      * @return array
      */

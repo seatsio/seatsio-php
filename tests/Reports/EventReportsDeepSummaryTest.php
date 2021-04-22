@@ -23,6 +23,18 @@ class EventReportsDeepSummaryTest extends SeatsioClientTest
         self::assertEquals($report[ObjectStatus::$BOOKED]["bySection"]["NO_SECTION"]["bySelectability"]["not_selectable"], 1);
     }
 
+    public function testDeepSummaryByObjectType()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $report = $this->seatsioClient->eventReports->deepSummaryByObjectType($event->key);
+
+        self::assertEquals($report["seat"]["count"], 32);
+        self::assertEquals($report["seat"]["bySection"]["NO_SECTION"]["count"], 32);
+        self::assertEquals($report["seat"]["bySection"]["NO_SECTION"]["bySelectability"]["selectable"], 32);
+    }
+
     public function testDeepSummaryByCategoryKey()
     {
         $chartKey = $this->createTestChart();

@@ -24,7 +24,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byCategoryLabel' => ['Cat2' => 116, 'Cat1' => 115],
                 'bySection' => ['NO_SECTION' => 231],
                 'bySelectability' => ['selectable' => 231],
-                'byChannel' => ['NO_CHANNEL' => 231]
+                'byChannel' => ['NO_CHANNEL' => 231],
+                'byObjectType' => ['seat' => 31, 'generalAdmission' => 200]
             ],
             'booked' => [
                 'count' => 1,
@@ -32,7 +33,56 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byCategoryLabel' => ['Cat1' => 1],
                 'bySection' => ['NO_SECTION' => 1],
                 'bySelectability' => ['not_selectable' => 1],
-                'byChannel' => ['NO_CHANNEL' => 1]
+                'byChannel' => ['NO_CHANNEL' => 1],
+                'byObjectType' => ['seat' => 1]
+            ]
+        ];
+        self::assertEquals($expectedReport, $report);
+    }
+
+    public function testSummaryByObjectType()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $report = $this->seatsioClient->eventReports->summaryByObjectType($event->key);
+
+        $expectedReport = [
+            'seat' => [
+                'count' => 32,
+                'byCategoryKey' => [9 => 16, 10 => 16],
+                'byCategoryLabel' => ['Cat2' => 16, 'Cat1' => 16],
+                'bySection' => ['NO_SECTION' => 32],
+                'bySelectability' => ['selectable' => 32],
+                'byChannel' => ['NO_CHANNEL' => 32],
+                'byStatus' => ['free' => 32]
+            ],
+            'generalAdmission' => [
+                'count' => 200,
+                'byCategoryKey' => [9 => 100, 10 => 100],
+                'byCategoryLabel' => ['Cat1' => 100, 'Cat2' => 100],
+                'bySection' => ['NO_SECTION' => 200],
+                'bySelectability' => ['selectable' => 200],
+                'byChannel' => ['NO_CHANNEL' => 200],
+                'byStatus' => ['free' => 200]
+            ],
+            'table' => [
+                'count' => 0,
+                'byCategoryKey' => [],
+                'byCategoryLabel' => [],
+                'bySection' => [],
+                'bySelectability' => [],
+                'byChannel' => [],
+                'byStatus' => []
+            ],
+            'booth' => [
+                'count' => 0,
+                'byCategoryKey' => [],
+                'byCategoryLabel' => [],
+                'bySection' => [],
+                'bySelectability' => [],
+                'byChannel' => [],
+                'byStatus' => []
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -52,21 +102,24 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'bySection' => ['NO_SECTION' => 116],
                 'byStatus' => ['free' => 115, 'booked' => 1],
                 'bySelectability' => ['selectable' => 115, 'not_selectable' => 1],
-                'byChannel' => ['NO_CHANNEL' => 116]
+                'byChannel' => ['NO_CHANNEL' => 116],
+                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
             ],
             '10' => [
                 'count' => 116,
                 'bySection' => ['NO_SECTION' => 116],
                 'byStatus' => ['free' => 116],
                 'bySelectability' => ['selectable' => 116],
-                'byChannel' => ['NO_CHANNEL' => 116]
+                'byChannel' => ['NO_CHANNEL' => 116],
+                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
             ],
             'NO_CATEGORY' => [
                 'count' => 0,
                 'bySection' => [],
                 'byStatus' => [],
                 'bySelectability' => [],
-                'byChannel' => []
+                'byChannel' => [],
+                'byObjectType' => []
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -86,21 +139,24 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'bySection' => ['NO_SECTION' => 116],
                 'byStatus' => ['free' => 115, 'booked' => 1],
                 'bySelectability' => ['selectable' => 115, 'not_selectable' => 1],
-                'byChannel' => ['NO_CHANNEL' => 116]
+                'byChannel' => ['NO_CHANNEL' => 116],
+                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
             ],
             'Cat2' => [
                 'count' => 116,
                 'bySection' => ['NO_SECTION' => 116],
                 'byStatus' => ['free' => 116],
                 'bySelectability' => ['selectable' => 116],
-                'byChannel' => ['NO_CHANNEL' => 116]
+                'byChannel' => ['NO_CHANNEL' => 116],
+                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
             ],
             'NO_CATEGORY' => [
                 'count' => 0,
                 'bySection' => [],
                 'byStatus' => [],
                 'bySelectability' => [],
-                'byChannel' => []
+                'byChannel' => [],
+                'byObjectType' => []
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -121,7 +177,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byCategoryLabel' => ['Cat2' => 116, 'Cat1' => 116],
                 'byStatus' => ['free' => 231, 'booked' => 1],
                 'bySelectability' => ['selectable' => 231, 'not_selectable' => 1],
-                'byChannel' => ['NO_CHANNEL' => 232]
+                'byChannel' => ['NO_CHANNEL' => 232],
+                'byObjectType' => ['seat' => 32, 'generalAdmission' => 200]
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -142,7 +199,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byCategoryLabel' => ['Cat2' => 116, 'Cat1' => 115],
                 'bySection' => ['NO_SECTION' => 231],
                 'byStatus' => ['free' => 231],
-                'byChannel' => ['NO_CHANNEL' => 231]
+                'byChannel' => ['NO_CHANNEL' => 231],
+                'byObjectType' => ['seat' => 31, 'generalAdmission' => 200]
             ],
             'not_selectable' => [
                 'count' => 1,
@@ -150,7 +208,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byCategoryLabel' => ['Cat1' => 1],
                 'bySection' => ['NO_SECTION' => 1],
                 'byStatus' => ['booked' => 1],
-                'byChannel' => ['NO_CHANNEL' => 1]
+                'byChannel' => ['NO_CHANNEL' => 1],
+                'byObjectType' => ['seat' => 1]
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -174,7 +233,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byCategoryLabel' => ['Cat2' => 116, 'Cat1' => 114],
                 'bySection' => ['NO_SECTION' => 230],
                 'byStatus' => ['free' => 230],
-                'bySelectability' => ['selectable' => 230]
+                'bySelectability' => ['selectable' => 230],
+                'byObjectType' => ['seat' => 30, 'generalAdmission' => 200]
             ],
             'channel1' => [
                 'count' => 2,
@@ -182,7 +242,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byCategoryLabel' => ['Cat1' => 2],
                 'bySection' => ['NO_SECTION' => 2],
                 'byStatus' => ['free' => 2],
-                'bySelectability' => ['selectable' => 2]
+                'bySelectability' => ['selectable' => 2],
+                'byObjectType' => ['seat' => 2]
             ]
         ];
         self::assertEquals($expectedReport, $report);

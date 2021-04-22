@@ -118,6 +118,27 @@ class EventReportsTest extends SeatsioClientTest
         self::assertCount(2, $report);
     }
 
+    public function testByObjectType()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $report = $this->seatsioClient->eventReports->byObjectType($event->key);
+        self::assertCount(32, $report["seat"]);
+        self::assertCount(2, $report["generalAdmission"]);
+        self::assertCount(0, $report["table"]);
+        self::assertCount(0, $report["booth"]);
+    }
+
+    public function testBySpecificObjectType()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $report = $this->seatsioClient->eventReports->byObjectType($event->key, "seat");
+        self::assertCount(32, $report);
+    }
+
     public function testBySpecificNonExistingStatus()
     {
         $chartKey = $this->createTestChart();
