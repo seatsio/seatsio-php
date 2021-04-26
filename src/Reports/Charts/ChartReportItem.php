@@ -48,4 +48,8 @@ class ChartReportItem
      * @var string
      */
     public $rightNeighbour;
+    /**
+     * @var float
+     */
+    public $distanceToFocalPoint;
 }

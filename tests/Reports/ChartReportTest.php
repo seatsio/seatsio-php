@@ -23,6 +23,7 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertNull($reportItem->entrance);
         self::assertNull($reportItem->leftNeighbour);
         self::assertEquals("A-2", $reportItem->rightNeighbour);
+        self::assertNotNull($reportItem->distanceToFocalPoint);
     }
 
     public function testReportItemPropertiesForGA()

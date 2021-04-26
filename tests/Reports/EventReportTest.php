@@ -45,6 +45,7 @@ class EventReportsTest extends SeatsioClientTest
         self::assertNull($reportItem->leftNeighbour);
         self::assertEquals("A-2", $reportItem->rightNeighbour);
         self::assertEquals("channel1", $reportItem->channel);
+        self::assertNotNull($reportItem->distanceToFocalPoint);
     }
 
     public function testHoldToken()

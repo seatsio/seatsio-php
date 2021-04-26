@@ -112,5 +112,9 @@ class EventReportItem
      * @var string
      */
     public $channel;
+    /**
+     * @var float
+     */
+    public $distanceToFocalPoint;
 
 }
