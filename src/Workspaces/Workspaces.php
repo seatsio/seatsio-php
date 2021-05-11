@@ -16,9 +16,21 @@ class Workspaces
      */
     private $client;
 
+    /**
+     * @var FilterableWorkspaceLister
+     */
+    public $active;
+    public $inactive;
+
     public function __construct($client)
     {
         $this->client = $client;
+        $this->active = new FilterableWorkspaceLister(new PageFetcher('/workspaces/active', $this->client, function () {
+            return new WorkspacePage();
+        }));
+        $this->inactive = new FilterableWorkspaceLister(new PageFetcher('/workspaces/inactive', $this->client, function () {
+            return new WorkspacePage();
+        }));
     }
 
     /**
@@ -104,7 +116,7 @@ class Workspaces
      */
     public function listAll($filter = null)
     {
-        return $this->iterator()->all($this->filterToArray($filter));
+        return $this->iterator()->all($filter);
     }
 
     /**
@@ -114,7 +126,7 @@ class Workspaces
      */
     public function listFirstPage($pageSize = null, $filter = null)
     {
-        return $this->iterator()->firstPage($pageSize, $this->filterToArray($filter));
+        return $this->iterator()->firstPage($pageSize, $filter);
     }
 
     /**
@@ -125,7 +137,7 @@ class Workspaces
      */
     public function listPageAfter($afterId, $pageSize = null, $filter = null)
     {
-        return $this->iterator()->pageAfter($afterId, $pageSize, $this->filterToArray($filter));
+        return $this->iterator()->pageAfter($afterId, $pageSize, $filter);
     }
 
     /**
@@ -136,7 +148,7 @@ class Workspaces
      */
     public function listPageBefore($beforeId, $pageSize = null, $filter = null)
     {
-        return $this->iterator()->pageBefore($beforeId, $pageSize, $this->filterToArray($filter));
+        return $this->iterator()->pageBefore($beforeId, $pageSize, $filter, );
     }
 
     /**
@@ -147,14 +159,5 @@ class Workspaces
         return new FilterableWorkspaceLister(new PageFetcher('/workspaces', $this->client, function () {
             return new WorkspacePage();
         }));
-    }
-
-    private function filterToArray($filter)
-    {
-        $result = [];
-        if ($filter !== null) {
-            $result['filter'] = $filter;
-        }
-        return $result;
     }
 }

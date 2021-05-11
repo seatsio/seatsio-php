@@ -5,7 +5,7 @@ namespace Seatsio\Charts;
 use Seatsio\SeatsioClientTest;
 use function Functional\map;
 
-class ListWorkspacesTest extends SeatsioClientTest
+class ListActiveWorkspacesTest extends SeatsioClientTest
 {
 
     public function test()
@@ -15,22 +15,23 @@ class ListWorkspacesTest extends SeatsioClientTest
         $this->seatsioClient->workspaces->deactivate($ws2->key);
         $this->seatsioClient->workspaces->create("ws3");
 
-        $workspaces = $this->seatsioClient->workspaces->listAll();
+        $workspaces = $this->seatsioClient->workspaces->active->all();
         $workspaceNames = map($workspaces, function ($workspace) {
             return $workspace->name;
         });
 
-        self::assertEquals(["ws3", "ws2", "ws1", "Default workspace"], array_values($workspaceNames));
+        self::assertEquals(["ws3", "ws1", "Default workspace"], array_values($workspaceNames));
     }
 
     public function test_filter()
     {
         $this->seatsioClient->workspaces->create("someWorkspace");
-        $ws = $this->seatsioClient->workspaces->create("anotherWorkspace");
-        $this->seatsioClient->workspaces->deactivate($ws->key);
+        $this->seatsioClient->workspaces->create("anotherWorkspace");
         $this->seatsioClient->workspaces->create("anotherAnotherWorkspace");
+        $ws = $this->seatsioClient->workspaces->create("anotherAnotherAnotherWorkspace");
+        $this->seatsioClient->workspaces->deactivate($ws->key);
 
-        $workspaces = $this->seatsioClient->workspaces->listAll("another");
+        $workspaces = $this->seatsioClient->workspaces->active->all("another");
         $workspaceNames = map($workspaces, function ($workspace) {
             return $workspace->name;
         });
