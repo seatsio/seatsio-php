@@ -148,7 +148,7 @@ class Workspaces
      */
     public function listPageBefore($beforeId, $pageSize = null, $filter = null)
     {
-        return $this->iterator()->pageBefore($beforeId, $pageSize, $filter, );
+        return $this->iterator()->pageBefore($beforeId, $pageSize, $filter);
     }
 
     /**
