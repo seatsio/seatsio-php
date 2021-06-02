@@ -3,6 +3,7 @@
 namespace Seatsio\Events;
 
 use Seatsio\Charts\SocialDistancingRuleset;
+use Seatsio\Common\IDs;
 use Seatsio\SeatsioClientTest;
 
 class BookObjectsTest extends SeatsioClientTest
@@ -35,6 +36,7 @@ class BookObjectsTest extends SeatsioClientTest
         self::assertEquals("Section A", $a1Status->section);
         self::assertEquals("Entrance 1", $a1Status->entrance);
         self::assertEquals(someLabels("1", "seat", "A", "row", "Section A"), $a1Status->labels);
+        self::assertEquals(new IDs("1", "A", "Section A"), $a1Status->ids);
     }
 
     public function testHoldToken()

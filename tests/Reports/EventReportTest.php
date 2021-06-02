@@ -2,6 +2,7 @@
 
 namespace Seatsio\Reports;
 
+use Seatsio\Common\IDs;
 use Seatsio\Events\Channel;
 use Seatsio\Events\ObjectProperties;
 use Seatsio\Events\ObjectStatus;
@@ -27,6 +28,7 @@ class EventReportsTest extends SeatsioClientTest
         self::assertEquals(ObjectStatus::$BOOKED, $reportItem->status);
         self::assertEquals("A-1", $reportItem->label);
         self::assertEquals(someLabels("1", "seat", "A", "row"), $reportItem->labels);
+        self::assertEquals(new IDs("1", "A", null), $reportItem->ids);
         self::assertEquals("Cat1", $reportItem->categoryLabel);
         self::assertEquals(9, $reportItem->categoryKey);
         self::assertEquals("ticketType1", $reportItem->ticketType);

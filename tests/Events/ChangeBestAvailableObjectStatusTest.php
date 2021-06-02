@@ -2,6 +2,7 @@
 
 namespace Seatsio\Events;
 
+use Seatsio\Common\IDs;
 use Seatsio\SeatsioClientTest;
 
 class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
@@ -29,6 +30,7 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
         self::assertEquals("lolzor", $objectDetails->status);
         self::assertEquals("B-5", $objectDetails->label);
         self::assertEquals(someLabels("5", "seat", "B", "row"), $objectDetails->labels);
+        self::assertEquals(new IDs("5", "B", null), $objectDetails->ids);
         self::assertEquals("Cat1", $objectDetails->categoryLabel);
         self::assertEquals(9, $objectDetails->categoryKey);
         self::assertNull($objectDetails->ticketType);

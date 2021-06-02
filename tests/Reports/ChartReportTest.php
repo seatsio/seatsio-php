@@ -2,6 +2,7 @@
 
 namespace Seatsio\Reports;
 
+use Seatsio\Common\IDs;
 use Seatsio\SeatsioClientTest;
 
 class ChartReportsTest extends SeatsioClientTest
@@ -16,6 +17,7 @@ class ChartReportsTest extends SeatsioClientTest
         $reportItem = $report["A-1"][0];
         self::assertEquals("A-1", $reportItem->label);
         self::assertEquals(someLabels("1", "seat", "A", "row"), $reportItem->labels);
+        self::assertEquals(new IDs("1", "A", null), $reportItem->ids);
         self::assertEquals("Cat1", $reportItem->categoryLabel);
         self::assertEquals(9, $reportItem->categoryKey);
         self::assertEquals("seat", $reportItem->objectType);

@@ -3,6 +3,7 @@
 namespace Seatsio\Events;
 
 use Seatsio\Charts\SocialDistancingRuleset;
+use Seatsio\Common\IDs;
 use Seatsio\SeatsioClientTest;
 
 class ChangeObjectStatusTest extends SeatsioClientTest
@@ -19,6 +20,7 @@ class ChangeObjectStatusTest extends SeatsioClientTest
         self::assertEquals("lolzor", $objectDetails->status);
         self::assertEquals("A-1", $objectDetails->label);
         self::assertEquals(someLabels("1", "seat", "A", "row"), $objectDetails->labels);
+        self::assertEquals(new IDs("1", "A", null), $objectDetails->ids);
         self::assertEquals("Cat1", $objectDetails->categoryLabel);
         self::assertEquals(9, $objectDetails->categoryKey);
         self::assertNull($objectDetails->ticketType);

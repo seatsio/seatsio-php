@@ -13,6 +13,10 @@ class ChartReportItem
      */
     var $labels;
     /**
+     * @var \Seatsio\Common\IDs
+     */
+    var $ids;
+    /**
      * @var string
      */
     public $categoryLabel;

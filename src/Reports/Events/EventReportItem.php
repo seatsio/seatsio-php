@@ -13,6 +13,10 @@ class EventReportItem
      */
     var $labels;
     /**
+     * @var \Seatsio\Common\IDs
+     */
+    var $ids;
+    /**
      * @var string
      */
     public $status;
