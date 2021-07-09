@@ -3,11 +3,11 @@
 namespace Seatsio\Charts;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\UriTemplate\UriTemplate;
 use Psr\Http\Message\StreamInterface;
 use Seatsio\PageFetcher;
 use Seatsio\SeatsioJsonMapper;
 use stdClass;
-use function GuzzleHttp\uri_template;
 
 class Charts
 {
@@ -250,7 +250,7 @@ class Charts
      */
     public function addTag($key, $tag)
     {
-        $this->client->post(uri_template('/charts/{key}/tags/{tag}', array("key" => $key, "tag" => $tag)));
+        $this->client->post(UriTemplate::expand('/charts/{key}/tags/{tag}', array("key" => $key, "tag" => $tag)));
     }
 
     /**
@@ -260,14 +260,14 @@ class Charts
      */
     public function removeTag($key, $tag)
     {
-        $this->client->delete(uri_template('/charts/{key}/tags/{tag}', array("key" => $key, "tag" => $tag)));
+        $this->client->delete(UriTemplate::expand('/charts/{key}/tags/{tag}', array("key" => $key, "tag" => $tag)));
     }
 
     public function saveSocialDistancingRulesets($key, $rulesets)
     {
         $request = new stdClass();
         $request->socialDistancingRulesets = $rulesets;
-        $this->client->post(uri_template('/charts/{key}/social-distancing-rulesets', array("key" => $key)), ['json' => $request]);
+        $this->client->post(UriTemplate::expand('/charts/{key}/social-distancing-rulesets', array("key" => $key)), ['json' => $request]);
     }
 
     /**

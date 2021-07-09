@@ -7,7 +7,7 @@ use Seatsio\PageFetcher;
 use Seatsio\SeatsioJsonMapper;
 use stdClass;
 use function Functional\map;
-use function GuzzleHttp\uri_template;
+use GuzzleHttp\UriTemplate\UriTemplate;
 
 class Events
 {
@@ -92,7 +92,7 @@ class Events
      */
     public function retrieve($eventKey)
     {
-        $res = $this->client->get(uri_template('/events/{key}', array("key" => $eventKey)));
+        $res = $this->client->get(UriTemplate::expand('/events/{key}', array("key" => $eventKey)));
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Event());
@@ -126,7 +126,7 @@ class Events
             $request->socialDistancingRulesetKey = $socialDistancingRulesetKey;
         }
 
-        $this->client->post(uri_template('/events/{key}', array("key" => $eventKey)), ['json' => $request]);
+        $this->client->post(UriTemplate::expand('/events/{key}', array("key" => $eventKey)), ['json' => $request]);
     }
 
     /**
@@ -135,7 +135,7 @@ class Events
      */
     public function delete($eventKey)
     {
-        $this->client->delete(uri_template('/events/{key}', array("key" => $eventKey)));
+        $this->client->delete(UriTemplate::expand('/events/{key}', array("key" => $eventKey)));
     }
 
     /**
@@ -194,7 +194,7 @@ class Events
      */
     public function statusChanges($eventKey, $filter = null, $sortField = null, $sortDirection = null)
     {
-        return new StatusChangeLister(new PageFetcher(uri_template('/events/{key}/status-changes', array("key" => $eventKey)), $this->client, function () {
+        return new StatusChangeLister(new PageFetcher(UriTemplate::expand('/events/{key}/status-changes', array("key" => $eventKey)), $this->client, function () {
             return new StatusChangePage();
         }, array("filter" => $filter, "sort" => self::toSort($sortField, $sortDirection))));
     }
@@ -217,7 +217,7 @@ class Events
      */
     public function statusChangesForObject($eventKey, $objectId)
     {
-        return new StatusChangeLister(new PageFetcher(uri_template('/events/{key}/objects/{objectId}/status-changes', array("key" => $eventKey, "objectId" => $objectId)), $this->client, function () {
+        return new StatusChangeLister(new PageFetcher(UriTemplate::expand('/events/{key}/objects/{objectId}/status-changes', array("key" => $eventKey, "objectId" => $objectId)), $this->client, function () {
             return new StatusChangePage();
         }));
     }
@@ -230,14 +230,14 @@ class Events
     {
         $request = new stdClass();
         $request->channels = $channels;
-        $this->client->post(uri_template('/events/{key}/channels/update', array("key" => $eventKey)), ['json' => $request]);
+        $this->client->post(UriTemplate::expand('/events/{key}/channels/update', array("key" => $eventKey)), ['json' => $request]);
     }
 
     public function assignObjectsToChannels($eventKey, $channelConfig)
     {
         $request = new stdClass();
         $request->channelConfig = $channelConfig;
-        $this->client->post(uri_template('/events/{key}/channels/assign-objects', array("key" => $eventKey)), ['json' => $request]);
+        $this->client->post(UriTemplate::expand('/events/{key}/channels/assign-objects', array("key" => $eventKey)), ['json' => $request]);
     }
 
     /**
@@ -255,7 +255,7 @@ class Events
         if ($categories !== null) {
             $request->categories = $categories;
         }
-        $this->client->post(uri_template('/events/{key}/actions/mark-as-for-sale', array("key" => $eventKey)), ['json' => $request]);
+        $this->client->post(UriTemplate::expand('/events/{key}/actions/mark-as-for-sale', array("key" => $eventKey)), ['json' => $request]);
     }
 
     /**
@@ -273,7 +273,7 @@ class Events
         if ($categories !== null) {
             $request->categories = $categories;
         }
-        $this->client->post(uri_template('/events/{key}/actions/mark-as-not-for-sale', array("key" => $eventKey)), ['json' => $request]);
+        $this->client->post(UriTemplate::expand('/events/{key}/actions/mark-as-not-for-sale', array("key" => $eventKey)), ['json' => $request]);
     }
 
     /**
@@ -282,7 +282,7 @@ class Events
      */
     public function markEverythingAsForSale($eventKey)
     {
-        $this->client->post(uri_template('/events/{key}/actions/mark-everything-as-for-sale', array("key" => $eventKey)));
+        $this->client->post(UriTemplate::expand('/events/{key}/actions/mark-everything-as-for-sale', array("key" => $eventKey)));
     }
 
     /**
@@ -296,7 +296,7 @@ class Events
         $request = new stdClass();
         $request->extraData = $extraData;
         $this->client->post(
-            uri_template('/events/{key}/objects/{object}/actions/update-extra-data', ["key" => $eventKey, "object" => $object]),
+            UriTemplate::expand('/events/{key}/objects/{object}/actions/update-extra-data', ["key" => $eventKey, "object" => $object]),
             ['json' => $request]
         );
     }
@@ -311,7 +311,7 @@ class Events
         $request = new stdClass();
         $request->extraData = $extraDatas;
         $this->client->post(
-            uri_template('/events/{key}/actions/update-extra-data', ["key" => $eventKey]),
+            UriTemplate::expand('/events/{key}/actions/update-extra-data', ["key" => $eventKey]),
             ['json' => $request]
         );
     }
@@ -323,7 +323,7 @@ class Events
      */
     public function retrieveObjectStatus($eventKey, $object)
     {
-        $res = $this->client->get(uri_template('/events/{key}/objects/{object}', ["key" => $eventKey, "object" => $object]));
+        $res = $this->client->get(UriTemplate::expand('/events/{key}/objects/{object}', ["key" => $eventKey, "object" => $object]));
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new ObjectStatus());
@@ -557,7 +557,7 @@ class Events
             $request->channelKeys = $channelKeys;
         }
         $res = $this->client->post(
-            uri_template('/events/{key}/actions/change-object-status', array("key" => $eventKey)),
+            UriTemplate::expand('/events/{key}/actions/change-object-status', array("key" => $eventKey)),
             ['json' => $request]
         );
         $json = \GuzzleHttp\json_decode($res->getBody());

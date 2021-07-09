@@ -2,8 +2,8 @@
 
 namespace Seatsio\Reports\Events;
 
+use GuzzleHttp\UriTemplate\UriTemplate;
 use Seatsio\SeatsioJsonMapper;
-use function GuzzleHttp\uri_template;
 
 class EventReports
 {
@@ -294,19 +294,19 @@ class EventReports
     private static function reportUrl($reportType, $eventKey, $filter)
     {
         if ($filter === null) {
-            return uri_template('/reports/events/{key}/{reportType}', array("key" => $eventKey, "reportType" => $reportType));
+            return UriTemplate::expand('/reports/events/{key}/{reportType}', array("key" => $eventKey, "reportType" => $reportType));
         }
-        return uri_template('/reports/events/{key}/{reportType}/{filter}', array("key" => $eventKey, "reportType" => $reportType, "filter" => $filter));
+        return UriTemplate::expand('/reports/events/{key}/{reportType}/{filter}', array("key" => $eventKey, "reportType" => $reportType, "filter" => $filter));
     }
 
     private static function summaryReportUrl($reportType, $eventKey)
     {
-        return uri_template('/reports/events/{key}/{reportType}/summary', array("key" => $eventKey, "reportType" => $reportType));
+        return UriTemplate::expand('/reports/events/{key}/{reportType}/summary', array("key" => $eventKey, "reportType" => $reportType));
     }
 
     private static function deepSummaryReportUrl($reportType, $eventKey)
     {
-        return uri_template('/reports/events/{key}/{reportType}/summary/deep', array("key" => $eventKey, "reportType" => $reportType));
+        return UriTemplate::expand('/reports/events/{key}/{reportType}/summary/deep', array("key" => $eventKey, "reportType" => $reportType));
     }
 
 }
