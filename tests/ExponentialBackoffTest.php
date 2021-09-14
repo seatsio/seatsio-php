@@ -34,6 +34,20 @@ class ExponentialBackoffTest extends SeatsioClientTest
         }
     }
 
+    public function testAbortsDirectlyIfServerReturns429ButMaxRetries0()
+    {
+        $start = time();
+        try {
+            $client = new SeatsioClient(Region::withUrl("https://httpbin.org"), "aSecretKey", null, 0);
+            $client->client->get("/status/429")->getBody();
+            throw new \Exception("Should have failed");
+        } catch (SeatsioException $exception) {
+            self::assertEquals($exception->getMessage(), "GET https://httpbin.org/status/429` resulted in a `429 TOO MANY REQUESTS` response.");
+            $waitTime = time() - $start;
+            self::assertLessThan(2, $waitTime);
+        }
+    }
+
     public function testReturnsSuccessfullyWhenTheServerSendsA429FirstAndThenASuccessfulResponse()
     {
         $client = new SeatsioClient(Region::withUrl("https://httpbin.org"), "aSecretKey");

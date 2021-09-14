@@ -54,9 +54,9 @@ class SeatsioClient
      */
     public $holdTokens;
 
-    public function __construct($region, $secretKey, $workspaceKey = null)
+    public function __construct($region, $secretKey, $workspaceKey = null, $maxRetries = 5)
     {
-        $client = new Client($this->clientConfig($secretKey, $workspaceKey, $region->url()));
+        $client = new Client($this->clientConfig($secretKey, $workspaceKey, $region->url(), $maxRetries));
         $this->client = $client;
         $this->charts = new Charts($client);
         $this->events = new Events($client);
@@ -68,13 +68,13 @@ class SeatsioClient
         $this->holdTokens = new HoldTokens($client);
     }
 
-    private function clientConfig($secretKey, $workspaceKey, $baseUrl)
+    private function clientConfig($secretKey, $workspaceKey, $baseUrl, $maxRetries)
     {
         $stack = HandlerStack::create();
         $stack->push(self::errorHandler());
         $stack->push(Middleware::retry(
-            function ($numRetries, $request, $response) {
-                return $numRetries < 4 && $response->getStatusCode() == 429;
+            function ($numRetries, $request, $response) use ($maxRetries) {
+                return $numRetries < $maxRetries - 1 && $response->getStatusCode() == 429;
             },
             function ($numRetries) {
                 return pow(2, $numRetries + 2) * 100;
