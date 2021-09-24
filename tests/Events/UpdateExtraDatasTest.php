@@ -16,10 +16,10 @@ class UpdateExtraDatasTest extends SeatsioClientTest
 
         $this->seatsioClient->events->updateExtraDatas($event->key, ["A-1" => $extraData1, "A-2" => $extraData2]);
 
-        $objectStatus1 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals((object)$extraData1, $objectStatus1->extraData);
-        $objectStatus2 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-2");
-        self::assertEquals((object)$extraData2, $objectStatus2->extraData);
+        $objectInfo1 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
+        self::assertEquals((object)$extraData1, $objectInfo1->extraData);
+        $objectInfo2 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-2");
+        self::assertEquals((object)$extraData2, $objectInfo2->extraData);
     }
 
 }

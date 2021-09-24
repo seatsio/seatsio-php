@@ -79,13 +79,13 @@ class ChangeObjectStatusForMultipleObjectsTest extends SeatsioClientTest
 
         $this->seatsioClient->events->changeObjectStatus($event->key, $objects, "lolzor");
 
-        $status1 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals("lolzor", $status1->status);
-        self::assertEquals("T1", $status1->ticketType);
+        $objectInfo1 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
+        self::assertEquals("lolzor", $objectInfo1->status);
+        self::assertEquals("T1", $objectInfo1->ticketType);
 
-        $status2 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-2");
-        self::assertEquals("lolzor", $status2->status);
-        self::assertEquals("T2", $status2->ticketType);
+        $objectInfo2 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-2");
+        self::assertEquals("lolzor", $objectInfo2->status);
+        self::assertEquals("T2", $objectInfo2->ticketType);
     }
 
     public function testQuantity()
@@ -99,11 +99,11 @@ class ChangeObjectStatusForMultipleObjectsTest extends SeatsioClientTest
 
         $this->seatsioClient->events->changeObjectStatus($event->key, $objects, "lolzor");
 
-        $status1 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "GA1");
-        self::assertEquals(5, $status1->quantity);
+        $objectInfo1 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "GA1");
+        self::assertEquals(5, $objectInfo1->quantity);
 
-        $status2 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "34");
-        self::assertEquals(10, $status2->quantity);
+        $objectInfo2 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "34");
+        self::assertEquals(10, $objectInfo2->quantity);
     }
 
     public function testCombinationOfGAAndSeats()
@@ -117,11 +117,11 @@ class ChangeObjectStatusForMultipleObjectsTest extends SeatsioClientTest
 
         $this->seatsioClient->events->changeObjectStatus($event->key, $objects, "lolzor");
 
-        $status1 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "GA1");
-        self::assertEquals(5, $status1->quantity);
+        $objectInfo1 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "GA1");
+        self::assertEquals(5, $objectInfo1->quantity);
 
-        $status2 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals("lolzor", $status2->status);
+        $objectInfo2 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
+        self::assertEquals("lolzor", $objectInfo2->status);
     }
 
     public function testExtraData()
@@ -135,11 +135,11 @@ class ChangeObjectStatusForMultipleObjectsTest extends SeatsioClientTest
 
         $this->seatsioClient->events->changeObjectStatus($event->key, $objects, "lolzor");
 
-        $status1 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals((object)(["foo" => "bar"]), $status1->extraData);
+        $objectInfo1 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
+        self::assertEquals((object)(["foo" => "bar"]), $objectInfo1->extraData);
 
-        $status2 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-2");
-        self::assertEquals((object)(["foo" => "baz"]), $status2->extraData);
+        $objectInfo2 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-2");
+        self::assertEquals((object)(["foo" => "baz"]), $objectInfo2->extraData);
     }
 
 }

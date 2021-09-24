@@ -70,8 +70,8 @@ class ChangeObjectStatusTest extends SeatsioClientTest
 
         $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", "lolzor");
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals("lolzor", $objectStatus->status);
+        $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
+        self::assertEquals("lolzor", $objectInfo->status);
     }
 
     public function testObjectIdInsideObject()
@@ -81,8 +81,8 @@ class ChangeObjectStatusTest extends SeatsioClientTest
 
         $this->seatsioClient->events->changeObjectStatus($event->key, new ObjectProperties("A-1"), "lolzor");
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals("lolzor", $objectStatus->status);
+        $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
+        self::assertEquals("lolzor", $objectInfo->status);
     }
 
     public function testHoldToken()
@@ -93,9 +93,9 @@ class ChangeObjectStatusTest extends SeatsioClientTest
 
         $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", ObjectStatus::$HELD, $holdToken->holdToken);
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals(ObjectStatus::$HELD, $objectStatus->status);
-        self::assertEquals($holdToken->holdToken, $objectStatus->holdToken);
+        $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
+        self::assertEquals(ObjectStatus::$HELD, $objectInfo->status);
+        self::assertEquals($holdToken->holdToken, $objectInfo->holdToken);
     }
 
     public function testOrderId()
@@ -105,8 +105,8 @@ class ChangeObjectStatusTest extends SeatsioClientTest
 
         $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", "lolzor", null, "order1");
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals("order1", $objectStatus->orderId);
+        $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
+        self::assertEquals("order1", $objectInfo->orderId);
     }
 
     public function testKeepExtraData()
@@ -118,8 +118,8 @@ class ChangeObjectStatusTest extends SeatsioClientTest
 
         $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", "lolzor", null, null, true);
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals((object)$extraData, $objectStatus->extraData);
+        $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
+        self::assertEquals((object)$extraData, $objectInfo->extraData);
     }
 
     public function testChannelKeys()
@@ -135,8 +135,8 @@ class ChangeObjectStatusTest extends SeatsioClientTest
 
         $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", "someStatus", null, null, null, null, ["channelKey1"]);
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals("someStatus", $objectStatus->status);
+        $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
+        self::assertEquals("someStatus", $objectInfo->status);
     }
 
     public function testIgnoreChannels()
@@ -152,8 +152,8 @@ class ChangeObjectStatusTest extends SeatsioClientTest
 
         $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", "someStatus", null, null, null, true);
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals("someStatus", $objectStatus->status);
+        $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
+        self::assertEquals("someStatus", $objectInfo->status);
     }
 
     public function testIgnoreSocialDistancing()
@@ -166,7 +166,7 @@ class ChangeObjectStatusTest extends SeatsioClientTest
 
         $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", "someStatus", null, null, null, null, null, true);
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals("someStatus", $objectStatus->status);
+        $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
+        self::assertEquals("someStatus", $objectInfo->status);
     }
 }

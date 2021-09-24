@@ -30,8 +30,8 @@ class ReleaseObjectsTest extends SeatsioClientTest
 
         $this->seatsioClient->events->release($event->key, "A-1", $holdToken->holdToken);
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertNull($objectStatus->holdToken);
+        $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
+        self::assertNull($objectInfo->holdToken);
     }
 
     public function testOrderId()
@@ -42,8 +42,8 @@ class ReleaseObjectsTest extends SeatsioClientTest
 
         $this->seatsioClient->events->release($event->key, "A-1", null, "order1");
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals("order1", $objectStatus->orderId);
+        $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
+        self::assertEquals("order1", $objectInfo->orderId);
     }
 
     public function testKeepExtraData()
@@ -56,8 +56,8 @@ class ReleaseObjectsTest extends SeatsioClientTest
 
         $this->seatsioClient->events->release($event->key, "A-1", null, null, true);
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals((object)$extraData, $objectStatus->extraData);
+        $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
+        self::assertEquals((object)$extraData, $objectInfo->extraData);
     }
 
     public function testChannelKeys()
@@ -74,8 +74,8 @@ class ReleaseObjectsTest extends SeatsioClientTest
 
         $this->seatsioClient->events->release($event->key, "A-1", null, null, null, null, ["channelKey1"]);
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals(ObjectStatus::$FREE, $objectStatus->status);
+        $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
+        self::assertEquals(ObjectStatus::$FREE, $objectInfo->status);
     }
 
     public function testIgnoreChannels()
@@ -92,7 +92,7 @@ class ReleaseObjectsTest extends SeatsioClientTest
 
         $this->seatsioClient->events->release($event->key, "A-1", null, null, null, true);
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals(ObjectStatus::$FREE, $objectStatus->status);
+        $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
+        self::assertEquals(ObjectStatus::$FREE, $objectInfo->status);
     }
 }
