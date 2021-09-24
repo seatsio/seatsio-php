@@ -3,6 +3,7 @@
 namespace Seatsio\Events;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Query;
 use Seatsio\PageFetcher;
 use Seatsio\SeatsioJsonMapper;
 use stdClass;
@@ -318,15 +319,33 @@ class Events
 
     /**
      * @param $eventKey string
-     * @param $object string
+     * @param $objectLabel string
      * @return ObjectStatus
      */
-    public function retrieveObjectStatus($eventKey, $object)
+    public function retrieveObjectInfo($eventKey, $objectLabel)
     {
-        $res = $this->client->get(UriTemplate::expand('/events/{key}/objects/{object}', ["key" => $eventKey, "object" => $object]));
+        $res = $this->client->get(UriTemplate::expand('/events/{key}/objects/{object}', ["key" => $eventKey, "object" => $objectLabel]));
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new ObjectStatus());
+    }
+
+    /**
+     * @param $eventKey string
+     * @param $objectLabels string[]
+     * @return array
+     */
+    public function retrieveObjectInfos($eventKey, $objectLabels)
+    {
+        $options = ['query' => Query::build(["label" => $objectLabels])];
+        $res = $this->client->get(UriTemplate::expand('/events/{key}/objects', ["key" => $eventKey]), $options);
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        $mapper = SeatsioJsonMapper::create();
+        $result = [];
+        foreach ($json as $objectLabel => $objectInfo) {
+            $result[$objectLabel] = $mapper->map($objectInfo, new ObjectInfo());
+        }
+        return $result;
     }
 
     /**

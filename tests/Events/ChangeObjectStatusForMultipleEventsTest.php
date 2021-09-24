@@ -15,10 +15,10 @@ class ChangeObjectStatusForMultipleEventsTest extends SeatsioClientTest
 
         $this->seatsioClient->events->changeObjectStatus([$event1->key, $event2->key], "A-1", "lolzor");
 
-        $objectStatus1 = $this->seatsioClient->events->retrieveObjectStatus($event1->key, "A-1");
+        $objectStatus1 = $this->seatsioClient->events->retrieveObjectInfo($event1->key, "A-1");
         self::assertEquals("lolzor", $objectStatus1->status);
 
-        $objectStatus2 = $this->seatsioClient->events->retrieveObjectStatus($event2->key, "A-1");
+        $objectStatus2 = $this->seatsioClient->events->retrieveObjectInfo($event2->key, "A-1");
         self::assertEquals("lolzor", $objectStatus2->status);
     }
 
@@ -30,10 +30,10 @@ class ChangeObjectStatusForMultipleEventsTest extends SeatsioClientTest
 
         $this->seatsioClient->events->book([$event1->key, $event2->key], "A-1");
 
-        $objectStatus1 = $this->seatsioClient->events->retrieveObjectStatus($event1->key, "A-1");
+        $objectStatus1 = $this->seatsioClient->events->retrieveObjectInfo($event1->key, "A-1");
         self::assertEquals(ObjectStatus::$BOOKED, $objectStatus1->status);
 
-        $objectStatus2 = $this->seatsioClient->events->retrieveObjectStatus($event2->key, "A-1");
+        $objectStatus2 = $this->seatsioClient->events->retrieveObjectInfo($event2->key, "A-1");
         self::assertEquals(ObjectStatus::$BOOKED, $objectStatus2->status);
     }
 
@@ -46,10 +46,10 @@ class ChangeObjectStatusForMultipleEventsTest extends SeatsioClientTest
 
         $this->seatsioClient->events->release([$event1->key, $event2->key], "A-1");
 
-        $objectStatus1 = $this->seatsioClient->events->retrieveObjectStatus($event1->key, "A-1");
+        $objectStatus1 = $this->seatsioClient->events->retrieveObjectInfo($event1->key, "A-1");
         self::assertEquals(ObjectStatus::$FREE, $objectStatus1->status);
 
-        $objectStatus2 = $this->seatsioClient->events->retrieveObjectStatus($event2->key, "A-1");
+        $objectStatus2 = $this->seatsioClient->events->retrieveObjectInfo($event2->key, "A-1");
         self::assertEquals(ObjectStatus::$FREE, $objectStatus2->status);
     }
 
@@ -62,10 +62,10 @@ class ChangeObjectStatusForMultipleEventsTest extends SeatsioClientTest
 
         $this->seatsioClient->events->hold([$event1->key, $event2->key], "A-1", $holdToken->holdToken);
 
-        $objectStatus1 = $this->seatsioClient->events->retrieveObjectStatus($event1->key, "A-1");
+        $objectStatus1 = $this->seatsioClient->events->retrieveObjectInfo($event1->key, "A-1");
         self::assertEquals(ObjectStatus::$HELD, $objectStatus1->status);
 
-        $objectStatus2 = $this->seatsioClient->events->retrieveObjectStatus($event2->key, "A-1");
+        $objectStatus2 = $this->seatsioClient->events->retrieveObjectInfo($event2->key, "A-1");
         self::assertEquals(ObjectStatus::$HELD, $objectStatus2->status);
     }
 

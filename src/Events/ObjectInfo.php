@@ -1,8 +1,8 @@
 <?php
 
-namespace Seatsio\Reports\Events;
+namespace Seatsio\Events;
 
-class EventReportItem
+class ObjectInfo
 {
     /**
      * @var string
@@ -120,5 +120,9 @@ class EventReportItem
      * @var float
      */
     public $distanceToFocalPoint;
+    /**
+     * @var object
+     */
+    public $holds;
 
 }

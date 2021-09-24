@@ -20,11 +20,11 @@ class ChangeObjectStatusInBatchTest extends SeatsioClientTest
         ]);
 
         self::assertEquals('lolzor', $response[0]->objects['A-1']->status);
-        $objectStatus1 = $this->seatsioClient->events->retrieveObjectStatus($event1->key, "A-1");
+        $objectStatus1 = $this->seatsioClient->events->retrieveObjectInfo($event1->key, "A-1");
         self::assertEquals("lolzor", $objectStatus1->status);
 
         self::assertEquals('lolzor', $response[1]->objects['A-2']->status);
-        $objectStatus2 = $this->seatsioClient->events->retrieveObjectStatus($event2->key, "A-2");
+        $objectStatus2 = $this->seatsioClient->events->retrieveObjectInfo($event2->key, "A-2");
         self::assertEquals("lolzor", $objectStatus2->status);
     }
 

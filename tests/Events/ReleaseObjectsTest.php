@@ -15,8 +15,8 @@ class ReleaseObjectsTest extends SeatsioClientTest
 
         $res = $this->seatsioClient->events->release($event->key, ["A-1", "A-2"]);
 
-        self::assertEquals(ObjectStatus::$FREE, $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-1")->status);
-        self::assertEquals(ObjectStatus::$FREE, $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-2")->status);
+        self::assertEquals(ObjectStatus::$FREE, $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1")->status);
+        self::assertEquals(ObjectStatus::$FREE, $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-2")->status);
 
         self::assertEquals(["A-1", "A-2"], SeatsioClientTest::sort(array_keys($res->objects)));
     }
@@ -30,7 +30,7 @@ class ReleaseObjectsTest extends SeatsioClientTest
 
         $this->seatsioClient->events->release($event->key, "A-1", $holdToken->holdToken);
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-1");
+        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
         self::assertNull($objectStatus->holdToken);
     }
 
@@ -42,7 +42,7 @@ class ReleaseObjectsTest extends SeatsioClientTest
 
         $this->seatsioClient->events->release($event->key, "A-1", null, "order1");
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-1");
+        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
         self::assertEquals("order1", $objectStatus->orderId);
     }
 
@@ -56,7 +56,7 @@ class ReleaseObjectsTest extends SeatsioClientTest
 
         $this->seatsioClient->events->release($event->key, "A-1", null, null, true);
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-1");
+        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
         self::assertEquals((object)$extraData, $objectStatus->extraData);
     }
 
@@ -74,7 +74,7 @@ class ReleaseObjectsTest extends SeatsioClientTest
 
         $this->seatsioClient->events->release($event->key, "A-1", null, null, null, null, ["channelKey1"]);
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-1");
+        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
         self::assertEquals(ObjectStatus::$FREE, $objectStatus->status);
     }
 
@@ -92,7 +92,7 @@ class ReleaseObjectsTest extends SeatsioClientTest
 
         $this->seatsioClient->events->release($event->key, "A-1", null, null, null, true);
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectStatus($event->key, "A-1");
+        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
         self::assertEquals(ObjectStatus::$FREE, $objectStatus->status);
     }
 }

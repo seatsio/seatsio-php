@@ -2,7 +2,9 @@
 
 namespace Seatsio\Reports\Events;
 
+use GuzzleHttp\Psr7\Query;
 use GuzzleHttp\UriTemplate\UriTemplate;
+use Seatsio\Events\ObjectInfo;
 use Seatsio\SeatsioJsonMapper;
 
 class EventReports
@@ -279,10 +281,10 @@ class EventReports
     {
         $mapper = SeatsioJsonMapper::create();
         $result = [];
-        foreach ($json as $status => $reportItems) {
-            $result[$status] = $mapper->mapArray($reportItems, array(), EventReportItem::class);
+        foreach ($json as $key => $reportItems) {
+            $result[$key] = $mapper->mapArray($reportItems, array(), ObjectInfo::class);
         }
-        if ($filter === null) {
+        if ($filter === null || is_array($filter)) {
             return $result;
         }
         if (array_key_exists($filter, $result)) {

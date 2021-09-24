@@ -65,9 +65,9 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
         $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 2, "lolzor", null, null, $extraData);
 
         self::assertEquals(["B-4", "B-5"], $bestAvailableObjects->objects, '', 0.0, 10, true);
-        $b4Status = $this->seatsioClient->events->retrieveObjectStatus($event->key, "B-4");
+        $b4Status = $this->seatsioClient->events->retrieveObjectInfo($event->key, "B-4");
         self::assertEquals($b4Status->extraData, (object)["foo" => "bar"]);
-        $b5Status = $this->seatsioClient->events->retrieveObjectStatus($event->key, "B-5");
+        $b5Status = $this->seatsioClient->events->retrieveObjectInfo($event->key, "B-5");
         self::assertEquals($b5Status->extraData, (object)["foo" => "baz"]);
     }
 
@@ -79,9 +79,9 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
         $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 2, "lolzor", null, null, null, ["adult", "child"]);
 
         self::assertEquals(["B-4", "B-5"], $bestAvailableObjects->objects, '', 0.0, 10, true);
-        $b4Status = $this->seatsioClient->events->retrieveObjectStatus($event->key, "B-4");
+        $b4Status = $this->seatsioClient->events->retrieveObjectInfo($event->key, "B-4");
         self::assertEquals($b4Status->ticketType, "adult");
-        $b5Status = $this->seatsioClient->events->retrieveObjectStatus($event->key, "B-5");
+        $b5Status = $this->seatsioClient->events->retrieveObjectInfo($event->key, "B-5");
         self::assertEquals($b5Status->ticketType, "child");
     }
 
@@ -93,7 +93,7 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
 
         $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 1, ObjectStatus::$HELD, null, $holdToken->holdToken);
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectStatus($event->key, $bestAvailableObjects->objects[0]);
+        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, $bestAvailableObjects->objects[0]);
         self::assertEquals(ObjectStatus::$HELD, $objectStatus->status);
         self::assertEquals($holdToken->holdToken, $objectStatus->holdToken);
     }
@@ -105,7 +105,7 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
 
         $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 1, "lolzor", null, null, null, null, "anOrder");
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectStatus($event->key, $bestAvailableObjects->objects[0]);
+        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, $bestAvailableObjects->objects[0]);
         self::assertEquals("anOrder", $objectStatus->orderId);
     }
 
@@ -128,7 +128,7 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
 
         $bestAvailableObjects = $this->seatsioClient->events->holdBestAvailable($event->key, 1, $holdToken->holdToken);
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectStatus($event->key, $bestAvailableObjects->objects[0]);
+        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, $bestAvailableObjects->objects[0]);
         self::assertEquals(ObjectStatus::$HELD, $objectStatus->status);
         self::assertEquals($holdToken->holdToken, $objectStatus->holdToken);
     }
@@ -142,7 +142,7 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
 
         $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 1, "lolzor", null, null, null, null, null, true);
 
-        $objectStatus = $this->seatsioClient->events->retrieveObjectStatus($event->key, "B-5");
+        $objectStatus = $this->seatsioClient->events->retrieveObjectInfo($event->key, "B-5");
         self::assertEquals((object)$extraData, $objectStatus->extraData);
     }
 

@@ -219,6 +219,13 @@ Passing in 0 disables exponential backoff completely. In that case, the client w
 
 ## Upgrading
 
+### v76 -> v77
+
+Renamed `$seatsioClient->events->retrieveObjectStatus` to `$seatsioClient->events->retrieveObjectInfo`
+Renamed `\Seatsio\Reports\Events\EventReportItem` to `\Seatsio\Events\ObjectInfo`
+Renamed `\Seatsio\Events\ObjectStatus` to `\Seatsio\Events\ObjectInfo`
+Renamed `ObjectStatus->quantity` to `ObjectInfo->numBooked`
+
 ### v72 -> v73
 
 The `SeatsioClient` now takes a region as first parameter. This is the region of your account.
