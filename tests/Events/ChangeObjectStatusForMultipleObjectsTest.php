@@ -52,7 +52,7 @@ class ChangeObjectStatusForMultipleObjectsTest extends SeatsioClientTest
 
         self::assertEquals("lolzor", $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1")->status);
 
-        self::assertEquals(5, $this->seatsioClient->events->retrieveObjectInfo($event->key, "GA1")->quantity);
+        self::assertEquals(5, $this->seatsioClient->events->retrieveObjectInfo($event->key, "GA1")->numBooked);
     }
 
     public function testCombinationOfStringsAndAssociativeArrays()
@@ -65,7 +65,7 @@ class ChangeObjectStatusForMultipleObjectsTest extends SeatsioClientTest
 
         self::assertEquals("lolzor", $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1")->status);
 
-        self::assertEquals(5, $this->seatsioClient->events->retrieveObjectInfo($event->key, "GA1")->quantity);
+        self::assertEquals(5, $this->seatsioClient->events->retrieveObjectInfo($event->key, "GA1")->numBooked);
     }
 
     public function testTicketType()
@@ -100,10 +100,10 @@ class ChangeObjectStatusForMultipleObjectsTest extends SeatsioClientTest
         $this->seatsioClient->events->changeObjectStatus($event->key, $objects, "lolzor");
 
         $objectInfo1 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "GA1");
-        self::assertEquals(5, $objectInfo1->quantity);
+        self::assertEquals(5, $objectInfo1->numBooked);
 
         $objectInfo2 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "34");
-        self::assertEquals(10, $objectInfo2->quantity);
+        self::assertEquals(10, $objectInfo2->numBooked);
     }
 
     public function testCombinationOfGAAndSeats()
@@ -118,7 +118,7 @@ class ChangeObjectStatusForMultipleObjectsTest extends SeatsioClientTest
         $this->seatsioClient->events->changeObjectStatus($event->key, $objects, "lolzor");
 
         $objectInfo1 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "GA1");
-        self::assertEquals(5, $objectInfo1->quantity);
+        self::assertEquals(5, $objectInfo1->numBooked);
 
         $objectInfo2 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
         self::assertEquals("lolzor", $objectInfo2->status);

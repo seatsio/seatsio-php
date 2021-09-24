@@ -13,7 +13,7 @@ class RetrieveObjectInfoTest extends SeatsioClientTest
         $event = $this->seatsioClient->events->create($chartKey);
 
         $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals(ObjectStatus::$FREE, $objectInfo->status);
+        self::assertEquals(ObjectInfo::$FREE, $objectInfo->status);
         self::assertNull($objectInfo->ticketType);
         self::assertNull($objectInfo->extraData);
         self::assertTrue($objectInfo->forSale);

@@ -14,8 +14,8 @@ class RetrieveObjectInfosTest extends SeatsioClientTest
 
         $objectInfos = $this->seatsioClient->events->retrieveObjectInfos($event->key, ["A-1", "A-2"]);
 
-        self::assertEquals(ObjectStatus::$FREE, $objectInfos["A-1"]->status);
-        self::assertEquals(ObjectStatus::$FREE, $objectInfos["A-2"]->status);
+        self::assertEquals(ObjectInfo::$FREE, $objectInfos["A-1"]->status);
+        self::assertEquals(ObjectInfo::$FREE, $objectInfos["A-2"]->status);
         self::assertArrayNotHasKey("A-3", $objectInfos);
     }
 

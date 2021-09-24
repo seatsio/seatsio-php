@@ -17,11 +17,11 @@ class HoldObjectsTest extends SeatsioClientTest
         $res = $this->seatsioClient->events->hold($event->key, ["A-1", "A-2"], $holdToken->holdToken);
 
         $objectInfo1 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals(ObjectStatus::$HELD, $objectInfo1->status);
+        self::assertEquals(ObjectInfo::$HELD, $objectInfo1->status);
         self::assertEquals($holdToken->holdToken, $objectInfo1->holdToken);
 
         $objectInfo2 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-2");
-        self::assertEquals(ObjectStatus::$HELD, $objectInfo2->status);
+        self::assertEquals(ObjectInfo::$HELD, $objectInfo2->status);
         self::assertEquals($holdToken->holdToken, $objectInfo2->holdToken);
 
         self::assertEquals(["A-1", "A-2"], SeatsioClientTest::sort(array_keys($res->objects)));
@@ -68,7 +68,7 @@ class HoldObjectsTest extends SeatsioClientTest
         $this->seatsioClient->events->hold($event->key, "A-1", $holdToken->holdToken, null, null, null, ["channelKey1"]);
 
         $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals(ObjectStatus::$HELD, $objectInfo->status);
+        self::assertEquals(ObjectInfo::$HELD, $objectInfo->status);
     }
 
     public function testIgnoreChannels()
@@ -86,7 +86,7 @@ class HoldObjectsTest extends SeatsioClientTest
         $this->seatsioClient->events->hold($event->key, "A-1", $holdToken->holdToken, null, null, true);
 
         $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals(ObjectStatus::$HELD, $objectInfo->status);
+        self::assertEquals(ObjectInfo::$HELD, $objectInfo->status);
     }
 
     public function testIgnoreSocialDistancing()
@@ -101,6 +101,6 @@ class HoldObjectsTest extends SeatsioClientTest
         $this->seatsioClient->events->hold($event->key, "A-1", $holdToken->holdToken, null, null, null, null, true);
 
         $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals(ObjectStatus::$HELD, $objectInfo->status);
+        self::assertEquals(ObjectInfo::$HELD, $objectInfo->status);
     }
 }

@@ -4,11 +4,11 @@ namespace Seatsio\Events;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Query;
+use GuzzleHttp\UriTemplate\UriTemplate;
 use Seatsio\PageFetcher;
 use Seatsio\SeatsioJsonMapper;
 use stdClass;
 use function Functional\map;
-use GuzzleHttp\UriTemplate\UriTemplate;
 
 class Events
 {
@@ -320,14 +320,14 @@ class Events
     /**
      * @param $eventKey string
      * @param $objectLabel string
-     * @return ObjectStatus
+     * @return ObjectInfo
      */
     public function retrieveObjectInfo($eventKey, $objectLabel)
     {
         $res = $this->client->get(UriTemplate::expand('/events/{key}/objects/{object}', ["key" => $eventKey, "object" => $objectLabel]));
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
-        return $mapper->map($json, new ObjectStatus());
+        return $mapper->map($json, new ObjectInfo());
     }
 
     /**
@@ -460,7 +460,7 @@ class Events
      */
     public function book($eventKeyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null, $ignoreSocialDistancing = null)
     {
-        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$BOOKED, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys, $ignoreSocialDistancing);
+        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectInfo::$BOOKED, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys, $ignoreSocialDistancing);
     }
 
     /**
@@ -478,7 +478,7 @@ class Events
      */
     public function bookBestAvailable($eventKey, $number, $categories = null, $holdToken = null, $extraData = null, $ticketTypes = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
     {
-        return $this::changeBestAvailableObjectStatus($eventKey, $number, ObjectStatus::$BOOKED, $categories, $holdToken, $extraData, $ticketTypes, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
+        return $this::changeBestAvailableObjectStatus($eventKey, $number, ObjectInfo::$BOOKED, $categories, $holdToken, $extraData, $ticketTypes, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
 
     /**
@@ -493,7 +493,7 @@ class Events
      */
     public function release($eventKeyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
     {
-        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$FREE, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
+        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectInfo::$FREE, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
 
     /**
@@ -509,7 +509,7 @@ class Events
      */
     public function hold($eventKeyOrKeys, $objectOrObjects, $holdToken, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null, $ignoreSocialDistancing = null)
     {
-        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectStatus::$HELD, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys, $ignoreSocialDistancing);
+        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectInfo::$HELD, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys, $ignoreSocialDistancing);
     }
 
     /**
@@ -527,7 +527,7 @@ class Events
      */
     public function holdBestAvailable($eventKey, $number, $holdToken, $categories = null, $extraData = null, $ticketTypes = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
     {
-        return $this::changeBestAvailableObjectStatus($eventKey, $number, ObjectStatus::$HELD, $categories, $holdToken, $extraData, $ticketTypes, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
+        return $this::changeBestAvailableObjectStatus($eventKey, $number, ObjectInfo::$HELD, $categories, $holdToken, $extraData, $ticketTypes, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
 
     /**

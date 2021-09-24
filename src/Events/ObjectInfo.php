@@ -4,6 +4,9 @@ namespace Seatsio\Events;
 
 class ObjectInfo
 {
+    public static $HELD = "reservedByToken";
+    public static $BOOKED = "booked";
+    public static $FREE = "free";
     /**
      * @var string
      */
