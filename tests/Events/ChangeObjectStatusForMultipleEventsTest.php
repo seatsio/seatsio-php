@@ -31,10 +31,10 @@ class ChangeObjectStatusForMultipleEventsTest extends SeatsioClientTest
         $this->seatsioClient->events->book([$event1->key, $event2->key], "A-1");
 
         $objectInfo1 = $this->seatsioClient->events->retrieveObjectInfo($event1->key, "A-1");
-        self::assertEquals(ObjectInfo::$BOOKED, $objectInfo1->status);
+        self::assertEquals(EventObjectInfo::$BOOKED, $objectInfo1->status);
 
         $objectInfo2 = $this->seatsioClient->events->retrieveObjectInfo($event2->key, "A-1");
-        self::assertEquals(ObjectInfo::$BOOKED, $objectInfo2->status);
+        self::assertEquals(EventObjectInfo::$BOOKED, $objectInfo2->status);
     }
 
     public function testRelease()
@@ -47,10 +47,10 @@ class ChangeObjectStatusForMultipleEventsTest extends SeatsioClientTest
         $this->seatsioClient->events->release([$event1->key, $event2->key], "A-1");
 
         $objectInfo1 = $this->seatsioClient->events->retrieveObjectInfo($event1->key, "A-1");
-        self::assertEquals(ObjectInfo::$FREE, $objectInfo1->status);
+        self::assertEquals(EventObjectInfo::$FREE, $objectInfo1->status);
 
         $objectInfo2 = $this->seatsioClient->events->retrieveObjectInfo($event2->key, "A-1");
-        self::assertEquals(ObjectInfo::$FREE, $objectInfo2->status);
+        self::assertEquals(EventObjectInfo::$FREE, $objectInfo2->status);
     }
 
     public function testHold()
@@ -63,10 +63,10 @@ class ChangeObjectStatusForMultipleEventsTest extends SeatsioClientTest
         $this->seatsioClient->events->hold([$event1->key, $event2->key], "A-1", $holdToken->holdToken);
 
         $objectInfo1 = $this->seatsioClient->events->retrieveObjectInfo($event1->key, "A-1");
-        self::assertEquals(ObjectInfo::$HELD, $objectInfo1->status);
+        self::assertEquals(EventObjectInfo::$HELD, $objectInfo1->status);
 
         $objectInfo2 = $this->seatsioClient->events->retrieveObjectInfo($event2->key, "A-1");
-        self::assertEquals(ObjectInfo::$HELD, $objectInfo2->status);
+        self::assertEquals(EventObjectInfo::$HELD, $objectInfo2->status);
     }
 
 }

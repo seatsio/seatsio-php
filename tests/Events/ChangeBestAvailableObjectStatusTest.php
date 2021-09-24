@@ -91,10 +91,10 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
         $event = $this->seatsioClient->events->create($chartKey);
         $holdToken = $this->seatsioClient->holdTokens->create();
 
-        $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 1, ObjectInfo::$HELD, null, $holdToken->holdToken);
+        $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 1, EventObjectInfo::$HELD, null, $holdToken->holdToken);
 
         $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, $bestAvailableObjects->objects[0]);
-        self::assertEquals(ObjectInfo::$HELD, $objectInfo->status);
+        self::assertEquals(EventObjectInfo::$HELD, $objectInfo->status);
         self::assertEquals($holdToken->holdToken, $objectInfo->holdToken);
     }
 
@@ -129,7 +129,7 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
         $bestAvailableObjects = $this->seatsioClient->events->holdBestAvailable($event->key, 1, $holdToken->holdToken);
 
         $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, $bestAvailableObjects->objects[0]);
-        self::assertEquals(ObjectInfo::$HELD, $objectInfo->status);
+        self::assertEquals(EventObjectInfo::$HELD, $objectInfo->status);
         self::assertEquals($holdToken->holdToken, $objectInfo->holdToken);
     }
 

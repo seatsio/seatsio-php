@@ -4,7 +4,7 @@ namespace Seatsio\Reports;
 
 use Seatsio\Common\IDs;
 use Seatsio\Events\Channel;
-use Seatsio\Events\ObjectInfo;
+use Seatsio\Events\EventObjectInfo;
 use Seatsio\Events\ObjectProperties;
 use Seatsio\SeatsioClientTest;
 
@@ -25,7 +25,7 @@ class EventReportsTest extends SeatsioClientTest
         $report = $this->seatsioClient->eventReports->byLabel($event->key);
 
         $reportItem = $report["A-1"][0];
-        self::assertEquals(ObjectInfo::$BOOKED, $reportItem->status);
+        self::assertEquals(EventObjectInfo::$BOOKED, $reportItem->status);
         self::assertEquals("A-1", $reportItem->label);
         self::assertEquals(someLabels("1", "seat", "A", "row"), $reportItem->labels);
         self::assertEquals(new IDs("1", "A", null), $reportItem->ids);
@@ -92,12 +92,12 @@ class EventReportsTest extends SeatsioClientTest
         $event = $this->seatsioClient->events->create($chartKey);
         $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", "lolzor");
         $this->seatsioClient->events->changeObjectStatus($event->key, "A-2", "lolzor");
-        $this->seatsioClient->events->changeObjectStatus($event->key, "A-3", ObjectInfo::$BOOKED);
+        $this->seatsioClient->events->changeObjectStatus($event->key, "A-3", EventObjectInfo::$BOOKED);
 
         $report = $this->seatsioClient->eventReports->byStatus($event->key);
         self::assertCount(2, $report["lolzor"]);
-        self::assertCount(1, $report[ObjectInfo::$BOOKED]);
-        self::assertCount(31, $report[ObjectInfo::$FREE]);
+        self::assertCount(1, $report[EventObjectInfo::$BOOKED]);
+        self::assertCount(31, $report[EventObjectInfo::$FREE]);
     }
 
     public function testByStatus_emptyChart()
@@ -115,7 +115,7 @@ class EventReportsTest extends SeatsioClientTest
         $event = $this->seatsioClient->events->create($chartKey);
         $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", "lolzor");
         $this->seatsioClient->events->changeObjectStatus($event->key, "A-2", "lolzor");
-        $this->seatsioClient->events->changeObjectStatus($event->key, "A-3", ObjectInfo::$BOOKED);
+        $this->seatsioClient->events->changeObjectStatus($event->key, "A-3", EventObjectInfo::$BOOKED);
 
         $report = $this->seatsioClient->eventReports->byStatus($event->key, "lolzor");
         self::assertCount(2, $report);

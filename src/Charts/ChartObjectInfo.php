@@ -1,8 +1,8 @@
 <?php
 
-namespace Seatsio\Reports\Charts;
+namespace Seatsio\Charts;
 
-class ChartReportItem
+class ChartObjectInfo
 {
     /**
      * @var string

@@ -91,10 +91,10 @@ class ChangeObjectStatusTest extends SeatsioClientTest
         $event = $this->seatsioClient->events->create($chartKey);
         $holdToken = $this->seatsioClient->holdTokens->create();
 
-        $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", ObjectInfo::$HELD, $holdToken->holdToken);
+        $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", EventObjectInfo::$HELD, $holdToken->holdToken);
 
         $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
-        self::assertEquals(ObjectInfo::$HELD, $objectInfo->status);
+        self::assertEquals(EventObjectInfo::$HELD, $objectInfo->status);
         self::assertEquals($holdToken->holdToken, $objectInfo->holdToken);
     }
 

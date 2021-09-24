@@ -2,7 +2,7 @@
 
 namespace Seatsio\Charts;
 
-use Seatsio\Events\ObjectInfo;
+use Seatsio\Events\EventObjectInfo;
 use Seatsio\Events\ObjectProperties;
 use Seatsio\SeatsioClientTest;
 use function Functional\map;
@@ -40,7 +40,7 @@ class ListStatusChangesTest extends SeatsioClientTest
         self::assertNotNull($statusChange->date);
         self::assertEquals("orderId", $statusChange->orderId);
         self::assertEquals("A-1", $statusChange->objectLabel);
-        self::assertEquals(ObjectInfo::$BOOKED, $statusChange->status);
+        self::assertEquals(EventObjectInfo::$BOOKED, $statusChange->status);
         self::assertEquals($event->id, $statusChange->eventId);
         self::assertEquals((object)["foo" => "bar"], $statusChange->extraData);
         self::assertEquals("API_CALL", $statusChange->origin->type);

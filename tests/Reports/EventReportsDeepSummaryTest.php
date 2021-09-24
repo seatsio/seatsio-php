@@ -2,7 +2,7 @@
 
 namespace Seatsio\Reports;
 
-use Seatsio\Events\ObjectInfo;
+use Seatsio\Events\EventObjectInfo;
 use Seatsio\Events\ObjectProperties;
 use Seatsio\SeatsioClientTest;
 
@@ -17,9 +17,9 @@ class EventReportsDeepSummaryTest extends SeatsioClientTest
 
         $report = $this->seatsioClient->eventReports->deepSummaryByStatus($event->key);
 
-        self::assertEquals($report[ObjectInfo::$BOOKED]["count"], 1);
-        self::assertEquals($report[ObjectInfo::$BOOKED]["bySection"]["NO_SECTION"]["count"], 1);
-        self::assertEquals($report[ObjectInfo::$BOOKED]["bySection"]["NO_SECTION"]["bySelectability"]["not_selectable"], 1);
+        self::assertEquals($report[EventObjectInfo::$BOOKED]["count"], 1);
+        self::assertEquals($report[EventObjectInfo::$BOOKED]["bySection"]["NO_SECTION"]["count"], 1);
+        self::assertEquals($report[EventObjectInfo::$BOOKED]["bySection"]["NO_SECTION"]["bySelectability"]["not_selectable"], 1);
     }
 
     public function testDeepSummaryByObjectType()

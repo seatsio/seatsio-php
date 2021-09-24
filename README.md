@@ -222,9 +222,10 @@ Passing in 0 disables exponential backoff completely. In that case, the client w
 ### v76 -> v77
 
 Renamed `$seatsioClient->events->retrieveObjectStatus` to `$seatsioClient->events->retrieveObjectInfo`
-Renamed `\Seatsio\Reports\Events\EventReportItem` to `\Seatsio\Events\ObjectInfo`
-Renamed `\Seatsio\Events\ObjectStatus` to `\Seatsio\Events\ObjectInfo`
-Renamed `ObjectStatus->quantity` to `ObjectInfo->numBooked`
+Renamed `\Seatsio\Reports\Events\EventReportItem` to `\Seatsio\Events\EventObjectInfo`
+Renamed `\Seatsio\Events\ObjectStatus` to `\Seatsio\Events\EventObjectInfo`
+Renamed `\Seatsio\Reports\Charts\ChartReportItem` to `\Seatsio\Charts\ChartObjectInfo`
+Renamed `ObjectStatus->quantity` to `EventObjectInfo->numBooked`
 
 ### v72 -> v73
 

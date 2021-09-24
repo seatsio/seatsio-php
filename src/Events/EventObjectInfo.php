@@ -2,7 +2,7 @@
 
 namespace Seatsio\Events;
 
-class ObjectInfo
+class EventObjectInfo
 {
     public static $HELD = "reservedByToken";
     public static $BOOKED = "booked";

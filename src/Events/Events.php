@@ -320,14 +320,14 @@ class Events
     /**
      * @param $eventKey string
      * @param $objectLabel string
-     * @return ObjectInfo
+     * @return EventObjectInfo
      */
     public function retrieveObjectInfo($eventKey, $objectLabel)
     {
         $res = $this->client->get(UriTemplate::expand('/events/{key}/objects/{object}', ["key" => $eventKey, "object" => $objectLabel]));
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
-        return $mapper->map($json, new ObjectInfo());
+        return $mapper->map($json, new EventObjectInfo());
     }
 
     /**
@@ -343,7 +343,7 @@ class Events
         $mapper = SeatsioJsonMapper::create();
         $result = [];
         foreach ($json as $objectLabel => $objectInfo) {
-            $result[$objectLabel] = $mapper->map($objectInfo, new ObjectInfo());
+            $result[$objectLabel] = $mapper->map($objectInfo, new EventObjectInfo());
         }
         return $result;
     }
@@ -460,7 +460,7 @@ class Events
      */
     public function book($eventKeyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null, $ignoreSocialDistancing = null)
     {
-        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectInfo::$BOOKED, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys, $ignoreSocialDistancing);
+        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, EventObjectInfo::$BOOKED, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys, $ignoreSocialDistancing);
     }
 
     /**
@@ -478,7 +478,7 @@ class Events
      */
     public function bookBestAvailable($eventKey, $number, $categories = null, $holdToken = null, $extraData = null, $ticketTypes = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
     {
-        return $this::changeBestAvailableObjectStatus($eventKey, $number, ObjectInfo::$BOOKED, $categories, $holdToken, $extraData, $ticketTypes, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
+        return $this::changeBestAvailableObjectStatus($eventKey, $number, EventObjectInfo::$BOOKED, $categories, $holdToken, $extraData, $ticketTypes, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
 
     /**
@@ -493,7 +493,7 @@ class Events
      */
     public function release($eventKeyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
     {
-        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectInfo::$FREE, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
+        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, EventObjectInfo::$FREE, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
 
     /**
@@ -509,7 +509,7 @@ class Events
      */
     public function hold($eventKeyOrKeys, $objectOrObjects, $holdToken, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null, $ignoreSocialDistancing = null)
     {
-        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, ObjectInfo::$HELD, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys, $ignoreSocialDistancing);
+        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, EventObjectInfo::$HELD, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys, $ignoreSocialDistancing);
     }
 
     /**
@@ -527,7 +527,7 @@ class Events
      */
     public function holdBestAvailable($eventKey, $number, $holdToken, $categories = null, $extraData = null, $ticketTypes = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
     {
-        return $this::changeBestAvailableObjectStatus($eventKey, $number, ObjectInfo::$HELD, $categories, $holdToken, $extraData, $ticketTypes, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
+        return $this::changeBestAvailableObjectStatus($eventKey, $number, EventObjectInfo::$HELD, $categories, $holdToken, $extraData, $ticketTypes, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
 
     /**

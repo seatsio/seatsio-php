@@ -5,6 +5,7 @@ namespace Seatsio\Reports\Charts;
 use GuzzleHttp\Client;
 use Seatsio\SeatsioJsonMapper;
 use GuzzleHttp\UriTemplate\UriTemplate;
+use Seatsio\Charts\ChartObjectInfo;
 
 class ChartReports
 {
@@ -76,7 +77,7 @@ class ChartReports
         $mapper = SeatsioJsonMapper::create();
         $result = [];
         foreach ($json as $status => $reportItems) {
-            $result[$status] = $mapper->mapArray($reportItems, array(), ChartReportItem::class);
+            $result[$status] = $mapper->mapArray($reportItems, array(), ChartObjectInfo::class);
         }
         return $result;
     }
