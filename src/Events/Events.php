@@ -324,10 +324,7 @@ class Events
      */
     public function retrieveObjectInfo($eventKey, $objectLabel)
     {
-        $res = $this->client->get(UriTemplate::expand('/events/{key}/objects/{object}', ["key" => $eventKey, "object" => $objectLabel]));
-        $json = \GuzzleHttp\json_decode($res->getBody());
-        $mapper = SeatsioJsonMapper::create();
-        return $mapper->map($json, new EventObjectInfo());
+        return $this->retrieveObjectInfos($eventKey, [$objectLabel])[$objectLabel];
     }
 
     /**
