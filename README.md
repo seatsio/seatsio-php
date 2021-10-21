@@ -203,8 +203,23 @@ foreach($page->items as $chart) {
 use Seatsio\Region;
 use Seatsio\SeatsioClient;
 
+// company admin key can be found on https://app.seats.io/company-settings
 $seatsio = new SeatsioClient(Region::EU(), <COMPANY ADMIN KEY>);
 $seatsio->workspaces->create("a workspace");
+```
+
+### Creating a chart and an event with the company admin key
+
+```php
+use Seatsio\Region;
+use Seatsio\SeatsioClient;
+
+// company admin key can be found on https://app.seats.io/company-settings
+// workspace public key can be found on https://app.seats.io/workspace-settings
+$seatsio = new SeatsioClient(Region::EU(), <COMPANY ADMIN KEY>, <WORKSPACE PUBLIC KEY>);
+$chart = $seatsio->charts->create();
+$event = $seatsio->events->create($chart->key);
+echo 'Created event with key ' . $event->key;
 ```
 
 ## Error handling
