@@ -26,24 +26,21 @@ class SeatsioException extends RuntimeException
     public function __construct($request, $response)
     {
         $info = self::extractInfo($response);
-        parent::__construct(self::message($request, $response, $info['messages']));
+        $requestId = $info['requestId'];
+        parent::__construct(self::message($request, $response, $info['messages'], $requestId));
         $this->errors = $info['errors'];
-        $this->requestId = $info['requestId'];
+        $this->requestId = $requestId;
     }
 
-    /**
-     * @param $request RequestInterface
-     * @param $response ResponseInterface
-     * @return string
-     */
-    private static function message($request, $response, $messages)
+    private static function message($request, $response, $messages, $requestId)
     {
         $message = sprintf(
-            '%s %s` resulted in a `%s %s` response.',
+            '%s %s resulted in a `%s %s` response. Request ID: %s.',
             $request->getMethod(),
             $request->getUri(),
             $response->getStatusCode(),
-            $response->getReasonPhrase()
+            $response->getReasonPhrase(),
+            $requestId
         );
         if ($messages) {
             $message .= ' Reason: ' . implode(', ', $messages);
@@ -51,10 +48,6 @@ class SeatsioException extends RuntimeException
         return $message;
     }
 
-    /**
-     * @param $response ResponseInterface
-     * @return array
-     */
     private static function extractInfo($response)
     {
         $contentType = $response->getHeaderLine("content-type");

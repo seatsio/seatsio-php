@@ -9,11 +9,11 @@ class ExponentialBackoffTest extends SeatsioClientTest
     {
         $start = time();
         try {
-            $client = new SeatsioClient(Region::withUrl("https://httpbin.org"), "aSecretKey");
-            $client->client->get("/status/429")->getBody();
+            $client = new SeatsioClient(Region::withUrl("https://mockbin.org"), "aSecretKey");
+            $client->client->get("/bin/0381d6f4-0155-4b8c-937b-73d3d88b2a3f")->getBody();
             throw new \Exception("Should have failed");
-        } catch (SeatsioException $exception) {
-            self::assertEquals($exception->getMessage(), "GET https://httpbin.org/status/429` resulted in a `429 TOO MANY REQUESTS` response.");
+        } catch (RateLimitExceededException $exception) {
+            self::assertEquals("GET https://mockbin.org/bin/0381d6f4-0155-4b8c-937b-73d3d88b2a3f resulted in a `429 Too Many Requests` response. Request ID: 123456.", $exception->getMessage());
             $waitTime = time() - $start;
             self::assertGreaterThan(10, $waitTime);
             self::assertLessThan(20, $waitTime);
@@ -24,11 +24,11 @@ class ExponentialBackoffTest extends SeatsioClientTest
     {
         $start = time();
         try {
-            $client = new SeatsioClient(Region::withUrl("https://httpbin.org"), "aSecretKey");
-            $client->client->get("/status/400")->getBody();
+            $client = new SeatsioClient(Region::withUrl("https://mockbin.org"), "aSecretKey");
+            $client->client->get("/bin/1eea3aab-2bb2-4f92-99c2-50d942fb6294")->getBody();
             throw new \Exception("Should have failed");
         } catch (SeatsioException $exception) {
-            self::assertEquals($exception->getMessage(), "GET https://httpbin.org/status/400` resulted in a `400 BAD REQUEST` response.");
+            self::assertEquals($exception->getMessage(), "GET https://mockbin.org/bin/1eea3aab-2bb2-4f92-99c2-50d942fb6294 resulted in a `400 Bad Request` response. Request ID: .");
             $waitTime = time() - $start;
             self::assertLessThan(2, $waitTime);
         }
@@ -38,11 +38,11 @@ class ExponentialBackoffTest extends SeatsioClientTest
     {
         $start = time();
         try {
-            $client = new SeatsioClient(Region::withUrl("https://httpbin.org"), "aSecretKey", null, 0);
-            $client->client->get("/status/429")->getBody();
+            $client = new SeatsioClient(Region::withUrl("https://mockbin.org"), "aSecretKey", null, 0);
+            $client->client->get("/bin/0381d6f4-0155-4b8c-937b-73d3d88b2a3f")->getBody();
             throw new \Exception("Should have failed");
         } catch (SeatsioException $exception) {
-            self::assertEquals($exception->getMessage(), "GET https://httpbin.org/status/429` resulted in a `429 TOO MANY REQUESTS` response.");
+            self::assertEquals($exception->getMessage(), "GET https://mockbin.org/bin/0381d6f4-0155-4b8c-937b-73d3d88b2a3f resulted in a `429 Too Many Requests` response. Request ID: 123456.");
             $waitTime = time() - $start;
             self::assertLessThan(2, $waitTime);
         }
