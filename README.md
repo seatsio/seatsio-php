@@ -238,6 +238,8 @@ This library supports [exponential backoff](https://en.wikipedia.org/wiki/Expone
 When you send too many concurrent requests, the server returns an error `429 - Too Many Requests`. The client reacts to this by waiting for a while, and then retrying the request.
 If the request still fails with an error `429`, it waits a little longer, and try again. By default this happens 5 times, before giving up (after approximately 15 seconds).
 
+We throw a `RateLimitExceededException` (which is a subclass of `SeatsioException`) when exponential backoff eventually fails.
+
 To change the maximum number of retries, create the `SeatsioClient` as follows:
 
 ```php
