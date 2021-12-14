@@ -245,9 +245,9 @@ class EventReports
      * @param $selectability string
      * @return array
      */
-    public function bySelectability($eventKey, $selectability = null)
+    public function byAvailability($eventKey, $selectability = null)
     {
-        $res = $this->client->get(self::reportUrl('bySelectability', $eventKey, $selectability));
+        $res = $this->client->get(self::reportUrl('byAvailability', $eventKey, $selectability));
         $json = \GuzzleHttp\json_decode($res->getBody());
         return $this->mapMultiValuedReport($json, $selectability);
     }
@@ -256,9 +256,9 @@ class EventReports
      * @param $eventKey string
      * @return array
      */
-    public function summaryBySelectability($eventKey)
+    public function summaryByAvailability($eventKey)
     {
-        $res = $this->client->get(self::summaryReportUrl('bySelectability', $eventKey));
+        $res = $this->client->get(self::summaryReportUrl('byAvailability', $eventKey));
         return \GuzzleHttp\json_decode($res->getBody(), true);
     }
 
@@ -266,9 +266,9 @@ class EventReports
      * @param $eventKey string
      * @return array
      */
-    public function deepSummaryBySelectability($eventKey)
+    public function deepSummaryByAvailability($eventKey)
     {
-        $res = $this->client->get(self::deepSummaryReportUrl('bySelectability', $eventKey));
+        $res = $this->client->get(self::deepSummaryReportUrl('byAvailability', $eventKey));
         return \GuzzleHttp\json_decode($res->getBody(), true);
     }
 

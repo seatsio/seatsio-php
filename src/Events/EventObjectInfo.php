@@ -110,7 +110,7 @@ class EventObjectInfo
     /**
      * @var boolean
      */
-    public $isSelectable;
+    public $isAvailable;
     /**
      * @var boolean
      */

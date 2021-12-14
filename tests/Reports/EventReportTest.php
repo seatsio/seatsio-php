@@ -41,7 +41,7 @@ class EventReportsTest extends SeatsioClientTest
         self::assertFalse($reportItem->isAccessible);
         self::assertFalse($reportItem->hasRestrictedView);
         self::assertFalse($reportItem->isCompanionSeat);
-        self::assertFalse($reportItem->isSelectable);
+        self::assertFalse($reportItem->isAvailable);
         self::assertFalse($reportItem->isDisabledBySocialDistancing);
         self::assertNull($reportItem->displayedObjectType);
         self::assertNull($reportItem->leftNeighbour);
@@ -252,16 +252,16 @@ class EventReportsTest extends SeatsioClientTest
         self::assertCount(34, $report);
     }
 
-    public function testBySelectability()
+    public function testByAvailability()
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
         $this->seatsioClient->events->book($event->key, "A-1");
         $this->seatsioClient->events->book($event->key, "A-2");
 
-        $report = $this->seatsioClient->eventReports->bySelectability($event->key);
-        self::assertCount(32, $report["selectable"]);
-        self::assertCount(2, $report["not_selectable"]);
+        $report = $this->seatsioClient->eventReports->byAvailability($event->key);
+        self::assertCount(32, $report["available"]);
+        self::assertCount(2, $report["not_available"]);
     }
 
     public function testBySpecificSelectability()
@@ -269,7 +269,7 @@ class EventReportsTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
 
-        $report = $this->seatsioClient->eventReports->bySelectability($event->key, "selectable");
+        $report = $this->seatsioClient->eventReports->byAvailability($event->key, "available");
         self::assertCount(34, $report);
     }
 

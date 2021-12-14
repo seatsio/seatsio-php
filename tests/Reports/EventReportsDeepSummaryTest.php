@@ -19,7 +19,7 @@ class EventReportsDeepSummaryTest extends SeatsioClientTest
 
         self::assertEquals($report[EventObjectInfo::$BOOKED]["count"], 1);
         self::assertEquals($report[EventObjectInfo::$BOOKED]["bySection"]["NO_SECTION"]["count"], 1);
-        self::assertEquals($report[EventObjectInfo::$BOOKED]["bySection"]["NO_SECTION"]["bySelectability"]["not_selectable"], 1);
+        self::assertEquals($report[EventObjectInfo::$BOOKED]["bySection"]["NO_SECTION"]["byAvailability"]["not_available"], 1);
     }
 
     public function testDeepSummaryByObjectType()
@@ -31,7 +31,7 @@ class EventReportsDeepSummaryTest extends SeatsioClientTest
 
         self::assertEquals($report["seat"]["count"], 32);
         self::assertEquals($report["seat"]["bySection"]["NO_SECTION"]["count"], 32);
-        self::assertEquals($report["seat"]["bySection"]["NO_SECTION"]["bySelectability"]["selectable"], 32);
+        self::assertEquals($report["seat"]["bySection"]["NO_SECTION"]["byAvailability"]["available"], 32);
     }
 
     public function testDeepSummaryByCategoryKey()
@@ -44,7 +44,7 @@ class EventReportsDeepSummaryTest extends SeatsioClientTest
 
         self::assertEquals($report["9"]["count"], 116);
         self::assertEquals($report["9"]["bySection"]["NO_SECTION"]["count"], 116);
-        self::assertEquals($report["9"]["bySection"]["NO_SECTION"]["bySelectability"]["not_selectable"], 1);
+        self::assertEquals($report["9"]["bySection"]["NO_SECTION"]["byAvailability"]["not_available"], 1);
     }
 
     public function testDeepSummaryByCategoryLabel()
@@ -57,7 +57,7 @@ class EventReportsDeepSummaryTest extends SeatsioClientTest
 
         self::assertEquals($report["Cat1"]["count"], 116);
         self::assertEquals($report["Cat1"]["bySection"]["NO_SECTION"]["count"], 116);
-        self::assertEquals($report["Cat1"]["bySection"]["NO_SECTION"]["bySelectability"]["not_selectable"], 1);
+        self::assertEquals($report["Cat1"]["bySection"]["NO_SECTION"]["byAvailability"]["not_available"], 1);
     }
 
     public function testDeepSummaryBySection()
@@ -70,20 +70,20 @@ class EventReportsDeepSummaryTest extends SeatsioClientTest
 
         self::assertEquals($report["NO_SECTION"]["count"], 232);
         self::assertEquals($report["NO_SECTION"]["byCategoryLabel"]["Cat1"]["count"], 116);
-        self::assertEquals($report["NO_SECTION"]["byCategoryLabel"]["Cat1"]["bySelectability"]["not_selectable"], 1);
+        self::assertEquals($report["NO_SECTION"]["byCategoryLabel"]["Cat1"]["byAvailability"]["not_available"], 1);
     }
 
-    public function testDeepSummaryBySelectability()
+    public function testDeepSummaryByAvailability()
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
         $this->seatsioClient->events->book($event->key, (new ObjectProperties("A-1")));
 
-        $report = $this->seatsioClient->eventReports->deepSummaryBySelectability($event->key);
+        $report = $this->seatsioClient->eventReports->deepSummaryByAvailability($event->key);
 
-        self::assertEquals($report["not_selectable"]["count"], 1);
-        self::assertEquals($report["not_selectable"]["byCategoryLabel"]["Cat1"]["count"], 1);
-        self::assertEquals($report["not_selectable"]["byCategoryLabel"]["Cat1"]["bySection"]["NO_SECTION"], 1);
+        self::assertEquals($report["not_available"]["count"], 1);
+        self::assertEquals($report["not_available"]["byCategoryLabel"]["Cat1"]["count"], 1);
+        self::assertEquals($report["not_available"]["byCategoryLabel"]["Cat1"]["bySection"]["NO_SECTION"], 1);
     }
 
     public function testDeepSummaryByChannel()
