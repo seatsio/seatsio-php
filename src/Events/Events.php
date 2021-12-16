@@ -358,7 +358,8 @@ class Events
      * @return ChangeObjectStatusResult
      */
     public function changeObjectStatus($eventKeyOrKeys, $objectOrObjects, $status, $holdToken = null, $orderId = null,
-                                       $keepExtraData = null, $ignoreChannels = null, $channelKeys = null, $ignoreSocialDistancing = null)
+                                       $keepExtraData = null, $ignoreChannels = null, $channelKeys = null, $ignoreSocialDistancing = null,
+                                       $allowedPreviousStatuses = null, $rejectedPreviousStatuses = null)
     {
         $request = new stdClass();
         $request->objects = self::normalizeObjects($objectOrObjects);
@@ -380,6 +381,12 @@ class Events
         }
         if ($ignoreSocialDistancing !== null) {
             $request->ignoreSocialDistancing = $ignoreSocialDistancing;
+        }
+        if ($allowedPreviousStatuses !== null) {
+            $request->allowedPreviousStatuses = $allowedPreviousStatuses;
+        }
+        if ($rejectedPreviousStatuses !== null) {
+            $request->rejectedPreviousStatuses = $rejectedPreviousStatuses;
         }
         $request->events = is_array($eventKeyOrKeys) ? $eventKeyOrKeys : [$eventKeyOrKeys];
         $res = $this->client->post(
@@ -430,6 +437,12 @@ class Events
         }
         if ($statusChangeRequest->channelKeys !== null) {
             $request->channelKeys = $statusChangeRequest->channelKeys;
+        }
+        if ($statusChangeRequest->allowedPreviousStatuses !== null) {
+            $request->allowedPreviousStatuses = $statusChangeRequest->allowedPreviousStatuses;
+        }
+        if ($statusChangeRequest->rejectedPreviousStatuses !== null) {
+            $request->rejectedPreviousStatuses = $statusChangeRequest->rejectedPreviousStatuses;
         }
         return $request;
     }

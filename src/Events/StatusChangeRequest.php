@@ -44,7 +44,17 @@ class StatusChangeRequest
      */
     public $channelKeys;
 
-    public function __construct($event, $objectOrObjects, $status, $holdToken = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
+    /**
+     * @var string[]
+     */
+    public $allowedPreviousStatuses;
+
+    /**
+     * @var string[]
+     */
+    public $rejectedPreviousStatuses;
+
+    public function __construct($event, $objectOrObjects, $status, $holdToken = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null, $allowedPreviousStatuses = null, $rejectedPreviousStatuses = null)
     {
         $this->event = $event;
         $this->objectOrObjects = $objectOrObjects;
@@ -54,5 +64,7 @@ class StatusChangeRequest
         $this->keepExtraData = $keepExtraData;
         $this->ignoreChannels = $ignoreChannels;
         $this->channelKeys = $channelKeys;
+        $this->allowedPreviousStatuses = $allowedPreviousStatuses;
+        $this->rejectedPreviousStatuses = $rejectedPreviousStatuses;
     }
 }

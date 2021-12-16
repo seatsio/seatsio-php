@@ -5,6 +5,7 @@ namespace Seatsio\Events;
 use Seatsio\Charts\SocialDistancingRuleset;
 use Seatsio\Common\IDs;
 use Seatsio\SeatsioClientTest;
+use Seatsio\SeatsioException;
 
 class ChangeObjectStatusTest extends SeatsioClientTest
 {
@@ -168,5 +169,56 @@ class ChangeObjectStatusTest extends SeatsioClientTest
 
         $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-1");
         self::assertEquals("someStatus", $objectInfo->status);
+    }
+
+    public function testAllowedPreviousStatuses()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        try {
+            $this->seatsioClient->events->changeObjectStatus(
+                $event->key,
+                    "A-1",
+                    "lolzor",
+                    null,
+                    null,
+                    null,
+                    true,
+                    null,
+                    true,
+                    ['someOtherStatus']
+            );
+            throw new \Exception("Should have failed");
+        } catch (SeatsioException $exception) {
+            self::assertEquals(1, sizeof($exception->errors));
+            self::assertEquals("ILLEGAL_STATUS_CHANGE", $exception->errors[0]->code);
+        }
+    }
+
+    public function testRejectedPreviousStatuses()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        try {
+            $this->seatsioClient->events->changeObjectStatus(
+                $event->key,
+                "A-1",
+                "lolzor",
+                null,
+                null,
+                null,
+                true,
+                null,
+                true,
+                null,
+                ['free']
+            );
+            throw new \Exception("Should have failed");
+        } catch (SeatsioException $exception) {
+            self::assertEquals(1, sizeof($exception->errors));
+            self::assertEquals("ILLEGAL_STATUS_CHANGE", $exception->errors[0]->code);
+        }
     }
 }
