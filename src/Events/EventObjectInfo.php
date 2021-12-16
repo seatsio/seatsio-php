@@ -112,6 +112,10 @@ class EventObjectInfo
      */
     public $isAvailable;
     /**
+     * @var string
+     */
+    public $availabilityReason;
+    /**
      * @var boolean
      */
     public $isDisabledBySocialDistancing;
