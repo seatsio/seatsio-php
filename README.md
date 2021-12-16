@@ -24,6 +24,8 @@ seatsio-php follows semver since v62.3.0.
 ### Creating a chart and an event
 
 ```php
+require 'vendor/autoload.php';
+
 use Seatsio\Region;
 use Seatsio\SeatsioClient;
 
@@ -42,6 +44,8 @@ Changes the object status to ‘booked’. Booked seats are not selectable on a 
 [https://docs.seats.io/docs/api-book-objects](https://docs.seats.io/docs/api-book-objects)
 
 ```php
+require 'vendor/autoload.php';
+
 use Seatsio\Region;
 use Seatsio\SeatsioClient;
 
@@ -52,6 +56,8 @@ $seatsio->events->book(<AN EVENT KEY>, ["A-1", "A-2"]);
 ### Booking objects that have been held
 
 ```php
+require 'vendor/autoload.php';
+
 use Seatsio\Region;
 use Seatsio\SeatsioClient;
 
@@ -64,6 +70,8 @@ $seatsio->events->book(<AN EVENT KEY>, ["A-1", "A-2"], <A HOLD TOKEN>);
 Either
 
 ```php
+require 'vendor/autoload.php';
+
 use Seatsio\Region;
 use Seatsio\SeatsioClient;
 
@@ -74,6 +82,8 @@ $seatsio->events->book(<AN EVENT KEY>, ["GA1", "GA1", "GA1"]);
 Or
 
 ```php
+require 'vendor/autoload.php';
+
 use Seatsio\Region;
 use Seatsio\SeatsioClient;
 
@@ -88,6 +98,8 @@ Changes the object status to ‘free’. Free seats are selectable on a rendered
 [https://docs.seats.io/docs/api-release-objects](https://docs.seats.io/docs/api-release-objects)
 
 ```php
+require 'vendor/autoload.php';
+
 use Seatsio\Region;
 use Seatsio\SeatsioClient;
 
@@ -102,6 +114,8 @@ Changes the object status to a custom status of your choice. If you need more st
 [https://docs.seats.io/docs/api-custom-object-status](https://docs.seats.io/docs/api-custom-object-status)
 
 ```php
+require 'vendor/autoload.php';
+
 use Seatsio\Region;
 use Seatsio\SeatsioClient;
 
@@ -112,6 +126,8 @@ $seatsio->events->changeObjectStatus(<AN EVENT KEY>, ["A-1", "A-2"], "unavailabl
 ### Retrieving object category and status (and other information)
 
 ```php
+require 'vendor/autoload.php';
+
 use Seatsio\Region;
 use Seatsio\SeatsioClient;
 
@@ -141,6 +157,8 @@ The report types you can choose from are:
 [https://docs.seats.io/docs/api-event-reports](https://docs.seats.io/docs/api-event-reports)
 
 ```php
+require 'vendor/autoload.php';
+
 use Seatsio\Region;
 use Seatsio\SeatsioClient;
 
@@ -151,6 +169,8 @@ $seatsio->eventReports->byStatus(<AN EVENT KEY>, <OPTIONAL FILTER>);
 ### Listing all charts
 
 ```php
+require 'vendor/autoload.php';
+
 use Seatsio\Region;
 use Seatsio\SeatsioClient;
 
@@ -200,6 +220,8 @@ foreach($page->items as $chart) {
 ### Creating a workspace
 
 ```php
+require 'vendor/autoload.php';
+
 use Seatsio\Region;
 use Seatsio\SeatsioClient;
 
@@ -211,6 +233,8 @@ $seatsio->workspaces->create("a workspace");
 ### Creating a chart and an event with the company admin key
 
 ```php
+require 'vendor/autoload.php';
+
 use Seatsio\Region;
 use Seatsio\SeatsioClient;
 
@@ -243,6 +267,8 @@ We throw a `RateLimitExceededException` (which is a subclass of `SeatsioExceptio
 To change the maximum number of retries, create the `SeatsioClient` as follows:
 
 ```php
+require 'vendor/autoload.php';
+
 use Seatsio\Region;
 use Seatsio\SeatsioClient;
 
