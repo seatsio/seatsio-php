@@ -86,6 +86,19 @@ class EventReportsDeepSummaryTest extends SeatsioClientTest
         self::assertEquals($report["not_available"]["byCategoryLabel"]["Cat1"]["bySection"]["NO_SECTION"], 1);
     }
 
+    public function testDeepSummaryByAvailabilityReason()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $this->seatsioClient->events->book($event->key, (new ObjectProperties("A-1")));
+
+        $report = $this->seatsioClient->eventReports->deepSummaryByAvailabilityReason($event->key);
+
+        self::assertEquals($report["booked"]["count"], 1);
+        self::assertEquals($report["booked"]["byCategoryLabel"]["Cat1"]["count"], 1);
+        self::assertEquals($report["booked"]["byCategoryLabel"]["Cat1"]["bySection"]["NO_SECTION"], 1);
+    }
+
     public function testDeepSummaryByChannel()
     {
         $chartKey = $this->createTestChart();

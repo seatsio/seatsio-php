@@ -2,7 +2,6 @@
 
 namespace Seatsio\Reports\Events;
 
-use GuzzleHttp\Psr7\Query;
 use GuzzleHttp\UriTemplate\UriTemplate;
 use Seatsio\Events\EventObjectInfo;
 use Seatsio\SeatsioJsonMapper;
@@ -254,6 +253,18 @@ class EventReports
 
     /**
      * @param $eventKey string
+     * @param $availabilityReason string
+     * @return array
+     */
+    public function byAvailabilityReason($eventKey, $availabilityReason = null)
+    {
+        $res = $this->client->get(self::reportUrl('byAvailabilityReason', $eventKey, $availabilityReason));
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        return $this->mapMultiValuedReport($json, $availabilityReason);
+    }
+
+    /**
+     * @param $eventKey string
      * @return array
      */
     public function summaryByAvailability($eventKey)
@@ -266,9 +277,29 @@ class EventReports
      * @param $eventKey string
      * @return array
      */
+    public function summaryByAvailabilityReason($eventKey)
+    {
+        $res = $this->client->get(self::summaryReportUrl('byAvailabilityReason', $eventKey));
+        return \GuzzleHttp\json_decode($res->getBody(), true);
+    }
+
+    /**
+     * @param $eventKey string
+     * @return array
+     */
     public function deepSummaryByAvailability($eventKey)
     {
         $res = $this->client->get(self::deepSummaryReportUrl('byAvailability', $eventKey));
+        return \GuzzleHttp\json_decode($res->getBody(), true);
+    }
+
+    /**
+     * @param $eventKey string
+     * @return array
+     */
+    public function deepSummaryByAvailabilityReason($eventKey)
+    {
+        $res = $this->client->get(self::deepSummaryReportUrl('byAvailabilityReason', $eventKey));
         return \GuzzleHttp\json_decode($res->getBody(), true);
     }
 

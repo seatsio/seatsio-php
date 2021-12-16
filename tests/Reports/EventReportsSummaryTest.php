@@ -25,6 +25,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'bySection' => ['NO_SECTION' => 231],
                 'bySelectability' => ['selectable' => 231],
                 'byAvailability' => ['available' => 231],
+                'byAvailabilityReason' => ['available' => 231],
                 'byChannel' => ['NO_CHANNEL' => 231],
                 'byObjectType' => ['seat' => 31, 'generalAdmission' => 200]
             ],
@@ -35,6 +36,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'bySection' => ['NO_SECTION' => 1],
                 'bySelectability' => ['not_selectable' => 1],
                 'byAvailability' => ['not_available' => 1],
+                'byAvailabilityReason' => ['booked' => 1],
                 'byChannel' => ['NO_CHANNEL' => 1],
                 'byObjectType' => ['seat' => 1]
             ]
@@ -56,6 +58,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byCategoryLabel' => ['Cat2' => 16, 'Cat1' => 16],
                 'bySection' => ['NO_SECTION' => 32],
                 'byAvailability' => ['available' => 32],
+                'byAvailabilityReason' => ['available' => 32],
                 'bySelectability' => ['selectable' => 32],
                 'byChannel' => ['NO_CHANNEL' => 32],
                 'byStatus' => ['free' => 32]
@@ -66,6 +69,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byCategoryLabel' => ['Cat1' => 100, 'Cat2' => 100],
                 'bySection' => ['NO_SECTION' => 200],
                 'byAvailability' => ['available' => 200],
+                'byAvailabilityReason' => ['available' => 200],
                 'bySelectability' => ['selectable' => 200],
                 'byChannel' => ['NO_CHANNEL' => 200],
                 'byStatus' => ['free' => 200]
@@ -76,6 +80,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byCategoryLabel' => [],
                 'bySection' => [],
                 'byAvailability' => [],
+                'byAvailabilityReason' => [],
                 'bySelectability' => [],
                 'byChannel' => [],
                 'byStatus' => []
@@ -86,6 +91,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byCategoryLabel' => [],
                 'bySection' => [],
                 'byAvailability' => [],
+                'byAvailabilityReason' => [],
                 'bySelectability' => [],
                 'byChannel' => [],
                 'byStatus' => []
@@ -108,6 +114,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'bySection' => ['NO_SECTION' => 116],
                 'byStatus' => ['free' => 115, 'booked' => 1],
                 'byAvailability' => ['available' => 115, 'not_available' => 1],
+                'byAvailabilityReason' => ['available' => 115, 'booked' => 1],
                 'bySelectability' => ['selectable' => 115, 'not_selectable' => 1],
                 'byChannel' => ['NO_CHANNEL' => 116],
                 'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
@@ -117,6 +124,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'bySection' => ['NO_SECTION' => 116],
                 'byStatus' => ['free' => 116],
                 'byAvailability' => ['available' => 116],
+                'byAvailabilityReason' => ['available' => 116],
                 'bySelectability' => ['selectable' => 116],
                 'byChannel' => ['NO_CHANNEL' => 116],
                 'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
@@ -126,6 +134,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'bySection' => [],
                 'byStatus' => [],
                 'byAvailability' => [],
+                'byAvailabilityReason' => [],
                 'bySelectability' => [],
                 'byChannel' => [],
                 'byObjectType' => []
@@ -148,6 +157,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'bySection' => ['NO_SECTION' => 116],
                 'byStatus' => ['free' => 115, 'booked' => 1],
                 'byAvailability' => ['available' => 115, 'not_available' => 1],
+                'byAvailabilityReason' => ['available' => 115, 'booked' => 1],
                 'bySelectability' => ['selectable' => 115, 'not_selectable' => 1],
                 'byChannel' => ['NO_CHANNEL' => 116],
                 'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
@@ -157,6 +167,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'bySection' => ['NO_SECTION' => 116],
                 'byStatus' => ['free' => 116],
                 'byAvailability' => ['available' => 116],
+                'byAvailabilityReason' => ['available' => 116],
                 'bySelectability' => ['selectable' => 116],
                 'byChannel' => ['NO_CHANNEL' => 116],
                 'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
@@ -166,6 +177,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'bySection' => [],
                 'byStatus' => [],
                 'byAvailability' => [],
+                'byAvailabilityReason' => [],
                 'bySelectability' => [],
                 'byChannel' => [],
                 'byObjectType' => []
@@ -189,6 +201,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byCategoryLabel' => ['Cat2' => 116, 'Cat1' => 116],
                 'byStatus' => ['free' => 231, 'booked' => 1],
                 'byAvailability' => ['available' => 231, 'not_available' => 1],
+                'byAvailabilityReason' => ['available' => 231, 'booked' => 1],
                 'bySelectability' => ['selectable' => 231, 'not_selectable' => 1],
                 'byChannel' => ['NO_CHANNEL' => 232],
                 'byObjectType' => ['seat' => 32, 'generalAdmission' => 200]
@@ -214,7 +227,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byStatus' => ['free' => 231],
                 'byChannel' => ['NO_CHANNEL' => 231],
                 'byObjectType' => ['seat' => 31, 'generalAdmission' => 200],
-                'bySelectability' => ['selectable' => 231]
+                'bySelectability' => ['selectable' => 231],
+                'byAvailabilityReason' => ['available' => 231]
             ],
             'not_available' => [
                 'count' => 1,
@@ -224,7 +238,76 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byStatus' => ['booked' => 1],
                 'byChannel' => ['NO_CHANNEL' => 1],
                 'byObjectType' => ['seat' => 1],
-                'bySelectability' => ['not_selectable' => 1]
+                'bySelectability' => ['not_selectable' => 1],
+                'byAvailabilityReason' => ['booked' => 1],
+            ]
+        ];
+        self::assertEquals($expectedReport, $report);
+    }
+
+    public function testSummaryByAvailabilityReason()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $this->seatsioClient->events->book($event->key, (new ObjectProperties("A-1")));
+
+        $report = $this->seatsioClient->eventReports->summaryByAvailabilityReason($event->key);
+
+        $expectedReport = [
+            'available' => [
+                'count' => 231,
+                'byCategoryKey' => [9 => 115, 10 => 116],
+                'byCategoryLabel' => ['Cat2' => 116, 'Cat1' => 115],
+                'bySection' => ['NO_SECTION' => 231],
+                'byStatus' => ['free' => 231],
+                'byChannel' => ['NO_CHANNEL' => 231],
+                'byObjectType' => ['seat' => 31, 'generalAdmission' => 200],
+                'bySelectability' => ['selectable' => 231],
+                'byAvailability' => ['available' => 231]
+            ],
+            'booked' => [
+                'count' => 1,
+                'byCategoryKey' => [9 => 1],
+                'byCategoryLabel' => ['Cat1' => 1],
+                'bySection' => ['NO_SECTION' => 1],
+                'byStatus' => ['booked' => 1],
+                'byChannel' => ['NO_CHANNEL' => 1],
+                'byObjectType' => ['seat' => 1],
+                'bySelectability' => ['not_selectable' => 1],
+                'byAvailability' => ['not_available' => 1]
+            ],
+            'reservedByToken' => [
+                'count' => 0,
+                'byCategoryKey' => [],
+                'byCategoryLabel' => [],
+                'bySection' => [],
+                'byStatus' => [],
+                'byChannel' => [],
+                'byObjectType' => [],
+                'bySelectability' => [],
+                'byAvailability' => []
+            ],
+            'disabled_by_social_distancing' => [
+                'count' => 0,
+                'byCategoryKey' => [],
+                'byCategoryLabel' => [],
+                'bySection' => [],
+                'byStatus' => [],
+                'byChannel' => [],
+                'byObjectType' => [],
+                'bySelectability' => [],
+                'byAvailability' => []
+            ],
+            'not_for_sale' => [
+                'count' => 0,
+                'byCategoryKey' => [],
+                'byCategoryLabel' => [],
+                'bySection' => [],
+                'byStatus' => [],
+                'byChannel' => [],
+                'byObjectType' => [],
+                'bySelectability' => [],
+                'byAvailability' => []
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -249,6 +332,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'bySection' => ['NO_SECTION' => 230],
                 'byStatus' => ['free' => 230],
                 'byAvailability' => ['available' => 230],
+                'byAvailabilityReason' => ['available' => 230],
                 'byObjectType' => ['seat' => 30, 'generalAdmission' => 200],
                 'bySelectability' => ['selectable' => 230]
             ],
@@ -259,6 +343,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'bySection' => ['NO_SECTION' => 2],
                 'byStatus' => ['free' => 2],
                 'byAvailability' => ['available' => 2],
+                'byAvailabilityReason' => ['available' => 2],
                 'byObjectType' => ['seat' => 2],
                 'bySelectability' => ['selectable' => 2]
             ]
