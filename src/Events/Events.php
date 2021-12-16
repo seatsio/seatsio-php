@@ -441,9 +441,6 @@ class Events
         if ($statusChangeRequest->allowedPreviousStatuses !== null) {
             $request->allowedPreviousStatuses = $statusChangeRequest->allowedPreviousStatuses;
         }
-        if ($statusChangeRequest->allowedPreviousStatuses !== null) {
-            $request->allowedPreviousStatuses = $statusChangeRequest->allowedPreviousStatuses;
-        }
         if ($statusChangeRequest->rejectedPreviousStatuses !== null) {
             $request->rejectedPreviousStatuses = $statusChangeRequest->rejectedPreviousStatuses;
         }
