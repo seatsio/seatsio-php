@@ -19,7 +19,32 @@ The minimum required PHP version is 7.2.
 
 seatsio-php follows semver since v62.3.0.
 
-## Examples
+## Usage
+
+### General instructions
+
+To use this library, you'll need to create a `SeatsioClient`:
+
+```php
+require 'vendor/autoload.php';
+
+use Seatsio\Region;
+use Seatsio\SeatsioClient;
+
+$seatsio = new SeatsioClient(Region::EU(), <WORKSPACE SECRET KEY>);
+...
+```
+
+You can find your _workspace secret key_ in the [settings section of the workspace](https://app.seats.io/workspace-settings).
+
+The region should correspond to the region of your account:
+
+- `Region::EU()`: Europe
+- `Region::NA()`: North-America
+- `Region::SA()`: South-America
+- `Region::OC()`: Oceania
+
+If you're unsure about your region, have a look at your [company settings page](https://app.seats.io/company-settings).
 
 ### Creating a chart and an event
 
@@ -29,8 +54,6 @@ require 'vendor/autoload.php';
 use Seatsio\Region;
 use Seatsio\SeatsioClient;
 
-// pass in the region in which you created your seats.io account
-// workspace secret key can be found on https://app.seats.io/workspace-settings
 $seatsio = new SeatsioClient(Region::EU(), <WORKSPACE SECRET KEY>);
 $chart = $seatsio->charts->create();
 $event = $seatsio->events->create($chart->key);
