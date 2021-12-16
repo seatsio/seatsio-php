@@ -3,6 +3,7 @@
 namespace Seatsio\Events;
 
 use Seatsio\SeatsioClientTest;
+use Seatsio\SeatsioException;
 
 class ChangeObjectStatusInBatchTest extends SeatsioClientTest
 {
@@ -63,4 +64,56 @@ class ChangeObjectStatusInBatchTest extends SeatsioClientTest
 
         self::assertEquals('lolzor', $response[0]->objects['A-1']->status);
     }
+
+    public function testAllowedPreviousStatuses()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        try {
+            $this->seatsioClient->events->changeObjectStatusInBatch([
+                new StatusChangeRequest($event->key,
+                    "A-1",
+                    "lolzor",
+                    null,
+                    null,
+                    null,
+                    true,
+                    null,
+                    ['someOtherStatus']
+                )
+            ]);
+            throw new \Exception("Should have failed");
+        } catch (SeatsioException $exception) {
+            self::assertEquals(1, sizeof($exception->errors));
+            self::assertEquals("ILLEGAL_STATUS_CHANGE", $exception->errors[0]->code);
+        }
+    }
+
+    public function testRejectedPreviousStatuses()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        try {
+            $this->seatsioClient->events->changeObjectStatusInBatch([
+                new StatusChangeRequest($event->key,
+                    "A-1",
+                    "lolzor",
+                    null,
+                    null,
+                    null,
+                    true,
+                    null,
+                    null,
+                    ['free']
+                )
+            ]);
+            throw new \Exception("Should have failed");
+        } catch (SeatsioException $exception) {
+            self::assertEquals(1, sizeof($exception->errors));
+            self::assertEquals("ILLEGAL_STATUS_CHANGE", $exception->errors[0]->code);
+        }
+    }
+
 }
