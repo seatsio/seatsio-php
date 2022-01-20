@@ -8,6 +8,7 @@ use GuzzleHttp\Middleware;
 use Psr\Http\Message\ResponseInterface;
 use Seatsio\Charts\Charts;
 use Seatsio\Events\Events;
+use Seatsio\Seasons\Seasons;
 use Seatsio\HoldTokens\HoldTokens;
 use Seatsio\Reports\Charts\ChartReports;
 use Seatsio\Reports\Events\EventReports;
@@ -28,6 +29,11 @@ class SeatsioClient
      * @var Events
      */
     public $events;
+
+    /**
+     * @var Seasons
+     */
+    public $seasons;
 
     /**
      * @var EventReports
@@ -60,6 +66,7 @@ class SeatsioClient
         $this->client = $client;
         $this->charts = new Charts($client);
         $this->events = new Events($client);
+        $this->seasons = new Seasons($client);
         $this->eventReports = new EventReports($client);
         $this->chartReports = new ChartReports($client);
         $this->usageReports = new UsageReports($client);
