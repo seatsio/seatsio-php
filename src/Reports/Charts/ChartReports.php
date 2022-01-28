@@ -42,12 +42,32 @@ class ChartReports
 
     /**
      * @param $chartKey string
+     * @return array
+     */
+    public function summaryByObjectType($chartKey)
+    {
+        $res = $this->client->get(self::summaryReportUrl('byObjectType', $chartKey));
+        return \GuzzleHttp\json_decode($res->getBody(), true);
+    }
+
+    /**
+     * @param $chartKey string
      * @param $bookWholeTables string
      * @return array
      */
     public function byCategoryKey($chartKey, $bookWholeTables = null)
     {
         return $this->getChartReport('byCategoryKey', $chartKey, $bookWholeTables);
+    }
+
+    /**
+     * @param $chartKey string
+     * @return array
+     */
+    public function summaryByCategoryKey($chartKey)
+    {
+        $res = $this->client->get(self::summaryReportUrl('byCategoryKey', $chartKey));
+        return \GuzzleHttp\json_decode($res->getBody(), true);
     }
 
     /**
@@ -60,9 +80,44 @@ class ChartReports
         return $this->getChartReport('byCategoryLabel', $chartKey, $bookWholeTables);
     }
 
+    /**
+     * @param $chartKey string
+     * @return array
+     */
+    public function summaryByCategoryLabel($chartKey)
+    {
+        $res = $this->client->get(self::summaryReportUrl('byCategoryLabel', $chartKey));
+        return \GuzzleHttp\json_decode($res->getBody(), true);
+    }
+
+    /**
+     * @param $chartKey string
+     * @param $objectType string
+     * @return array
+     */
+    public function bySection($chartKey, $bookWholeTables = null)
+    {
+        return $this->getChartReport('bySection', $chartKey, $bookWholeTables);
+    }
+
+    /**
+     * @param $chartKey string
+     * @return array
+     */
+    public function summaryBySection($chartKey)
+    {
+        $res = $this->client->get(self::summaryReportUrl('bySection', $chartKey));
+        return \GuzzleHttp\json_decode($res->getBody(), true);
+    }
+
     private static function reportUrl($reportType, $eventKey)
     {
         return UriTemplate::expand('/reports/charts/{key}/{reportType}', array("key" => $eventKey, "reportType" => $reportType));
+    }
+
+    private static function summaryReportUrl($reportType, $chartKey)
+    {
+        return UriTemplate::expand('/reports/charts/{key}/{reportType}/summary', array("key" => $chartKey, "reportType" => $reportType));
     }
 
     private function getChartReport($reportType, $chartKey, $bookWholeTables)
