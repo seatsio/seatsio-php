@@ -84,9 +84,9 @@ class CreateSeasonTest extends SeatsioClientTest
         $chartKey = $this->createTestChartWithTables();
         $this->seatsioClient->charts->saveSocialDistancingRulesets($chartKey, ["ruleset1" => SocialDistancingRuleset::ruleBased("My ruleset")->build()]);
 
-        $event = $this->seatsioClient->events->create($chartKey, null, null, "ruleset1");
+        $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setSocialDistancingRulesetKey("ruleset1"));
 
-        self::assertEquals("ruleset1", $event->socialDistancingRulesetKey);
+        self::assertEquals("ruleset1", $season->seasonEvent->socialDistancingRulesetKey);
     }
 
 }
