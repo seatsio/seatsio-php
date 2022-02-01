@@ -45,6 +45,7 @@ class ChartReportsTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
 
         $report = $this->seatsioClient->chartReports->byLabel($chartKey);
+
         self::assertCount(1, $report["A-1"]);
         self::assertCount(1, $report["A-2"]);
     }
@@ -54,6 +55,7 @@ class ChartReportsTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
 
         $report = $this->seatsioClient->chartReports->byObjectType($chartKey);
+
         self::assertCount(32, $report["seat"]);
         self::assertCount(2, $report["generalAdmission"]);
     }
@@ -63,6 +65,7 @@ class ChartReportsTest extends SeatsioClientTest
         $chartKey = $this->createTestChartWithTables();
 
         $report = $this->seatsioClient->chartReports->byLabel($chartKey);
+
         self::assertCount(14, array_keys($report));
     }
 
@@ -71,6 +74,7 @@ class ChartReportsTest extends SeatsioClientTest
         $chartKey = $this->createTestChartWithTables();
 
         $report = $this->seatsioClient->chartReports->byLabel($chartKey, 'chart');
+
         self::assertCount(7, array_keys($report));
     }
 
@@ -79,6 +83,7 @@ class ChartReportsTest extends SeatsioClientTest
         $chartKey = $this->createTestChartWithTables();
 
         $report = $this->seatsioClient->chartReports->byLabel($chartKey, 'true');
+
         self::assertCount(2, array_keys($report));
     }
 
@@ -87,6 +92,7 @@ class ChartReportsTest extends SeatsioClientTest
         $chartKey = $this->createTestChartWithTables();
 
         $report = $this->seatsioClient->chartReports->byLabel($chartKey, 'false');
+
         self::assertCount(12, array_keys($report));
     }
 
@@ -95,6 +101,7 @@ class ChartReportsTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
 
         $report = $this->seatsioClient->chartReports->byCategoryKey($chartKey);
+
         self::assertCount(17, $report["9"]);
         self::assertCount(17, $report["10"]);
     }
@@ -104,8 +111,19 @@ class ChartReportsTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
 
         $report = $this->seatsioClient->chartReports->byCategoryLabel($chartKey);
+
         self::assertCount(17, $report["Cat1"]);
         self::assertCount(17, $report["Cat2"]);
+    }
+
+    public function testBySection()
+    {
+        $chartKey = $this->createTestChartWithSections();
+
+        $report = $this->seatsioClient->chartReports->bySection($chartKey);
+
+        self::assertCount(36, $report["Section A"]);
+        self::assertCount(35, $report["Section B"]);
     }
 
 }
