@@ -43,6 +43,41 @@ class ChartReportsSummaryTest extends SeatsioClientTest
         self::assertEquals($expectedReport, $report);
     }
 
+    public function testSummaryByObjectType_bookWholeTablesTrue()
+    {
+        $chartKey = $this->createTestChartWithTables();
+
+        $report = $this->seatsioClient->chartReports->summaryByObjectType($chartKey, 'true');
+
+        $expectedReport = [
+            'seat' => [
+                'count' => 0,
+                'byCategoryKey' => [],
+                'byCategoryLabel' => [],
+                'bySection' => []
+            ],
+            'generalAdmission' => [
+                'count' => 0,
+                'byCategoryKey' => [],
+                'byCategoryLabel' => [],
+                'bySection' => []
+            ],
+            'table' => [
+                'count' => 2,
+                'byCategoryKey' => [9 => 2],
+                'byCategoryLabel' => ['Cat1' => 2],
+                'bySection' => ['NO_SECTION' => 2]
+            ],
+            'booth' => [
+                'count' => 0,
+                'byCategoryKey' => [],
+                'byCategoryLabel' => [],
+                'bySection' => []
+            ]
+        ];
+        self::assertEquals($expectedReport, $report);
+    }
+
     public function testSummaryByCategoryKey()
     {
         $chartKey = $this->createTestChart();
