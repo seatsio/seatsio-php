@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use Seatsio\SeatsioJsonMapper;
 use GuzzleHttp\UriTemplate\UriTemplate;
 use Seatsio\Charts\ChartObjectInfo;
+use function Symfony\Component\String\b;
 
 class ChartReports
 {
@@ -42,12 +43,12 @@ class ChartReports
 
     /**
      * @param $chartKey string
+     * @param $bookWholeTables string
      * @return array
      */
-    public function summaryByObjectType($chartKey)
+    public function summaryByObjectType($chartKey, $bookWholeTables = null)
     {
-        $res = $this->client->get(self::summaryReportUrl('byObjectType', $chartKey));
-        return \GuzzleHttp\json_decode($res->getBody(), true);
+        return $this->getChartSummaryReport('byObjectType', $chartKey, $bookWholeTables);
     }
 
     /**
@@ -62,12 +63,12 @@ class ChartReports
 
     /**
      * @param $chartKey string
+     * @param $bookWholeTables string
      * @return array
      */
-    public function summaryByCategoryKey($chartKey)
+    public function summaryByCategoryKey($chartKey, $bookWholeTables = null)
     {
-        $res = $this->client->get(self::summaryReportUrl('byCategoryKey', $chartKey));
-        return \GuzzleHttp\json_decode($res->getBody(), true);
+        return $this->getChartSummaryReport('byCategoryKey', $chartKey, $bookWholeTables);
     }
 
     /**
@@ -82,17 +83,17 @@ class ChartReports
 
     /**
      * @param $chartKey string
+     * @param $bookWholeTables string
      * @return array
      */
-    public function summaryByCategoryLabel($chartKey)
+    public function summaryByCategoryLabel($chartKey, $bookWholeTables = null)
     {
-        $res = $this->client->get(self::summaryReportUrl('byCategoryLabel', $chartKey));
-        return \GuzzleHttp\json_decode($res->getBody(), true);
+        return $this->getChartSummaryReport('byCategoryLabel', $chartKey, $bookWholeTables);
     }
 
     /**
      * @param $chartKey string
-     * @param $objectType string
+     * @param $bookWholeTables string
      * @return array
      */
     public function bySection($chartKey, $bookWholeTables = null)
@@ -102,17 +103,17 @@ class ChartReports
 
     /**
      * @param $chartKey string
+     * @param $bookWholeTables string
      * @return array
      */
-    public function summaryBySection($chartKey)
+    public function summaryBySection($chartKey, $bookWholeTables = null)
     {
-        $res = $this->client->get(self::summaryReportUrl('bySection', $chartKey));
-        return \GuzzleHttp\json_decode($res->getBody(), true);
+        return $this->getChartSummaryReport('bySection', $chartKey, $bookWholeTables);
     }
 
-    private static function reportUrl($reportType, $eventKey)
+    private static function reportUrl($reportType, $chartKey)
     {
-        return UriTemplate::expand('/reports/charts/{key}/{reportType}', array("key" => $eventKey, "reportType" => $reportType));
+        return UriTemplate::expand('/reports/charts/{key}/{reportType}', array("key" => $chartKey, "reportType" => $reportType));
     }
 
     private static function summaryReportUrl($reportType, $chartKey)
@@ -125,6 +126,12 @@ class ChartReports
         $res = $this->client->get(self::reportUrl($reportType, $chartKey), ["query" => ["bookWholeTables" => $bookWholeTables]]);
         $json = \GuzzleHttp\json_decode($res->getBody());
         return $this->mapMultiValuedReport($json);
+    }
+
+    private function getChartSummaryReport($reportType, $chartKey, $bookWholeTables)
+    {
+        $res = $this->client->get(self::summaryReportUrl($reportType, $chartKey), ["query" => ["bookWholeTables" => $bookWholeTables]]);
+        return \GuzzleHttp\json_decode($res->getBody(), true);
     }
 
     private static function mapMultiValuedReport($json)
