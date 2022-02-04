@@ -2,49 +2,34 @@
 
 namespace Seatsio\Seasons;
 
+use Seatsio\PageFetcher;
+
 class SeasonLister
 {
 
     protected $pageFetcher;
 
-    public function __construct($pageFetcher)
+    public function __construct(PageFetcher $pageFetcher)
     {
         $this->pageFetcher = $pageFetcher;
     }
 
-    /**
-     * @return SeasonPagedIterator
-     */
-    public function all()
+    public function all(): SeasonPagedIterator
     {
         return new SeasonPagedIterator($this->pageFetcher);
     }
 
-    /**
-     * @param $pageSize int
-     * @return SeasonPage
-     */
-    public function firstPage($pageSize = null)
+    public function firstPage(int $pageSize = null): SeasonPage
     {
         return $this->pageFetcher->fetchAfter(null, [], $pageSize);
     }
 
-    /**
-     * @param $afterId int
-     * @param $pageSize int
-     * @return SeasonPage
-     */
-    public function pageAfter($afterId, $pageSize = null)
+    public function pageAfter(int $afterId, int $pageSize = null): SeasonPage
     {
         return $this->pageFetcher->fetchAfter($afterId, [], $pageSize);
     }
 
-    /**
-     * @param $beforeId int
-     * @param $pageSize int
-     * @return SeasonPage
-     */
-    public function pageBefore($beforeId, $pageSize = null)
+    public function pageBefore(int $beforeId, int $pageSize = null): SeasonPage
     {
         return $this->pageFetcher->fetchBefore($beforeId, [], $pageSize);
     }

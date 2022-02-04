@@ -69,12 +69,12 @@ class SocialDistancingRuleset
      */
     public $enabledSeats = [];
 
-    public static function fixed($name)
+    public static function fixed($name): FixedSocialDistancingRulesetBuilder
     {
         return new FixedSocialDistancingRulesetBuilder($name);
     }
 
-    public static function ruleBased($name)
+    public static function ruleBased($name): RuleBasedSocialDistancingRulesetBuilder
     {
         return new RuleBasedSocialDistancingRulesetBuilder($name);
     }
@@ -103,7 +103,7 @@ class FixedSocialDistancingRulesetBuilder
         $this->name = $name;
     }
 
-    public function build()
+    public function build(): SocialDistancingRuleset
     {
         $ruleset = new SocialDistancingRuleset();
         $ruleset->index = $this->index;
@@ -113,13 +113,13 @@ class FixedSocialDistancingRulesetBuilder
         return $ruleset;
     }
 
-    public function setIndex($index)
+    public function setIndex($index): self
     {
         $this->index = $index;
         return $this;
     }
 
-    public function setDisabledSeats($disabledSeats)
+    public function setDisabledSeats($disabledSeats): self
     {
         $this->disabledSeats = $disabledSeats;
         return $this;
@@ -196,7 +196,7 @@ class RuleBasedSocialDistancingRulesetBuilder
         $this->name = $name;
     }
 
-    public function build()
+    public function build(): SocialDistancingRuleset
     {
         $ruleset = new SocialDistancingRuleset();
         $ruleset->index = $this->index;
@@ -215,67 +215,67 @@ class RuleBasedSocialDistancingRulesetBuilder
         return $ruleset;
     }
 
-    public function setIndex($index)
+    public function setIndex(int $index): self
     {
         $this->index = $index;
         return $this;
     }
 
-    public function setNumberOfDisabledSeatsToTheSides($numberOfDisabledSeatsToTheSides)
+    public function setNumberOfDisabledSeatsToTheSides(int $numberOfDisabledSeatsToTheSides): self
     {
         $this->numberOfDisabledSeatsToTheSides = $numberOfDisabledSeatsToTheSides;
         return $this;
     }
 
-    public function setDisableSeatsInFrontAndBehind($disableSeatsInFrontAndBehind)
+    public function setDisableSeatsInFrontAndBehind(bool $disableSeatsInFrontAndBehind): self
     {
         $this->disableSeatsInFrontAndBehind = $disableSeatsInFrontAndBehind;
         return $this;
     }
 
-    public function setDisableDiagonalSeatsInFrontAndBehind($disableDiagonalSeatsInFrontAndBehind)
+    public function setDisableDiagonalSeatsInFrontAndBehind(bool $disableDiagonalSeatsInFrontAndBehind): self
     {
         $this->disableDiagonalSeatsInFrontAndBehind = $disableDiagonalSeatsInFrontAndBehind;
         return $this;
     }
 
-    public function setNumberOfDisabledAisleSeats($numberOfDisabledAisleSeats)
+    public function setNumberOfDisabledAisleSeats(int $numberOfDisabledAisleSeats): self
     {
         $this->numberOfDisabledAisleSeats = $numberOfDisabledAisleSeats;
         return $this;
     }
 
-    public function setMaxGroupSize($maxGroupSize)
+    public function setMaxGroupSize(int $maxGroupSize): self
     {
         $this->maxGroupSize = $maxGroupSize;
         return $this;
     }
 
-    public function setMaxOccupancyAbsolute($maxOccupancyAbsolute)
+    public function setMaxOccupancyAbsolute(int $maxOccupancyAbsolute): self
     {
         $this->maxOccupancyAbsolute = $maxOccupancyAbsolute;
         return $this;
     }
 
-    public function setMaxOccupancyPercentage($maxOccupancyPercentage)
+    public function setMaxOccupancyPercentage(int $maxOccupancyPercentage): self
     {
         $this->maxOccupancyPercentage = $maxOccupancyPercentage;
         return $this;
     }
 
-    public function setOneGroupPerTable($oneGroupPerTable)
+    public function setOneGroupPerTable(bool $oneGroupPerTable): self
     {
         $this->oneGroupPerTable = $oneGroupPerTable;
         return $this;
     }
 
-    public function setDisabledSeats($disabledSeats)
+    public function setDisabledSeats(array $disabledSeats): self
     {
         $this->disabledSeats = $disabledSeats;
         return $this;
     }
 
-    public function setEnabledSeats($enabledSeats)
+    public function setEnabledSeats(array $enabledSeats): self
     {
         $this->enabledSeats = $enabledSeats;
         return $this;

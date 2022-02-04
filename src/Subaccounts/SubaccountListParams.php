@@ -9,25 +9,18 @@ class SubaccountListParams
      */
     public $filter;
 
-    /**
-     * @param $filter string
-     */
-    public function __construct($filter = null)
+    public function __construct(string $filter = null)
     {
         $this->filter = $filter;
     }
 
-    /**
-     * @param $filter string
-     * @return $this
-     */
-    public function withFilter($filter)
+    public function withFilter(string $filter): self
     {
         $this->filter = $filter;
         return $this;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         $result = [];
 

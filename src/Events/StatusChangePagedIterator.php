@@ -7,10 +7,7 @@ use Seatsio\PagedIterator;
 class StatusChangePagedIterator extends PagedIterator
 {
 
-    /**
-     * @return StatusChange
-     */
-    public function current()
+    public function current(): StatusChange
     {
         return parent::current();
     }

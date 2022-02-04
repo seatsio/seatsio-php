@@ -2,49 +2,37 @@
 
 namespace Seatsio\Subaccounts;
 
+use Seatsio\PageFetcher;
+
 class SubaccountLister
 {
 
     protected $pageFetcher;
 
-    public function __construct($pageFetcher)
+    public function __construct(PageFetcher $pageFetcher)
     {
         $this->pageFetcher = $pageFetcher;
     }
 
-    /**
-     * @return SubaccountPagedIterator
-     */
-    public function all()
+    public function all(): SubaccountPagedIterator
     {
         return new SubaccountPagedIterator($this->pageFetcher);
     }
 
     /**
-     * @param $pageSize int
      * @return SubaccountPage
      */
-    public function firstPage($pageSize = null)
+    public function firstPage(int $pageSize = null): SubaccountPage
     {
         return $this->pageFetcher->fetchAfter(null, [], $pageSize);
     }
 
-    /**
-     * @param $afterId int
-     * @param $pageSize int
-     * @return SubaccountPage
-     */
-    public function pageAfter($afterId, $pageSize = null)
+    public function pageAfter(int $afterId, int $pageSize = null): SubaccountPage
     {
         return $this->pageFetcher->fetchAfter($afterId, [], $pageSize);
     }
 
-    /**
-     * @param $beforeId int
-     * @param $pageSize int
-     * @return SubaccountPage
-     */
-    public function pageBefore($beforeId, $pageSize = null)
+    public function pageBefore(int $beforeId, int $pageSize = null): SubaccountPage
     {
         return $this->pageFetcher->fetchBefore($beforeId, [], $pageSize);
     }

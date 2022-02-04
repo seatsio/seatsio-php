@@ -7,39 +7,26 @@ class Category
 
     /**
      * @param $key int|string
-     * @return $this
      */
-    public function setKey($key)
+    public function setKey($key): self
     {
         $this->key = $key;
         return $this;
     }
 
-    /**
-     * @param $label string
-     * @return $this
-     */
-    public function setLabel($label)
+    public function setLabel(string $label): self
     {
         $this->label = $label;
         return $this;
     }
 
-    /**
-     * @param $color string
-     * @return $this
-     */
-    public function setColor($color)
+    public function setColor(string $color): self
     {
         $this->color = $color;
         return $this;
     }
 
-    /**
-     * @param $accessible boolean
-     * @return $this
-     */
-    public function setAccessible($accessible)
+    public function setAccessible(bool $accessible): self
     {
         $this->accessible = $accessible;
         return $this;

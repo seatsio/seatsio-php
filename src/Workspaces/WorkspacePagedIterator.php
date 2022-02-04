@@ -7,10 +7,7 @@ use Seatsio\PagedIterator;
 class WorkspacePagedIterator extends PagedIterator
 {
 
-    /**
-     * @return Workspace
-     */
-    public function current()
+    public function current(): Workspace
     {
         return parent::current();
     }

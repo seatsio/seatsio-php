@@ -30,13 +30,7 @@ class Charts
         }));
     }
 
-    /**
-     * @param $name string
-     * @param $venueType string
-     * @param $categories array|Category[]
-     * @return Chart
-     */
-    public function create($name = null, $venueType = null, $categories = null)
+    public function create(string $name = null, string $venueType = null, array $categories = null): Chart
     {
         $request = new stdClass();
         if ($name !== null) {
@@ -54,13 +48,7 @@ class Charts
         return $mapper->map($json, new Chart());
     }
 
-    /**
-     * @param $key string
-     * @param $name string
-     * @param $categories array|Category[]
-     * @return void
-     */
-    public function update($key, $name = null, $categories = null)
+    public function update(string $key, string $name = null, array $categories = null): void
     {
         $request = new stdClass();
         if ($name !== null) {
@@ -72,11 +60,7 @@ class Charts
         $this->client->post('/charts/' . $key, ['json' => $request]);
     }
 
-    /**
-     * @param $key string
-     * @return Chart
-     */
-    public function retrieve($key)
+    public function retrieve(string $key): Chart
     {
         $res = $this->client->get('/charts/' . $key);
         $json = \GuzzleHttp\json_decode($res->getBody());
@@ -84,11 +68,7 @@ class Charts
         return $mapper->map($json, new Chart());
     }
 
-    /**
-     * @param $key string
-     * @return Chart
-     */
-    public function retrieveWithEvents($key)
+    public function retrieveWithEvents(string $key): Chart
     {
         $res = $this->client->get('/charts/' . $key . '?expand=events');
         $json = \GuzzleHttp\json_decode($res->getBody());
@@ -96,139 +76,89 @@ class Charts
         return $mapper->map($json, new Chart());
     }
 
-    /**
-     * @param $key string
-     * @return object
-     */
-    public function retrievePublishedVersion($key)
+    public function retrievePublishedVersion(string $key): object
     {
         $res = $this->client->get('/charts/' . $key . '/version/published');
         return \GuzzleHttp\json_decode($res->getBody());
     }
 
-    /**
-     * @param $key string
-     * @return object
-     */
-    public function retrieveDraftVersion($key)
+    public function retrieveDraftVersion(string $key): object
     {
         $res = $this->client->get('/charts/' . $key . '/version/draft');
         return \GuzzleHttp\json_decode($res->getBody());
     }
 
-    /**
-     * @param $key string
-     * @return void
-     */
-    public function publishDraftVersion($key)
+    public function publishDraftVersion(string $key): void
     {
         $this->client->post('/charts/' . $key . '/version/draft/actions/publish');
     }
 
-    /**
-     * @param $key string
-     * @return void
-     */
-    public function discardDraftVersion($key)
+    public function discardDraftVersion(string $key): void
     {
         $this->client->post('/charts/' . $key . '/version/draft/actions/discard');
     }
 
-    /**
-     * @param $key string
-     * @return void
-     */
-    public function moveToArchive($key)
+    public function moveToArchive(string $key): void
     {
         $this->client->post('/charts/' . $key . '/actions/move-to-archive');
     }
 
-    /**
-     * @param $key string
-     * @return void
-     */
-    public function moveOutOfArchive($key)
+    public function moveOutOfArchive(string $key): void
     {
         $this->client->post('/charts/' . $key . '/actions/move-out-of-archive');
     }
 
-    /**
-     * @param $key string
-     * @return Chart
-     */
-    public function copy($key)
+    public function copy(string $key): Chart
     {
         $res = $this->client->post('/charts/' . $key . '/version/published/actions/copy');
-        return \GuzzleHttp\json_decode($res->getBody());
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        $mapper = SeatsioJsonMapper::create();
+        return $mapper->map($json, new Chart());
     }
 
-    /**
-     * @param $key string
-     * @return Chart
-     */
-    public function copyDraftVersion($key)
+    public function copyDraftVersion(string $key): Chart
     {
         $res = $this->client->post('/charts/' . $key . '/version/draft/actions/copy');
-        return \GuzzleHttp\json_decode($res->getBody());
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        $mapper = SeatsioJsonMapper::create();
+        return $mapper->map($json, new Chart());
     }
 
-    /**
-     * @param $chartKey string
-     * @param $subaccountId int
-     * @return Chart
-     */
-    public function copyToSubaccount($chartKey, $subaccountId)
+    public function copyToSubaccount(string $chartKey, int $subaccountId): Chart
     {
         $res = $this->client->post('/charts/' . $chartKey . '/version/published/actions/copy-to/' . $subaccountId);
-        return \GuzzleHttp\json_decode($res->getBody());
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        $mapper = SeatsioJsonMapper::create();
+        return $mapper->map($json, new Chart());
     }
 
-    /**
-     * @param $chartKey string
-     * @param $toWorkspaceKey string
-     * @return Chart
-     */
-    public function copyToWorkspace($chartKey, $toWorkspaceKey)
+    public function copyToWorkspace(string $chartKey, string $toWorkspaceKey): Chart
     {
         $res = $this->client->post('/charts/' . $chartKey . '/version/published/actions/copy-to-workspace/' . $toWorkspaceKey);
-        return \GuzzleHttp\json_decode($res->getBody());
+        $json = \GuzzleHttp\json_decode($res->getBody());
+        $mapper = SeatsioJsonMapper::create();
+        return $mapper->map($json, new Chart());
     }
 
-    /**
-     * @param $key string
-     * @return StreamInterface
-     */
-    public function retrievePublishedVersionThumbnail($key)
+    public function retrievePublishedVersionThumbnail(string $key): StreamInterface
     {
         $res = $this->client->get('/charts/' . $key . '/version/published/thumbnail');
         return $res->getBody();
     }
 
-    /**
-     * @param $key string
-     * @return object
-     */
-    public function validatePublishedVersion($key)
+    public function validatePublishedVersion(string $key): object
     {
         $res = $this->client->post('/charts/' . $key . '/version/published/actions/validate');
         return \GuzzleHttp\json_decode($res->getBody());
     }
 
-    /**
-     * @param $key string
-     * @return object
-     */
-    public function validateDraftVersion($key)
+    public function validateDraftVersion(string $key): object
     {
         $res = $this->client->post('/charts/' . $key . '/version/draft/actions/validate');
         return \GuzzleHttp\json_decode($res->getBody());
     }
 
-    /**
-     * @param $key string
-     * @return StreamInterface
-     */
-    public function retrieveDraftVersionThumbnail($key)
+    public function retrieveDraftVersionThumbnail(string $key): StreamInterface
     {
         $res = $this->client->get('/charts/' . $key . '/version/draft/thumbnail');
         return $res->getBody();
@@ -237,91 +167,57 @@ class Charts
     /**
      * @return string[]
      */
-    public function listAllTags()
+    public function listAllTags(): array
     {
         $res = $this->client->get('/charts/tags');
         return \GuzzleHttp\json_decode($res->getBody())->tags;
     }
 
-    /**
-     * @param $key string
-     * @param $tag string
-     * @return void
-     */
-    public function addTag($key, $tag)
+    public function addTag(string $key, string $tag): void
     {
         $this->client->post(UriTemplate::expand('/charts/{key}/tags/{tag}', array("key" => $key, "tag" => $tag)));
     }
 
-    /**
-     * @param $key string
-     * @param $tag string
-     * @return void
-     */
-    public function removeTag($key, $tag)
+    public function removeTag(string $key, string $tag): void
     {
         $this->client->delete(UriTemplate::expand('/charts/{key}/tags/{tag}', array("key" => $key, "tag" => $tag)));
     }
 
-    public function saveSocialDistancingRulesets($key, $rulesets)
+    public function saveSocialDistancingRulesets(string $key, array $rulesets)
     {
         $request = new stdClass();
         $request->socialDistancingRulesets = $rulesets;
         $this->client->post(UriTemplate::expand('/charts/{key}/social-distancing-rulesets', array("key" => $key)), ['json' => $request]);
     }
 
-    /**
-     * @param $chartListParams ChartListParams
-     * @return ChartPagedIterator
-     */
-    public function listAll($chartListParams = null)
+    public function listAll(ChartListParams $chartListParams = null): ChartPagedIterator
     {
         return $this->iterator()->all($this->listParamsToArray($chartListParams));
     }
 
-    /**
-     * @param $chartListParams ChartListParams
-     * @param $pageSize int
-     * @return ChartPage
-     */
-    public function listFirstPage($chartListParams = null, $pageSize = null)
+    public function listFirstPage(ChartListParams $chartListParams = null, int $pageSize = null): ChartPage
     {
         return $this->iterator()->firstPage($this->listParamsToArray($chartListParams), $pageSize);
     }
 
-    /**
-     * @param $afterId int
-     * @param $chartListParams ChartListParams
-     * @param $pageSize int
-     * @return ChartPage
-     */
-    public function listPageAfter($afterId, $chartListParams = null, $pageSize = null)
+    public function listPageAfter(int $afterId, ChartListParams $chartListParams = null, int $pageSize = null): ChartPage
     {
         return $this->iterator()->pageAfter($afterId, $this->listParamsToArray($chartListParams), $pageSize);
     }
 
-    /**
-     * @param $beforeId int
-     * @param $chartListParams ChartListParams
-     * @param $pageSize int
-     * @return ChartPage
-     */
-    public function listPageBefore($beforeId, $chartListParams = null, $pageSize = null)
+    public function listPageBefore(int $beforeId, ChartListParams $chartListParams = null, int $pageSize = null): ChartPage
     {
         return $this->iterator()->pageBefore($beforeId, $this->listParamsToArray($chartListParams), $pageSize);
     }
 
-    /**
-     * @return FilterableChartLister
-     */
-    private function iterator()
+    private function iterator(): FilterableChartLister
     {
         return new FilterableChartLister(new PageFetcher('/charts', $this->client, function () {
             return new ChartPage();
         }));
     }
 
-    private function listParamsToArray($chartListParams)
+    private function listParamsToArray($chartListParams): array
     {
         if ($chartListParams == null) {
             return [];

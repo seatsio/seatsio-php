@@ -17,7 +17,7 @@ class UsageReports
      */
     private $client;
 
-    public function __construct($client)
+    public function __construct(Client $client)
     {
         $this->client = $client;
     }
@@ -25,7 +25,7 @@ class UsageReports
     /**
      * @return UsageSummaryForMonth[]
      */
-    public function summaryForAllMonths()
+    public function summaryForAllMonths(): array
     {
         $res = $this->client->get('/reports/usage');
         $json = \GuzzleHttp\json_decode($res->getBody());
@@ -34,10 +34,9 @@ class UsageReports
     }
 
     /**
-     * @param Month $month
      * @return UsageDetails[]
      */
-    public function detailsForMonth($month)
+    public function detailsForMonth(Month $month): array
     {
         $res = $this->client->get('/reports/usage/month/' . $month->serialize());
         $json = \GuzzleHttp\json_decode($res->getBody());
@@ -46,11 +45,9 @@ class UsageReports
     }
 
     /**
-     * @param int $eventId
-     * @param Month $month
      * @return UsageForObject[]
      */
-    public function detailsForEventInMonth($eventId, $month)
+    public function detailsForEventInMonth(int $eventId, Month $month): array
     {
         $res = $this->client->get('/reports/usage/month/' . $month->serialize() . '/event/' . $eventId);
         $json = \GuzzleHttp\json_decode($res->getBody());

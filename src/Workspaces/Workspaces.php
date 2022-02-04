@@ -22,7 +22,7 @@ class Workspaces
     public $active;
     public $inactive;
 
-    public function __construct($client)
+    public function __construct(Client $client)
     {
         $this->client = $client;
         $this->active = new FilterableWorkspaceLister(new PageFetcher('/workspaces/active', $this->client, function () {
@@ -33,12 +33,7 @@ class Workspaces
         }));
     }
 
-    /**
-     * @param $name string
-     * @param $isTest boolean
-     * @return Workspace
-     */
-    public function create($name, $isTest = null)
+    public function create(string $name, bool $isTest = null): Workspace
     {
         $request = new stdClass();
         $request->name = $name;
@@ -51,58 +46,36 @@ class Workspaces
         return $mapper->map($json, new Workspace());
     }
 
-    /**
-     * @param $key string
-     * @param $name string
-     * @return void
-     */
-    public function update($key, $name)
+    public function update(string $key, string $name): void
     {
         $request = new stdClass();
         $request->name = $name;
         $this->client->post(UriTemplate::expand('/workspaces/{key}', array("key" => $key)), ['json' => $request]);
     }
 
-    /**
-     * @param $key string
-     * @return string
-     */
-    public function regenerateSecretKey($key)
+    public function regenerateSecretKey(string $key): string
     {
         $res = $this->client->post(UriTemplate::expand('/workspaces/{key}/actions/regenerate-secret-key', array("key" => $key)));
         $json = \GuzzleHttp\json_decode($res->getBody());
         return $json->secretKey;
     }
 
-    /**
-     * @param $key string
-     */
-    public function activate($key)
+    public function activate(string $key): void
     {
         $this->client->post(UriTemplate::expand('/workspaces/{key}/actions/activate', array("key" => $key)));
     }
 
-    /**
-     * @param $key string
-     */
-    public function deactivate($key)
+    public function deactivate(string $key): void
     {
         $this->client->post(UriTemplate::expand('/workspaces/{key}/actions/deactivate', array("key" => $key)));
     }
 
-    /**
-     * @param $key string
-     */
-    public function setDefault($key)
+    public function setDefault(string $key): void
     {
         $this->client->post(UriTemplate::expand('/workspaces/actions/set-default/{key}', array("key" => $key)));
     }
 
-    /**
-     * @param $key string
-     * @return Workspace
-     */
-    public function retrieve($key)
+    public function retrieve(string $key): Workspace
     {
         $res = $this->client->get(UriTemplate::expand('/workspaces/{key}', array("key" => $key)));
         $json = \GuzzleHttp\json_decode($res->getBody());
@@ -110,51 +83,27 @@ class Workspaces
         return $mapper->map($json, new Workspace());
     }
 
-    /**
-     * @param $filter string
-     * @return WorkspacePagedIterator
-     */
-    public function listAll($filter = null)
+    public function listAll(string $filter = null): WorkspacePagedIterator
     {
         return $this->iterator()->all($filter);
     }
 
-    /**
-     * @param $pageSize int
-     * @param $filter string
-     * @return WorkspacePage
-     */
-    public function listFirstPage($pageSize = null, $filter = null)
+    public function listFirstPage(int $pageSize = null, string $filter = null): WorkspacePage
     {
         return $this->iterator()->firstPage($pageSize, $filter);
     }
 
-    /**
-     * @param $afterId int
-     * @param $pageSize int
-     * @param $filter string
-     * @return WorkspacePage
-     */
-    public function listPageAfter($afterId, $pageSize = null, $filter = null)
+    public function listPageAfter(int $afterId, int $pageSize = null, string $filter = null): WorkspacePage
     {
         return $this->iterator()->pageAfter($afterId, $pageSize, $filter);
     }
 
-    /**
-     * @param $beforeId int
-     * @param $pageSize int
-     * @param $filter string
-     * @return WorkspacePage
-     */
-    public function listPageBefore($beforeId, $pageSize = null, $filter = null)
+    public function listPageBefore(int $beforeId, int $pageSize = null, string $filter = null): WorkspacePage
     {
         return $this->iterator()->pageBefore($beforeId, $pageSize, $filter);
     }
 
-    /**
-     * @return FilterableWorkspaceLister
-     */
-    private function iterator()
+    private function iterator(): FilterableWorkspaceLister
     {
         return new FilterableWorkspaceLister(new PageFetcher('/workspaces', $this->client, function () {
             return new WorkspacePage();

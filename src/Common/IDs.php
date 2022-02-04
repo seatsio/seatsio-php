@@ -19,7 +19,7 @@ class IDs
      */
     public $section;
 
-    public function __construct($own, $parent, $section)
+    public function __construct(string $own, ?string $parent, ?string $section)
     {
         $this->own = $own;
         $this->parent = $parent;

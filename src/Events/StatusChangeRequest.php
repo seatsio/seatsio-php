@@ -54,7 +54,7 @@ class StatusChangeRequest
      */
     public $rejectedPreviousStatuses;
 
-    public function __construct($event, $objectOrObjects, $status, $holdToken = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null, $allowedPreviousStatuses = null, $rejectedPreviousStatuses = null)
+    public function __construct(string $event, $objectOrObjects, string $status, string $holdToken = null, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null, array $allowedPreviousStatuses = null, array $rejectedPreviousStatuses = null)
     {
         $this->event = $event;
         $this->objectOrObjects = $objectOrObjects;

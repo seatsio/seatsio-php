@@ -2,53 +2,46 @@
 
 namespace Seatsio\Subaccounts;
 
+use Seatsio\PageFetcher;
+
 class FilterableSubaccountLister
 {
 
     protected $pageFetcher;
 
-    public function __construct($pageFetcher)
+    public function __construct(PageFetcher $pageFetcher)
     {
         $this->pageFetcher = $pageFetcher;
     }
 
     /**
      * @param $queryParams SubaccountListParams[]
-     * @return SubaccountPagedIterator
      */
-    public function all($queryParams)
+    public function all(array $queryParams): SubaccountPagedIterator
     {
         return new SubaccountPagedIterator($this->pageFetcher, $queryParams);
     }
 
     /**
-     * @param $pageSize int
      * @param $queryParams SubaccountListParams[]
-     * @return SubaccountPage
      */
-    public function firstPage($queryParams, $pageSize = null)
+    public function firstPage(array $queryParams, int $pageSize = null): SubaccountPage
     {
         return $this->pageFetcher->fetchAfter(null, $queryParams, $pageSize);
     }
 
     /**
-     * @param $afterId int
-     * @param $pageSize int
      * @param $queryParams SubaccountListParams[]
-     * @return SubaccountPage
      */
-    public function pageAfter($afterId, $queryParams, $pageSize = null)
+    public function pageAfter(int $afterId, array $queryParams, int $pageSize = null): SubaccountPage
     {
         return $this->pageFetcher->fetchAfter($afterId, $queryParams, $pageSize);
     }
 
     /**
-     * @param $beforeId int
-     * @param $pageSize int
      * @param $queryParams SubaccountListParams[]
-     * @return SubaccountPage
      */
-    public function pageBefore($beforeId, $queryParams, $pageSize = null)
+    public function pageBefore(int $beforeId, array $queryParams, int $pageSize = null): SubaccountPage
     {
         return $this->pageFetcher->fetchBefore($beforeId, $queryParams, $pageSize);
     }

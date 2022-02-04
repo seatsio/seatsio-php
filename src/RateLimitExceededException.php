@@ -7,11 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class RateLimitExceededException extends SeatsioException
 {
-    /**
-     * @param $request RequestInterface
-     * @param $response ResponseInterface
-     */
-    public function __construct($request, $response)
+    public function __construct(RequestInterface $request, ResponseInterface $response)
     {
         parent::__construct($request, $response);
     }

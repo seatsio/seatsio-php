@@ -2,44 +2,34 @@
 
 namespace Seatsio\Charts;
 
+use Seatsio\PageFetcher;
+
 class FilterableChartLister
 {
 
     protected $pageFetcher;
 
-    public function __construct($pageFetcher)
+    public function __construct(PageFetcher $pageFetcher)
     {
         $this->pageFetcher = $pageFetcher;
     }
 
-    /**
-     * @return ChartPagedIterator
-     */
-    public function all($queryParams)
+    public function all(array $queryParams): ChartPagedIterator
     {
         return new ChartPagedIterator($this->pageFetcher, $queryParams);
     }
 
-    /**
-     * @return ChartPage
-     */
-    public function firstPage($queryParams, $pageSize = null)
+    public function firstPage(array $queryParams, int $pageSize = null): ChartPage
     {
         return $this->pageFetcher->fetchAfter(null, $queryParams, $pageSize);
     }
 
-    /**
-     * @return ChartPage
-     */
-    public function pageAfter($afterId, $queryParams, $pageSize = null)
+    public function pageAfter(int $afterId, array $queryParams, int $pageSize = null): ChartPage
     {
         return $this->pageFetcher->fetchAfter($afterId, $queryParams, $pageSize);
     }
 
-    /**
-     * @return ChartPage
-     */
-    public function pageBefore($beforeId, $queryParams, $pageSize = null)
+    public function pageBefore(int $beforeId, array $queryParams, int $pageSize = null): ChartPage
     {
         return $this->pageFetcher->fetchBefore($beforeId, $queryParams, $pageSize);
     }

@@ -19,11 +19,7 @@ class SeatsioException extends RuntimeException
      */
     public $requestId;
 
-    /**
-     * @param $request RequestInterface
-     * @param $response ResponseInterface
-     */
-    public function __construct($request, $response)
+    public function __construct(RequestInterface $request, ResponseInterface $response)
     {
         $info = self::extractInfo($response);
         $requestId = $info['requestId'];

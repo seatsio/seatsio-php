@@ -2,49 +2,34 @@
 
 namespace Seatsio\Events;
 
+use Seatsio\PageFetcher;
+
 class EventLister
 {
 
     protected $pageFetcher;
 
-    public function __construct($pageFetcher)
+    public function __construct(PageFetcher $pageFetcher)
     {
         $this->pageFetcher = $pageFetcher;
     }
 
-    /**
-     * @return EventPagedIterator
-     */
-    public function all()
+    public function all(): EventPagedIterator
     {
         return new EventPagedIterator($this->pageFetcher);
     }
 
-    /**
-     * @param $pageSize int
-     * @return EventPage
-     */
-    public function firstPage($pageSize = null)
+    public function firstPage(int $pageSize = null): EventPage
     {
         return $this->pageFetcher->fetchAfter(null, [], $pageSize);
     }
 
-    /**
-     * @param $afterId int
-     * @param $pageSize int
-     * @return EventPage
-     */
-    public function pageAfter($afterId, $pageSize = null)
+    public function pageAfter(int $afterId, int $pageSize = null): EventPage
     {
         return $this->pageFetcher->fetchAfter($afterId, [], $pageSize);
     }
 
-    /**
-     * @param $beforeId int
-     * @param $pageSize int
-     * @return EventPage
-     */
-    public function pageBefore($beforeId, $pageSize = null)
+    public function pageBefore(int $beforeId, int $pageSize = null): EventPage
     {
         return $this->pageFetcher->fetchBefore($beforeId, [], $pageSize);
     }
