@@ -18,19 +18,12 @@ class Events
      */
     private $client;
 
-    public function __construct($client)
+    public function __construct(Client $client)
     {
         $this->client = $client;
     }
 
-    /**
-     * @param $chartKey string
-     * @param $eventKey string
-     * @param $tableBookingConfig TableBookingConfig
-     * @param $socialDistancingRulesetKey string
-     * @return Event
-     */
-    public function create($chartKey, $eventKey = null, $tableBookingConfig = null, $socialDistancingRulesetKey = null)
+    public function create(string $chartKey, string $eventKey = null, TableBookingConfig $tableBookingConfig = null, string $socialDistancingRulesetKey = null): Event
     {
         $request = new stdClass();
 
@@ -55,11 +48,9 @@ class Events
     }
 
     /**
-     * @param $chartKey string
-     * @param $eventCreationParams EventCreationParams[]
      * @return Event[]
      */
-    public function createMultiple($chartKey, $eventCreationParams)
+    public function createMultiple(string $chartKey, array $eventCreationParams): array
     {
         $request = new stdClass();
         $request->chartKey = $chartKey;
@@ -87,11 +78,7 @@ class Events
         return $mapper->mapArray($json->events, array(), 'Seatsio\Events\Event');
     }
 
-    /**
-     * @param $eventKey string
-     * @return Event
-     */
-    public function retrieve($eventKey)
+    public function retrieve(string $eventKey): Event
     {
         $res = $this->client->get(UriTemplate::expand('/events/{key}', array("key" => $eventKey)));
         $json = \GuzzleHttp\json_decode($res->getBody());
@@ -99,15 +86,7 @@ class Events
         return $mapper->map($json, new Event());
     }
 
-    /**
-     * @param $eventKey string
-     * @param $chartKey string
-     * @param $newEventKey string
-     * @param $tableBookingConfig TableBookingConfig
-     * @param $socialDistancingRulesetKey string
-     * @return void
-     */
-    public function update($eventKey, $chartKey = null, $newEventKey = null, $tableBookingConfig = null, $socialDistancingRulesetKey = null)
+    public function update(string $eventKey, string $chartKey = null, string $newEventKey = null, TableBookingConfig $tableBookingConfig = null, string $socialDistancingRulesetKey = null): void
     {
         $request = new stdClass();
 
@@ -130,77 +109,46 @@ class Events
         $this->client->post(UriTemplate::expand('/events/{key}', array("key" => $eventKey)), ['json' => $request]);
     }
 
-    /**
-     * @param $eventKey string
-     * @return void
-     */
-    public function delete($eventKey)
+    public function delete(string $eventKey): void
     {
         $this->client->delete(UriTemplate::expand('/events/{key}', array("key" => $eventKey)));
     }
 
-    /**
-     * @return EventPagedIterator
-     */
-    public function listAll()
+    public function listAll(): EventPagedIterator
     {
         return $this->iterator()->all();
     }
 
-    /**
-     * @param $pageSize int
-     * @return EventPage
-     */
-    public function listFirstPage($pageSize = null)
+    public function listFirstPage(int $pageSize = null): EventPage
     {
         return $this->iterator()->firstPage($pageSize);
     }
 
-    /**
-     * @param $afterId int
-     * @param $pageSize int
-     * @return EventPage
-     */
-    public function listPageAfter($afterId, $pageSize = null)
+    public function listPageAfter(int $afterId, int $pageSize = null): EventPage
     {
         return $this->iterator()->pageAfter($afterId, $pageSize);
     }
 
-    /**
-     * @param $beforeId int
-     * @param $pageSize int
-     * @return EventPage
-     */
-    public function listPageBefore($beforeId, $pageSize = null)
+    public function listPageBefore(int $beforeId, int $pageSize = null): EventPage
     {
         return $this->iterator()->pageBefore($beforeId, $pageSize);
     }
 
-    /**
-     * @return EventLister
-     */
-    private function iterator()
+    private function iterator(): EventLister
     {
         return new EventLister(new PageFetcher('/events', $this->client, function () {
             return new EventPage();
         }));
     }
 
-    /**
-     * @param $eventKey string
-     * @param $filter string
-     * @param $sortField string
-     * @param $sortDirection string
-     * @return StatusChangeLister
-     */
-    public function statusChanges($eventKey, $filter = null, $sortField = null, $sortDirection = null)
+    public function statusChanges(string $eventKey, string $filter = null, string $sortField = null, string $sortDirection = null): StatusChangeLister
     {
         return new StatusChangeLister(new PageFetcher(UriTemplate::expand('/events/{key}/status-changes', array("key" => $eventKey)), $this->client, function () {
             return new StatusChangePage();
         }, array("filter" => $filter, "sort" => self::toSort($sortField, $sortDirection))));
     }
 
-    private static function toSort($sortField, $sortDirection)
+    private static function toSort(?string $sortField, ?string $sortDirection): ?string
     {
         if (!$sortField) {
             return null;
@@ -211,43 +159,28 @@ class Events
         return $sortField;
     }
 
-    /**
-     * @param $eventKey string
-     * @param $objectId string
-     * @return StatusChangeLister
-     */
-    public function statusChangesForObject($eventKey, $objectId)
+    public function statusChangesForObject(string $eventKey, string $objectId): StatusChangeLister
     {
         return new StatusChangeLister(new PageFetcher(UriTemplate::expand('/events/{key}/objects/{objectId}/status-changes', array("key" => $eventKey, "objectId" => $objectId)), $this->client, function () {
             return new StatusChangePage();
         }));
     }
 
-    /**
-     * @param $eventKey string
-     * @param $channels object
-     */
-    public function updateChannels($eventKey, $channels)
+    public function updateChannels(string $eventKey, array $channels): void
     {
         $request = new stdClass();
         $request->channels = $channels;
         $this->client->post(UriTemplate::expand('/events/{key}/channels/update', array("key" => $eventKey)), ['json' => $request]);
     }
 
-    public function assignObjectsToChannels($eventKey, $channelConfig)
+    public function assignObjectsToChannels(string $eventKey, array $channelConfig): void
     {
         $request = new stdClass();
         $request->channelConfig = $channelConfig;
         $this->client->post(UriTemplate::expand('/events/{key}/channels/assign-objects', array("key" => $eventKey)), ['json' => $request]);
     }
 
-    /**
-     * @param $eventKey string
-     * @param $objects string[]
-     * @param $categories string[]
-     * @return void
-     */
-    public function markAsForSale($eventKey, $objects = null, $categories = null)
+    public function markAsForSale(string $eventKey, array $objects = null, array $categories = null): void
     {
         $request = new stdClass();
         if ($objects !== null) {
@@ -260,12 +193,10 @@ class Events
     }
 
     /**
-     * @param $eventKey string
-     * @param $objects string[]
-     * @param $categories string[]
-     * @return void
+     * @param $objects string[]|null
+     * @param $categories string[]|null
      */
-    public function markAsNotForSale($eventKey, $objects = null, $categories = null)
+    public function markAsNotForSale(string $eventKey, array $objects = null, array $categories = null): void
     {
         $request = new stdClass();
         if ($objects !== null) {
@@ -277,22 +208,12 @@ class Events
         $this->client->post(UriTemplate::expand('/events/{key}/actions/mark-as-not-for-sale', array("key" => $eventKey)), ['json' => $request]);
     }
 
-    /**
-     * @param $eventKey string
-     * @return void
-     */
-    public function markEverythingAsForSale($eventKey)
+    public function markEverythingAsForSale(string $eventKey): void
     {
         $this->client->post(UriTemplate::expand('/events/{key}/actions/mark-everything-as-for-sale', array("key" => $eventKey)));
     }
 
-    /**
-     * @param $eventKey string
-     * @param $object string
-     * @param $extraData object|array
-     * @return void
-     */
-    public function updateExtraData($eventKey, $object, $extraData)
+    public function updateExtraData(string $eventKey, string $object, array $extraData): void
     {
         $request = new stdClass();
         $request->extraData = $extraData;
@@ -302,12 +223,7 @@ class Events
         );
     }
 
-    /**
-     * @param $eventKey string
-     * @param $extraDatas object|array
-     * @return void
-     */
-    public function updateExtraDatas($eventKey, $extraDatas)
+    public function updateExtraDatas(string $eventKey, array $extraDatas): void
     {
         $request = new stdClass();
         $request->extraData = $extraDatas;
@@ -317,22 +233,16 @@ class Events
         );
     }
 
-    /**
-     * @param $eventKey string
-     * @param $objectLabel string
-     * @return EventObjectInfo
-     */
-    public function retrieveObjectInfo($eventKey, $objectLabel)
+    public function retrieveObjectInfo(string $eventKey, string $objectLabel): EventObjectInfo
     {
         return $this->retrieveObjectInfos($eventKey, [$objectLabel])[$objectLabel];
     }
 
     /**
-     * @param $eventKey string
      * @param $objectLabels string[]
-     * @return array
+     * @return EventObjectInfo[]
      */
-    public function retrieveObjectInfos($eventKey, $objectLabels)
+    public function retrieveObjectInfos(string $eventKey, array $objectLabels): array
     {
         $options = ['query' => Query::build(["label" => $objectLabels])];
         $res = $this->client->get(UriTemplate::expand('/events/{key}/objects', ["key" => $eventKey]), $options);
@@ -348,18 +258,14 @@ class Events
     /**
      * @param $eventKeyOrKeys string|string[]
      * @param $objectOrObjects mixed
-     * @param $status string
-     * @param $holdToken string
-     * @param $orderId string
-     * @param $keepExtraData boolean
-     * @param $ignoreChannels boolean
-     * @param $channelKeys string[]
-     * @param $ignoreSocialDistancing boolean
+     * @param $channelKeys string[]|null
+     * @param $allowedPreviousStatuses string[]|null
+     * @param $rejectedPreviousStatuses string[]|null
      * @return ChangeObjectStatusResult
      */
-    public function changeObjectStatus($eventKeyOrKeys, $objectOrObjects, $status, $holdToken = null, $orderId = null,
-                                       $keepExtraData = null, $ignoreChannels = null, $channelKeys = null, $ignoreSocialDistancing = null,
-                                       $allowedPreviousStatuses = null, $rejectedPreviousStatuses = null)
+    public function changeObjectStatus($eventKeyOrKeys, $objectOrObjects, string $status, string $holdToken = null, string $orderId = null,
+                                       bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null, bool $ignoreSocialDistancing = null,
+                                       array $allowedPreviousStatuses = null, array $rejectedPreviousStatuses = null): ChangeObjectStatusResult
     {
         $request = new stdClass();
         $request->objects = self::normalizeObjects($objectOrObjects);
@@ -402,7 +308,7 @@ class Events
      * @param $statusChangeRequests StatusChangeRequest[]
      * @return ChangeObjectStatusResult[]
      */
-    public function changeObjectStatusInBatch($statusChangeRequests)
+    public function changeObjectStatusInBatch(array $statusChangeRequests): array
     {
         $request = new stdClass();
         $request->statusChanges = map($statusChangeRequests, function ($statusChangeRequest) {
@@ -460,33 +366,19 @@ class Events
     /**
      * @param $eventKeyOrKeys string|string[]
      * @param $objectOrObjects mixed
-     * @param $holdToken string
-     * @param $orderId string
-     * @param $keepExtraData boolean
-     * @param $ignoreChannels boolean
-     * @param $channelKeys string[]
-     * @param $ignoreSocialDistancing boolean
-     * @return ChangeObjectStatusResult
+     * @param $channelKeys string[]|null
      */
-    public function book($eventKeyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null, $ignoreSocialDistancing = null)
+    public function book($eventKeyOrKeys, $objectOrObjects, string $holdToken = null, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null, bool $ignoreSocialDistancing = null): ChangeObjectStatusResult
     {
         return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, EventObjectInfo::$BOOKED, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys, $ignoreSocialDistancing);
     }
 
     /**
-     * @param $eventKey string
-     * @param $number int
-     * @param $categories string[]
-     * @param $holdToken string
-     * @param $extraData array
-     * @param $ticketTypes string[]
-     * @param $orderId string
-     * @param $keepExtraData boolean
-     * @param $ignoreChannels boolean
-     * @param $channelKeys string[]
-     * @return BestAvailableObjects
+     * @param $categories string[]|null
+     * @param $ticketTypes string[]|null
+     * @param $channelKeys string[]|null
      */
-    public function bookBestAvailable($eventKey, $number, $categories = null, $holdToken = null, $extraData = null, $ticketTypes = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
+    public function bookBestAvailable(string $eventKey, int $number, array $categories = null, string $holdToken = null, array $extraData = null, array $ticketTypes = null, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null): BestAvailableObjects
     {
         return $this::changeBestAvailableObjectStatus($eventKey, $number, EventObjectInfo::$BOOKED, $categories, $holdToken, $extraData, $ticketTypes, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
@@ -494,14 +386,9 @@ class Events
     /**
      * @param $eventKeyOrKeys string|string[]
      * @param $objectOrObjects mixed
-     * @param $holdToken string
-     * @param $orderId string
-     * @param $keepExtraData boolean
-     * @param $ignoreChannels boolean
-     * @param $channelKeys string[]
-     * @return ChangeObjectStatusResult
+     * @param $channelKeys string[]|null
      */
-    public function release($eventKeyOrKeys, $objectOrObjects, $holdToken = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
+    public function release($eventKeyOrKeys, $objectOrObjects, string $holdToken = null, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null): ChangeObjectStatusResult
     {
         return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, EventObjectInfo::$FREE, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
@@ -509,52 +396,29 @@ class Events
     /**
      * @param $eventKeyOrKeys string|string[]
      * @param $objectOrObjects mixed
-     * @param $holdToken string
-     * @param $orderId string
-     * @param $keepExtraData boolean
-     * @param $ignoreChannels boolean
-     * @param $channelKeys string[]
-     * @param $ignoreSocialDistancing boolean
-     * @return ChangeObjectStatusResult
+     * @param $channelKeys string[]|null
      */
-    public function hold($eventKeyOrKeys, $objectOrObjects, $holdToken, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null, $ignoreSocialDistancing = null)
+    public function hold($eventKeyOrKeys, $objectOrObjects, string $holdToken, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null, bool $ignoreSocialDistancing = null): ChangeObjectStatusResult
     {
         return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, EventObjectInfo::$HELD, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys, $ignoreSocialDistancing);
     }
 
     /**
-     * @param $eventKey string
-     * @param $number int
-     * @param $categories string[]
-     * @param $holdToken string
-     * @param $extraData array
-     * @param $ticketTypes string[]
-     * @param $orderId string
-     * @param $keepExtraData boolean
-     * @param $ignoreChannels boolean
-     * @param $channelKeys string[]
-     * @return BestAvailableObjects
+     * @param $categories string[]|null
+     * @param $ticketTypes string[]|null
+     * @param $channelKeys string[]|null
      */
-    public function holdBestAvailable($eventKey, $number, $holdToken, $categories = null, $extraData = null, $ticketTypes = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
+    public function holdBestAvailable(string $eventKey, int $number, string $holdToken, array $categories = null, array $extraData = null, array $ticketTypes = null, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null): BestAvailableObjects
     {
         return $this::changeBestAvailableObjectStatus($eventKey, $number, EventObjectInfo::$HELD, $categories, $holdToken, $extraData, $ticketTypes, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
 
     /**
-     * @param $eventKey string
-     * @param $number int
-     * @param $status string
-     * @param $categories string[]
-     * @param $holdToken string
-     * @param $extraData array
-     * @param $ticketTypes string[]
-     * @param $orderId string
-     * @param $keepExtraData boolean
-     * @param $ignoreChannels boolean
-     * @param $channelKeys string[]
-     * @return BestAvailableObjects
+     * @param $categories string[]|null
+     * @param $ticketTypes string[]|null
+     * @param $channelKeys string[]|null
      */
-    public function changeBestAvailableObjectStatus($eventKey, $number, $status, $categories = null, $holdToken = null, $extraData = null, $ticketTypes = null, $orderId = null, $keepExtraData = null, $ignoreChannels = null, $channelKeys = null)
+    public function changeBestAvailableObjectStatus(string $eventKey, int $number, string $status, array $categories = null, string $holdToken = null, array $extraData = null, array $ticketTypes = null, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null): BestAvailableObjects
     {
         $request = new stdClass();
         $bestAvailable = new stdClass();
@@ -594,7 +458,7 @@ class Events
         return $mapper->map($json, new BestAvailableObjects());
     }
 
-    private static function normalizeObjects($objectOrObjects)
+    private static function normalizeObjects($objectOrObjects): array
     {
         if (is_array($objectOrObjects)) {
             if (count($objectOrObjects) === 0) {

@@ -7,30 +7,27 @@ class Region
     /** @var string */
     private $url;
 
-    public static function EU()
+    public static function EU(): Region
     {
         return new Region(self::urlForId("eu"));
     }
 
-    public static function NA()
+    public static function NA(): Region
     {
         return new Region(self::urlForId("na"));
     }
 
-    public static function SA()
+    public static function SA(): Region
     {
         return new Region(self::urlForId("sa"));
     }
 
-    public static function OC()
+    public static function OC(): Region
     {
         return new Region(self::urlForId("oc"));
     }
 
-    /**
-     * @return Region
-     */
-    public static function withUrl($url)
+    public static function withUrl($url): Region
     {
         return new Region($url);
     }
@@ -40,18 +37,12 @@ class Region
         $this->url = $url;
     }
 
-    /**
-     * @return string
-     */
-    private static function urlForId($id)
+    private static function urlForId(string $id): string
     {
         return str_replace("{region}", $id, "https://api-{region}.seatsio.net/");
     }
 
-    /**
-     * @return string
-     */
-    public function url()
+    public function url(): string
     {
         return $this->url;
     }

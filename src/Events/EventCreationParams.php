@@ -22,27 +22,18 @@ class EventCreationParams
      */
     public $socialDistancingRulesetKey;
 
-    public function __construct($eventKey = null)
+    public function __construct(string $eventKey = null)
     {
         $this->eventKey = $eventKey;
     }
 
-    /**
-     * @param $tableBookingConfig TableBookingConfig
-     * @return EventCreationParams
-     * @throws Exception
-     */
-    public function setTableBookingConfig($tableBookingConfig)
+    public function setTableBookingConfig(TableBookingConfig $tableBookingConfig): self
     {
         $this->tableBookingConfig = $tableBookingConfig;
         return $this;
     }
 
-    /**
-     * @param $socialDistancingRulesetKey string
-     * @return EventCreationParams
-     */
-    public function setSocialDistancingRulesetKey($socialDistancingRulesetKey)
+    public function setSocialDistancingRulesetKey(string $socialDistancingRulesetKey): self
     {
         $this->socialDistancingRulesetKey = $socialDistancingRulesetKey;
         return $this;

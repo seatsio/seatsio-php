@@ -7,10 +7,7 @@ use Seatsio\PagedIterator;
 class ChartPagedIterator extends PagedIterator
 {
 
-    /**
-     * @return Chart
-     */
-    public function current()
+    public function current(): Chart
     {
         return parent::current();
     }

@@ -14,16 +14,12 @@ class HoldTokens
      */
     private $client;
 
-    public function __construct($client)
+    public function __construct(Client $client)
     {
         $this->client = $client;
     }
 
-    /**
-     * @param $expiresInMinutes int
-     * @return HoldToken
-     */
-    public function create($expiresInMinutes = null)
+    public function create(int $expiresInMinutes = null): HoldToken
     {
         $request = new stdClass();
         if (!is_null($expiresInMinutes)) {
@@ -35,12 +31,7 @@ class HoldTokens
         return $mapper->map($json, new HoldToken());
     }
 
-    /**
-     * @param $holdToken string
-     * @param $minutes int
-     * @return HoldToken
-     */
-    public function expireInMinutes($holdToken, $minutes)
+    public function expireInMinutes(string $holdToken, int $minutes): HoldToken
     {
         $request = new stdClass();
         $request->expiresInMinutes = $minutes;
@@ -50,11 +41,7 @@ class HoldTokens
         return $mapper->map($json, new HoldToken());
     }
 
-    /**
-     * @param $holdToken string
-     * @return HoldToken
-     */
-    public function retrieve($holdToken)
+    public function retrieve(string $holdToken): HoldToken
     {
         $res = $this->client->get('/hold-tokens/' . $holdToken);
         $json = \GuzzleHttp\json_decode($res->getBody());

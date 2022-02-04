@@ -29,7 +29,7 @@ class Channel
      */
     public $objects;
 
-    public function __construct($name = null, $color = null, $index = null, $key = null, $objects = [])
+    public function __construct(string $name = null, string $color = null, int $index = null, string $key = null, array $objects = [])
     {
         $this->name = $name;
         $this->color = $color;

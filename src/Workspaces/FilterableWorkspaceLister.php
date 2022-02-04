@@ -2,58 +2,39 @@
 
 namespace Seatsio\Workspaces;
 
+use Seatsio\PageFetcher;
+
 class FilterableWorkspaceLister
 {
 
     protected $pageFetcher;
 
-    public function __construct($pageFetcher)
+    public function __construct(PageFetcher $pageFetcher)
     {
         $this->pageFetcher = $pageFetcher;
     }
 
-    /**
-     * @param $filter string
-     * @return WorkspacePagedIterator
-     */
-    public function all($filter = null)
+    public function all(string $filter = null): WorkspacePagedIterator
     {
         return new WorkspacePagedIterator($this->pageFetcher, $this->filterToArray($filter));
     }
 
-    /**
-     * @param $filter string
-     * @param $pageSize int
-     * @return WorkspacePage
-     */
-    public function firstPage($pageSize = null, $filter = null)
+    public function firstPage(int $pageSize = null, string $filter = null): WorkspacePage
     {
         return $this->pageFetcher->fetchAfter(null, $this->filterToArray($filter), $pageSize);
     }
 
-    /**
-     * @param $afterId int
-     * @param $filter string
-     * @param $pageSize int
-     * @return WorkspacePage
-     */
-    public function pageAfter($afterId, $pageSize = null, $filter = null)
+    public function pageAfter(int $afterId, int $pageSize = null, string $filter = null): WorkspacePage
     {
         return $this->pageFetcher->fetchAfter($afterId, $this->filterToArray($filter), $pageSize);
     }
 
-    /**
-     * @param $beforeId int
-     * @param $filter string
-     * @param $pageSize int
-     * @return WorkspacePage
-     */
-    public function pageBefore($beforeId, $pageSize = null, $filter = null)
+    public function pageBefore(int $beforeId, int $pageSize = null, string $filter = null): WorkspacePage
     {
         return $this->pageFetcher->fetchBefore($beforeId, $this->filterToArray($filter), $pageSize);
     }
 
-    private function filterToArray($filter)
+    private function filterToArray(?string $filter): array
     {
         $result = [];
         if ($filter !== null) {

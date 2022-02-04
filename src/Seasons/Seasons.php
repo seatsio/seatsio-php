@@ -15,17 +15,12 @@ class Seasons
      */
     private $client;
 
-    public function __construct($client)
+    public function __construct(Client $client)
     {
         $this->client = $client;
     }
 
-    /**
-     * @param $chartKey string
-     * @param $seasonCreationParams SeasonCreationParams
-     * @return Season
-     */
-    public function create($chartKey, $seasonCreationParams = null)
+    public function create(string $chartKey, SeasonCreationParams $seasonCreationParams = null): Season
     {
         $request = new stdClass();
         $request->chartKey = $chartKey;
@@ -59,12 +54,9 @@ class Seasons
     }
 
     /**
-     * @param $topLevelSeasonKey string
-     * @param $partialSeasonKey string
-     * @param $eventKeys string[]
-     * @return Season
+     * @param $eventKeys string[]|null
      */
-    public function createPartialSeason($topLevelSeasonKey, $partialSeasonKey = null, $eventKeys = null)
+    public function createPartialSeason(string $topLevelSeasonKey, string $partialSeasonKey = null, array $eventKeys = null): Season
     {
         $request = new stdClass();
 
@@ -82,11 +74,7 @@ class Seasons
         return $mapper->map($json, new Season());
     }
 
-    /**
-     * @param $seasonKey string
-     * @return Season
-     */
-    public function retrieve($seasonKey)
+    public function retrieve(string $seasonKey): Season
     {
         $res = $this->client->get(UriTemplate::expand('/seasons/{seasonKey}', ['seasonKey' => $seasonKey]));
         $json = \GuzzleHttp\json_decode($res->getBody());
@@ -94,12 +82,7 @@ class Seasons
         return $mapper->map($json, new Season());
     }
 
-    /**
-     * @param $topLevelSeasonKey string
-     * @param $partialSeasonKey string
-     * @return Season
-     */
-    public function retrievePartialSeason($topLevelSeasonKey, $partialSeasonKey)
+    public function retrievePartialSeason(string $topLevelSeasonKey, string $partialSeasonKey): Season
     {
         $res = $this->client->get(UriTemplate::expand('/seasons/{topLevelSeasonKey}/partial-seasons/{partialSeasonKey}', array("topLevelSeasonKey" => $topLevelSeasonKey, "partialSeasonKey" => $partialSeasonKey)));
         $json = \GuzzleHttp\json_decode($res->getBody());
@@ -107,32 +90,17 @@ class Seasons
         return $mapper->map($json, new Season());
     }
 
-    /**
-     * @param $seasonKey string
-     * @return void
-     */
-    public function delete($seasonKey)
+    public function delete(string $seasonKey): void
     {
         $this->client->delete(UriTemplate::expand('/seasons/{seasonKey}', array("seasonKey" => $seasonKey)));
     }
 
-    /**
-     * @param $topLevelSeasonKey string
-     * @param $partialSeasonKey string
-     * @return void
-     */
-    public function deletePartialSeason($topLevelSeasonKey, $partialSeasonKey)
+    public function deletePartialSeason(string $topLevelSeasonKey, string $partialSeasonKey): void
     {
         $this->client->delete(UriTemplate::expand('/seasons/{seasonKey}/partial-seasons/{partialSeason}', array("topLevelSeasonKey" => $topLevelSeasonKey, "partialSeasonKey" => $partialSeasonKey)));
     }
 
-    /**
-     * @param $topLevelSeasonKey string
-     * @param $partialSeasonKey string
-     * @param $eventKeys string[]
-     * @return Season
-     */
-    public function addEventsToPartialSeason($topLevelSeasonKey, $partialSeasonKey, $eventKeys)
+    public function addEventsToPartialSeason(string $topLevelSeasonKey, string $partialSeasonKey, array $eventKeys): Season
     {
         $request = new stdClass();
         $request->eventKeys = $eventKeys;
@@ -143,12 +111,9 @@ class Seasons
     }
 
     /**
-     * @param $seasonKey string
-     * @param $eventKeys string[]
-     * @param null $numberOfEvents int
-     * @return Season
+     * @param $eventKeys string[]|null
      */
-    public function createEvents($seasonKey, $eventKeys = null, $numberOfEvents = null)
+    public function createEvents(string $seasonKey, array $eventKeys = null, int $numberOfEvents = null): Season
     {
         $request = new stdClass();
 
@@ -166,13 +131,7 @@ class Seasons
         return $mapper->map($json, new Season());
     }
 
-    /**
-     * @param $topLevelSeasonKey string
-     * @param $partialSeasonKey string
-     * @param $eventKey string
-     * @return Season
-     */
-    public function removeEventFromPartialSeason($topLevelSeasonKey, $partialSeasonKey, $eventKey)
+    public function removeEventFromPartialSeason(string $topLevelSeasonKey, string $partialSeasonKey, string $eventKey): Season
     {
         $request = new stdClass();
         $res = $this->client->delete(UriTemplate::expand('/seasons/{topLevelSeasonKey}/partial-seasons/{partialSeasonKey}/events/{eventKey}', ['topLevelSeasonKey' => $topLevelSeasonKey, 'partialSeasonKey' => $partialSeasonKey, 'eventKey' => $eventKey]), ['json' => $request]);
@@ -191,47 +150,27 @@ class Seasons
         return $request;
     }
 
-    /**
-     * @return SeasonPagedIterator
-     */
-    public function listAll()
+    public function listAll(): SeasonPagedIterator
     {
         return $this->iterator()->all();
     }
 
-    /**
-     * @param $pageSize int
-     * @return SeasonPage
-     */
-    public function listFirstPage($pageSize = null)
+    public function listFirstPage(int $pageSize = null): SeasonPage
     {
         return $this->iterator()->firstPage($pageSize);
     }
 
-    /**
-     * @param $afterId int
-     * @param $pageSize int
-     * @return SeasonPage
-     */
-    public function listPageAfter($afterId, $pageSize = null)
+    public function listPageAfter(int $afterId, int $pageSize = null): SeasonPage
     {
         return $this->iterator()->pageAfter($afterId, $pageSize);
     }
 
-    /**
-     * @param $beforeId int
-     * @param $pageSize int
-     * @return SeasonPage
-     */
-    public function listPageBefore($beforeId, $pageSize = null)
+    public function listPageBefore(int $beforeId, int $pageSize = null): SeasonPage
     {
         return $this->iterator()->pageBefore($beforeId, $pageSize);
     }
 
-    /**
-     * @return SeasonLister
-     */
-    private function iterator()
+    private function iterator(): SeasonLister
     {
         return new SeasonLister(new PageFetcher('/seasons', $this->client, function () {
             return new SeasonPage();

@@ -16,102 +16,69 @@ class ChartReports
      */
     private $client;
 
-    public function __construct($client)
+    public function __construct(Client $client)
     {
         $this->client = $client;
     }
 
-    /**
-     * @param $chartKey string
-     * @param $bookWholeTables string
-     * @return array
-     */
-    public function byLabel($chartKey, $bookWholeTables = null)
+    public function byLabel(string $chartKey, string $bookWholeTables = null): array
     {
         return $this->getChartReport('byLabel', $chartKey, $bookWholeTables);
     }
 
     /**
-     * @param $chartKey string
-     * @param $objectType string
-     * @return array
+     * @return ChartObjectInfo[]
      */
-    public function byObjectType($chartKey, $bookWholeTables = null)
+    public function byObjectType(string $chartKey, string $bookWholeTables = null): array
     {
         return $this->getChartReport('byObjectType', $chartKey, $bookWholeTables);
     }
 
-    /**
-     * @param $chartKey string
-     * @param $bookWholeTables string
-     * @return array
-     */
-    public function summaryByObjectType($chartKey, $bookWholeTables = null)
+    public function summaryByObjectType(string $chartKey, string $bookWholeTables = null): array
     {
         return $this->getChartSummaryReport('byObjectType', $chartKey, $bookWholeTables);
     }
 
     /**
-     * @param $chartKey string
-     * @param $bookWholeTables string
-     * @return array
+     * @return ChartObjectInfo[]
      */
-    public function byCategoryKey($chartKey, $bookWholeTables = null)
+    public function byCategoryKey(string $chartKey, string $bookWholeTables = null): array
     {
         return $this->getChartReport('byCategoryKey', $chartKey, $bookWholeTables);
     }
 
-    /**
-     * @param $chartKey string
-     * @param $bookWholeTables string
-     * @return array
-     */
-    public function summaryByCategoryKey($chartKey, $bookWholeTables = null)
+    public function summaryByCategoryKey(string $chartKey, string $bookWholeTables = null): array
     {
         return $this->getChartSummaryReport('byCategoryKey', $chartKey, $bookWholeTables);
     }
 
     /**
-     * @param $chartKey string
-     * @param $bookWholeTables string
-     * @return array
+     * @return ChartObjectInfo[]
      */
-    public function byCategoryLabel($chartKey, $bookWholeTables = null)
+    public function byCategoryLabel(string $chartKey, string $bookWholeTables = null): array
     {
         return $this->getChartReport('byCategoryLabel', $chartKey, $bookWholeTables);
     }
 
-    /**
-     * @param $chartKey string
-     * @param $bookWholeTables string
-     * @return array
-     */
-    public function summaryByCategoryLabel($chartKey, $bookWholeTables = null)
+    public function summaryByCategoryLabel(string $chartKey, string $bookWholeTables = null): array
     {
         return $this->getChartSummaryReport('byCategoryLabel', $chartKey, $bookWholeTables);
     }
 
     /**
-     * @param $chartKey string
-     * @param $bookWholeTables string
-     * @return array
+     * @return ChartObjectInfo[]
      */
-    public function bySection($chartKey, $bookWholeTables = null)
+    public function bySection(string $chartKey, string $bookWholeTables = null): array
     {
         return $this->getChartReport('bySection', $chartKey, $bookWholeTables);
     }
 
-    /**
-     * @param $chartKey string
-     * @param $bookWholeTables string
-     * @return array
-     */
-    public function summaryBySection($chartKey, $bookWholeTables = null)
+    public function summaryBySection(string $chartKey, string $bookWholeTables = null): array
     {
         return $this->getChartSummaryReport('bySection', $chartKey, $bookWholeTables);
     }
 
-    private static function reportUrl($reportType, $chartKey)
+    private static function reportUrl(string $reportType, string $chartKey): string
     {
         return UriTemplate::expand('/reports/charts/{key}/{reportType}', array("key" => $chartKey, "reportType" => $reportType));
     }
@@ -121,20 +88,26 @@ class ChartReports
         return UriTemplate::expand('/reports/charts/{key}/{reportType}/summary', array("key" => $chartKey, "reportType" => $reportType));
     }
 
-    private function getChartReport($reportType, $chartKey, $bookWholeTables)
+    /**
+     * @return ChartObjectInfo[]
+     */
+    private function getChartReport(string $reportType, string $chartKey, ?string $bookWholeTables): array
     {
         $res = $this->client->get(self::reportUrl($reportType, $chartKey), ["query" => ["bookWholeTables" => $bookWholeTables]]);
         $json = \GuzzleHttp\json_decode($res->getBody());
         return $this->mapMultiValuedReport($json);
     }
 
-    private function getChartSummaryReport($reportType, $chartKey, $bookWholeTables)
+    private function getChartSummaryReport(string $reportType, string $chartKey, ?string $bookWholeTables): array
     {
         $res = $this->client->get(self::summaryReportUrl($reportType, $chartKey), ["query" => ["bookWholeTables" => $bookWholeTables]]);
         return \GuzzleHttp\json_decode($res->getBody(), true);
     }
 
-    private static function mapMultiValuedReport($json)
+    /**
+     * @return ChartObjectInfo[]
+     */
+    private static function mapMultiValuedReport($json): array
     {
         $mapper = SeatsioJsonMapper::create();
         $result = [];

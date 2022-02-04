@@ -32,51 +32,35 @@ class SeasonCreationParams
      */
     public $socialDistancingRulesetKey;
 
-    public function __construct($key = null)
+    public function __construct(string $key = null)
     {
         $this->key = $key;
     }
 
-    static function seasonCreationParams($key = null)
+    static function seasonCreationParams(string $key = null): SeasonCreationParams
     {
         return new SeasonCreationParams($key);
     }
 
-    /**
-     * @param $eventKeys string[]
-     * @return SeasonCreationParams
-     */
-    public function setEventKeys($eventKeys)
+    public function setEventKeys(array $eventKeys): self
     {
         $this->eventKeys = $eventKeys;
         return $this;
     }
 
-    /**
-     * @param $numberOfEvents int
-     * @return SeasonCreationParams
-     */
-    public function setNumberOfEvents($numberOfEvents)
+    public function setNumberOfEvents(int $numberOfEvents): self
     {
         $this->numberOfEvents = $numberOfEvents;
         return $this;
     }
 
-    /**
-     * @param $tableBookingConfig TableBookingConfig
-     * @return SeasonCreationParams
-     */
-    public function setTableBookingConfig($tableBookingConfig)
+    public function setTableBookingConfig(TableBookingConfig $tableBookingConfig): self
     {
         $this->tableBookingConfig = $tableBookingConfig;
         return $this;
     }
 
-    /**
-     * @param $socialDistancingRulesetKey string
-     * @return SeasonCreationParams
-     */
-    public function setSocialDistancingRulesetKey($socialDistancingRulesetKey)
+    public function setSocialDistancingRulesetKey(string $socialDistancingRulesetKey): self
     {
         $this->socialDistancingRulesetKey = $socialDistancingRulesetKey;
         return $this;

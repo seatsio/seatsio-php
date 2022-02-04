@@ -9,36 +9,24 @@ class ObjectProperties
      */
     public $objectId;
 
-    public function __construct($objectId)
+    public function __construct(string $objectId)
     {
         $this->objectId = $objectId;
     }
 
-    /**
-     * @param $ticketType string
-     * @return $this
-     */
-    public function setTicketType($ticketType)
+    public function setTicketType(string $ticketType): self
     {
         $this->ticketType = $ticketType;
         return $this;
     }
 
-    /**
-     * @param $quantity int
-     * @return $this
-     */
-    public function setQuantity($quantity)
+    public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
         return $this;
     }
 
-    /**
-     * @param $extraData object|array
-     * @return $this
-     */
-    public function setExtraData($extraData)
+    public function setExtraData(array $extraData): self
     {
         $this->extraData = $extraData;
         return $this;

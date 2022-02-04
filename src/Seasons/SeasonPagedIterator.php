@@ -7,10 +7,7 @@ use Seatsio\PagedIterator;
 class SeasonPagedIterator extends PagedIterator
 {
 
-    /**
-     * @return Season
-     */
-    public function current()
+    public function current(): Season
     {
         return parent::current();
     }

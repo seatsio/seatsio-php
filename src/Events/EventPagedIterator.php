@@ -7,10 +7,7 @@ use Seatsio\PagedIterator;
 class EventPagedIterator extends PagedIterator
 {
 
-    /**
-     * @return Event
-     */
-    public function current()
+    public function current(): Event
     {
         return parent::current();
     }

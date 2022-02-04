@@ -8,10 +8,7 @@ use Seatsio\Subaccounts\Subaccount;
 class SubaccountPagedIterator extends PagedIterator
 {
 
-    /**
-     * @return Subaccount
-     */
-    public function current()
+    public function current(): Subaccount
     {
         return parent::current();
     }

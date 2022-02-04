@@ -2,49 +2,34 @@
 
 namespace Seatsio\Events;
 
+use Seatsio\PageFetcher;
+
 class StatusChangeLister
 {
 
     protected $pageFetcher;
 
-    public function __construct($pageFetcher)
+    public function __construct(PageFetcher $pageFetcher)
     {
         $this->pageFetcher = $pageFetcher;
     }
 
-    /**
-     * @return StatusChangePagedIterator
-     */
-    public function all()
+    public function all(): StatusChangePagedIterator
     {
         return new StatusChangePagedIterator($this->pageFetcher);
     }
 
-    /**
-     * @param $pageSize int
-     * @return StatusChangePage
-     */
-    public function firstPage($pageSize = null)
+    public function firstPage(int $pageSize = null): StatusChangePage
     {
         return $this->pageFetcher->fetchAfter(null, [], $pageSize);
     }
 
-    /**
-     * @param $afterId int
-     * @param $pageSize int
-     * @return StatusChangePage
-     */
-    public function pageAfter($afterId, $pageSize = null)
+    public function pageAfter(int $afterId, int $pageSize = null): StatusChangePage
     {
         return $this->pageFetcher->fetchAfter($afterId, [], $pageSize);
     }
 
-    /**
-     * @param $beforeId int
-     * @param $pageSize int
-     * @return StatusChangePage
-     */
-    public function pageBefore($beforeId, $pageSize = null)
+    public function pageBefore(int $beforeId, int $pageSize = null): StatusChangePage
     {
         return $this->pageFetcher->fetchBefore($beforeId, [], $pageSize);
     }
