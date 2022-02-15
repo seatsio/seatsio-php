@@ -2,23 +2,10 @@
 
 namespace Seatsio\Seasons;
 
-class Season
+use Seatsio\Events\Event;
+
+class Season extends Event
 {
-    /**
-     * @var int
-     */
-    public $id;
-
-    /**
-     * @var string
-     */
-    public $key;
-
-    /**
-     * @var \Seatsio\Events\Event
-     */
-    public $seasonEvent;
-
     /**
      * @var \Seatsio\Events\Event[]
      */
@@ -28,4 +15,8 @@ class Season
      * @var string[]
      */
     public $partialSeasonKeys;
+
+    public function isSeason() {
+        return true;
+    }
 }

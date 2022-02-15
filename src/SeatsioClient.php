@@ -66,7 +66,7 @@ class SeatsioClient
         $this->client = $client;
         $this->charts = new Charts($client);
         $this->events = new Events($client);
-        $this->seasons = new Seasons($client);
+        $this->seasons = new Seasons($client, $this);
         $this->eventReports = new EventReports($client);
         $this->chartReports = new ChartReports($client);
         $this->usageReports = new UsageReports($client);

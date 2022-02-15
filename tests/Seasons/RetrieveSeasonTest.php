@@ -19,15 +19,11 @@ class RetrieveSeasonTest extends SeatsioClientTest
         self::assertEquals('aSeason', $retrievedSeason->key);
         self::assertNotNull($retrievedSeason->id);
         self::assertEquals(['partialSeason1', 'partialSeason2'], $retrievedSeason->partialSeasonKeys);
-
-        $seasonEvent = $retrievedSeason->seasonEvent;
-        self::assertEquals('aSeason', $retrievedSeason->key);
-        self::assertNotNull($seasonEvent->id);
-        self::assertEquals($chartKey, $seasonEvent->chartKey);
-        self::assertEquals(TableBookingConfig::inherit(), $seasonEvent->tableBookingConfig);
-        self::assertTrue($seasonEvent->supportsBestAvailable);
-        self::assertNotNull($seasonEvent->createdOn);
-        self::assertNull($seasonEvent->forSaleConfig);
-        self::assertNull($seasonEvent->updatedOn);
+        self::assertEquals($chartKey, $retrievedSeason->chartKey);
+        self::assertEquals(TableBookingConfig::inherit(), $retrievedSeason->tableBookingConfig);
+        self::assertTrue($retrievedSeason->supportsBestAvailable);
+        self::assertNotNull($retrievedSeason->createdOn);
+        self::assertNull($retrievedSeason->forSaleConfig);
+        self::assertNull($retrievedSeason->updatedOn);
     }
 }

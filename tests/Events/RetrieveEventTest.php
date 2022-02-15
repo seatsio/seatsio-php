@@ -2,6 +2,7 @@
 
 namespace Seatsio\Events;
 
+use Seatsio\Seasons\SeasonCreationParams;
 use Seatsio\SeatsioClientTest;
 
 class RetrieveEventTest extends SeatsioClientTest
@@ -22,6 +23,19 @@ class RetrieveEventTest extends SeatsioClientTest
         self::assertEquals($event->createdOn, $retrievedEvent->createdOn);
         self::assertNull($retrievedEvent->forSaleConfig);
         self::assertNull($retrievedEvent->updatedOn);
+    }
+
+    public function testRetrieveSeason()
+    {
+        $chartKey = $this->createTestChart();
+        $season = $this->seatsioClient->seasons->create($chartKey, new SeasonCreationParams('aSeason'));
+        $this->seatsioClient->seasons->createPartialSeason($season->key, 'partialSeason1');
+        $this->seatsioClient->seasons->createPartialSeason($season->key, 'partialSeason2');
+
+        $retrievedSeason = $this->seatsioClient->events->retrieve($season->key);
+
+        self::assertEquals('aSeason', $retrievedSeason->key);
+        self::assertEquals(['partialSeason1', 'partialSeason2'], $retrievedSeason->partialSeasonKeys);
     }
 
 }
