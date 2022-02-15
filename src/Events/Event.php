@@ -20,12 +20,12 @@ class Event
     public $supportsBestAvailable;
 
     /**
-     * @var ForSaleConfig
+     * @var \Seatsio\Events\ForSaleConfig
      */
     public $forSaleConfig;
 
     /**
-     * @var TableBookingConfig
+     * @var \Seatsio\Events\TableBookingConfig
      */
     public $tableBookingConfig;
 
@@ -45,7 +45,7 @@ class Event
     public $updatedOn;
 
     /**
-     * @var Channel[]
+     * @var \Seatsio\Events\Channel[]
      */
     public $channels;
 
@@ -53,4 +53,8 @@ class Event
      * @var string
      */
     public $socialDistancingRulesetKey;
+
+    public function isSeason() {
+        return false;
+    }
 }

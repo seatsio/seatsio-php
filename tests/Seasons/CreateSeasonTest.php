@@ -18,15 +18,12 @@ class CreateSeasonTest extends SeatsioClientTest
 
         self::assertNotNull($season->key);
         self::assertNotNull($season->id);
-        $seasonEvent = $season->seasonEvent;
-        self::assertEquals($seasonEvent->key, $season->key);
-        self::assertNotNull($seasonEvent->id);
-        self::assertEquals($chartKey, $seasonEvent->chartKey);
-        self::assertEquals(TableBookingConfig::inherit(), $seasonEvent->tableBookingConfig);
-        self::assertTrue($seasonEvent->supportsBestAvailable);
-        self::assertNotNull($seasonEvent->createdOn);
-        self::assertNull($seasonEvent->forSaleConfig);
-        self::assertNull($seasonEvent->updatedOn);
+        self::assertEquals($chartKey, $season->chartKey);
+        self::assertEquals(TableBookingConfig::inherit(), $season->tableBookingConfig);
+        self::assertTrue($season->supportsBestAvailable);
+        self::assertNotNull($season->createdOn);
+        self::assertNull($season->forSaleConfig);
+        self::assertNull($season->updatedOn);
     }
 
     public function testKeyCanBePassedIn()
@@ -66,7 +63,7 @@ class CreateSeasonTest extends SeatsioClientTest
         $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setTableBookingConfig(TableBookingConfig::custom(["T1" => "BY_TABLE", "T2" => "BY_SEAT"])));
 
         self::assertNotNull($season->key);
-        self::assertEquals(TableBookingConfig::custom(["T1" => "BY_TABLE", "T2" => "BY_SEAT"]), $season->seasonEvent->tableBookingConfig);
+        self::assertEquals(TableBookingConfig::custom(["T1" => "BY_TABLE", "T2" => "BY_SEAT"]), $season->tableBookingConfig);
     }
 
     public function testTableBookingConfigInheritCanBePassedIn()
@@ -76,7 +73,7 @@ class CreateSeasonTest extends SeatsioClientTest
         $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setTableBookingConfig(TableBookingConfig::inherit()));
 
         self::assertNotNull($season->key);
-        self::assertEquals(TableBookingConfig::inherit(), $season->seasonEvent->tableBookingConfig);
+        self::assertEquals(TableBookingConfig::inherit(), $season->tableBookingConfig);
     }
 
     public function testSocialDistancingRulesetKeyCanBePassedIn()
@@ -86,7 +83,7 @@ class CreateSeasonTest extends SeatsioClientTest
 
         $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setSocialDistancingRulesetKey("ruleset1"));
 
-        self::assertEquals("ruleset1", $season->seasonEvent->socialDistancingRulesetKey);
+        self::assertEquals("ruleset1", $season->socialDistancingRulesetKey);
     }
 
 }

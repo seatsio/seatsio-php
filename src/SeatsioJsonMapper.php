@@ -8,8 +8,16 @@ class SeatsioJsonMapper extends JsonMapper
 {
     public static function create(): SeatsioJsonMapper
     {
+        $eventMapper = function ($class, $json) {
+            if ($json->isSeason) {
+                return "\Seatsio\Seasons\Season";
+            }
+            return "\Seatsio\Events\Event";
+        };
+
         $mapper = new SeatsioJsonMapper();
         $mapper->classMap["\DateTime"] = JsonDateTime::class;
+        $mapper->classMap["Seatsio\Events\Event"] = $eventMapper;
         return $mapper;
     }
 

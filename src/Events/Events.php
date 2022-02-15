@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Query;
 use GuzzleHttp\UriTemplate\UriTemplate;
 use Seatsio\PageFetcher;
+use Seatsio\Seasons\Season;
 use Seatsio\SeatsioJsonMapper;
 use stdClass;
 use function Functional\map;
@@ -83,6 +84,9 @@ class Events
         $res = $this->client->get(UriTemplate::expand('/events/{key}', array("key" => $eventKey)));
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
+        if ($json->isSeason) {
+            return $mapper->map($json, new Season());
+        }
         return $mapper->map($json, new Event());
     }
 
