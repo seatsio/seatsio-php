@@ -54,6 +54,11 @@ class Event
      */
     public $socialDistancingRulesetKey;
 
+    /**
+     * @var array
+     */
+    public $objectCategories;
+
     public function isSeason() {
         return false;
     }

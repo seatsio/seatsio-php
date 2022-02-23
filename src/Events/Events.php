@@ -24,7 +24,7 @@ class Events
         $this->client = $client;
     }
 
-    public function create(string $chartKey, string $eventKey = null, TableBookingConfig $tableBookingConfig = null, string $socialDistancingRulesetKey = null): Event
+    public function create(string $chartKey, string $eventKey = null, TableBookingConfig $tableBookingConfig = null, string $socialDistancingRulesetKey = null, array $objectCategories = null): Event
     {
         $request = new stdClass();
 
@@ -40,6 +40,10 @@ class Events
 
         if ($socialDistancingRulesetKey !== null) {
             $request->socialDistancingRulesetKey = $socialDistancingRulesetKey;
+        }
+
+        if ($objectCategories !== null) {
+            $request->objectCategories = $objectCategories;
         }
 
         $res = $this->client->post('/events', ['json' => $request]);
@@ -90,7 +94,7 @@ class Events
         return $mapper->map($json, new Event());
     }
 
-    public function update(string $eventKey, string $chartKey = null, string $newEventKey = null, TableBookingConfig $tableBookingConfig = null, string $socialDistancingRulesetKey = null): void
+    public function update(string $eventKey, string $chartKey = null, string $newEventKey = null, TableBookingConfig $tableBookingConfig = null, string $socialDistancingRulesetKey = null, $objectCategories = null): void
     {
         $request = new stdClass();
 
@@ -108,6 +112,10 @@ class Events
 
         if ($socialDistancingRulesetKey !== null) {
             $request->socialDistancingRulesetKey = $socialDistancingRulesetKey;
+        }
+
+        if ($objectCategories !== null) {
+            $request->objectCategories = $objectCategories;
         }
 
         $this->client->post(UriTemplate::expand('/events/{key}', array("key" => $eventKey)), ['json' => $request]);
