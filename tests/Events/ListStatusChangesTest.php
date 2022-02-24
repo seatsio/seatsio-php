@@ -4,6 +4,7 @@ namespace Seatsio\Charts;
 
 use Seatsio\Events\EventObjectInfo;
 use Seatsio\Events\ObjectProperties;
+use Seatsio\Events\TableBookingConfig;
 use Seatsio\SeatsioClientTest;
 use function Functional\map;
 
@@ -45,6 +46,22 @@ class ListStatusChangesTest extends SeatsioClientTest
         self::assertEquals((object)["foo" => "bar"], $statusChange->extraData);
         self::assertEquals("API_CALL", $statusChange->origin->type);
         self::assertNotNull($statusChange->origin->ip);
+        self::assertTrue($statusChange->isPresentOnChart);
+        self::assertNull($statusChange->notPresentOnChartReason);
+    }
+
+    public function testNotPresentOnChartAnymore()
+    {
+        $chartKey = $this->createTestChartWithTables();
+        $event = $this->seatsioClient->events->create($chartKey, null, TableBookingConfig::allByTable());
+        $this->seatsioClient->events->book($event->key, "T1");
+        $this->seatsioClient->events->update($event->key, null, null, TableBookingConfig::allBySeat());
+
+        $statusChanges = $this->seatsioClient->events->statusChanges($event->key)->all();
+        $statusChange = $statusChanges->current();
+
+        self::assertFalse($statusChange->isPresentOnChart);
+        self::assertEquals("SWITCHED_TO_BOOK_BY_SEAT", $statusChange->notPresentOnChartReason);
     }
 
     public function testFilter()
