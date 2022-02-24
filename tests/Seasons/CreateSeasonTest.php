@@ -9,7 +9,6 @@ use function Functional\map;
 
 class CreateSeasonTest extends SeatsioClientTest
 {
-
     public function testOnlyChartKeyIsRequired()
     {
         $chartKey = $this->createTestChart();
@@ -17,6 +16,8 @@ class CreateSeasonTest extends SeatsioClientTest
         $season = $this->seatsioClient->seasons->create($chartKey);
 
         self::assertNotNull($season->key);
+        self::assertEquals(true, $season->isTopLevelSeason);
+        self::assertNull($season->topLevelSeasonKey);
         self::assertNotNull($season->id);
         self::assertEquals($chartKey, $season->chartKey);
         self::assertEquals(TableBookingConfig::inherit(), $season->tableBookingConfig);

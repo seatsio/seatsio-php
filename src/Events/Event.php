@@ -55,6 +55,26 @@ class Event
     public $socialDistancingRulesetKey;
 
     /**
+     * @var string
+     */
+    public $topLevelSeasonKey;
+
+    /**
+     * @var bool
+     */
+    public $isTopLevelSeason;
+
+    /**
+     * @var bool
+     */
+    public $isPartialSeason;
+
+    /**
+     * @var bool
+     */
+    public $isEventInSeason;
+
+    /**
      * @var array
      */
     public $objectCategories;

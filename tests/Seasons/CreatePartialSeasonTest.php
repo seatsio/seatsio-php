@@ -15,6 +15,8 @@ class CreatePartialSeasonTest extends SeatsioClientTest
         $partialSeason = $this->seatsioClient->seasons->createPartialSeason($season->key);
 
         self::assertNotNull($partialSeason->key);
+        self::assertEquals(true, $partialSeason->isPartialSeason);
+        self::assertEquals($season->key, $partialSeason->topLevelSeasonKey);
     }
 
     public function testPartialSeasonKeyCanBePassedIn()
