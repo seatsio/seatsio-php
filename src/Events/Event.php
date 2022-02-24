@@ -74,6 +74,11 @@ class Event
      */
     public $isEventInSeason;
 
+    /**
+     * @var array
+     */
+    public $objectCategories;
+
     public function isSeason() {
         return false;
     }

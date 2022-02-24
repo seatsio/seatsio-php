@@ -64,4 +64,13 @@ class CreateEventTest extends SeatsioClientTest
         self::assertEquals("ruleset1", $event->socialDistancingRulesetKey);
     }
 
+    public function testObjectCategoriesCanBePassedIn()
+    {
+        $chartKey = $this->createTestChart();
+
+        $event = $this->seatsioClient->events->create($chartKey, null, null, null, ["A-1" => 10]);
+
+        self::assertEquals(["A-1" => 10], $event->objectCategories);
+    }
+
 }

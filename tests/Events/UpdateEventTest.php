@@ -4,6 +4,7 @@ namespace Seatsio\Events;
 
 use Seatsio\Charts\SocialDistancingRuleset;
 use Seatsio\SeatsioClientTest;
+use stdClass;
 
 class UpdateEventTest extends SeatsioClientTest
 {
@@ -75,4 +76,25 @@ class UpdateEventTest extends SeatsioClientTest
         self::assertNull($retrievedEvent->socialDistancingRulesetKey);
     }
 
+    public function testUpdateObjectCategories()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey, null, null, null, ["A-1" => 9]);
+
+        $this->seatsioClient->events->update($event->key, null, null, null, null, ["A-2" => 10]);
+
+        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+        self::assertEquals(["A-2" => 10], $retrievedEvent->objectCategories);
+    }
+
+    public function testRemoveObjectCategories()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey, null, null, null, ["A-1" => 9]);
+
+        $this->seatsioClient->events->update($event->key, null, null, null, null, new stdClass());
+
+        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+        self::assertNull($retrievedEvent->objectCategories);
+    }
 }
