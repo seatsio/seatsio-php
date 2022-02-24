@@ -16,6 +16,7 @@ class RetrieveEventTest extends SeatsioClientTest
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
 
         self::assertEquals($event->key, $retrievedEvent->key);
+        self::assertEquals(false, $retrievedEvent->isEventInSeason);
         self::assertEquals($event->id, $retrievedEvent->id);
         self::assertEquals($chartKey, $retrievedEvent->chartKey);
         self::assertEquals(TableBookingConfig::inherit(), $retrievedEvent->tableBookingConfig);
@@ -35,6 +36,7 @@ class RetrieveEventTest extends SeatsioClientTest
         $retrievedSeason = $this->seatsioClient->events->retrieve($season->key);
 
         self::assertEquals('aSeason', $retrievedSeason->key);
+        self::assertEquals(true, $retrievedSeason->isTopLevelSeason);
         self::assertEquals(['partialSeason1', 'partialSeason2'], $retrievedSeason->partialSeasonKeys);
     }
 

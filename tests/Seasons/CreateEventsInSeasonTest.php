@@ -7,7 +7,7 @@ use function Functional\map;
 
 class CreateEventsInSeasonTest extends SeatsioClientTest
 {
-    public function eventKeys()
+    public function testEventKeys()
     {
         $chartKey = $this->createTestChart();
         $season = $this->seatsioClient->seasons->create($chartKey);
@@ -18,9 +18,11 @@ class CreateEventsInSeasonTest extends SeatsioClientTest
             return $event->key;
         });
         self::assertEquals(['event1', 'event2'], $eventKeys);
+        self::assertEquals(true, $updatedSeason->events[0]->isEventInSeason);
+        self::assertEquals($season->key, $updatedSeason->events[0]->topLevelSeasonKey);
     }
 
-    public function numberOfEvents()
+    public function testNumberOfEvents()
     {
         $chartKey = $this->createTestChart();
         $season = $this->seatsioClient->seasons->create($chartKey);
