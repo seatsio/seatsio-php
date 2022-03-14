@@ -5,7 +5,7 @@ namespace Seatsio\Charts;
 class Category
 {
     /**
-     * @var string|int
+     * @var string
      */
     public $key;
     /**
