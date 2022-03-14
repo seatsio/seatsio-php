@@ -24,7 +24,10 @@ class RetrieveEventTest extends SeatsioClientTest
         self::assertEquals($event->createdOn, $retrievedEvent->createdOn);
         self::assertNull($retrievedEvent->forSaleConfig);
         self::assertNull($retrievedEvent->updatedOn);
-        self::assertContainsOnlyInstancesOf("\Seatsio\Charts\Category", $retrievedEvent->categories);
+        self::assertContainsOnly("\Seatsio\Charts\Category", $retrievedEvent->categories);
+        self::assertEquals(2, count($retrievedEvent->categories));
+        self::assertEquals(9, $retrievedEvent->categories[0]->key);
+        self::assertEquals("cat10", $retrievedEvent->categories[1]->key);
     }
 
     public function testRetrieveSeason()

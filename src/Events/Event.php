@@ -80,7 +80,7 @@ class Event
     public $objectCategories;
 
     /**
-     * @var array
+     * @var \Seatsio\Charts\Category[]
      */
     public $categories;
 
