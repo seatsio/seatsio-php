@@ -17,7 +17,7 @@ class CreateEventsInSeasonTest extends SeatsioClientTest
         $eventKeys = map($updatedSeason->events, function ($event) {
             return $event->key;
         });
-        self::assertEquals(['event1', 'event2'], $eventKeys);
+        self::assertEquals(['event2', 'event1'], $eventKeys);
         self::assertEquals(true, $updatedSeason->events[0]->isEventInSeason);
         self::assertEquals($season->key, $updatedSeason->events[0]->topLevelSeasonKey);
     }
