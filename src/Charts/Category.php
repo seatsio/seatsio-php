@@ -19,7 +19,7 @@ class Category
     /**
      * @var bool
      */
-    public $accessible;
+    public $accessible = false;
 
 
     public function setKey($key): self

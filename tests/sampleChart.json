@@ -14,7 +14,13 @@
         "label": "Cat2",
         "color": "#5E42ED",
         "accessible": false,
-        "key": "cat10"
+        "key": 10
+      },
+      {
+        "label": "Cat3",
+        "color": "#5E42BB",
+        "accessible": false,
+        "key": "string11"
       }
     ],
     "maxCategoryKey": 10

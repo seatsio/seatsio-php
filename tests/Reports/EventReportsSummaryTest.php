@@ -129,6 +129,16 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byChannel' => ['NO_CHANNEL' => 116],
                 'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
             ],
+            'string11' => [
+                'count' => 0,
+                'bySection' => [],
+                'byStatus' => [],
+                'byAvailability' => [],
+                'byAvailabilityReason' => [],
+                'bySelectability' => [],
+                'byChannel' => [],
+                'byObjectType' => []
+            ],
             'NO_CATEGORY' => [
                 'count' => 0,
                 'bySection' => [],
@@ -171,6 +181,16 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'bySelectability' => ['selectable' => 116],
                 'byChannel' => ['NO_CHANNEL' => 116],
                 'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
+            ],
+            'Cat3' => [
+                'count' => 0,
+                'bySection' => [],
+                'byStatus' => [],
+                'byAvailability' => [],
+                'byAvailabilityReason' => [],
+                'bySelectability' => [],
+                'byChannel' => [],
+                'byObjectType' => []
             ],
             'NO_CATEGORY' => [
                 'count' => 0,
