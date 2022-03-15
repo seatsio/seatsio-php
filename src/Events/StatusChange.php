@@ -40,4 +40,12 @@ class StatusChange
      * @var StatusChangeOrigin
      */
     public $origin;
+    /**
+     * @var boolean
+     */
+    public $isPresentOnChart;
+    /**
+     * @var string
+     */
+    public $notPresentOnChartReason;
 }
