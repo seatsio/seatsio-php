@@ -95,8 +95,9 @@ class Seasons
 
     /**
      * @param $eventKeys string[]|null
+     * @return \Seatsio\Events\Event[]
      */
-    public function createEvents(string $seasonKey, array $eventKeys = null, int $numberOfEvents = null): Season
+    public function createEvents(string $seasonKey, array $eventKeys = null, int $numberOfEvents = null): array
     {
         $request = new stdClass();
 
@@ -111,7 +112,7 @@ class Seasons
         $res = $this->client->post(UriTemplate::expand('/seasons/{seasonKey}/actions/create-events', ['seasonKey' => $seasonKey]), ['json' => $request]);
         $json = \GuzzleHttp\json_decode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
-        return $mapper->map($json, new Season());
+        return $mapper->mapArray($json->events, array(), 'Seatsio\Events\Event');
     }
 
     public function removeEventFromPartialSeason(string $topLevelSeasonKey, string $partialSeasonKey, string $eventKey): Season
