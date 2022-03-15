@@ -303,6 +303,9 @@ Passing in 0 disables exponential backoff completely. In that case, the client w
 
 ## Upgrading
 
+### v79 -> v80
+- `$seatsioClient->seasons->createEvents()` returns an array of Event objects now, instead of the Season object
+
 ### v76 -> v77
 
 - Renamed `$seatsioClient->events->retrieveObjectStatus()` to `$seatsioClient->events->retrieveObjectInfo()`
