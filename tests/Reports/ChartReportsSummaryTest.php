@@ -95,6 +95,11 @@ class ChartReportsSummaryTest extends SeatsioClientTest
                 'bySection' => ['NO_SECTION' => 116],
                 'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
             ],
+            'string11' => [
+                'count' => 0,
+                'bySection' => [],
+                'byObjectType' => []
+            ],
             'NO_CATEGORY' => [
                 'count' => 0,
                 'bySection' => [],
@@ -120,6 +125,11 @@ class ChartReportsSummaryTest extends SeatsioClientTest
                 'count' => 116,
                 'bySection' => ['NO_SECTION' => 116],
                 'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
+            ],
+            'Cat3' => [
+                'count' => 0,
+                'bySection' => [],
+                'byObjectType' => []
             ],
             'NO_CATEGORY' => [
                 'count' => 0,

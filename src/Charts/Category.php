@@ -4,31 +4,21 @@ namespace Seatsio\Charts;
 
 class Category
 {
-
     /**
-     * @param $key int|string
+     * @var string
      */
-    public function setKey($key): self
-    {
-        $this->key = $key;
-        return $this;
-    }
+    public $key;
+    /**
+     * @var string
+     */
+    public $label;
+    /**
+     * @var string
+     */
+    public $color;
+    /**
+     * @var bool
+     */
+    public $accessible;
 
-    public function setLabel(string $label): self
-    {
-        $this->label = $label;
-        return $this;
-    }
-
-    public function setColor(string $color): self
-    {
-        $this->color = $color;
-        return $this;
-    }
-
-    public function setAccessible(bool $accessible): self
-    {
-        $this->accessible = $accessible;
-        return $this;
-    }
 }

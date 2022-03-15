@@ -79,7 +79,14 @@ class Event
      */
     public $objectCategories;
 
-    public function isSeason() {
+    /**
+     * @var \Seatsio\Charts\Category[]
+     */
+    public $categories;
+
+    public function isSeason()
+    {
         return false;
     }
+
 }
