@@ -60,6 +60,21 @@ class Charts
         $this->client->post('/charts/' . $key, ['json' => $request]);
     }
 
+    public function addCategory(string $key, CategoryRequestBuilder $category): void
+    {
+        $this->client->post('/charts/' . $key . '/categories', ['json' => $category]);
+    }
+
+    /**
+     * @param string $key
+     * @param $categoryKey string|int
+     * @return void
+     */
+    public function removeCategory(string $key, $categoryKey): void
+    {
+        $this->client->delete('/charts/' . $key . '/categories/' . $categoryKey);
+    }
+
     public function retrieve(string $key): Chart
     {
         $res = $this->client->get('/charts/' . $key);
