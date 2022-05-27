@@ -2,8 +2,10 @@
 
 namespace Seatsio\Charts;
 
+use Seatsio\Events\Event;
 use Seatsio\Events\EventObjectInfo;
 use Seatsio\Events\ObjectProperties;
+use Seatsio\Events\StatusChangeRequest;
 use Seatsio\Events\TableBookingConfig;
 use Seatsio\SeatsioClientTest;
 use function Functional\map;
@@ -15,9 +17,12 @@ class ListStatusChangesTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
-        $this->seatsioClient->events->book($event->key, "A-1");
-        $this->seatsioClient->events->book($event->key, "A-2");
-        $this->seatsioClient->events->book($event->key, "A-3");
+        $this->seatsioClient->events->changeObjectStatusInBatch([
+            new StatusChangeRequest($event->key, 'A-1', EventObjectInfo::$BOOKED),
+            new StatusChangeRequest($event->key, 'A-2', EventObjectInfo::$BOOKED),
+            new StatusChangeRequest($event->key, 'A-3', EventObjectInfo::$BOOKED)
+        ]);
+        $this->waitForStatusChanges($event);
 
         $statusChanges = $this->seatsioClient->events->statusChanges($event->key)->all();
         $objectIds = map($statusChanges, function ($statusChange) {
@@ -33,6 +38,7 @@ class ListStatusChangesTest extends SeatsioClientTest
         $event = $this->seatsioClient->events->create($chartKey);
         $object = (new ObjectProperties("A-1"))->setExtraData(["foo" => "bar"]);
         $this->seatsioClient->events->book($event->key, $object, null, "orderId");
+        $this->waitForStatusChanges($event);
 
         $statusChanges = $this->seatsioClient->events->statusChanges($event->key)->all();
         $statusChange = $statusChanges->current();
@@ -56,6 +62,7 @@ class ListStatusChangesTest extends SeatsioClientTest
         $event = $this->seatsioClient->events->create($chartKey, null, TableBookingConfig::allByTable());
         $this->seatsioClient->events->book($event->key, "T1");
         $this->seatsioClient->events->update($event->key, null, null, TableBookingConfig::allBySeat());
+        $this->waitForStatusChanges($event);
 
         $statusChanges = $this->seatsioClient->events->statusChanges($event->key)->all();
         $statusChange = $statusChanges->current();
@@ -68,10 +75,13 @@ class ListStatusChangesTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
-        $this->seatsioClient->events->book($event->key, "A-1");
-        $this->seatsioClient->events->book($event->key, "A-2");
-        $this->seatsioClient->events->book($event->key, "B-1");
-        $this->seatsioClient->events->book($event->key, "A-3");
+        $this->seatsioClient->events->changeObjectStatusInBatch([
+            new StatusChangeRequest($event->key, 'A-1', EventObjectInfo::$BOOKED),
+            new StatusChangeRequest($event->key, 'A-2', EventObjectInfo::$BOOKED),
+            new StatusChangeRequest($event->key, 'B-1', EventObjectInfo::$BOOKED),
+            new StatusChangeRequest($event->key, 'A-3', EventObjectInfo::$BOOKED)
+        ]);
+        $this->waitForStatusChanges($event);
 
         $statusChanges = $this->seatsioClient->events->statusChanges($event->key, "A-")->all();
         $objectIds = map($statusChanges, function ($statusChange) {
@@ -85,10 +95,13 @@ class ListStatusChangesTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
-        $this->seatsioClient->events->book($event->key, "A-1");
-        $this->seatsioClient->events->book($event->key, "A-2");
-        $this->seatsioClient->events->book($event->key, "B-1");
-        $this->seatsioClient->events->book($event->key, "A-3");
+        $this->seatsioClient->events->changeObjectStatusInBatch([
+            new StatusChangeRequest($event->key, 'A-1', EventObjectInfo::$BOOKED),
+            new StatusChangeRequest($event->key, 'A-2', EventObjectInfo::$BOOKED),
+            new StatusChangeRequest($event->key, 'B-1', EventObjectInfo::$BOOKED),
+            new StatusChangeRequest($event->key, 'A-3', EventObjectInfo::$BOOKED)
+        ]);
+        $this->waitForStatusChanges($event);
 
         $statusChanges = $this->seatsioClient->events->statusChanges($event->key, null, "objectLabel")->all();
         $objectIds = map($statusChanges, function ($statusChange) {
@@ -102,10 +115,13 @@ class ListStatusChangesTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
-        $this->seatsioClient->events->book($event->key, "A-1");
-        $this->seatsioClient->events->book($event->key, "A-2");
-        $this->seatsioClient->events->book($event->key, "B-1");
-        $this->seatsioClient->events->book($event->key, "A-3");
+        $this->seatsioClient->events->changeObjectStatusInBatch([
+            new StatusChangeRequest($event->key, 'A-1', EventObjectInfo::$BOOKED),
+            new StatusChangeRequest($event->key, 'A-2', EventObjectInfo::$BOOKED),
+            new StatusChangeRequest($event->key, 'B-1', EventObjectInfo::$BOOKED),
+            new StatusChangeRequest($event->key, 'A-3', EventObjectInfo::$BOOKED)
+        ]);
+        $this->waitForStatusChanges($event);
 
         $statusChangeLister = $this->seatsioClient->events->statusChanges($event->key, null, "objectLabel");
         $allStatusChanges = iterator_to_array($statusChangeLister->all(), false);
@@ -122,10 +138,13 @@ class ListStatusChangesTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
-        $this->seatsioClient->events->book($event->key, "A-1");
-        $this->seatsioClient->events->book($event->key, "A-2");
-        $this->seatsioClient->events->book($event->key, "B-1");
-        $this->seatsioClient->events->book($event->key, "A-3");
+        $this->seatsioClient->events->changeObjectStatusInBatch([
+            new StatusChangeRequest($event->key, 'A-1', EventObjectInfo::$BOOKED),
+            new StatusChangeRequest($event->key, 'A-2', EventObjectInfo::$BOOKED),
+            new StatusChangeRequest($event->key, 'B-1', EventObjectInfo::$BOOKED),
+            new StatusChangeRequest($event->key, 'A-3', EventObjectInfo::$BOOKED)
+        ]);
+        $this->waitForStatusChanges($event);
 
         $statusChangeLister = $this->seatsioClient->events->statusChanges($event->key, null, "objectLabel");
         $allStatusChanges = iterator_to_array($statusChangeLister->all(), false);
@@ -142,10 +161,13 @@ class ListStatusChangesTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
-        $this->seatsioClient->events->book($event->key, "A-1");
-        $this->seatsioClient->events->book($event->key, "A-2");
-        $this->seatsioClient->events->book($event->key, "B-1");
-        $this->seatsioClient->events->book($event->key, "A-3");
+        $this->seatsioClient->events->changeObjectStatusInBatch([
+            new StatusChangeRequest($event->key, 'A-1', EventObjectInfo::$BOOKED),
+            new StatusChangeRequest($event->key, 'A-2', EventObjectInfo::$BOOKED),
+            new StatusChangeRequest($event->key, 'B-1', EventObjectInfo::$BOOKED),
+            new StatusChangeRequest($event->key, 'A-3', EventObjectInfo::$BOOKED)
+        ]);
+        $this->waitForStatusChanges($event);
 
         $statusChanges = $this->seatsioClient->events->statusChanges($event->key, null, "objectLabel", "DESC")->all();
         $objectIds = map($statusChanges, function ($statusChange) {
