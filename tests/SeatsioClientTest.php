@@ -4,6 +4,8 @@ namespace Seatsio;
 
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
+use Seatsio\Charts\ListStatusChangesTest;
+use Seatsio\Events\Event;
 use Seatsio\Subaccounts\Subaccount;
 
 class SeatsioClientTest extends TestCase
@@ -108,5 +110,22 @@ class SeatsioClientTest extends TestCase
     {
         sort($array);
         return $array;
+    }
+
+    protected function waitForStatusChanges(Event $event)
+    {
+        $start = time();
+        while (true) {
+            $page = $this->seatsioClient->events->statusChanges($event->key)->firstPage();
+            if (empty($page->items)) {
+                if (time() - $start > 10) {
+                    throw new \Exception("No status changes for event " . $event->key);
+                } else {
+                    sleep(1);
+                }
+            } else {
+                return;
+            }
+        }
     }
 }
