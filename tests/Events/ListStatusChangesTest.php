@@ -22,7 +22,7 @@ class ListStatusChangesTest extends SeatsioClientTest
             new StatusChangeRequest($event->key, 'A-2', EventObjectInfo::$BOOKED),
             new StatusChangeRequest($event->key, 'A-3', EventObjectInfo::$BOOKED)
         ]);
-        $this->waitForStatusChanges($event);
+        $this->waitForStatusChanges($event, 3);
 
         $statusChanges = $this->seatsioClient->events->statusChanges($event->key)->all();
         $objectIds = map($statusChanges, function ($statusChange) {
@@ -38,7 +38,7 @@ class ListStatusChangesTest extends SeatsioClientTest
         $event = $this->seatsioClient->events->create($chartKey);
         $object = (new ObjectProperties("A-1"))->setExtraData(["foo" => "bar"]);
         $this->seatsioClient->events->book($event->key, $object, null, "orderId");
-        $this->waitForStatusChanges($event);
+        $this->waitForStatusChanges($event, 1);
 
         $statusChanges = $this->seatsioClient->events->statusChanges($event->key)->all();
         $statusChange = $statusChanges->current();
@@ -62,7 +62,7 @@ class ListStatusChangesTest extends SeatsioClientTest
         $event = $this->seatsioClient->events->create($chartKey, null, TableBookingConfig::allByTable());
         $this->seatsioClient->events->book($event->key, "T1");
         $this->seatsioClient->events->update($event->key, null, null, TableBookingConfig::allBySeat());
-        $this->waitForStatusChanges($event);
+        $this->waitForStatusChanges($event, 1);
 
         $statusChanges = $this->seatsioClient->events->statusChanges($event->key)->all();
         $statusChange = $statusChanges->current();
@@ -81,7 +81,7 @@ class ListStatusChangesTest extends SeatsioClientTest
             new StatusChangeRequest($event->key, 'B-1', EventObjectInfo::$BOOKED),
             new StatusChangeRequest($event->key, 'A-3', EventObjectInfo::$BOOKED)
         ]);
-        $this->waitForStatusChanges($event);
+        $this->waitForStatusChanges($event, 4);
 
         $statusChanges = $this->seatsioClient->events->statusChanges($event->key, "A-")->all();
         $objectIds = map($statusChanges, function ($statusChange) {
@@ -101,7 +101,7 @@ class ListStatusChangesTest extends SeatsioClientTest
             new StatusChangeRequest($event->key, 'B-1', EventObjectInfo::$BOOKED),
             new StatusChangeRequest($event->key, 'A-3', EventObjectInfo::$BOOKED)
         ]);
-        $this->waitForStatusChanges($event);
+        $this->waitForStatusChanges($event, 4);
 
         $statusChanges = $this->seatsioClient->events->statusChanges($event->key, null, "objectLabel")->all();
         $objectIds = map($statusChanges, function ($statusChange) {
@@ -121,7 +121,7 @@ class ListStatusChangesTest extends SeatsioClientTest
             new StatusChangeRequest($event->key, 'B-1', EventObjectInfo::$BOOKED),
             new StatusChangeRequest($event->key, 'A-3', EventObjectInfo::$BOOKED)
         ]);
-        $this->waitForStatusChanges($event);
+        $this->waitForStatusChanges($event, 4);
 
         $statusChangeLister = $this->seatsioClient->events->statusChanges($event->key, null, "objectLabel");
         $allStatusChanges = iterator_to_array($statusChangeLister->all(), false);
@@ -144,7 +144,7 @@ class ListStatusChangesTest extends SeatsioClientTest
             new StatusChangeRequest($event->key, 'B-1', EventObjectInfo::$BOOKED),
             new StatusChangeRequest($event->key, 'A-3', EventObjectInfo::$BOOKED)
         ]);
-        $this->waitForStatusChanges($event);
+        $this->waitForStatusChanges($event, 4);
 
         $statusChangeLister = $this->seatsioClient->events->statusChanges($event->key, null, "objectLabel");
         $allStatusChanges = iterator_to_array($statusChangeLister->all(), false);
@@ -167,7 +167,7 @@ class ListStatusChangesTest extends SeatsioClientTest
             new StatusChangeRequest($event->key, 'B-1', EventObjectInfo::$BOOKED),
             new StatusChangeRequest($event->key, 'A-3', EventObjectInfo::$BOOKED)
         ]);
-        $this->waitForStatusChanges($event);
+        $this->waitForStatusChanges($event, 4);
 
         $statusChanges = $this->seatsioClient->events->statusChanges($event->key, null, "objectLabel", "DESC")->all();
         $objectIds = map($statusChanges, function ($statusChange) {

@@ -112,12 +112,12 @@ class SeatsioClientTest extends TestCase
         return $array;
     }
 
-    protected function waitForStatusChanges(Event $event)
+    protected function waitForStatusChanges(Event $event, $numStatusChanges)
     {
         $start = time();
         while (true) {
             $page = $this->seatsioClient->events->statusChanges($event->key)->firstPage();
-            if (empty($page->items)) {
+            if (count($page->items) != $numStatusChanges) {
                 if (time() - $start > 10) {
                     throw new \Exception("No status changes for event " . $event->key);
                 } else {

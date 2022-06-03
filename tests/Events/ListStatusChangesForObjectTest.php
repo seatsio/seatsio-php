@@ -19,7 +19,7 @@ class ListStatusChangesForObjectTest extends SeatsioClientTest
             new StatusChangeRequest($event->key, 'A-2', 's4'),
             new StatusChangeRequest($event->key, 'A-1', 's3')
         ]);
-        $this->waitForStatusChanges($event);
+        $this->waitForStatusChanges($event, 4);
 
         $statusChanges = $this->seatsioClient->events->statusChangesForObject($event->key, "A-1")->all();
         $statuses = map($statusChanges, function ($statusChange) {
