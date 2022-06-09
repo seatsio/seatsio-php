@@ -12,7 +12,7 @@ class SetChannelsTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
 
-        $this->seatsioClient->events->updateChannels($event->key, [
+        $this->seatsioClient->events->channels->replace($event->key, [
             "channelKey1" => new Channel("channel 1", "#FF0000", 1),
             "channelKey2" => new Channel("channel 2", "#00FFFF", 2)
         ]);
