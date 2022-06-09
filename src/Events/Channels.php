@@ -20,6 +20,8 @@ class Channels
 
 
     /**
+     * Add a channel
+     *
      * @param string $eventKey
      * @param string $channelKey
      * @param string $name
@@ -44,17 +46,49 @@ class Channels
         $this->client->post(UriTemplate::expand('/events/{key}/channels', array("key" => $eventKey)), ['json' => $request]);
     }
 
+    /**
+     * remove a channel by channel key
+     *
+     * @param string $eventKey
+     * @param string $channelKey
+     * @return void
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function remove(string $eventKey, string $channelKey)
     {
         $this->client->delete(UriTemplate::expand('/events/{eventKey}/channels/{channelKey}', array("eventKey" => $eventKey, "channelKey" => $channelKey)));
     }
 
-    public function update()
+    /**
+     * update the name, color or objects of a channel
+     *
+     * @param string $eventKey
+     * @param string $channelKey
+     * @param string|null $name
+     * @param string|null $color
+     * @param array|null $objects
+     * @return void
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function update(string $eventKey, string $channelKey, string $name = null, string $color = null, array $objects = null)
     {
-
+        $request = new stdClass();
+        if ($name !== null) {
+            $request->name = $name;
+        }
+        if ($color !== null) {
+            $request->color = $color;
+        }
+        if ($objects !== null) {
+            $request->objects = $objects;
+        }
+        $this->client->post(UriTemplate::expand('/events/{eventKey}/channels/{channelKey}', array("eventKey" => $eventKey, "channelKey" => $channelKey)),
+            ['json' => $request]);
     }
 
     /**
+     * add objects to a channel.
+     *
      * @param string $eventKey
      * @param string $channelKey
      * @param array $objects
@@ -71,6 +105,15 @@ class Channels
         ), ['json' => $request]);
     }
 
+    /**
+     * Remove objects from a channel
+     *
+     * @param string $eventKey
+     * @param string $channelKey
+     * @param array $objects
+     * @return void
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function removeObjects(string $eventKey, string $channelKey, array $objects)
     {
         $request = new stdClass();
@@ -81,6 +124,14 @@ class Channels
         ), ['json' => $request]);
     }
 
+    /**
+     * Replace one channel completely with a new channel
+     *
+     * @param string $eventKey
+     * @param array $channels
+     * @return void
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function replace(string $eventKey, array $channels): void
     {
         $request = new stdClass();
@@ -88,6 +139,14 @@ class Channels
         $this->client->post(UriTemplate::expand('/events/{key}/channels/update', array("key" => $eventKey)), ['json' => $request]);
     }
 
+    /**
+     * Replace the list of current object labels on a channel with a new list of object labels.
+     *
+     * @param string $eventKey
+     * @param array $channelConfig
+     * @return void
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function setObjects(string $eventKey, array $channelConfig): void
     {
         $request = new stdClass();
