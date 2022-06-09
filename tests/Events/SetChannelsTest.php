@@ -4,7 +4,7 @@ namespace Seatsio\Events;
 
 use Seatsio\SeatsioClientTest;
 
-class UpdateChannelsTest extends SeatsioClientTest
+class SetChannelsTest extends SeatsioClientTest
 {
 
     public function test()
