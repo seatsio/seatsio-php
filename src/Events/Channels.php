@@ -18,6 +18,22 @@ class Channels
         $this->client = $client;
     }
 
+
+    public function add(string $eventKey, string $channelKey, string $name, string $color, int $index = null, array $objects = null)
+    {
+        $request = new stdClass();
+        $request->key = $channelKey;
+        $request->name = $name;
+        $request->color = $color;
+        if ($index !== null) {
+            $request->index = $index;
+        }
+        if ($objects !== null) {
+            $request->objects = $objects;
+        }
+        $this->client->post(UriTemplate::expand('/events/{key}/channels', array("key" => $eventKey)), ['json' => $request]);
+    }
+
     public function replace(string $eventKey, array $channels): void
     {
         $request = new stdClass();
