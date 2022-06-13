@@ -3,15 +3,15 @@
 namespace Seatsio\Events;
 
 use Seatsio\SeatsioClientTest;
+use Seatsio\SeatsioException;
 
 class DeleteEventTest extends SeatsioClientTest
 {
 
-    /**
-     * @expectedException \Seatsio\SeatsioException
-     */
     public function test()
     {
+        $this->expectException(SeatsioException::class);
+
         $chart = $this->seatsioClient->charts->create();
         $event = $this->seatsioClient->events->create($chart->key);
 

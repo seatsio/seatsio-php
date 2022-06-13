@@ -46,7 +46,7 @@ class ListAllSubaccountsTest extends SeatsioClientTest
         $subaccounts = $this->seatsioClient->subaccounts->listAll((new SubaccountListParams())->withFilter('test-/@/4'));
         $retrievedSubaccountIds = map($subaccounts, function($subaccount) { return $subaccount->id; });
 
-        self::assertEquals($createdSubaccountIds, $retrievedSubaccountIds, "", 0.0, 10, true);
+        self::assertEquals(array_reverse($createdSubaccountIds), array_values($retrievedSubaccountIds));
     }
 
     public function testWithFilterNoResult()
@@ -85,7 +85,7 @@ class ListAllSubaccountsTest extends SeatsioClientTest
         $subaccounts = $this->seatsioClient->subaccounts->listPageAfter($subaccount3->id, null, (new SubaccountListParams())->withFilter('test-/@/1'));
         $subaccountIds = map($subaccounts->items, function($subaccount) { return $subaccount->id; });
 
-        self::assertEquals([$subaccount1->id, $subaccount2->id], $subaccountIds, "", 0.0, 10, true);
+        self::assertEquals([$subaccount2->id, $subaccount1->id], $subaccountIds);
         self::assertEmpty($subaccounts->nextPageStartsAfter);
         self::assertEquals($subaccount2->id, $subaccounts->previousPageEndsBefore);
     }
@@ -104,7 +104,7 @@ class ListAllSubaccountsTest extends SeatsioClientTest
         $subaccounts = $this->seatsioClient->subaccounts->listPageBefore($subaccount1->id, null, (new SubaccountListParams())->withFilter('test-/@/1'));
         $subaccountIds = map($subaccounts->items, function($subaccount) { return $subaccount->id; });
 
-        self::assertEquals([$subaccount3->id, $subaccount2->id], $subaccountIds, "", 0.0, 10, true);
+        self::assertEquals([$subaccount3->id, $subaccount2->id], $subaccountIds);
         self::assertEmpty($subaccounts->previousPageEndsBefore);
         self::assertEquals($subaccount2->id, $subaccounts->nextPageStartsAfter);
     }

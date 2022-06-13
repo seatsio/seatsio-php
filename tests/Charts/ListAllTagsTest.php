@@ -15,7 +15,7 @@ class ListAllTagsTest extends SeatsioClientTest
         $chart2 = $this->seatsioClient->charts->create();
         $this->seatsioClient->charts->addTag($chart2->key, 'tag2');
 
-        self::assertEquals(['tag2', 'tag1'], $this->seatsioClient->charts->listAllTags(), '', 0.0, 10, true);
+        self::assertEquals(['tag1', 'tag2'], $this->seatsioClient->charts->listAllTags());
     }
 
 }
