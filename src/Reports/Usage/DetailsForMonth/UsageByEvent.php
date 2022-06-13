@@ -25,20 +25,5 @@ class UsageByEvent
     /**
      * @var int
      */
-    public $numFirstBookingsOrSelections;
-
-    /**
-     * @var int
-     */
-    public $numGASelectionsWithoutBooking;
-
-    /**
-     * @var int
-     */
-    public $numNonGASelectionsWithoutBooking;
-
-    /**
-     * @var int
-     */
     public $numObjectSelections;
 }

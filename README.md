@@ -303,6 +303,10 @@ Passing in 0 disables exponential backoff completely. In that case, the client w
 
 ## Upgrading
 
+### v81 -> v82
+- removed fields from usage report by month: `$numFirstBookingsOrSelections`, `$numGASelectionsWithoutBooking`, `$numNonGASelectionsWithoutBooking`. Instead
+of `$numFirstBookingsOrSelections`, use `$numUsedObjects`.
+
 ### v80 -> v81
 - oldest supported PHP version is now PHP 7.4
 
