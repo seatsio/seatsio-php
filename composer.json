@@ -17,8 +17,5 @@
     "psr-4": {
       "Seatsio\\": "src/"
     }
-  },
-  "config": {
-    "lock": false
   }
 }
