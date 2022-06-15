@@ -17,10 +17,10 @@ class EventReportsTest extends SeatsioClientTest
         $event = $this->seatsioClient->events->create($chartKey);
         $extraData = ["foo" => "bar"];
         $this->seatsioClient->events->book($event->key, (new ObjectProperties("A-1"))->setTicketType("ticketType1")->setExtraData($extraData), null, "order1");
-        $this->seatsioClient->events->updateChannels($event->key, [
+        $this->seatsioClient->events->channels->replace($event->key, [
             "channel1" => new Channel("channel 1", "#FF0000", 1)
         ]);
-        $this->seatsioClient->events->assignObjectsToChannels($event->key, ["channel1" => ["A-1"]]);
+        $this->seatsioClient->events->channels->setObjects($event->key, ["channel1" => ["A-1"]]);
 
         $report = $this->seatsioClient->eventReports->byLabel($event->key);
 
@@ -299,10 +299,10 @@ class EventReportsTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
-        $this->seatsioClient->events->updateChannels($event->key, [
+        $this->seatsioClient->events->channels->replace($event->key, [
             "channel1" => new Channel("channel 1", "#FF0000", 1)
         ]);
-        $this->seatsioClient->events->assignObjectsToChannels($event->key, ["channel1" => ["A-1", "A-2"]]);
+        $this->seatsioClient->events->channels->setObjects($event->key, ["channel1" => ["A-1", "A-2"]]);
 
         $report = $this->seatsioClient->eventReports->byChannel($event->key);
 
@@ -314,10 +314,10 @@ class EventReportsTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
-        $this->seatsioClient->events->updateChannels($event->key, [
+        $this->seatsioClient->events->channels->replace($event->key, [
             "channel1" => new Channel("channel 1", "#FF0000", 1)
         ]);
-        $this->seatsioClient->events->assignObjectsToChannels($event->key, ["channel1" => ["A-1", "A-2"]]);
+        $this->seatsioClient->events->channels->setObjects($event->key, ["channel1" => ["A-1", "A-2"]]);
 
         $report = $this->seatsioClient->eventReports->byChannel($event->key, 'channel1');
 

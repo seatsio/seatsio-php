@@ -19,9 +19,15 @@ class Events
      */
     private $client;
 
+    /**
+     * @var Channels
+     */
+    public $channels;
+
     public function __construct(Client $client)
     {
         $this->client = $client;
+        $this->channels = new Channels($client);
     }
 
     public function create(string $chartKey, string $eventKey = null, TableBookingConfig $tableBookingConfig = null, string $socialDistancingRulesetKey = null, array $objectCategories = null): Event
@@ -176,20 +182,6 @@ class Events
         return new StatusChangeLister(new PageFetcher(UriTemplate::expand('/events/{key}/objects/{objectId}/status-changes', array("key" => $eventKey, "objectId" => $objectId)), $this->client, function () {
             return new StatusChangePage();
         }));
-    }
-
-    public function updateChannels(string $eventKey, array $channels): void
-    {
-        $request = new stdClass();
-        $request->channels = $channels;
-        $this->client->post(UriTemplate::expand('/events/{key}/channels/update', array("key" => $eventKey)), ['json' => $request]);
-    }
-
-    public function assignObjectsToChannels(string $eventKey, array $channelConfig): void
-    {
-        $request = new stdClass();
-        $request->channelConfig = $channelConfig;
-        $this->client->post(UriTemplate::expand('/events/{key}/channels/assign-objects', array("key" => $eventKey)), ['json' => $request]);
     }
 
     public function markAsForSale(string $eventKey, array $objects = null, array $categories = null): void
