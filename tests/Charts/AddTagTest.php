@@ -14,7 +14,7 @@ class AddTagTest extends SeatsioClientTest
         $this->seatsioClient->charts->addTag($chart->key, 'tag1');
 
         $retrievedChart = $this->seatsioClient->charts->retrieve($chart->key);
-        self::assertEquals(['tag1'], $retrievedChart->tags, '', 0.0, 10, true);
+        self::assertEquals(['tag1'], $retrievedChart->tags);
     }
 
     public function testSpecialCharacters()
@@ -24,7 +24,7 @@ class AddTagTest extends SeatsioClientTest
         $this->seatsioClient->charts->addTag($chart->key, 'tag1/:"-<>');
 
         $retrievedChart = $this->seatsioClient->charts->retrieve($chart->key);
-        self::assertEquals(['tag1/:"-<>'], $retrievedChart->tags, '', 0.0, 10, true);
+        self::assertEquals(['tag1/:"-<>'], $retrievedChart->tags);
     }
 
 }

@@ -3,7 +3,6 @@
 /composer.phar
 *.iml
 .DS_store
-composer.lock
 /bin/
 /.phpunit.result.cache
 /out

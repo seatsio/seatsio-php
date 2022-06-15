@@ -16,7 +16,7 @@ class RemoveTagTest extends SeatsioClientTest
         $this->seatsioClient->charts->removeTag($chart->key, 'tag1');
 
         $retrievedChart = $this->seatsioClient->charts->retrieve($chart->key);
-        self::assertEquals(['tag2'], $retrievedChart->tags, '', 0.0, 10, true);
+        self::assertEquals(['tag2'], $retrievedChart->tags);
     }
 
 }
