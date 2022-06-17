@@ -21,13 +21,16 @@ class ChartReports
         $this->client = $client;
     }
 
+    /**
+     * @return ChartObjectInfo[][]
+     */
     public function byLabel(string $chartKey, string $bookWholeTables = null): array
     {
         return $this->getChartReport('byLabel', $chartKey, $bookWholeTables);
     }
 
     /**
-     * @return ChartObjectInfo[]
+     * @return ChartObjectInfo[][]
      */
     public function byObjectType(string $chartKey, string $bookWholeTables = null): array
     {
@@ -40,7 +43,7 @@ class ChartReports
     }
 
     /**
-     * @return ChartObjectInfo[]
+     * @return ChartObjectInfo[][]
      */
     public function byCategoryKey(string $chartKey, string $bookWholeTables = null): array
     {
@@ -53,7 +56,7 @@ class ChartReports
     }
 
     /**
-     * @return ChartObjectInfo[]
+     * @return ChartObjectInfo[][]
      */
     public function byCategoryLabel(string $chartKey, string $bookWholeTables = null): array
     {
@@ -66,7 +69,7 @@ class ChartReports
     }
 
     /**
-     * @return ChartObjectInfo[]
+     * @return ChartObjectInfo[][]
      */
     public function bySection(string $chartKey, string $bookWholeTables = null): array
     {
@@ -89,7 +92,7 @@ class ChartReports
     }
 
     /**
-     * @return ChartObjectInfo[]
+     * @return ChartObjectInfo[][]
      */
     private function getChartReport(string $reportType, string $chartKey, ?string $bookWholeTables): array
     {
@@ -105,7 +108,7 @@ class ChartReports
     }
 
     /**
-     * @return ChartObjectInfo[]
+     * @return ChartObjectInfo[][]
      */
     private static function mapMultiValuedReport($json): array
     {

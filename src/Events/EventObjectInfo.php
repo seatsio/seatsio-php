@@ -131,5 +131,9 @@ class EventObjectInfo
      * @var object
      */
     public $holds;
+    /**
+     * @var int
+     */
+    public $numSeats;
 
 }

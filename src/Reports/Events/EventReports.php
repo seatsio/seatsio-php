@@ -21,7 +21,7 @@ class EventReports
     }
 
     /**
-     * @return EventObjectInfo[]
+     * @return EventObjectInfo[][]
      */
     public function byStatus(string $eventKey, string $status = null): array
     {
@@ -45,7 +45,7 @@ class EventReports
     }
 
     /**
-     * @return EventObjectInfo[]
+     * @return EventObjectInfo[][]
      */
     public function byObjectType(string $eventKey, string $objectType = null): array
     {
@@ -69,7 +69,7 @@ class EventReports
     }
 
     /**
-     * @return EventObjectInfo[]
+     * @return EventObjectInfo[][]
      */
     public function byCategoryLabel(string $eventKey, string $categoryLabel = null): array
     {
@@ -91,7 +91,7 @@ class EventReports
     }
 
     /**
-     * @return EventObjectInfo[]
+     * @return EventObjectInfo[][]
      */
     public function byCategoryKey(string $eventKey, string $categoryKey = null): array
     {
@@ -113,7 +113,7 @@ class EventReports
     }
 
     /**
-     * @return EventObjectInfo[]
+     * @return EventObjectInfo[][]
      */
     public function byLabel(string $eventKey, string $label = null): array
     {
@@ -123,7 +123,7 @@ class EventReports
     }
 
     /**
-     * @return EventObjectInfo[]
+     * @return EventObjectInfo[][]
      */
     public function byOrderId(string $eventKey, string $orderId = null): array
     {
@@ -133,7 +133,7 @@ class EventReports
     }
 
     /**
-     * @return EventObjectInfo[]
+     * @return EventObjectInfo[][]
      */
     public function bySection(string $eventKey, string $section = null): array
     {
@@ -155,7 +155,7 @@ class EventReports
     }
 
     /**
-     * @return EventObjectInfo[]
+     * @return EventObjectInfo[][]
      */
     public function byChannel(string $eventKey, string $channel = null): array
     {
@@ -177,7 +177,7 @@ class EventReports
     }
 
     /**
-     * @return EventObjectInfo[]
+     * @return EventObjectInfo[][]
      */
     public function byAvailability(string $eventKey, string $selectability = null): array
     {
@@ -187,7 +187,7 @@ class EventReports
     }
 
     /**
-     * @return EventObjectInfo[]
+     * @return EventObjectInfo[][]
      */
     public function byAvailabilityReason(string $eventKey, string $availabilityReason = null): array
     {
@@ -228,7 +228,7 @@ class EventReports
 
     /**
      * @param $json mixed
-     * @return EventObjectInfo[]
+     * @return EventObjectInfo[][]
      */
     private static function mapMultiValuedReport($json, ?string $filter): array
     {

@@ -40,6 +40,17 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertEquals(false, $reportItem->bookAsAWhole);
     }
 
+    public function testReportItemPropertiesForTable()
+    {
+        $chartKey = $this->createTestChartWithTables();
+
+        $report = $this->seatsioClient->chartReports->byLabel($chartKey, "true");
+
+        $reportItem = $report["T1"][0];
+        self::assertEquals(false, $reportItem->bookAsAWhole);
+        self::assertEquals(6, $reportItem->numSeats);
+    }
+
     public function testByLabel()
     {
         $chartKey = $this->createTestChart();

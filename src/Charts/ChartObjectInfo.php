@@ -56,4 +56,8 @@ class ChartObjectInfo
      * @var float
      */
     public $distanceToFocalPoint;
+    /**
+     * @var int
+     */
+    public $numSeats;
 }

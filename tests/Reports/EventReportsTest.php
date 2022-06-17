@@ -6,6 +6,7 @@ use Seatsio\Common\IDs;
 use Seatsio\Events\Channel;
 use Seatsio\Events\EventObjectInfo;
 use Seatsio\Events\ObjectProperties;
+use Seatsio\Events\TableBookingConfig;
 use Seatsio\SeatsioClientTest;
 
 class EventReportsTest extends SeatsioClientTest
@@ -85,6 +86,18 @@ class EventReportsTest extends SeatsioClientTest
         self::assertNull($reportItem->hasRestrictedView);
         self::assertNull($reportItem->isCompanionSeat);
         self::assertNull($reportItem->displayedObjectType);
+    }
+
+    public function testReportItemPropertiesForTable()
+    {
+        $chartKey = $this->createTestChartWithTables();
+        $event = $this->seatsioClient->events->create($chartKey, null, TableBookingConfig::allByTable());
+
+        $report = $this->seatsioClient->eventReports->byLabel($event->key);
+
+        $reportItem = $report["T1"][0];
+        self::assertEquals(false, $reportItem->bookAsAWhole);
+        self::assertEquals(6, $reportItem->numSeats);
     }
 
     public function testByStatus()
