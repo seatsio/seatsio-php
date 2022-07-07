@@ -3,6 +3,7 @@
 namespace Seatsio;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Utils;
 
 class PageFetcher
 {
@@ -45,7 +46,7 @@ class PageFetcher
         }
         $mergedQueryParams = $this->queryParams ? array_merge($queryParams, $this->queryParams) : $queryParams;
         $res = $this->client->get($this->url, ['query' => $mergedQueryParams]);
-        $json = \GuzzleHttp\json_decode($res->getBody());
+        $json = Utils::jsonDecode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, $this->pageCreator->__invoke());
     }

@@ -3,6 +3,7 @@
 namespace Seatsio\HoldTokens;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Utils;
 use Seatsio\SeatsioJsonMapper;
 use stdClass;
 
@@ -26,7 +27,7 @@ class HoldTokens
             $request->expiresInMinutes = $expiresInMinutes;
         }
         $res = $this->client->post('/hold-tokens', ['json' => $request]);
-        $json = \GuzzleHttp\json_decode($res->getBody());
+        $json = Utils::jsonDecode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new HoldToken());
     }
@@ -36,7 +37,7 @@ class HoldTokens
         $request = new stdClass();
         $request->expiresInMinutes = $minutes;
         $res = $this->client->post('/hold-tokens/' . $holdToken, ['json' => $request]);
-        $json = \GuzzleHttp\json_decode($res->getBody());
+        $json = Utils::jsonDecode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new HoldToken());
     }
@@ -44,7 +45,7 @@ class HoldTokens
     public function retrieve(string $holdToken): HoldToken
     {
         $res = $this->client->get('/hold-tokens/' . $holdToken);
-        $json = \GuzzleHttp\json_decode($res->getBody());
+        $json = Utils::jsonDecode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new HoldToken());
     }
