@@ -25,7 +25,8 @@ class PagedIterator implements Iterator
         $this->params = $params;
     }
 
-    public function current(): mixed
+    #[\ReturnTypeWillChange]
+    public function current()
     {
         return $this->getCurrentPage()->items[$this->indexInCurrentPage];
     }
@@ -35,7 +36,8 @@ class PagedIterator implements Iterator
         $this->indexInCurrentPage++;
     }
 
-    public function key(): mixed
+    #[\ReturnTypeWillChange]
+    public function key()
     {
         return $this->current()->id;
     }
