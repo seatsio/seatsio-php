@@ -3,6 +3,7 @@
 namespace Seatsio;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Utils;
 use PHPUnit\Framework\TestCase;
 use Seatsio\Charts\ListStatusChangesTest;
 use Seatsio\Events\Event;
@@ -40,7 +41,7 @@ class SeatsioClientTest extends TestCase
     {
         $client = new Client();
         $res = $client->post(self::$BASE_URL . 'system/public/users/actions/create-test-company');
-        return \GuzzleHttp\json_decode($res->getBody());
+        return Utils::jsonDecode($res->getBody());
     }
 
     protected function randomEmail()

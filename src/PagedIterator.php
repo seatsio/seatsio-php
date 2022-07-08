@@ -25,16 +25,18 @@ class PagedIterator implements Iterator
         $this->params = $params;
     }
 
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->getCurrentPage()->items[$this->indexInCurrentPage];
     }
 
-    public function next()
+    public function next(): void
     {
         $this->indexInCurrentPage++;
     }
 
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->current()->id;

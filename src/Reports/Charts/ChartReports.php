@@ -3,6 +3,7 @@
 namespace Seatsio\Reports\Charts;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Utils;
 use Seatsio\SeatsioJsonMapper;
 use GuzzleHttp\UriTemplate\UriTemplate;
 use Seatsio\Charts\ChartObjectInfo;
@@ -97,14 +98,14 @@ class ChartReports
     private function getChartReport(string $reportType, string $chartKey, ?string $bookWholeTables): array
     {
         $res = $this->client->get(self::reportUrl($reportType, $chartKey), ["query" => ["bookWholeTables" => $bookWholeTables]]);
-        $json = \GuzzleHttp\json_decode($res->getBody());
+        $json = Utils::jsonDecode($res->getBody());
         return $this->mapMultiValuedReport($json);
     }
 
     private function getChartSummaryReport(string $reportType, string $chartKey, ?string $bookWholeTables): array
     {
         $res = $this->client->get(self::summaryReportUrl($reportType, $chartKey), ["query" => ["bookWholeTables" => $bookWholeTables]]);
-        return \GuzzleHttp\json_decode($res->getBody(), true);
+        return Utils::jsonDecode($res->getBody(), true);
     }
 
     /**

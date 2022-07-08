@@ -3,6 +3,7 @@
 namespace Seatsio\Reports\Usage;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Utils;
 use Seatsio\Reports\Usage\DetailsForEventInMonth\UsageForObject;
 use Seatsio\Reports\Usage\DetailsForMonth\UsageDetails;
 use Seatsio\Reports\Usage\SummaryForMonths\Month;
@@ -28,7 +29,7 @@ class UsageReports
     public function summaryForAllMonths(): array
     {
         $res = $this->client->get('/reports/usage');
-        $json = \GuzzleHttp\json_decode($res->getBody());
+        $json = Utils::jsonDecode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->mapArray($json, array(), UsageSummaryForMonth::class);
     }
@@ -39,7 +40,7 @@ class UsageReports
     public function detailsForMonth(Month $month): array
     {
         $res = $this->client->get('/reports/usage/month/' . $month->serialize());
-        $json = \GuzzleHttp\json_decode($res->getBody());
+        $json = Utils::jsonDecode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->mapArray($json, array(), UsageDetails::class);
     }
@@ -50,7 +51,7 @@ class UsageReports
     public function detailsForEventInMonth(int $eventId, Month $month): array
     {
         $res = $this->client->get('/reports/usage/month/' . $month->serialize() . '/event/' . $eventId);
-        $json = \GuzzleHttp\json_decode($res->getBody());
+        $json = Utils::jsonDecode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
         return $mapper->mapArray($json, array(), UsageForObject::class);
     }

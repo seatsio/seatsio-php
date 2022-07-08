@@ -4,6 +4,7 @@ namespace Seatsio\Reports\Events;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\UriTemplate\UriTemplate;
+use GuzzleHttp\Utils;
 use Seatsio\Events\EventObjectInfo;
 use Seatsio\SeatsioJsonMapper;
 
@@ -26,21 +27,21 @@ class EventReports
     public function byStatus(string $eventKey, string $status = null): array
     {
         $res = $this->client->get(self::reportUrl('byStatus', $eventKey, $status));
-        $json = \GuzzleHttp\json_decode($res->getBody());
+        $json = Utils::jsonDecode($res->getBody());
         return $this->mapMultiValuedReport($json, $status);
     }
 
     public function summaryByStatus(string $eventKey): array
     {
         $res = $this->client->get(self::summaryReportUrl('byStatus', $eventKey));
-        $json = \GuzzleHttp\json_decode($res->getBody(), true);
+        $json = Utils::jsonDecode($res->getBody(), true);
         return $json;
     }
 
     public function deepSummaryByStatus(string $eventKey): array
     {
         $res = $this->client->get(self::deepSummaryReportUrl('byStatus', $eventKey));
-        $json = \GuzzleHttp\json_decode($res->getBody(), true);
+        $json = Utils::jsonDecode($res->getBody(), true);
         return $json;
     }
 
@@ -50,21 +51,21 @@ class EventReports
     public function byObjectType(string $eventKey, string $objectType = null): array
     {
         $res = $this->client->get(self::reportUrl('byObjectType', $eventKey, $objectType));
-        $json = \GuzzleHttp\json_decode($res->getBody());
+        $json = Utils::jsonDecode($res->getBody());
         return $this->mapMultiValuedReport($json, $objectType);
     }
 
     public function summaryByObjectType(string $eventKey): array
     {
         $res = $this->client->get(self::summaryReportUrl('byObjectType', $eventKey));
-        $json = \GuzzleHttp\json_decode($res->getBody(), true);
+        $json = Utils::jsonDecode($res->getBody(), true);
         return $json;
     }
 
     public function deepSummaryByObjectType(string $eventKey): array
     {
         $res = $this->client->get(self::deepSummaryReportUrl('byObjectType', $eventKey));
-        $json = \GuzzleHttp\json_decode($res->getBody(), true);
+        $json = Utils::jsonDecode($res->getBody(), true);
         return $json;
     }
 
@@ -74,20 +75,20 @@ class EventReports
     public function byCategoryLabel(string $eventKey, string $categoryLabel = null): array
     {
         $res = $this->client->get(self::reportUrl('byCategoryLabel', $eventKey, $categoryLabel));
-        $json = \GuzzleHttp\json_decode($res->getBody());
+        $json = Utils::jsonDecode($res->getBody());
         return $this->mapMultiValuedReport($json, $categoryLabel);
     }
 
     public function summaryByCategoryLabel(string $eventKey): array
     {
         $res = $this->client->get(self::summaryReportUrl('byCategoryLabel', $eventKey));
-        return \GuzzleHttp\json_decode($res->getBody(), true);
+        return Utils::jsonDecode($res->getBody(), true);
     }
 
     public function deepSummaryByCategoryLabel(string $eventKey): array
     {
         $res = $this->client->get(self::deepSummaryReportUrl('byCategoryLabel', $eventKey));
-        return \GuzzleHttp\json_decode($res->getBody(), true);
+        return Utils::jsonDecode($res->getBody(), true);
     }
 
     /**
@@ -96,20 +97,20 @@ class EventReports
     public function byCategoryKey(string $eventKey, string $categoryKey = null): array
     {
         $res = $this->client->get(self::reportUrl('byCategoryKey', $eventKey, $categoryKey));
-        $json = \GuzzleHttp\json_decode($res->getBody());
+        $json = Utils::jsonDecode($res->getBody());
         return $this->mapMultiValuedReport($json, $categoryKey);
     }
 
     public function summaryByCategoryKey(string $eventKey): array
     {
         $res = $this->client->get(self::summaryReportUrl('byCategoryKey', $eventKey));
-        return \GuzzleHttp\json_decode($res->getBody(), true);
+        return Utils::jsonDecode($res->getBody(), true);
     }
 
     public function deepSummaryByCategoryKey(string $eventKey): array
     {
         $res = $this->client->get(self::deepSummaryReportUrl('byCategoryKey', $eventKey));
-        return \GuzzleHttp\json_decode($res->getBody(), true);
+        return Utils::jsonDecode($res->getBody(), true);
     }
 
     /**
@@ -118,7 +119,7 @@ class EventReports
     public function byLabel(string $eventKey, string $label = null): array
     {
         $res = $this->client->get(self::reportUrl('byLabel', $eventKey, $label));
-        $json = \GuzzleHttp\json_decode($res->getBody());
+        $json = Utils::jsonDecode($res->getBody());
         return $this->mapMultiValuedReport($json, $label);
     }
 
@@ -128,7 +129,7 @@ class EventReports
     public function byOrderId(string $eventKey, string $orderId = null): array
     {
         $res = $this->client->get(self::reportUrl('byOrderId', $eventKey, $orderId));
-        $json = \GuzzleHttp\json_decode($res->getBody());
+        $json = Utils::jsonDecode($res->getBody());
         return $this->mapMultiValuedReport($json, $orderId);
     }
 
@@ -138,20 +139,20 @@ class EventReports
     public function bySection(string $eventKey, string $section = null): array
     {
         $res = $this->client->get(self::reportUrl('bySection', $eventKey, $section));
-        $json = \GuzzleHttp\json_decode($res->getBody());
+        $json = Utils::jsonDecode($res->getBody());
         return $this->mapMultiValuedReport($json, $section);
     }
 
     public function summaryBySection(string $eventKey): array
     {
         $res = $this->client->get(self::summaryReportUrl('bySection', $eventKey));
-        return \GuzzleHttp\json_decode($res->getBody(), true);
+        return Utils::jsonDecode($res->getBody(), true);
     }
 
     public function deepSummaryBySection(string $eventKey): array
     {
         $res = $this->client->get(self::deepSummaryReportUrl('bySection', $eventKey));
-        return \GuzzleHttp\json_decode($res->getBody(), true);
+        return Utils::jsonDecode($res->getBody(), true);
     }
 
     /**
@@ -160,20 +161,20 @@ class EventReports
     public function byChannel(string $eventKey, string $channel = null): array
     {
         $res = $this->client->get(self::reportUrl('byChannel', $eventKey, $channel));
-        $json = \GuzzleHttp\json_decode($res->getBody());
+        $json = Utils::jsonDecode($res->getBody());
         return $this->mapMultiValuedReport($json, $channel);
     }
 
     public function summaryByChannel(string $eventKey): array
     {
         $res = $this->client->get(self::summaryReportUrl('byChannel', $eventKey));
-        return \GuzzleHttp\json_decode($res->getBody(), true);
+        return Utils::jsonDecode($res->getBody(), true);
     }
 
     public function deepSummaryByChannel(string $eventKey): array
     {
         $res = $this->client->get(self::deepSummaryReportUrl('byChannel', $eventKey));
-        return \GuzzleHttp\json_decode($res->getBody(), true);
+        return Utils::jsonDecode($res->getBody(), true);
     }
 
     /**
@@ -182,7 +183,7 @@ class EventReports
     public function byAvailability(string $eventKey, string $selectability = null): array
     {
         $res = $this->client->get(self::reportUrl('byAvailability', $eventKey, $selectability));
-        $json = \GuzzleHttp\json_decode($res->getBody());
+        $json = Utils::jsonDecode($res->getBody());
         return $this->mapMultiValuedReport($json, $selectability);
     }
 
@@ -192,7 +193,7 @@ class EventReports
     public function byAvailabilityReason(string $eventKey, string $availabilityReason = null): array
     {
         $res = $this->client->get(self::reportUrl('byAvailabilityReason', $eventKey, $availabilityReason));
-        $json = \GuzzleHttp\json_decode($res->getBody());
+        $json = Utils::jsonDecode($res->getBody());
         return $this->mapMultiValuedReport($json, $availabilityReason);
     }
 
@@ -202,7 +203,7 @@ class EventReports
     public function summaryByAvailability(string $eventKey): array
     {
         $res = $this->client->get(self::summaryReportUrl('byAvailability', $eventKey));
-        return \GuzzleHttp\json_decode($res->getBody(), true);
+        return Utils::jsonDecode($res->getBody(), true);
     }
 
     /**
@@ -211,19 +212,19 @@ class EventReports
     public function summaryByAvailabilityReason(string $eventKey): array
     {
         $res = $this->client->get(self::summaryReportUrl('byAvailabilityReason', $eventKey));
-        return \GuzzleHttp\json_decode($res->getBody(), true);
+        return Utils::jsonDecode($res->getBody(), true);
     }
 
     public function deepSummaryByAvailability(string $eventKey): array
     {
         $res = $this->client->get(self::deepSummaryReportUrl('byAvailability', $eventKey));
-        return \GuzzleHttp\json_decode($res->getBody(), true);
+        return Utils::jsonDecode($res->getBody(), true);
     }
 
     public function deepSummaryByAvailabilityReason(string $eventKey): array
     {
         $res = $this->client->get(self::deepSummaryReportUrl('byAvailabilityReason', $eventKey));
-        return \GuzzleHttp\json_decode($res->getBody(), true);
+        return Utils::jsonDecode($res->getBody(), true);
     }
 
     /**
