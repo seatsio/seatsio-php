@@ -11,7 +11,7 @@ class MarkEverythingAsForSaleTest extends SeatsioClientTest
     {
         $chart = $this->seatsioClient->charts->create();
         $event = $this->seatsioClient->events->create($chart->key);
-        $this->seatsioClient->events->markAsForSale($event->key, ["o1", "o2"], ["cat1", "cat2"]);
+        $this->seatsioClient->events->markAsForSale($event->key, ["o1", "o2"], null, ["cat1", "cat2"]);
 
         $this->seatsioClient->events->markEverythingAsForSale($event->key);
 

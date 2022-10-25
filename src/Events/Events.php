@@ -185,11 +185,18 @@ class Events
         }));
     }
 
-    public function markAsForSale(string $eventKey, array $objects = null, array $categories = null): void
+    /**
+     * @param $objects string[]|null
+     * @param $categories string[]|null
+     */
+    public function markAsForSale(string $eventKey, array $objects = null, array $areaPlaces = null, array $categories = null): void
     {
         $request = new stdClass();
         if ($objects !== null) {
             $request->objects = $objects;
+        }
+        if ($areaPlaces !== null) {
+            $request->areaPlaces = $areaPlaces;
         }
         if ($categories !== null) {
             $request->categories = $categories;
@@ -201,11 +208,14 @@ class Events
      * @param $objects string[]|null
      * @param $categories string[]|null
      */
-    public function markAsNotForSale(string $eventKey, array $objects = null, array $categories = null): void
+    public function markAsNotForSale(string $eventKey, array $objects = null, array $areaPlaces = null, array $categories = null): void
     {
         $request = new stdClass();
         if ($objects !== null) {
             $request->objects = $objects;
+        }
+        if ($areaPlaces !== null) {
+            $request->areaPlaces = $areaPlaces;
         }
         if ($categories !== null) {
             $request->categories = $categories;

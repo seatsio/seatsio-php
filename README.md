@@ -303,6 +303,9 @@ Passing in 0 disables exponential backoff completely. In that case, the client w
 
 ## Upgrading
 
+### v82 -> v83
+- signature of `$seatsioClient->events->markAsForSale()` and `$seatsioClient->events->markAsNotForSale()` changed. Added new parameter `$areaPlaces`, between `$objects` and `$categories`.
+
 ### v81 -> v82
 - removed fields from usage report by month: `$numFirstBookingsOrSelections`, `$numGASelectionsWithoutBooking`, `$numNonGASelectionsWithoutBooking`. Instead
 of `$numFirstBookingsOrSelections`, use `$numUsedObjects`.

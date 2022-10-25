@@ -9,18 +9,19 @@ class MarkObjectsAsNotForSaleTest extends SeatsioClientTest
 
     public function test()
     {
-        $chart = $this->seatsioClient->charts->create();
-        $event = $this->seatsioClient->events->create($chart->key);
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
 
-        $this->seatsioClient->events->markAsNotForSale($event->key, ["o1", "o2"], ["cat1", "cat2"]);
+        $this->seatsioClient->events->markAsNotForSale($event->key, ["o1", "o2"], ["GA1" => 3], ["cat1", "cat2"]);
 
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
         self::assertFalse($retrievedEvent->forSaleConfig->forSale);
         self::assertEquals(["o1", "o2"], $retrievedEvent->forSaleConfig->objects);
+        self::assertEquals(["GA1" => 3], $retrievedEvent->forSaleConfig->areaPlaces);
         self::assertEquals(["cat1", "cat2"], $retrievedEvent->forSaleConfig->categories);
     }
 
-    public function testCategoriesAreOptional()
+    public function testCategoriesAndAreaPlacesAreOptional()
     {
         $chart = $this->seatsioClient->charts->create();
         $event = $this->seatsioClient->events->create($chart->key);
@@ -29,6 +30,7 @@ class MarkObjectsAsNotForSaleTest extends SeatsioClientTest
 
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
         self::assertEquals(["o1", "o2"], $retrievedEvent->forSaleConfig->objects);
+        self::assertEmpty($retrievedEvent->forSaleConfig->areaPlaces);
         self::assertEmpty($retrievedEvent->forSaleConfig->categories);
     }
 
@@ -37,7 +39,7 @@ class MarkObjectsAsNotForSaleTest extends SeatsioClientTest
         $chart = $this->seatsioClient->charts->create();
         $event = $this->seatsioClient->events->create($chart->key);
 
-        $this->seatsioClient->events->markAsNotForSale($event->key, null, ["cat1", "cat2"]);
+        $this->seatsioClient->events->markAsNotForSale($event->key, null, null, ["cat1", "cat2"]);
 
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
         self::assertEmpty($retrievedEvent->forSaleConfig->objects);

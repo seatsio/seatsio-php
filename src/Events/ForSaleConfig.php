@@ -13,6 +13,10 @@ class ForSaleConfig
      */
     public $objects;
     /**
+     * @var array
+     */
+    public $areaPlaces;
+    /**
      * @var string[]
      */
     public $categories;
