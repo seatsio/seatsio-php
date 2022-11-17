@@ -31,7 +31,7 @@ class Events
         $this->channels = new Channels($client);
     }
 
-    public function create(string $chartKey, string $eventKey = null, TableBookingConfig $tableBookingConfig = null, string $socialDistancingRulesetKey = null, array $objectCategories = null): Event
+    public function create(string $chartKey, string $eventKey = null, TableBookingConfig $tableBookingConfig = null, string $socialDistancingRulesetKey = null, array $objectCategories = null, array $categories = null): Event
     {
         $request = new stdClass();
 
@@ -51,6 +51,10 @@ class Events
 
         if ($objectCategories !== null) {
             $request->objectCategories = $objectCategories;
+        }
+
+        if ($categories !== null) {
+            $request->categories = $categories;
         }
 
         $res = $this->client->post('/events', ['json' => $request]);
@@ -81,12 +85,21 @@ class Events
             if ($param->socialDistancingRulesetKey !== null) {
                 $eventToCreate->socialDistancingRulesetKey = $param->socialDistancingRulesetKey;
             }
+            if ($param->objectCategories !== null) {
+                $eventToCreate->objectCategories = $param->objectCategories;
+            }
+
+            if ($param->categories !== null) {
+                $eventToCreate->categories = $param->categories;
+            }
 
             $request->events[] = $eventToCreate;
         }
+
         $res = $this->client->post('/events/actions/create-multiple', ['json' => $request]);
         $json = Utils::jsonDecode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
+
         return $mapper->mapArray($json->events, array(), 'Seatsio\Events\Event');
     }
 
@@ -101,7 +114,7 @@ class Events
         return $mapper->map($json, new Event());
     }
 
-    public function update(string $eventKey, string $chartKey = null, string $newEventKey = null, TableBookingConfig $tableBookingConfig = null, string $socialDistancingRulesetKey = null, $objectCategories = null): void
+    public function update(string $eventKey, string $chartKey = null, string $newEventKey = null, TableBookingConfig $tableBookingConfig = null, string $socialDistancingRulesetKey = null, $objectCategories = null, $categories = null): void
     {
         $request = new stdClass();
 
@@ -123,6 +136,9 @@ class Events
 
         if ($objectCategories !== null) {
             $request->objectCategories = $objectCategories;
+        }
+        if ($categories !== null) {
+            $request->categories = $categories;
         }
 
         $this->client->post(UriTemplate::expand('/events/{key}', array("key" => $eventKey)), ['json' => $request]);

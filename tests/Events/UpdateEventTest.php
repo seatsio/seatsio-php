@@ -2,6 +2,7 @@
 
 namespace Seatsio\Events;
 
+use Seatsio\Charts\Category;
 use Seatsio\Charts\SocialDistancingRuleset;
 use Seatsio\SeatsioClientTest;
 use stdClass;
@@ -96,5 +97,42 @@ class UpdateEventTest extends SeatsioClientTest
 
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
         self::assertNull($retrievedEvent->objectCategories);
+    }
+
+    public function testUpdateCategories()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $eventCategories = [new Category("eventCategory", "event-level category", "#AAABBB")];
+
+        $this->seatsioClient->events->update($event->key, null, null, null, null, null, $eventCategories);
+
+        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+        self::assertEquals(4, count($retrievedEvent->categories));
+        $eventCategory = current(array_filter($retrievedEvent->categories, function ($category) {
+            return $category->key == 'eventCategory';
+        }));
+        self::assertNotNull($eventCategory);
+        self::assertEquals('eventCategory', $eventCategory->key);
+        self::assertEquals('event-level category', $eventCategory->label);
+        self::assertEquals('#AAABBB', $eventCategory->color);
+        self::assertEquals(false, $eventCategory->accessible);
+
+    }
+
+    public function testRemoveCategories()
+    {
+        $chartKey = $this->createTestChart();
+        $eventCategories = [new Category("eventCategory", "event-level category", "#AAABBB")];
+        $event = $this->seatsioClient->events->create($chartKey, null, null, null, null, $eventCategories );
+
+        $this->seatsioClient->events->update($event->key, null, null, null, null, null, []);
+
+        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+        self::assertEquals(3, count($retrievedEvent->categories));
+        $eventCategory = current(array_filter($retrievedEvent->categories, function ($category) {
+            return $category->key == 'eventCategory';
+        }));
+        self::assertFalse($eventCategory);
     }
 }

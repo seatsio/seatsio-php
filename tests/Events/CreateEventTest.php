@@ -2,7 +2,7 @@
 
 namespace Seatsio\Events;
 
-use DateTime;
+use Seatsio\Charts\Category;
 use Seatsio\Charts\SocialDistancingRuleset;
 use Seatsio\SeatsioClientTest;
 
@@ -57,7 +57,7 @@ class CreateEventTest extends SeatsioClientTest
     public function testSocialDistancingRulesetKeyCanBePassedIn()
     {
         $chartKey = $this->createTestChartWithTables();
-        $this->seatsioClient->charts->saveSocialDistancingRulesets($chartKey, [ "ruleset1" => SocialDistancingRuleset::ruleBased("My ruleset")->build()]);
+        $this->seatsioClient->charts->saveSocialDistancingRulesets($chartKey, ["ruleset1" => SocialDistancingRuleset::ruleBased("My ruleset")->build()]);
 
         $event = $this->seatsioClient->events->create($chartKey, null, null, "ruleset1");
 
@@ -71,6 +71,27 @@ class CreateEventTest extends SeatsioClientTest
         $event = $this->seatsioClient->events->create($chartKey, null, null, null, ["A-1" => 10]);
 
         self::assertEquals(["A-1" => 10], $event->objectCategories);
+    }
+
+    public function testCategoriesCanBePassedIn()
+    {
+        $chartKey = $this->createTestChart();
+
+        $category = new Category("eventCategory", "event-level category", "#AAABBB");
+        $categories = [
+            $category
+        ];
+        $event = $this->seatsioClient->events->create($chartKey, null, null, null, ["A-1" => 10], $categories);
+
+        self::assertEquals(4, count($event->categories));
+        $eventCategory = current(array_filter($event->categories, function ($category) {
+            return $category->key == 'eventCategory';
+        }));
+        self::assertNotNull($eventCategory);
+        self::assertEquals('eventCategory', $eventCategory->key);
+        self::assertEquals('event-level category', $eventCategory->label);
+        self::assertEquals('#AAABBB', $eventCategory->color);
+        self::assertEquals(false, $eventCategory->accessible);
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace Seatsio\Events;
 
+use Seatsio\Charts\Category;
 use Seatsio\Charts\SocialDistancingRuleset;
 use Seatsio\SeatsioClientTest;
 
@@ -73,13 +74,48 @@ class CreateEventsTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChartWithTables();
         $this->seatsioClient->charts->saveSocialDistancingRulesets($chartKey, ["ruleset1" => SocialDistancingRuleset::ruleBased("My ruleset")->build()]);
-        $params = [(new EventCreationParams())->setSocialDistancingRulesetKey("ruleset1"), (new EventCreationParams())->setSocialDistancingRulesetKey("ruleset1")];
+        $params = [
+            (new EventCreationParams())->setSocialDistancingRulesetKey("ruleset1"),
+            (new EventCreationParams())->setSocialDistancingRulesetKey("ruleset1")
+        ];
 
         $events = $this->seatsioClient->events->createMultiple($chartKey, $params);
 
         self::assertEquals(2, sizeof($events));
         self::assertEquals("ruleset1", $events[0]->socialDistancingRulesetKey);
         self::assertEquals("ruleset1", $events[1]->socialDistancingRulesetKey);
+    }
+
+    public function test_objectCategoriesCanBePassedIn()
+    {
+        $chartKey = $this->createTestChart();
+
+        $params = [
+            ((new EventCreationParams())->setObjectCategories(["A-1" => 10]))
+        ];
+        $events = $this->seatsioClient->events->createMultiple($chartKey, $params);
+        self::assertEquals(["A-1" => 10], $events[0]->objectCategories);
+    }
+
+    public function test_categoriesCanBePassedIn()
+    {
+        $chartKey = $this->createTestChart();
+        $params = [
+            ((new EventCreationParams())->setCategories([
+                new Category("eventCategory", "event-level category", "#AAABBB")
+            ]))
+        ];
+        $events = $this->seatsioClient->events->createMultiple($chartKey, $params);
+
+        self::assertEquals(4, count($events[0]->categories));
+        $eventCategory = current(array_filter($events[0]->categories, function ($category) {
+            return $category->key == 'eventCategory';
+        }));
+        self::assertNotNull($eventCategory);
+        self::assertEquals('eventCategory', $eventCategory->key);
+        self::assertEquals('event-level category', $eventCategory->label);
+        self::assertEquals('#AAABBB', $eventCategory->color);
+        self::assertEquals(false, $eventCategory->accessible);
     }
 
 }
