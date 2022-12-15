@@ -15,8 +15,6 @@ class CopyChartTest extends SeatsioClientTest
 
         self::assertEquals('my chart (copy)', $copiedChart->name);
         self::assertNotEquals($chart->key, $copiedChart->key);
-        $retrievedChart = $this->seatsioClient->charts->retrievePublishedVersion($copiedChart->key);
-        self::assertEquals('BOOTHS', $retrievedChart->venueType);
     }
 
 }

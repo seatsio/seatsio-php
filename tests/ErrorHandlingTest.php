@@ -8,7 +8,7 @@ class ErrorHandlingTest extends SeatsioClientTest
     public function test4xx()
     {
         try {
-            $this->seatsioClient->charts->retrievePublishedVersion('unexistingChart');
+            $this->seatsioClient->charts->retrievePublishedVersionThumbnail('unexistingChart');
             $this->fail();
         } catch (SeatsioException $e) {
             self::assertEquals('CHART_NOT_FOUND', $e->errors[0]->code);

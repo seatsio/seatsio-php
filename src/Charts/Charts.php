@@ -92,18 +92,6 @@ class Charts
         return $mapper->map($json, new Chart());
     }
 
-    public function retrievePublishedVersion(string $key): object
-    {
-        $res = $this->client->get('/charts/' . $key . '/version/published');
-        return Utils::jsonDecode($res->getBody());
-    }
-
-    public function retrieveDraftVersion(string $key): object
-    {
-        $res = $this->client->get('/charts/' . $key . '/version/draft');
-        return Utils::jsonDecode($res->getBody());
-    }
-
     public function publishDraftVersion(string $key): void
     {
         $this->client->post('/charts/' . $key . '/version/draft/actions/publish');
