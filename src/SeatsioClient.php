@@ -92,7 +92,10 @@ class SeatsioClient
             'auth' => [$secretKey, null],
             'http_errors' => false,
             'handler' => $stack,
-            'headers' => ['Accept-Encoding' => 'gzip']
+            'headers' => [
+                'Accept-Encoding' => 'gzip',
+                'X-Client-Lib' => 'php'
+            ]
         ];
         if ($workspaceKey) {
             $config['headers']['X-Workspace-Key'] = $workspaceKey;
