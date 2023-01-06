@@ -48,4 +48,8 @@ class StatusChange
      * @var string
      */
     public $notPresentOnChartReason;
+    /**
+     * @var string
+     */
+    public $holdToken;
 }
