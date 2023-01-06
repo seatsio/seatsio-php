@@ -56,6 +56,20 @@ class ListStatusChangesTest extends SeatsioClientTest
         self::assertNull($statusChange->notPresentOnChartReason);
     }
 
+    public function testPropertiesOfStatusChange_holdToken()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $holdToken = $this->seatsioClient->holdTokens->create();
+        $this->seatsioClient->events->hold($event->key, ['A-1'], $holdToken->holdToken);
+        $this->waitForStatusChanges($event, 1);
+
+        $statusChanges = $this->seatsioClient->events->statusChanges($event->key)->all();
+        $statusChange = $statusChanges->current();
+
+        self::assertEquals($holdToken->holdToken, $statusChange->holdToken);
+    }
+
     public function testNotPresentOnChartAnymore()
     {
         $chartKey = $this->createTestChartWithTables();
