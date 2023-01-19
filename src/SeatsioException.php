@@ -31,18 +31,19 @@ class SeatsioException extends RuntimeException
 
     private static function message($request, $response, $messages, $requestId)
     {
-        $message = sprintf(
-            '%s %s resulted in a `%s %s` response. Request ID: %s.',
-            $request->getMethod(),
-            $request->getUri(),
-            $response->getStatusCode(),
-            $response->getReasonPhrase(),
-            $requestId
-        );
+
         if ($messages) {
-            $message .= ' Reason: ' . implode(', ', $messages);
+            return implode(', ', $messages);
+        } else {
+            return sprintf(
+                '%s %s resulted in a `%s %s` response. Request ID: %s.',
+                $request->getMethod(),
+                $request->getUri(),
+                $response->getStatusCode(),
+                $response->getReasonPhrase(),
+                $requestId
+            );
         }
-        return $message;
     }
 
     private static function extractInfo($response)
