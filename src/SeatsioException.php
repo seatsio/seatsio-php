@@ -24,24 +24,23 @@ class SeatsioException extends RuntimeException
     {
         $info = self::extractInfo($response);
         $requestId = $info['requestId'];
-        parent::__construct(self::message($request, $response, $info['messages'], $requestId));
+        parent::__construct(self::message($request, $response, $info['messages']));
         $this->errors = $info['errors'];
         $this->requestId = $requestId;
     }
 
-    private static function message($request, $response, $messages, $requestId)
+    private static function message($request, $response, $messages)
     {
 
         if ($messages) {
             return implode(', ', $messages);
         } else {
             return sprintf(
-                '%s %s resulted in a `%s %s` response. Request ID: %s. Body: %s',
+                '%s %s resulted in a `%s %s` response. Body: %s',
                 $request->getMethod(),
                 $request->getUri(),
                 $response->getStatusCode(),
                 $response->getReasonPhrase(),
-                $requestId,
                 $response->getBody()
             );
         }

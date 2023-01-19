@@ -25,7 +25,7 @@ class ErrorHandlingTest extends SeatsioClientTest
             $client->client->get("/status/500")->getBody();
             throw new \Exception("Should have failed");
         } catch (SeatsioException $e) {
-            self::assertEquals('GET https://httpbin.seatsio.net/status/500 resulted in a `500 Internal Server Error` response. Request ID: . Body: ', $e->getMessage());
+            self::assertEquals('GET https://httpbin.seatsio.net/status/500 resulted in a `500 Internal Server Error` response. Body: ', $e->getMessage());
         }
     }
 
