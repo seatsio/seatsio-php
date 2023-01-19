@@ -36,12 +36,13 @@ class SeatsioException extends RuntimeException
             return implode(', ', $messages);
         } else {
             return sprintf(
-                '%s %s resulted in a `%s %s` response. Request ID: %s.',
+                '%s %s resulted in a `%s %s` response. Request ID: %s. Body: %s',
                 $request->getMethod(),
                 $request->getUri(),
                 $response->getStatusCode(),
                 $response->getReasonPhrase(),
-                $requestId
+                $requestId,
+                $response->getBody()
             );
         }
     }

@@ -13,7 +13,7 @@ class ExponentialBackoffTest extends SeatsioClientTest
             $client->client->get("/status/429")->getBody();
             throw new \Exception("Should have failed");
         } catch (RateLimitExceededException $exception) {
-            self::assertEquals("GET https://httpbin.seatsio.net/status/429 resulted in a `429 Too Many Requests` response. Request ID: .", $exception->getMessage());
+            self::assertEquals("GET https://httpbin.seatsio.net/status/429 resulted in a `429 Too Many Requests` response. Request ID: . Body: ", $exception->getMessage());
             $waitTime = time() - $start;
             self::assertGreaterThan(10, $waitTime);
             self::assertLessThan(20, $waitTime);
@@ -28,7 +28,7 @@ class ExponentialBackoffTest extends SeatsioClientTest
             $client->client->get("/status/400")->getBody();
             throw new \Exception("Should have failed");
         } catch (SeatsioException $exception) {
-            self::assertEquals("GET https://httpbin.seatsio.net/status/400 resulted in a `400 Bad Request` response. Request ID: .", $exception->getMessage());
+            self::assertEquals("GET https://httpbin.seatsio.net/status/400 resulted in a `400 Bad Request` response. Request ID: . Body: ", $exception->getMessage());
             $waitTime = time() - $start;
             self::assertLessThan(2, $waitTime);
         }
@@ -42,7 +42,7 @@ class ExponentialBackoffTest extends SeatsioClientTest
             $client->client->get("/status/429")->getBody();
             throw new \Exception("Should have failed");
         } catch (SeatsioException $exception) {
-            self::assertEquals("GET https://httpbin.seatsio.net/status/429 resulted in a `429 Too Many Requests` response. Request ID: .", $exception->getMessage());
+            self::assertEquals("GET https://httpbin.seatsio.net/status/429 resulted in a `429 Too Many Requests` response. Request ID: . Body: ", $exception->getMessage());
             $waitTime = time() - $start;
             self::assertLessThan(2, $waitTime);
         }
