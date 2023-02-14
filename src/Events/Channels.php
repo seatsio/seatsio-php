@@ -46,6 +46,31 @@ class Channels
         $this->client->post(UriTemplate::expand('/events/{key}/channels', array("key" => $eventKey)), ['json' => $request]);
     }
 
+    public function addMultiple(string $eventKey, array $channelCreationParams)
+    {
+        $request = array();
+        foreach ($channelCreationParams as $param) {
+            $channelToCreate = new stdClass();
+            if ($param->channelKey !== null) {
+                $channelToCreate->key = $param->channelKey;
+            }
+            if($param->name !== null) {
+                $channelToCreate->name = $param->name;
+            }
+            if($param->color !== null) {
+                $channelToCreate->color  = $param->color;
+            }
+            if($param->index !== null) {
+                $channelToCreate->index  = $param->index;
+            }
+            if($param->objects !== null) {
+                $channelToCreate->objects  = $param->objects;
+            }
+            $request[] = $channelToCreate;
+        }
+        $this->client->post(UriTemplate::expand('/events/{key}/channels', array("key" => $eventKey)), ['json' => $request]);
+    }
+
     /**
      * remove a channel by channel key
      *
