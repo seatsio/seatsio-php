@@ -42,4 +42,15 @@ class ManageCategoriesTest extends SeatsioClientTest
         ], $retrievedChart->categories->list);
     }
 
+    public function testListCategories()
+    {
+        $categories = [
+            new Category(1, 'Category 1', '#aaaaaa', true),
+            new Category('cat2', 'Category 2', '#bbbbbb', false)
+        ];
+        $chart = $this->seatsioClient->charts->create('aChart', null, $categories);
+
+        $categoryList = $this->seatsioClient->charts->listCategories($chart->key);
+        self::assertEquals($categories, $categoryList);
+    }
 }

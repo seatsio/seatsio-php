@@ -76,6 +76,19 @@ class Charts
         $this->client->delete('/charts/' . $key . '/categories/' . $categoryKey);
     }
 
+    /**
+     * @return Category[]
+     */
+    public function listCategories(string $chartKey): array
+    {
+        $res = $this->client->get('/charts/' . $chartKey . '/categories');
+        $json = Utils::jsonDecode($res->getBody());
+        $mapper = SeatsioJsonMapper::create();
+        return array_map(function($cat) {
+            return new Category($cat->key, $cat->label, $cat->color, $cat->accessible);
+        }, $json->categories);
+    }
+
     public function retrieve(string $key): Chart
     {
         $res = $this->client->get('/charts/' . $key);
