@@ -16,14 +16,4 @@ class UsageByEvent
      * @var int
      */
     public $numUsedObjects;
-
-    /**
-     * @var int
-     */
-    public $numFirstBookings;
-
-    /**
-     * @var int
-     */
-    public $numObjectSelections;
 }
