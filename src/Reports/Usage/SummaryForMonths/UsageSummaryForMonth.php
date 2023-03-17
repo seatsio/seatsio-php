@@ -17,19 +17,4 @@ class UsageSummaryForMonth
      */
     public $numUsedObjects;
 
-    /**
-     * @var int
-     */
-    public $numFirstBookings;
-
-    /**
-     * @var object
-     */
-    public $numFirstBookingsByStatus;
-
-    /**
-     * @var int
-     */
-    public $numFirstBookingsOrSelections;
-
 }

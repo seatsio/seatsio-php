@@ -4,7 +4,7 @@
 namespace Seatsio\Reports\Usage\DetailsForEventInMonth;
 
 
-class UsageForObject
+class UsageForObjectV1
 {
 
     /**

@@ -4,7 +4,8 @@ namespace Seatsio\Reports\Usage;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Utils;
-use Seatsio\Reports\Usage\DetailsForEventInMonth\UsageForObject;
+use Seatsio\Reports\Usage\DetailsForEventInMonth\UsageForObjectV1;
+use Seatsio\Reports\Usage\DetailsForEventInMonth\UsageForObjectV2;
 use Seatsio\Reports\Usage\DetailsForMonth\UsageDetails;
 use Seatsio\Reports\Usage\SummaryForMonths\Month;
 use Seatsio\Reports\Usage\SummaryForMonths\UsageSummaryForMonth;
@@ -46,14 +47,17 @@ class UsageReports
     }
 
     /**
-     * @return UsageForObject[]
+     * @return UsageForObjectV1[] | UsageForObjectV2[]
      */
     public function detailsForEventInMonth(int $eventId, Month $month): array
     {
         $res = $this->client->get('/reports/usage/month/' . $month->serialize() . '/event/' . $eventId);
         $json = Utils::jsonDecode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
-        return $mapper->mapArray($json, array(), UsageForObject::class);
+        if (count($json) == 0 || !isset($json[0]->usageByReason)) {
+            return $mapper->mapArray($json, array(), UsageForObjectV1::class);
+        }
+        return $mapper->mapArray($json, array(), UsageForObjectV2::class);
     }
 
 }
