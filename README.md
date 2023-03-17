@@ -303,6 +303,9 @@ Passing in 0 disables exponential backoff completely. In that case, the client w
 
 ## Upgrading
 
+### v83 -> v84
+- Fields returned by usage reports have changed
+
 ### v82 -> v83
 - signature of `$seatsioClient->events->markAsForSale()` and `$seatsioClient->events->markAsNotForSale()` changed. Added new parameter `$areaPlaces`, between `$objects` and `$categories`.
 - added `$seatsioClient->charts->listCategories(string $chartKey)` to retrieve an array of `Category` instances for a specified chart.
