@@ -5,7 +5,7 @@
   "license": "MIT",
   "require": {
     "php": ">=7.4.0",
-    "guzzlehttp/guzzle": "7.5.0",
+    "guzzlehttp/guzzle": "7.5.1",
     "guzzlehttp/uri-template": "v1.0.1",
     "netresearch/jsonmapper": "4.2.0",
     "lstrojny/functional-php": "1.17.0"
