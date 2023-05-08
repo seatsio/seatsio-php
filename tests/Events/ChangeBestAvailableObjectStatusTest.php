@@ -16,7 +16,7 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
         $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 2, "lolzor");
 
         self::assertTrue($bestAvailableObjects->nextToEachOther);
-        self::assertEquals(["B-4", "B-5"], $bestAvailableObjects->objects);
+        self::assertEquals(["A-4", "A-5"], $bestAvailableObjects->objects);
     }
 
     public function testObjectDetails()
@@ -26,11 +26,11 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
 
         $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 1, "lolzor");
 
-        $objectDetails = $bestAvailableObjects->objectDetails["B-5"];
+        $objectDetails = $bestAvailableObjects->objectDetails["A-5"];
         self::assertEquals("lolzor", $objectDetails->status);
-        self::assertEquals("B-5", $objectDetails->label);
-        self::assertEquals(someLabels("5", "seat", "B", "row"), $objectDetails->labels);
-        self::assertEquals(new IDs("5", "B", null), $objectDetails->ids);
+        self::assertEquals("A-5", $objectDetails->label);
+        self::assertEquals(someLabels("5", "seat", "A", "row"), $objectDetails->labels);
+        self::assertEquals(new IDs("5", "A", null), $objectDetails->ids);
         self::assertEquals("Cat1", $objectDetails->categoryLabel);
         self::assertEquals(9, $objectDetails->categoryKey);
         self::assertNull($objectDetails->ticketType);
@@ -39,8 +39,8 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
         self::assertTrue($objectDetails->forSale);
         self::assertNull($objectDetails->section);
         self::assertNull($objectDetails->entrance);
-        self::assertEquals("B-4", $objectDetails->leftNeighbour);
-        self::assertEquals("B-6", $objectDetails->rightNeighbour);
+        self::assertEquals("A-4", $objectDetails->leftNeighbour);
+        self::assertEquals("A-6", $objectDetails->rightNeighbour);
     }
 
     public function testCategories()
@@ -64,11 +64,22 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
 
         $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 2, "lolzor", null, null, $extraData);
 
-        self::assertEquals(["B-4", "B-5"], $bestAvailableObjects->objects);
-        $b4ObjectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "B-4");
+        self::assertEquals(["A-4", "A-5"], $bestAvailableObjects->objects);
+        $b4ObjectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-4");
         self::assertEquals($b4ObjectInfo->extraData, (object)["foo" => "bar"]);
-        $b5ObjectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "B-5");
+        $b5ObjectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-5");
         self::assertEquals($b5ObjectInfo->extraData, (object)["foo" => "baz"]);
+    }
+
+    public function testDoNotTryToPreventOrphanSeats()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $this->seatsioClient->events->book($event->key, ["A-4", "A-5"]);
+
+        $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 2, "lolzor", null, null, null, null, null, null, null, null, false);
+
+        self::assertEquals(["A-2", "A-3"], $bestAvailableObjects->objects);
     }
 
     public function testTicketTypes()
@@ -78,10 +89,10 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
 
         $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 2, "lolzor", null, null, null, ["adult", "child"]);
 
-        self::assertEquals(["B-4", "B-5"], $bestAvailableObjects->objects);
-        $b4ObjectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "B-4");
+        self::assertEquals(["A-4", "A-5"], $bestAvailableObjects->objects);
+        $b4ObjectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-4");
         self::assertEquals($b4ObjectInfo->ticketType, "adult");
-        $b5ObjectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "B-5");
+        $b5ObjectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-5");
         self::assertEquals($b5ObjectInfo->ticketType, "child");
     }
 
@@ -117,7 +128,7 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
         $bestAvailableObjects = $this->seatsioClient->events->bookBestAvailable($event->key, 3);
 
         self::assertTrue($bestAvailableObjects->nextToEachOther);
-        self::assertEquals(["B-4", "B-5", "B-6"], $bestAvailableObjects->objects);
+        self::assertEquals(["A-4", "A-5", "A-6"], $bestAvailableObjects->objects);
     }
 
     public function testHold()
@@ -138,11 +149,11 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
         $extraData = ["foo" => "bar"];
-        $this->seatsioClient->events->updateExtraData($event->key, "B-5", $extraData);
+        $this->seatsioClient->events->updateExtraData($event->key, "A-5", $extraData);
 
         $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 1, "lolzor", null, null, null, null, null, true);
 
-        $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "B-5");
+        $objectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "A-5");
         self::assertEquals((object)$extraData, $objectInfo->extraData);
     }
 
@@ -170,11 +181,11 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
             "channelKey1" => new Channel("channel 1", "#FF0000", 1)
         ]);
         $this->seatsioClient->events->channels->setObjects($event->key, [
-            "channelKey1" => ["B-5"]
+            "channelKey1" => ["A-5"]
         ]);
 
         $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 1, "lolzor", null, null, null, null, null, null, true);
 
-        self::assertEquals(["B-5"], $bestAvailableObjects->objects);
+        self::assertEquals(["A-5"], $bestAvailableObjects->objects);
     }
 }
