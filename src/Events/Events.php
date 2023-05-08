@@ -449,7 +449,7 @@ class Events
      * @param $ticketTypes string[]|null
      * @param $channelKeys string[]|null
      */
-    public function changeBestAvailableObjectStatus(string $eventKey, int $number, string $status, array $categories = null, string $holdToken = null, array $extraData = null, array $ticketTypes = null, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null): BestAvailableObjects
+    public function changeBestAvailableObjectStatus(string $eventKey, int $number, string $status, array $categories = null, string $holdToken = null, array $extraData = null, array $ticketTypes = null, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null, bool $tryToPreventOrphanSeats = null): BestAvailableObjects
     {
         $request = new stdClass();
         $bestAvailable = new stdClass();
@@ -462,6 +462,9 @@ class Events
         }
         if ($ticketTypes !== null) {
             $bestAvailable->ticketTypes = $ticketTypes;
+        }
+        if ($tryToPreventOrphanSeats !== null) {
+            $bestAvailable->tryToPreventOrphanSeats = $tryToPreventOrphanSeats;
         }
         $request->bestAvailable = $bestAvailable;
         $request->status = $status;

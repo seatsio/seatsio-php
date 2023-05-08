@@ -1,7 +1,7 @@
 {
   "name": "Sample chart",
   "tablesLabelCounter": 3,
-  "uuidCounter": 369,
+  "uuidCounter": 371,
   "categories": {
     "list": [
       {
@@ -25,433 +25,694 @@
     ],
     "maxCategoryKey": 10
   },
-  "version": 17,
+  "rowSpacing": 14,
+  "rowChairSpacing": 5,
+  "colorScheme": "light",
+  "version": 19,
   "venueType": "ROWS_WITHOUT_SECTIONS",
-  "showAllButtons": false,
   "sectionScaleFactor": 100,
+  "referenceChartVisible": true,
   "subChart": {
-    "height": 95,
-    "width": 442,
+    "height": 186,
+    "width": 442.44,
     "tables": [],
     "texts": [],
+    "imageObjects": [],
     "rows": [
       {
         "label": "A",
+        "displayLabel": null,
+        "sectionLabel": null,
+        "sectionDisplayedLabel": null,
+        "rowLabelPosition": "label-position-invisible",
         "seatLabeling": {
           "algoName": "SimpleNumbers",
           "startAtIndex": 0,
-          "isInverted": false
+          "isInverted": false,
+          "useEndAt": false
         },
         "objectLabeling": {
           "algoName": "SimpleLettersUppercase",
           "prefix": "",
-          "startAtIndex": 0
+          "startAtIndex": 0,
+          "skippedCharacters": []
         },
         "seats": [
           {
             "x": 151.94,
-            "y": 9,
+            "y": 99.56,
             "label": "1",
             "categoryLabel": "Cat1",
             "categoryAccessible": false,
             "categoryKey": 9,
-            "uuid": "uuid288"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid288",
+            "published": true
           },
           {
             "x": 171.94,
-            "y": 9,
+            "y": 99.56,
             "label": "2",
             "categoryLabel": "Cat1",
             "categoryAccessible": false,
             "categoryKey": 9,
-            "uuid": "uuid289"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid289",
+            "published": true
           },
           {
             "x": 191.94,
-            "y": 9,
+            "y": 99.56,
             "label": "3",
             "categoryLabel": "Cat1",
             "categoryAccessible": false,
             "categoryKey": 9,
-            "uuid": "uuid290"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid290",
+            "published": true
           },
           {
             "x": 211.94,
-            "y": 9,
+            "y": 99.56,
             "label": "4",
             "categoryLabel": "Cat1",
             "categoryAccessible": false,
             "categoryKey": 9,
-            "uuid": "uuid291"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid291",
+            "published": true
           },
           {
             "x": 231.94,
-            "y": 9,
+            "y": 99.56,
             "label": "5",
             "categoryLabel": "Cat1",
             "categoryAccessible": false,
             "categoryKey": 9,
-            "uuid": "uuid292"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid292",
+            "published": true
           },
           {
             "x": 251.94,
-            "y": 9,
+            "y": 99.56,
             "label": "6",
             "categoryLabel": "Cat1",
             "categoryAccessible": false,
             "categoryKey": 9,
-            "uuid": "uuid293"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid293",
+            "published": true
           },
           {
             "x": 271.94,
-            "y": 9,
+            "y": 99.56,
             "label": "7",
             "categoryLabel": "Cat1",
             "categoryAccessible": false,
             "categoryKey": 9,
-            "uuid": "uuid294"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid294",
+            "published": true
           },
           {
             "x": 291.94,
-            "y": 9,
+            "y": 99.56,
             "label": "8",
             "categoryLabel": "Cat1",
             "categoryAccessible": false,
             "categoryKey": 9,
-            "uuid": "uuid295"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid295",
+            "published": true
           }
         ],
         "curve": 0,
         "chairSpacing": 4,
+        "verticalRowLabelDirection": "BASELINE_LEFT",
+        "displayObjectType": "row",
         "objectType": "row",
-        "uuid": "uuid297"
+        "uuid": "uuid297",
+        "points": null,
+        "rowLabelDisabled": false,
+        "published": true
       },
       {
         "label": "B",
+        "displayLabel": null,
+        "sectionLabel": null,
+        "sectionDisplayedLabel": null,
+        "rowLabelPosition": "label-position-invisible",
         "seatLabeling": {
           "algoName": "SimpleNumbers",
           "startAtIndex": 0,
-          "isInverted": false
+          "isInverted": false,
+          "useEndAt": false
         },
         "objectLabeling": {
           "algoName": "SimpleLettersUppercase",
           "prefix": "",
-          "startAtIndex": 0
+          "startAtIndex": 0,
+          "skippedCharacters": []
         },
         "seats": [
           {
             "x": 151.94,
-            "y": 33,
+            "y": 123.56,
             "label": "1",
             "categoryLabel": "Cat1",
             "categoryAccessible": false,
             "categoryKey": 9,
-            "uuid": "uuid298"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid298",
+            "published": true
           },
           {
             "x": 171.94,
-            "y": 33,
+            "y": 123.56,
             "label": "2",
             "categoryLabel": "Cat1",
             "categoryAccessible": false,
             "categoryKey": 9,
-            "uuid": "uuid299"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid299",
+            "published": true
           },
           {
             "x": 191.94,
-            "y": 33,
+            "y": 123.56,
             "label": "3",
             "categoryLabel": "Cat1",
             "categoryAccessible": false,
             "categoryKey": 9,
-            "uuid": "uuid300"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid300",
+            "published": true
           },
           {
             "x": 211.94,
-            "y": 33,
+            "y": 123.56,
             "label": "4",
             "categoryLabel": "Cat1",
             "categoryAccessible": false,
             "categoryKey": 9,
-            "uuid": "uuid301"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid301",
+            "published": true
           },
           {
             "x": 231.94,
-            "y": 33,
+            "y": 123.56,
             "label": "5",
             "categoryLabel": "Cat1",
             "categoryAccessible": false,
             "categoryKey": 9,
-            "uuid": "uuid302"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid302",
+            "published": true
           },
           {
             "x": 251.94,
-            "y": 33,
+            "y": 123.56,
             "label": "6",
             "categoryLabel": "Cat1",
             "categoryAccessible": false,
             "categoryKey": 9,
-            "uuid": "uuid303"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid303",
+            "published": true
           },
           {
             "x": 271.94,
-            "y": 33,
+            "y": 123.56,
             "label": "7",
             "categoryLabel": "Cat1",
             "categoryAccessible": false,
             "categoryKey": 9,
-            "uuid": "uuid304"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid304",
+            "published": true
           },
           {
             "x": 291.94,
-            "y": 33,
+            "y": 123.56,
             "label": "8",
             "categoryLabel": "Cat1",
             "categoryAccessible": false,
             "categoryKey": 9,
-            "uuid": "uuid305"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid305",
+            "published": true
           }
         ],
         "curve": 0,
         "chairSpacing": 4,
+        "verticalRowLabelDirection": "BASELINE_LEFT",
+        "displayObjectType": "row",
         "objectType": "row",
-        "uuid": "uuid307"
+        "uuid": "uuid307",
+        "points": null,
+        "rowLabelDisabled": false,
+        "published": true
       },
       {
         "label": "C",
+        "displayLabel": null,
+        "sectionLabel": null,
+        "sectionDisplayedLabel": null,
+        "rowLabelPosition": "label-position-invisible",
         "seatLabeling": {
           "algoName": "SimpleNumbers",
           "startAtIndex": 0,
-          "isInverted": false
+          "isInverted": false,
+          "useEndAt": false
         },
         "objectLabeling": {
           "algoName": "SimpleLettersUppercase",
           "prefix": "",
-          "startAtIndex": 0
+          "startAtIndex": 0,
+          "skippedCharacters": []
         },
         "seats": [
           {
             "x": 151.94,
-            "y": 57,
+            "y": 147.56,
             "label": "1",
             "categoryLabel": "Cat2",
             "categoryAccessible": false,
             "categoryKey": 10,
-            "uuid": "uuid308"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid308",
+            "published": true
           },
           {
             "x": 171.94,
-            "y": 57,
+            "y": 147.56,
             "label": "2",
             "categoryLabel": "Cat2",
             "categoryAccessible": false,
             "categoryKey": 10,
-            "uuid": "uuid309"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid309",
+            "published": true
           },
           {
             "x": 191.94,
-            "y": 57,
+            "y": 147.56,
             "label": "3",
             "categoryLabel": "Cat2",
             "categoryAccessible": false,
             "categoryKey": 10,
-            "uuid": "uuid310"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid310",
+            "published": true
           },
           {
             "x": 211.94,
-            "y": 57,
+            "y": 147.56,
             "label": "4",
             "categoryLabel": "Cat2",
             "categoryAccessible": false,
             "categoryKey": 10,
-            "uuid": "uuid311"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid311",
+            "published": true
           },
           {
             "x": 231.94,
-            "y": 57,
+            "y": 147.56,
             "label": "5",
             "categoryLabel": "Cat2",
             "categoryAccessible": false,
             "categoryKey": 10,
-            "uuid": "uuid312"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid312",
+            "published": true
           },
           {
             "x": 251.94,
-            "y": 57,
+            "y": 147.56,
             "label": "6",
             "categoryLabel": "Cat2",
             "categoryAccessible": false,
             "categoryKey": 10,
-            "uuid": "uuid313"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid313",
+            "published": true
           },
           {
             "x": 271.94,
-            "y": 57,
+            "y": 147.56,
             "label": "7",
             "categoryLabel": "Cat2",
             "categoryAccessible": false,
             "categoryKey": 10,
-            "uuid": "uuid314"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid314",
+            "published": true
           },
           {
             "x": 291.94,
-            "y": 57,
+            "y": 147.56,
             "label": "8",
             "categoryLabel": "Cat2",
             "categoryAccessible": false,
             "categoryKey": 10,
-            "uuid": "uuid315"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid315",
+            "published": true
           }
         ],
         "curve": 0,
         "chairSpacing": 4,
+        "verticalRowLabelDirection": "BASELINE_LEFT",
+        "displayObjectType": "row",
         "objectType": "row",
-        "uuid": "uuid317"
+        "uuid": "uuid317",
+        "points": null,
+        "rowLabelDisabled": false,
+        "published": true
       },
       {
         "label": "D",
+        "displayLabel": null,
+        "sectionLabel": null,
+        "sectionDisplayedLabel": null,
+        "rowLabelPosition": "label-position-invisible",
         "seatLabeling": {
           "algoName": "SimpleNumbers",
           "startAtIndex": 0,
-          "isInverted": false
+          "isInverted": false,
+          "useEndAt": false
         },
         "objectLabeling": {
           "algoName": "SimpleLettersUppercase",
           "prefix": "",
-          "startAtIndex": 0
+          "startAtIndex": 0,
+          "skippedCharacters": []
         },
         "seats": [
           {
             "x": 151.94,
-            "y": 81,
+            "y": 171.56,
             "label": "1",
             "categoryLabel": "Cat2",
             "categoryAccessible": false,
             "categoryKey": 10,
-            "uuid": "uuid318"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid318",
+            "published": true
           },
           {
             "x": 171.94,
-            "y": 81,
+            "y": 171.56,
             "label": "2",
             "categoryLabel": "Cat2",
             "categoryAccessible": false,
             "categoryKey": 10,
-            "uuid": "uuid319"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid319",
+            "published": true
           },
           {
             "x": 191.94,
-            "y": 81,
+            "y": 171.56,
             "label": "3",
             "categoryLabel": "Cat2",
             "categoryAccessible": false,
             "categoryKey": 10,
-            "uuid": "uuid320"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid320",
+            "published": true
           },
           {
             "x": 211.94,
-            "y": 81,
+            "y": 171.56,
             "label": "4",
             "categoryLabel": "Cat2",
             "categoryAccessible": false,
             "categoryKey": 10,
-            "uuid": "uuid321"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid321",
+            "published": true
           },
           {
             "x": 231.94,
-            "y": 81,
+            "y": 171.56,
             "label": "5",
             "categoryLabel": "Cat2",
             "categoryAccessible": false,
             "categoryKey": 10,
-            "uuid": "uuid322"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid322",
+            "published": true
           },
           {
             "x": 251.94,
-            "y": 81,
+            "y": 171.56,
             "label": "6",
             "categoryLabel": "Cat2",
             "categoryAccessible": false,
             "categoryKey": 10,
-            "uuid": "uuid323"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid323",
+            "published": true
           },
           {
             "x": 271.94,
-            "y": 81,
+            "y": 171.56,
             "label": "7",
             "categoryLabel": "Cat2",
             "categoryAccessible": false,
             "categoryKey": 10,
-            "uuid": "uuid324"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid324",
+            "published": true
           },
           {
             "x": 291.94,
-            "y": 81,
+            "y": 171.56,
             "label": "8",
             "categoryLabel": "Cat2",
             "categoryAccessible": false,
             "categoryKey": 10,
-            "uuid": "uuid325"
+            "restrictedView": false,
+            "accessible": false,
+            "companionSeat": false,
+            "disabledBySocialDistancingRules": false,
+            "uuid": "uuid325",
+            "published": true
           }
         ],
         "curve": 0,
         "chairSpacing": 4,
+        "verticalRowLabelDirection": "BASELINE_LEFT",
+        "displayObjectType": "row",
         "objectType": "row",
-        "uuid": "uuid327"
+        "uuid": "uuid327",
+        "points": null,
+        "rowLabelDisabled": false,
+        "published": true
       }
     ],
-    "shapes": [],
+    "shapes": [
+      {
+        "uuid": "uuid371",
+        "objectType": "shape",
+        "label": "Stage",
+        "smartType": "stage",
+        "smartTypeVariation": null,
+        "fillColor": "#D0D1D2",
+        "strokeColor": "#E8E8E9",
+        "strokeWidth": 0,
+        "autoStroke": false,
+        "labelSize": 16,
+        "icon": "stage",
+        "labelHorizontalOffset": 0,
+        "labelVerticalOffset": 0,
+        "type": "rectangle",
+        "center": {
+          "x": 218.94,
+          "y": 30.56
+        },
+        "rotationAngle": 0,
+        "width": 245.55555555555475,
+        "height": 61.11111111111131,
+        "cornerRadius": 8,
+        "foreground": false
+      }
+    ],
     "booths": [],
+    "icons": [],
     "generalAdmissionAreas": [
       {
         "categoryLabel": "Cat1",
         "categoryKey": 9,
         "capacity": 100,
         "label": "GA1",
+        "objectLabeling": {
+          "algoName": null,
+          "prefix": null,
+          "startAtIndex": null,
+          "skippedCharacters": []
+        },
         "labelSize": 24,
         "labelShown": true,
         "labelHorizontalOffset": 0,
         "labelVerticalOffset": 0,
         "objectType": "generalAdmission",
         "uuid": "uuid368",
+        "translucent": false,
+        "bookAsAWhole": false,
+        "variableOccupancy": false,
+        "minOccupancy": 1,
+        "published": true,
         "type": "circle",
         "center": {
           "x": 53.22,
-          "y": 48.89
+          "y": 139.45
         },
         "rotationAngle": 0,
         "radius1": 52.222222222222626,
-        "radius2": 45.55555555555566
+        "radius2": 45.55555555555566,
+        "foreground": false
       },
       {
         "categoryLabel": "Cat2",
         "categoryKey": 10,
         "capacity": 100,
-        "label": "34",
+        "label": "GA2",
+        "objectLabeling": {
+          "algoName": null,
+          "prefix": null,
+          "startAtIndex": null,
+          "skippedCharacters": []
+        },
         "labelSize": 24,
         "labelShown": true,
         "labelHorizontalOffset": 0,
         "labelVerticalOffset": 0,
         "objectType": "generalAdmission",
         "uuid": "uuid369",
+        "translucent": false,
+        "bookAsAWhole": false,
+        "variableOccupancy": false,
+        "minOccupancy": 1,
+        "published": true,
         "type": "circle",
         "center": {
           "x": 389.22,
-          "y": 48.89
+          "y": 139.45
         },
         "rotationAngle": 0,
         "radius1": 52.222222222222626,
-        "radius2": 45.55555555555566
+        "radius2": 45.55555555555566,
+        "foreground": false
       }
     ],
     "sections": [],
     "focalPoint": {
-      "x": 223.89,
-      "y": 42.67
+      "x": 225,
+      "y": 33.23
     },
+    "backgroundImage": null,
+    "referenceChart": null,
     "snapOffset": {
       "x": 0.06,
-      "y": 3
+      "y": 0.44
     }
   }
 }
