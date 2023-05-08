@@ -94,7 +94,7 @@ class ChangeObjectStatusForMultipleObjectsTest extends SeatsioClientTest
         $event = $this->seatsioClient->events->create($chartKey);
         $objects = [
             (new ObjectProperties("GA1"))->setQuantity(5),
-            (new ObjectProperties("34"))->setQuantity(10)
+            (new ObjectProperties("GA2"))->setQuantity(10)
         ];
 
         $this->seatsioClient->events->changeObjectStatus($event->key, $objects, "lolzor");
@@ -102,7 +102,7 @@ class ChangeObjectStatusForMultipleObjectsTest extends SeatsioClientTest
         $objectInfo1 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "GA1");
         self::assertEquals(5, $objectInfo1->numBooked);
 
-        $objectInfo2 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "34");
+        $objectInfo2 = $this->seatsioClient->events->retrieveObjectInfo($event->key, "GA2");
         self::assertEquals(10, $objectInfo2->numBooked);
     }
 
