@@ -303,8 +303,11 @@ Passing in 0 disables exponential backoff completely. In that case, the client w
 
 ## Upgrading
 
-### v84 -> v85
+### v85 -> v86
 - `$seatsioClient->events->channels->replace` now takes a normal array instead of an associative array. If you want to just replace the channel metadata but keep the objects (like replace() used to do), you have to explicitly pass in the objects.
+
+### v84 -> v85
+- Usage report format changed
 
 ### v83 -> v84
 - Fields returned by usage reports have changed
