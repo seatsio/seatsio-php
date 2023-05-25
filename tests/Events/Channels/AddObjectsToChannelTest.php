@@ -21,8 +21,8 @@ class AddObjectsToChannelTest extends SeatsioClientTest
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
 
         self::assertEquals([
-            new Channel("channel 1", "#FFFF98", 1, "channelKey1", ["A-1", "A-2", "A-3", "A-4"]),
-            new Channel("channel 2", "#FFFF99", 2, "channelKey2", [])
+            new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-1", "A-2", "A-3", "A-4"]),
+            new Channel("channelKey2", "channel 2", "#FFFF99", 2, [])
         ], $retrievedEvent->channels);
     }
 
