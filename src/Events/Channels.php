@@ -18,7 +18,6 @@ class Channels
         $this->client = $client;
     }
 
-
     /**
      * Add a channel
      *
@@ -54,17 +53,17 @@ class Channels
             if ($param->channelKey !== null) {
                 $channelToCreate->key = $param->channelKey;
             }
-            if($param->name !== null) {
+            if ($param->name !== null) {
                 $channelToCreate->name = $param->name;
             }
-            if($param->color !== null) {
-                $channelToCreate->color  = $param->color;
+            if ($param->color !== null) {
+                $channelToCreate->color = $param->color;
             }
-            if($param->index !== null) {
-                $channelToCreate->index  = $param->index;
+            if ($param->index !== null) {
+                $channelToCreate->index = $param->index;
             }
-            if($param->objects !== null) {
-                $channelToCreate->objects  = $param->objects;
+            if ($param->objects !== null) {
+                $channelToCreate->objects = $param->objects;
             }
             $request[] = $channelToCreate;
         }
@@ -161,22 +160,6 @@ class Channels
     {
         $request = new stdClass();
         $request->channels = $channels;
-        $this->client->post(UriTemplate::expand('/events/{key}/channels/update', array("key" => $eventKey)), ['json' => $request]);
+        $this->client->post(UriTemplate::expand('/events/{key}/channels/replace', array("key" => $eventKey)), ['json' => $request]);
     }
-
-    /**
-     * Replace the list of current object labels on a channel with a new list of object labels.
-     *
-     * @param string $eventKey
-     * @param array $channelConfig
-     * @return void
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function setObjects(string $eventKey, array $channelConfig): void
-    {
-        $request = new stdClass();
-        $request->channelConfig = $channelConfig;
-        $this->client->post(UriTemplate::expand('/events/{key}/channels/assign-objects', array("key" => $eventKey)), ['json' => $request]);
-    }
-
 }

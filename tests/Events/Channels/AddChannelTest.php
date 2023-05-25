@@ -20,8 +20,8 @@ class AddChannelTest extends SeatsioClientTest
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
 
         self::assertEquals([
-            new Channel("channel 1", "#FFFF98", 1, "channelKey1", ["A-1", "A-2"]),
-            new Channel("channel 2", "#FFFF99", 2, "channelKey2", ["A-3"])
+            new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-1", "A-2"]),
+            new Channel("channelKey2", "channel 2", "#FFFF99", 2, ["A-3"])
         ], $retrievedEvent->channels);
     }
 
@@ -41,8 +41,8 @@ class AddChannelTest extends SeatsioClientTest
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
 
         self::assertEquals([
-            new Channel("channel 1", "#FFFF98", 1, "channelKey1", ["A-1", "A-2"]),
-            new Channel("channel 2", "#FFFF99", 2, "channelKey2", ["A-3"])
+            new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-1", "A-2"]),
+            new Channel("channelKey2", "channel 2", "#FFFF99", 2, ["A-3"])
         ], $retrievedEvent->channels);
     }
 
@@ -56,7 +56,7 @@ class AddChannelTest extends SeatsioClientTest
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
 
         self::assertEquals([
-            new Channel("channel 1", "#FFFF98", 0, "channelKey1", ["A-1", "A-2"]),
+            new Channel("channelKey1", "channel 1", "#FFFF98", 0, ["A-1", "A-2"]),
         ], $retrievedEvent->channels);
     }
 
@@ -70,7 +70,7 @@ class AddChannelTest extends SeatsioClientTest
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
 
         self::assertEquals([
-            new Channel("channel 1", "#FFFF98", 1, "channelKey1", []),
+            new Channel("channelKey1", "channel 1", "#FFFF98", 1, []),
         ], $retrievedEvent->channels);
     }
 
