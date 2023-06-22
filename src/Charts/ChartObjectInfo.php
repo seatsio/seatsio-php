@@ -60,4 +60,16 @@ class ChartObjectInfo
      * @var int
      */
     public $numSeats;
+    /**
+     * @var bool
+     */
+    public $isAccessible;
+    /**
+     * @var bool
+     */
+    public $isCompanionSeat;
+    /**
+     * @var bool
+     */
+    public $hasRestrictedView;
 }
