@@ -21,7 +21,10 @@ class Event
      */
     public $name;
 
-    public LocalDate $date;
+    /**
+     * @var \Seatsio\LocalDate
+     */
+    public $date;
 
     /**
      * @var boolean
