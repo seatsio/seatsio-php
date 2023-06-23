@@ -4,6 +4,7 @@ namespace Seatsio\Events;
 
 use Seatsio\Charts\Category;
 use Seatsio\Charts\SocialDistancingRuleset;
+use Seatsio\LocalDate;
 use Seatsio\SeatsioClientTest;
 use stdClass;
 
@@ -16,7 +17,7 @@ class UpdateEventTest extends SeatsioClientTest
         $chart2 = $this->seatsioClient->charts->create();
         $event = $this->seatsioClient->events->create($chart1->key);
 
-        $this->seatsioClient->events->update($event->key, $chart2->key);
+        $this->seatsioClient->events->update($event->key, UpdateEventParams::create()->setChartKey($chart2->key));
 
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
         self::assertEquals($chart2->key, $retrievedEvent->chartKey);
@@ -28,11 +29,33 @@ class UpdateEventTest extends SeatsioClientTest
         $chart = $this->seatsioClient->charts->create();
         $event = $this->seatsioClient->events->create($chart->key);
 
-        $this->seatsioClient->events->update($event->key, null, 'newKey');
+        $this->seatsioClient->events->update($event->key, UpdateEventParams::create()->setKey('newKey'));
 
         $retrievedEvent = $this->seatsioClient->events->retrieve('newKey');
         self::assertEquals($chart->key, $retrievedEvent->chartKey);
         self::assertEquals('newKey', $retrievedEvent->key);
+    }
+
+    public function testUpdateName()
+    {
+        $chart = $this->seatsioClient->charts->create();
+        $event = $this->seatsioClient->events->create($chart->key);
+
+        $this->seatsioClient->events->update($event->key, UpdateEventParams::create()->setName('My event'));
+
+        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+        self::assertEquals('My event', $retrievedEvent->name);
+    }
+
+    public function testUpdateDate()
+    {
+        $chart = $this->seatsioClient->charts->create();
+        $event = $this->seatsioClient->events->create($chart->key);
+
+        $this->seatsioClient->events->update($event->key, UpdateEventParams::create()->setDate(LocalDate::create(2020, 1, 5)));
+
+        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+        self::assertEquals(LocalDate::create(2020, 1, 5), $retrievedEvent->date);
     }
 
     public function testUpdateTableBookingConfig()
@@ -40,7 +63,7 @@ class UpdateEventTest extends SeatsioClientTest
         $chartKey = $this->createTestChartWithTables();
         $event = $this->seatsioClient->events->create($chartKey);
 
-        $this->seatsioClient->events->update($event->key, null, null, TableBookingConfig::custom(["T1" => "BY_TABLE", "T2" => "BY_SEAT"]));
+        $this->seatsioClient->events->update($event->key, UpdateEventParams::create()->setTableBookingConfig(TableBookingConfig::custom(["T1" => "BY_TABLE", "T2" => "BY_SEAT"])));
 
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
         self::assertEquals($chartKey, $retrievedEvent->chartKey);
@@ -55,9 +78,9 @@ class UpdateEventTest extends SeatsioClientTest
             "ruleset1" => SocialDistancingRuleset::ruleBased("My first ruleset")->setIndex(0)->build(),
             "ruleset2" => SocialDistancingRuleset::ruleBased("My second ruleset")->setIndex(1)->build()
         ]);
-        $event = $this->seatsioClient->events->create($chartKey, null, null, "ruleset1");
+        $event = $this->seatsioClient->events->create($chartKey, CreateEventParams::create()->setSocialDistancingRulesetKey("ruleset1"));
 
-        $this->seatsioClient->events->update($event->key, null, null, null, "ruleset2");
+        $this->seatsioClient->events->update($event->key, UpdateEventParams::create()->setSocialDistancingRulesetKey("ruleset2"));
 
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
         self::assertEquals("ruleset2", $retrievedEvent->socialDistancingRulesetKey);
@@ -69,9 +92,9 @@ class UpdateEventTest extends SeatsioClientTest
         $this->seatsioClient->charts->saveSocialDistancingRulesets($chartKey, [
             "ruleset1" => SocialDistancingRuleset::ruleBased("My first ruleset")->build()
         ]);
-        $event = $this->seatsioClient->events->create($chartKey, null, null, "ruleset1");
+        $event = $this->seatsioClient->events->create($chartKey, CreateEventParams::create()->setSocialDistancingRulesetKey("ruleset1"));
 
-        $this->seatsioClient->events->update($event->key, null, null, null, "");
+        $this->seatsioClient->events->update($event->key, UpdateEventParams::create()->setSocialDistancingRulesetKey(""));
 
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
         self::assertNull($retrievedEvent->socialDistancingRulesetKey);
@@ -80,9 +103,9 @@ class UpdateEventTest extends SeatsioClientTest
     public function testUpdateObjectCategories()
     {
         $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events->create($chartKey, null, null, null, ["A-1" => 9]);
+        $event = $this->seatsioClient->events->create($chartKey, CreateEventParams::create()->setObjectCategories(["A-1" => 9]));
 
-        $this->seatsioClient->events->update($event->key, null, null, null, null, ["A-2" => 10]);
+        $this->seatsioClient->events->update($event->key, UpdateEventParams::create()->setObjectCategories(["A-2" => 10]));
 
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
         self::assertEquals(["A-2" => 10], $retrievedEvent->objectCategories);
@@ -91,9 +114,9 @@ class UpdateEventTest extends SeatsioClientTest
     public function testRemoveObjectCategories()
     {
         $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events->create($chartKey, null, null, null, ["A-1" => 9]);
+        $event = $this->seatsioClient->events->create($chartKey, CreateEventParams::create()->setObjectCategories(["A-1" => 9]));
 
-        $this->seatsioClient->events->update($event->key, null, null, null, null, new stdClass());
+        $this->seatsioClient->events->update($event->key, UpdateEventParams::create()->setObjectCategories(new stdClass()));
 
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
         self::assertNull($retrievedEvent->objectCategories);
@@ -105,7 +128,7 @@ class UpdateEventTest extends SeatsioClientTest
         $event = $this->seatsioClient->events->create($chartKey);
         $eventCategories = [new Category("eventCategory", "event-level category", "#AAABBB")];
 
-        $this->seatsioClient->events->update($event->key, null, null, null, null, null, $eventCategories);
+        $this->seatsioClient->events->update($event->key, UpdateEventParams::create()->setCategories($eventCategories));
 
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
         self::assertEquals(4, count($retrievedEvent->categories));
@@ -124,9 +147,9 @@ class UpdateEventTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $eventCategories = [new Category("eventCategory", "event-level category", "#AAABBB")];
-        $event = $this->seatsioClient->events->create($chartKey, null, null, null, null, $eventCategories );
+        $event = $this->seatsioClient->events->create($chartKey, CreateEventParams::create()->setCategories($eventCategories));
 
-        $this->seatsioClient->events->update($event->key, null, null, null, null, null, []);
+        $this->seatsioClient->events->update($event->key, UpdateEventParams::create()->setCategories([]));
 
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
         self::assertEquals(3, count($retrievedEvent->categories));

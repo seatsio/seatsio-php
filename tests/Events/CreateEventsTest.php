@@ -2,8 +2,10 @@
 
 namespace Seatsio\Events;
 
+use Composer\DependencyResolver\LocalRepoTransaction;
 use Seatsio\Charts\Category;
 use Seatsio\Charts\SocialDistancingRuleset;
+use Seatsio\LocalDate;
 use Seatsio\SeatsioClientTest;
 
 class CreateEventsTest extends SeatsioClientTest
@@ -12,7 +14,7 @@ class CreateEventsTest extends SeatsioClientTest
     public function test_multipleEvents()
     {
         $chartKey = $this->createTestChart();
-        $params = [new EventCreationParams(), new EventCreationParams()];
+        $params = [CreateEventParams::create(), CreateEventParams::create()];
 
         $events = $this->seatsioClient->events->createMultiple($chartKey, $params);
 
@@ -25,7 +27,7 @@ class CreateEventsTest extends SeatsioClientTest
     public function test_single_event()
     {
         $chartKey = $this->createTestChart();
-        $params = [new EventCreationParams()];
+        $params = [CreateEventParams::create()];
 
         $events = $this->seatsioClient->events->createMultiple($chartKey, $params);
 
@@ -46,7 +48,7 @@ class CreateEventsTest extends SeatsioClientTest
     public function test_event_key_can_be_passed_in()
     {
         $chartKey = $this->createTestChart();
-        $params = [new EventCreationParams("event1"), new EventCreationParams("event2")];
+        $params = [CreateEventParams::create()->setKey("event1"), CreateEventParams::create()->setKey("event2")];
 
         $events = $this->seatsioClient->events->createMultiple($chartKey, $params);
 
@@ -59,8 +61,8 @@ class CreateEventsTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChartWithTables();
         $params = [
-            (new EventCreationParams())->setTableBookingConfig(TableBookingConfig::custom(["T1" => "BY_TABLE", "T2" => "BY_SEAT"])),
-            (new EventCreationParams())->setTableBookingConfig(TableBookingConfig::custom(["T1" => "BY_SEAT", "T2" => "BY_TABLE"]))
+            CreateEventParams::create()->setTableBookingConfig(TableBookingConfig::custom(["T1" => "BY_TABLE", "T2" => "BY_SEAT"])),
+            CreateEventParams::create()->setTableBookingConfig(TableBookingConfig::custom(["T1" => "BY_SEAT", "T2" => "BY_TABLE"]))
         ];
 
         $events = $this->seatsioClient->events->createMultiple($chartKey, $params);
@@ -75,8 +77,8 @@ class CreateEventsTest extends SeatsioClientTest
         $chartKey = $this->createTestChartWithTables();
         $this->seatsioClient->charts->saveSocialDistancingRulesets($chartKey, ["ruleset1" => SocialDistancingRuleset::ruleBased("My ruleset")->build()]);
         $params = [
-            (new EventCreationParams())->setSocialDistancingRulesetKey("ruleset1"),
-            (new EventCreationParams())->setSocialDistancingRulesetKey("ruleset1")
+            CreateEventParams::create()->setSocialDistancingRulesetKey("ruleset1"),
+            CreateEventParams::create()->setSocialDistancingRulesetKey("ruleset1")
         ];
 
         $events = $this->seatsioClient->events->createMultiple($chartKey, $params);
@@ -90,10 +92,9 @@ class CreateEventsTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
 
-        $params = [
-            ((new EventCreationParams())->setObjectCategories(["A-1" => 10]))
-        ];
+        $params = [CreateEventParams::create()->setObjectCategories(["A-1" => 10])];
         $events = $this->seatsioClient->events->createMultiple($chartKey, $params);
+
         self::assertEquals(["A-1" => 10], $events[0]->objectCategories);
     }
 
@@ -101,9 +102,9 @@ class CreateEventsTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $params = [
-            ((new EventCreationParams())->setCategories([
+            CreateEventParams::create()->setCategories([
                 new Category("eventCategory", "event-level category", "#AAABBB")
-            ]))
+            ])
         ];
         $events = $this->seatsioClient->events->createMultiple($chartKey, $params);
 
@@ -116,6 +117,26 @@ class CreateEventsTest extends SeatsioClientTest
         self::assertEquals('event-level category', $eventCategory->label);
         self::assertEquals('#AAABBB', $eventCategory->color);
         self::assertEquals(false, $eventCategory->accessible);
+    }
+
+    public function test_nameCanBePassedIn()
+    {
+        $chartKey = $this->createTestChart();
+
+        $params = [CreateEventParams::create()->setName('My event')];
+        $events = $this->seatsioClient->events->createMultiple($chartKey, $params);
+
+        self::assertEquals('My event', $events[0]->name);
+    }
+
+    public function test_dateCanBePassedIn()
+    {
+        $chartKey = $this->createTestChart();
+
+        $params = [CreateEventParams::create()->setDate(LocalDate::create(2022, 1, 10))];
+        $events = $this->seatsioClient->events->createMultiple($chartKey, $params);
+
+        self::assertEquals(LocalDate::create(2022, 1, 10), $events[0]->date);
     }
 
 }

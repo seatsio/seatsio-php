@@ -403,12 +403,12 @@ When creating multiple events, you now pass in an (optional) `$tableBookingConfi
 
 ```php
 $params = [
-    (new EventCreationParams())
+    CreateEventParams::create()
     ->setEventKey("event34")
-    ->setTableBookingConfig(TableBookingConfig::allByTable()),
-    (new EventCreationParams())
+    ->setTableBookingConfig(TableBookingConfig::allByTable(),
+    CreateEventParams::create()
     ->setEventKey("event35")
-    ->setTableBookingConfig(TableBookingConfig::allBySeat())
+    ->setTableBookingConfig(TableBookingConfig::allBySeat()
 ];
 
 $events = $seatsioClient->events->createMultiple("4250fffc-e41f-c7cb-986a-2c5e728b8c28", $params);

@@ -31,30 +31,40 @@ class Events
         $this->channels = new Channels($client);
     }
 
-    public function create(string $chartKey, string $eventKey = null, TableBookingConfig $tableBookingConfig = null, string $socialDistancingRulesetKey = null, array $objectCategories = null, array $categories = null): Event
+    public function create(string $chartKey, CreateEventParams $params = null): Event
     {
         $request = new stdClass();
 
         $request->chartKey = $chartKey;
 
-        if ($eventKey !== null) {
-            $request->eventKey = $eventKey;
-        }
+        if ($params != null) {
+            if ($params->eventKey !== null) {
+                $request->eventKey = $params->eventKey;
+            }
 
-        if ($tableBookingConfig != null) {
-            $request->tableBookingConfig = $this->serializeTableBookingConfig($tableBookingConfig);
-        }
+            if ($params->name !== null) {
+                $request->name = $params->name;
+            }
 
-        if ($socialDistancingRulesetKey !== null) {
-            $request->socialDistancingRulesetKey = $socialDistancingRulesetKey;
-        }
+            if ($params->date !== null) {
+                $request->date = $params->date->serialize();
+            }
 
-        if ($objectCategories !== null) {
-            $request->objectCategories = $objectCategories;
-        }
+            if ($params->tableBookingConfig != null) {
+                $request->tableBookingConfig = $this->serializeTableBookingConfig($params->tableBookingConfig);
+            }
 
-        if ($categories !== null) {
-            $request->categories = $categories;
+            if ($params->socialDistancingRulesetKey !== null) {
+                $request->socialDistancingRulesetKey = $params->socialDistancingRulesetKey;
+            }
+
+            if ($params->objectCategories !== null) {
+                $request->objectCategories = $params->objectCategories;
+            }
+
+            if ($params->categories !== null) {
+                $request->categories = $params->categories;
+            }
         }
 
         $res = $this->client->post('/events', ['json' => $request]);
@@ -66,16 +76,24 @@ class Events
     /**
      * @return Event[]
      */
-    public function createMultiple(string $chartKey, array $eventCreationParams): array
+    public function createMultiple(string $chartKey, array $createEventParams): array
     {
         $request = new stdClass();
         $request->chartKey = $chartKey;
         $request->events = array();
-        foreach ($eventCreationParams as $param) {
+        foreach ($createEventParams as $param) {
             $eventToCreate = new stdClass();
 
             if ($param->eventKey !== null) {
                 $eventToCreate->eventKey = $param->eventKey;
+            }
+
+            if ($param->name !== null) {
+                $eventToCreate->name = $param->name;
+            }
+
+            if ($param->date !== null) {
+                $eventToCreate->date = $param->date->serialize();
             }
 
             if ($param->tableBookingConfig !== null) {
@@ -114,31 +132,40 @@ class Events
         return $mapper->map($json, new Event());
     }
 
-    public function update(string $eventKey, string $chartKey = null, string $newEventKey = null, TableBookingConfig $tableBookingConfig = null, string $socialDistancingRulesetKey = null, $objectCategories = null, $categories = null): void
+    public function update(string $eventKey, UpdateEventParams $params): void
     {
         $request = new stdClass();
 
-        if ($chartKey !== null) {
-            $request->chartKey = $chartKey;
+        if ($params->chartKey !== null) {
+            $request->chartKey = $params->chartKey;
         }
 
-        if ($newEventKey !== null) {
-            $request->eventKey = $newEventKey;
+        if ($params->eventKey !== null) {
+            $request->eventKey = $params->eventKey;
         }
 
-        if ($tableBookingConfig !== null) {
-            $request->tableBookingConfig = $this->serializeTableBookingConfig($tableBookingConfig);
+        if ($params->tableBookingConfig !== null) {
+            $request->tableBookingConfig = $this->serializeTableBookingConfig($params->tableBookingConfig);
         }
 
-        if ($socialDistancingRulesetKey !== null) {
-            $request->socialDistancingRulesetKey = $socialDistancingRulesetKey;
+        if ($params->socialDistancingRulesetKey !== null) {
+            $request->socialDistancingRulesetKey = $params->socialDistancingRulesetKey;
         }
 
-        if ($objectCategories !== null) {
-            $request->objectCategories = $objectCategories;
+        if ($params->objectCategories !== null) {
+            $request->objectCategories = $params->objectCategories;
         }
-        if ($categories !== null) {
-            $request->categories = $categories;
+
+        if ($params->categories !== null) {
+            $request->categories = $params->categories;
+        }
+
+        if ($params->name !== null) {
+            $request->name = $params->name;
+        }
+
+        if ($params->date !== null) {
+            $request->date = $params->date->serialize();
         }
 
         $this->client->post(UriTemplate::expand('/events/{key}', array("key" => $eventKey)), ['json' => $request]);
