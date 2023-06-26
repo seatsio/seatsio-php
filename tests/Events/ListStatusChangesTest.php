@@ -2,11 +2,14 @@
 
 namespace Seatsio\Charts;
 
+use GuzzleHttp\Promise\Create;
+use Seatsio\Events\CreateEventParams;
 use Seatsio\Events\Event;
 use Seatsio\Events\EventObjectInfo;
 use Seatsio\Events\ObjectProperties;
 use Seatsio\Events\StatusChangeRequest;
 use Seatsio\Events\TableBookingConfig;
+use Seatsio\Events\UpdateEventParams;
 use Seatsio\SeatsioClientTest;
 use function Functional\map;
 
@@ -88,9 +91,9 @@ class ListStatusChangesTest extends SeatsioClientTest
     public function testNotPresentOnChartAnymore()
     {
         $chartKey = $this->createTestChartWithTables();
-        $event = $this->seatsioClient->events->create($chartKey, null, TableBookingConfig::allByTable());
+        $event = $this->seatsioClient->events->create($chartKey, CreateEventParams::create()->setTableBookingConfig(TableBookingConfig::allByTable()));
         $this->seatsioClient->events->book($event->key, "T1");
-        $this->seatsioClient->events->update($event->key, null, null, TableBookingConfig::allBySeat());
+        $this->seatsioClient->events->update($event->key, UpdateEventParams::create()->setTableBookingConfig(TableBookingConfig::allBySeat()));
         $this->waitForStatusChanges($event, 1);
 
         $statusChanges = $this->seatsioClient->events->statusChanges($event->key)->all();

@@ -4,6 +4,7 @@ namespace Seatsio\Reports;
 
 use Seatsio\Common\IDs;
 use Seatsio\Events\Channel;
+use Seatsio\Events\CreateEventParams;
 use Seatsio\Events\EventObjectInfo;
 use Seatsio\Events\ObjectProperties;
 use Seatsio\Events\TableBookingConfig;
@@ -90,7 +91,7 @@ class EventReportsTest extends SeatsioClientTest
     public function testReportItemPropertiesForTable()
     {
         $chartKey = $this->createTestChartWithTables();
-        $event = $this->seatsioClient->events->create($chartKey, null, TableBookingConfig::allByTable());
+        $event = $this->seatsioClient->events->create($chartKey, CreateEventParams::create()->setTableBookingConfig(TableBookingConfig::allByTable()));
 
         $report = $this->seatsioClient->eventReports->byLabel($event->key);
 

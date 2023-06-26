@@ -2,15 +2,24 @@
 
 namespace Seatsio\Events;
 
-use Exception;
+use Seatsio\LocalDate;
 
-class EventCreationParams
+abstract class EventParams
 {
-
     /**
      * @var string
      */
     public $eventKey;
+
+    /**
+     * @var string
+     */
+    public $name;
+
+    /**
+     * @var \Seatsio\LocalDate
+     */
+    public $date;
 
     /**
      * @var boolean|object|array
@@ -32,9 +41,22 @@ class EventCreationParams
      */
     public $categories;
 
-    public function __construct(string $eventKey = null)
+    public function setKey(string $key): self
     {
-        $this->eventKey = $eventKey;
+        $this->eventKey = $key;
+        return $this;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function setDate(LocalDate $date): self
+    {
+        $this->date = $date;
+        return $this;
     }
 
     public function setTableBookingConfig(TableBookingConfig $tableBookingConfig): self
@@ -60,5 +82,4 @@ class EventCreationParams
         $this->socialDistancingRulesetKey = $socialDistancingRulesetKey;
         return $this;
     }
-
 }

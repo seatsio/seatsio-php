@@ -2,6 +2,8 @@
 
 namespace Seatsio\Events;
 
+use Seatsio\LocalDate;
+
 class Event
 {
     /**
@@ -13,6 +15,16 @@ class Event
      * @var string
      */
     public $key;
+
+    /**
+     * @var string
+     */
+    public $name;
+
+    /**
+     * @var \Seatsio\LocalDate
+     */
+    public $date;
 
     /**
      * @var boolean
