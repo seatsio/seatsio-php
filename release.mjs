@@ -22,7 +22,7 @@ $.verbose = false
 const versionToBump = getVersionToBump()
 const latestReleaseTag = await fetchLatestReleasedVersionNumber()
 
-await pullLastVersion().then(release)
+await release()
 
 function getVersionToBump() {
     if (!argv.v || !(argv.v === 'minor' || argv.v === 'major')) {
@@ -47,11 +47,6 @@ async function determineNextVersionNumber(previous) {
     return (await $`semver bump ${versionToBump} ${previous}`).stdout.trim()
 }
 
-async function pullLastVersion() {
-    await $`git checkout master`
-    await $`git pull origin master`
-}
-
 async function getCurrentCommitHash() {
     return (await $`git rev-parse HEAD`).stdout.trim()
 }
@@ -62,8 +57,8 @@ async function getCommitHashOfTag(tag) {
 
 async function assertChangesSinceRelease(releaseTag) {
     let masterCommitHash = await getCurrentCommitHash()
-    let latestReleaseCommitHash = await getCommitHashOfTag(releaseTag)
-    if(masterCommitHash === latestReleaseCommitHash) {
+    let releaseCommitHash = await getCommitHashOfTag(releaseTag)
+    if(masterCommitHash === releaseCommitHash) {
         throw new Error("No changes on master since release tagged " + releaseTag)
     }
 }
