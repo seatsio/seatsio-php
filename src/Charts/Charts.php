@@ -212,13 +212,6 @@ class Charts
         $this->client->delete(UriTemplate::expand('/charts/{key}/tags/{tag}', array("key" => $key, "tag" => $tag)));
     }
 
-    public function saveSocialDistancingRulesets(string $key, array $rulesets)
-    {
-        $request = new stdClass();
-        $request->socialDistancingRulesets = $rulesets;
-        $this->client->post(UriTemplate::expand('/charts/{key}/social-distancing-rulesets', array("key" => $key)), ['json' => $request]);
-    }
-
     public function listAll(ChartListParams $chartListParams = null): ChartPagedIterator
     {
         return $this->iterator()->all($this->listParamsToArray($chartListParams));

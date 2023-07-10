@@ -27,11 +27,6 @@ class SeasonCreationParams
      */
     public $tableBookingConfig;
 
-    /**
-     * @var string
-     */
-    public $socialDistancingRulesetKey;
-
     public function __construct(string $key = null)
     {
         $this->key = $key;
@@ -59,11 +54,4 @@ class SeasonCreationParams
         $this->tableBookingConfig = $tableBookingConfig;
         return $this;
     }
-
-    public function setSocialDistancingRulesetKey(string $socialDistancingRulesetKey): self
-    {
-        $this->socialDistancingRulesetKey = $socialDistancingRulesetKey;
-        return $this;
-    }
-
 }

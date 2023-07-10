@@ -64,11 +64,6 @@ class Event
     /**
      * @var string
      */
-    public $socialDistancingRulesetKey;
-
-    /**
-     * @var string
-     */
     public $topLevelSeasonKey;
 
     /**
