@@ -3,7 +3,6 @@
 namespace Seatsio\Events;
 
 use Seatsio\Charts\Category;
-use Seatsio\Charts\SocialDistancingRuleset;
 use Seatsio\LocalDate;
 use Seatsio\SeatsioClientTest;
 use stdClass;
@@ -69,35 +68,6 @@ class UpdateEventTest extends SeatsioClientTest
         self::assertEquals($chartKey, $retrievedEvent->chartKey);
         self::assertEquals($event->key, $retrievedEvent->key);
         self::assertEquals(TableBookingConfig::custom(["T1" => "BY_TABLE", "T2" => "BY_SEAT"]), $retrievedEvent->tableBookingConfig);
-    }
-
-    public function testUpdateSocialDistancingRulesetKey()
-    {
-        $chartKey = $this->createTestChartWithTables();
-        $this->seatsioClient->charts->saveSocialDistancingRulesets($chartKey, [
-            "ruleset1" => SocialDistancingRuleset::ruleBased("My first ruleset")->setIndex(0)->build(),
-            "ruleset2" => SocialDistancingRuleset::ruleBased("My second ruleset")->setIndex(1)->build()
-        ]);
-        $event = $this->seatsioClient->events->create($chartKey, CreateEventParams::create()->setSocialDistancingRulesetKey("ruleset1"));
-
-        $this->seatsioClient->events->update($event->key, UpdateEventParams::create()->setSocialDistancingRulesetKey("ruleset2"));
-
-        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
-        self::assertEquals("ruleset2", $retrievedEvent->socialDistancingRulesetKey);
-    }
-
-    public function testRemoveSocialDistancingRulesetKey()
-    {
-        $chartKey = $this->createTestChartWithTables();
-        $this->seatsioClient->charts->saveSocialDistancingRulesets($chartKey, [
-            "ruleset1" => SocialDistancingRuleset::ruleBased("My first ruleset")->build()
-        ]);
-        $event = $this->seatsioClient->events->create($chartKey, CreateEventParams::create()->setSocialDistancingRulesetKey("ruleset1"));
-
-        $this->seatsioClient->events->update($event->key, UpdateEventParams::create()->setSocialDistancingRulesetKey(""));
-
-        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
-        self::assertNull($retrievedEvent->socialDistancingRulesetKey);
     }
 
     public function testUpdateObjectCategories()

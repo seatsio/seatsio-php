@@ -116,10 +116,6 @@ class EventObjectInfo
      */
     public $availabilityReason;
     /**
-     * @var boolean
-     */
-    public $isDisabledBySocialDistancing;
-    /**
      * @var string
      */
     public $channel;

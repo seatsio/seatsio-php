@@ -44,7 +44,6 @@ class EventReportsTest extends SeatsioClientTest
         self::assertFalse($reportItem->isCompanionSeat);
         self::assertFalse($reportItem->isAvailable);
         self::assertEquals(EventObjectInfo::$BOOKED, $reportItem->availabilityReason);
-        self::assertFalse($reportItem->isDisabledBySocialDistancing);
         self::assertNull($reportItem->displayedObjectType);
         self::assertNull($reportItem->leftNeighbour);
         self::assertEquals("A-2", $reportItem->rightNeighbour);

@@ -4,7 +4,6 @@ namespace Seatsio\Events;
 
 use Composer\DependencyResolver\LocalRepoTransaction;
 use Seatsio\Charts\Category;
-use Seatsio\Charts\SocialDistancingRuleset;
 use Seatsio\LocalDate;
 use Seatsio\SeatsioClientTest;
 
@@ -70,22 +69,6 @@ class CreateEventsTest extends SeatsioClientTest
         self::assertEquals(2, sizeof($events));
         self::assertEquals(TableBookingConfig::custom(["T1" => "BY_TABLE", "T2" => "BY_SEAT"]), $events[0]->tableBookingConfig);
         self::assertEquals(TableBookingConfig::custom(["T1" => "BY_SEAT", "T2" => "BY_TABLE"]), $events[1]->tableBookingConfig);
-    }
-
-    public function test_socialDistancingRulesetKeyCanBePassedIn()
-    {
-        $chartKey = $this->createTestChartWithTables();
-        $this->seatsioClient->charts->saveSocialDistancingRulesets($chartKey, ["ruleset1" => SocialDistancingRuleset::ruleBased("My ruleset")->build()]);
-        $params = [
-            CreateEventParams::create()->setSocialDistancingRulesetKey("ruleset1"),
-            CreateEventParams::create()->setSocialDistancingRulesetKey("ruleset1")
-        ];
-
-        $events = $this->seatsioClient->events->createMultiple($chartKey, $params);
-
-        self::assertEquals(2, sizeof($events));
-        self::assertEquals("ruleset1", $events[0]->socialDistancingRulesetKey);
-        self::assertEquals("ruleset1", $events[1]->socialDistancingRulesetKey);
     }
 
     public function test_objectCategoriesCanBePassedIn()

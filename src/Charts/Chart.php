@@ -45,9 +45,4 @@ class Chart
      * @var array
      */
     public $validation;
-
-    /**
-     * @var SocialDistancingRuleset[]
-     */
-    public $socialDistancingRulesets;
 }

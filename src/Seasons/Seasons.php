@@ -46,10 +46,6 @@ class Seasons
             if ($seasonCreationParams->tableBookingConfig !== null) {
                 $request->tableBookingConfig = $this->serializeTableBookingConfig($seasonCreationParams->tableBookingConfig);
             }
-
-            if ($seasonCreationParams->socialDistancingRulesetKey !== null) {
-                $request->socialDistancingRulesetKey = $seasonCreationParams->socialDistancingRulesetKey;
-            }
         }
 
         $res = $this->client->post('/seasons', ['json' => $request]);

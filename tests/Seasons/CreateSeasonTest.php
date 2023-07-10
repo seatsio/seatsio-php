@@ -2,7 +2,6 @@
 
 namespace Seatsio\Seasons;
 
-use Seatsio\Charts\SocialDistancingRuleset;
 use Seatsio\Events\TableBookingConfig;
 use Seatsio\SeatsioClientTest;
 use function Functional\map;
@@ -76,15 +75,4 @@ class CreateSeasonTest extends SeatsioClientTest
         self::assertNotNull($season->key);
         self::assertEquals(TableBookingConfig::inherit(), $season->tableBookingConfig);
     }
-
-    public function testSocialDistancingRulesetKeyCanBePassedIn()
-    {
-        $chartKey = $this->createTestChartWithTables();
-        $this->seatsioClient->charts->saveSocialDistancingRulesets($chartKey, ["ruleset1" => SocialDistancingRuleset::ruleBased("My ruleset")->build()]);
-
-        $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setSocialDistancingRulesetKey("ruleset1"));
-
-        self::assertEquals("ruleset1", $season->socialDistancingRulesetKey);
-    }
-
 }

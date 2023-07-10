@@ -27,11 +27,6 @@ abstract class EventParams
     public $tableBookingConfig;
 
     /**
-     * @var string
-     */
-    public $socialDistancingRulesetKey;
-
-    /**
      * @var array
      */
     public $objectCategories;
@@ -74,12 +69,6 @@ abstract class EventParams
     public function setCategories($categories): self
     {
         $this->categories = $categories;
-        return $this;
-    }
-
-    public function setSocialDistancingRulesetKey(string $socialDistancingRulesetKey): self
-    {
-        $this->socialDistancingRulesetKey = $socialDistancingRulesetKey;
         return $this;
     }
 }
