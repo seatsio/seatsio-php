@@ -46,6 +46,11 @@ class SeatsioClient
     public $chartReports;
 
     /**
+     * @var UsageReports
+     */
+    public $usageReports;
+
+    /**
      * @var Subaccounts
      */
     public $subaccounts;
