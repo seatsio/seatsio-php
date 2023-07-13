@@ -5,11 +5,10 @@ namespace Seatsio;
 use GuzzleHttp\Client;
 use GuzzleHttp\Utils;
 use PHPUnit\Framework\TestCase;
-use Seatsio\Charts\ListStatusChangesTest;
 use Seatsio\Events\Event;
 use Seatsio\Subaccounts\Subaccount;
 
-class SeatsioClientTest extends TestCase
+abstract class SeatsioClientTest extends TestCase
 {
     private static $BASE_URL = 'https://api-staging-eu.seatsio.net/';
 
