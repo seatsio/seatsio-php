@@ -131,5 +131,16 @@ class EventObjectInfo
      * @var int
      */
     public $numSeats;
-
+    /**
+     * @var boolean
+     */
+    public $variableOccupancy;
+    /**
+     * @var int
+     */
+    public $minOccupancy;
+    /**
+     * @var int
+     */
+    public $maxOccupancy;
 }
