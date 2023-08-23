@@ -49,6 +49,11 @@ class EventReportsTest extends SeatsioClientTest
         self::assertEquals("A-2", $reportItem->rightNeighbour);
         self::assertEquals("channel1", $reportItem->channel);
         self::assertNotNull($reportItem->distanceToFocalPoint);
+
+        $gaItem = $report["GA1"][0];
+        self::assertFalse($gaItem->variableOccupancy);
+        self::assertEquals(1, $gaItem->minOccupancy);
+        self::assertNull($gaItem->maxOccupancy);
     }
 
     public function testHoldToken()
