@@ -122,4 +122,18 @@ class CreateEventsTest extends SeatsioClientTest
         self::assertEquals(LocalDate::create(2022, 1, 10), $events[0]->date);
     }
 
+    public function test_channelsCanBePassedIn()
+    {
+        $chartKey = $this->createTestChart();
+        $channels = [
+            new Channel("channelKey1", "channel 1", "#FF0000", 1, ["A-1", "A-2"]),
+            new Channel("channelKey2", "channel 2", "#00FFFF", 2, [])
+        ];
+
+        $params = [CreateEventParams::create()->setChannels($channels)];
+        $events = $this->seatsioClient->events->createMultiple($chartKey, $params);
+
+        self::assertEquals($channels, $events[0]->channels);
+    }
+
 }

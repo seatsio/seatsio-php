@@ -66,7 +66,10 @@ abstract class EventParams
         return $this;
     }
 
-    public function setCategories($categories): self
+    /**
+     * @param \Seatsio\Charts\Category[] $categories
+     */
+    public function setCategories(array $categories): self
     {
         $this->categories = $categories;
         return $this;

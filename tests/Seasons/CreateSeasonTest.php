@@ -2,6 +2,7 @@
 
 namespace Seatsio\Seasons;
 
+use Seatsio\Events\Channel;
 use Seatsio\Events\TableBookingConfig;
 use Seatsio\SeatsioClientTest;
 use function Functional\map;
@@ -74,5 +75,19 @@ class CreateSeasonTest extends SeatsioClientTest
 
         self::assertNotNull($season->key);
         self::assertEquals(TableBookingConfig::inherit(), $season->tableBookingConfig);
+    }
+
+    public function testChannelsCanBePassedIn()
+    {
+        $chartKey = $this->createTestChart();
+        $channels = [
+            new Channel("channelKey1", "channel 1", "#FF0000", 1, ["A-1", "A-2"]),
+            new Channel("channelKey2", "channel 2", "#00FFFF", 2, [])
+        ];
+
+        $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setChannels($channels));
+
+        self::assertNotNull($season->key);
+        self::assertEquals($channels, $season->channels);
     }
 }

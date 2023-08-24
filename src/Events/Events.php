@@ -61,6 +61,10 @@ class Events
             if ($params->categories !== null) {
                 $request->categories = $params->categories;
             }
+
+            if ($params->channels !== null) {
+                $request->channels = $params->channels;
+            }
         }
 
         $res = $this->client->post('/events', ['json' => $request]);
@@ -102,6 +106,10 @@ class Events
 
             if ($param->categories !== null) {
                 $eventToCreate->categories = $param->categories;
+            }
+
+            if ($param->channels !== null) {
+                $eventToCreate->channels = $param->channels;
             }
 
             $request->events[] = $eventToCreate;

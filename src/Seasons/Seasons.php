@@ -46,6 +46,10 @@ class Seasons
             if ($seasonCreationParams->tableBookingConfig !== null) {
                 $request->tableBookingConfig = $this->serializeTableBookingConfig($seasonCreationParams->tableBookingConfig);
             }
+
+            if ($seasonCreationParams->channels !== null) {
+                $request->channels = $seasonCreationParams->channels;
+            }
         }
 
         $res = $this->client->post('/seasons', ['json' => $request]);
