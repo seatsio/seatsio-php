@@ -27,6 +27,11 @@ class SeasonCreationParams
      */
     public $tableBookingConfig;
 
+    /**
+     * @var \Seatsio\Events\Channel[]
+     */
+    public $channels;
+
     public function __construct(string $key = null)
     {
         $this->key = $key;
@@ -52,6 +57,15 @@ class SeasonCreationParams
     public function setTableBookingConfig(TableBookingConfig $tableBookingConfig): self
     {
         $this->tableBookingConfig = $tableBookingConfig;
+        return $this;
+    }
+
+    /**
+     * @param \Seatsio\Events\Channel[] $channels
+     */
+    public function setChannels(array $channels): self
+    {
+        $this->channels = $channels;
         return $this;
     }
 }

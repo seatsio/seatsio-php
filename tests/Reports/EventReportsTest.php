@@ -16,12 +16,11 @@ class EventReportsTest extends SeatsioClientTest
     public function testReportItemProperties()
     {
         $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events->create($chartKey);
+        $event = $this->seatsioClient->events->create($chartKey, (new CreateEventParams())->setChannels([
+            new Channel("channel1", "channel 1", "#FF0000", 1, ["A-1", "A-2"])
+        ]));
         $extraData = ["foo" => "bar"];
-        $this->seatsioClient->events->book($event->key, (new ObjectProperties("A-1"))->setTicketType("ticketType1")->setExtraData($extraData), null, "order1");
-        $this->seatsioClient->events->channels->replace($event->key, [
-            new Channel("channel1", "channel 1", "#FF0000", 1, ["A-1"])
-        ]);
+        $this->seatsioClient->events->book($event->key, (new ObjectProperties("A-1"))->setTicketType("ticketType1")->setExtraData($extraData), null, "order1", null, true);
 
         $report = $this->seatsioClient->eventReports->byLabel($event->key);
 
@@ -315,10 +314,9 @@ class EventReportsTest extends SeatsioClientTest
     public function testByChannel()
     {
         $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events->create($chartKey);
-        $this->seatsioClient->events->channels->replace($event->key, [
+        $event = $this->seatsioClient->events->create($chartKey, (new CreateEventParams())->setChannels([
             new Channel("channel1", "channel 1", "#FF0000", 1, ["A-1", "A-2"])
-        ]);
+        ]));
 
         $report = $this->seatsioClient->eventReports->byChannel($event->key);
 
@@ -329,10 +327,9 @@ class EventReportsTest extends SeatsioClientTest
     public function testBySpecificChannel()
     {
         $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events->create($chartKey);
-        $this->seatsioClient->events->channels->replace($event->key, [
+        $event = $this->seatsioClient->events->create($chartKey, (new CreateEventParams())->setChannels([
             new Channel("channel1", "channel 1", "#FF0000", 1, ["A-1", "A-2"])
-        ]);
+        ]));
 
         $report = $this->seatsioClient->eventReports->byChannel($event->key, 'channel1');
 
