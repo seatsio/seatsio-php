@@ -55,11 +55,10 @@ class HoldObjectsTest extends SeatsioClientTest
     public function testChannelKeys()
     {
         $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events->create($chartKey);
-        $holdToken = $this->seatsioClient->holdTokens->create();
-        $this->seatsioClient->events->channels->replace($event->key, [
+        $event = $this->seatsioClient->events->create($chartKey, (new CreateEventParams())->setChannels([
             new Channel("channelKey1", "channel 1", "#FF0000", 1, ["A-1", "A-2"])
-        ]);
+        ]));
+        $holdToken = $this->seatsioClient->holdTokens->create();
 
         $this->seatsioClient->events->hold($event->key, "A-1", $holdToken->holdToken, null, null, null, ["channelKey1"]);
 
@@ -70,11 +69,10 @@ class HoldObjectsTest extends SeatsioClientTest
     public function testIgnoreChannels()
     {
         $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events->create($chartKey);
-        $holdToken = $this->seatsioClient->holdTokens->create();
-        $this->seatsioClient->events->channels->replace($event->key, [
+        $event = $this->seatsioClient->events->create($chartKey, (new CreateEventParams())->setChannels([
             new Channel("channelKey1", "channel 1", "#FF0000", 1, ["A-1", "A-2"])
-        ]);
+        ]));
+        $holdToken = $this->seatsioClient->holdTokens->create();
 
         $this->seatsioClient->events->hold($event->key, "A-1", $holdToken->holdToken, null, null, true);
 

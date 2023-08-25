@@ -32,10 +32,9 @@ class ChangeObjectStatusInBatchTest extends SeatsioClientTest
     public function testChannelKeys()
     {
         $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events->create($chartKey);
-        $this->seatsioClient->events->channels->replace($event->key, [
+        $event = $this->seatsioClient->events->create($chartKey, (new CreateEventParams())->setChannels([
             new Channel("channelKey1", "channel 1", "#FF0000", 1, ["A-1"])
-        ]);
+        ]));
 
         $response = $this->seatsioClient->events->changeObjectStatusInBatch([
             new StatusChangeRequest($event->key, "A-1", "lolzor", null, null, null, null, ["channelKey1"])
@@ -47,10 +46,9 @@ class ChangeObjectStatusInBatchTest extends SeatsioClientTest
     public function testIgnoreChannels()
     {
         $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events->create($chartKey);
-        $this->seatsioClient->events->channels->replace($event->key, [
+        $event = $this->seatsioClient->events->create($chartKey, (new CreateEventParams())->setChannels([
             new Channel("channelKey1", "channel 1", "#FF0000", 1, ["A-1"])
-        ]);
+        ]));
 
         $response = $this->seatsioClient->events->changeObjectStatusInBatch([
             new StatusChangeRequest($event->key, "A-1", "lolzor", null, null, null, true)

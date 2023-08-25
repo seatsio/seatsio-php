@@ -63,10 +63,9 @@ class ReleaseObjectsTest extends SeatsioClientTest
     public function testChannelKeys()
     {
         $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events->create($chartKey);
-        $this->seatsioClient->events->channels->replace($event->key, [
+        $event = $this->seatsioClient->events->create($chartKey, (new CreateEventParams())->setChannels([
             new Channel("channelKey1", "channel 1", "#FF0000", 1, ["A-1", "A-2"])
-        ]);
+        ]));
         $this->seatsioClient->events->book($event->key, "A-1", null, null, null, null, ["channelKey1"]);
 
         $this->seatsioClient->events->release($event->key, "A-1", null, null, null, null, ["channelKey1"]);
@@ -78,10 +77,9 @@ class ReleaseObjectsTest extends SeatsioClientTest
     public function testIgnoreChannels()
     {
         $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events->create($chartKey);
-        $this->seatsioClient->events->channels->replace($event->key, [
+        $event = $this->seatsioClient->events->create($chartKey, (new CreateEventParams())->setChannels([
             new Channel("channelKey1", "channel 1", "#FF0000", 1, ["A-1", "A-2"])
-        ]);
+        ]));
         $this->seatsioClient->events->book($event->key, "A-1", null, null, null, null, ["channelKey1"]);
 
         $this->seatsioClient->events->release($event->key, "A-1", null, null, null, true);

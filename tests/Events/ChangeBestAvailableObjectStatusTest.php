@@ -160,10 +160,9 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
     public function testChannelKeys()
     {
         $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events->create($chartKey);
-        $this->seatsioClient->events->channels->replace($event->key, [
+        $event = $this->seatsioClient->events->create($chartKey, (new CreateEventParams())->setChannels([
             new Channel("channelKey1", "channel 1", "#FF0000", 1, ["B-6"])
-        ]);
+        ]));
 
         $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 1, "lolzor", null, null, null, null, null, null, null, ["channelKey1"]);
 
@@ -173,10 +172,9 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
     public function testIgnoreChannels()
     {
         $chartKey = $this->createTestChart();
-        $event = $this->seatsioClient->events->create($chartKey);
-        $this->seatsioClient->events->channels->replace($event->key, [
+        $event = $this->seatsioClient->events->create($chartKey, (new CreateEventParams())->setChannels([
             new Channel("channelKey1", "channel 1", "#FF0000", 1, ["A-5"])
-        ]);
+        ]));
 
         $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, 1, "lolzor", null, null, null, null, null, null, true);
 
