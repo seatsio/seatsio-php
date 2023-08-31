@@ -165,6 +165,10 @@ class Events
             $request->date = $params->date->serialize();
         }
 
+        if ($params->isInThePast !== null) {
+            $request->isInThePast = $params->isInThePast;
+        }
+
         $this->client->post(UriTemplate::expand('/events/{key}', array("key" => $eventKey)), ['json' => $request]);
     }
 

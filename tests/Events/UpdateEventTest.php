@@ -23,6 +23,18 @@ class UpdateEventTest extends SeatsioClientTest
         self::assertNotNull($retrievedEvent->updatedOn);
     }
 
+    public function testUpdateIsInThePast()
+    {
+        $chart1 = $this->seatsioClient->charts->create();
+        $event = $this->seatsioClient->events->create($chart1->key);
+
+        $this->seatsioClient->events->update($event->key, UpdateEventParams::create()->setIsInThePast(true));
+
+        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+        self::assertTrue($retrievedEvent->isInThePast);
+        self::assertNotNull($retrievedEvent->updatedOn);
+    }
+
     public function testUpdateEventKey()
     {
         $chart = $this->seatsioClient->charts->create();
