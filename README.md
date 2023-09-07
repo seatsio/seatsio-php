@@ -302,10 +302,15 @@ Passing in 0 disables exponential backoff completely. In that case, the client w
 
 
 ## Upgrading
+### v88 -> v89
+- if you're using `$seatsioClient->subaccounts`, you should switch to `$seatsioClient->workspaces`
+
+### v87 -> v88
+- social distancing got removed. There is no alternative for those API calls.
 
 ### v86 -> v87
-* `$seatsioClient->events->create()` now takes a `CreateEventParams` object
-* `$seatsioClient->events->update()` now takes an `UpdateEventParams` object
+- `$seatsioClient->events->create()` now takes a `CreateEventParams` object
+- `$seatsioClient->events->update()` now takes an `UpdateEventParams` object
 
 ### v85 -> v86
 - `$seatsioClient->events->channels->replace()` now takes a normal array instead of an associative array. If you want to just replace the channel metadata but keep the objects (like replace() used to do), you have to explicitly pass in the objects.
