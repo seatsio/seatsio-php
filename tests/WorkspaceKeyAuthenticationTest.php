@@ -7,12 +7,12 @@ class WorkspaceKeyAuthenticationTest extends \Seatsio\SeatsioClientTest
 
     public function testClientTakesOptionalWorkspaceKey()
     {
-        $subaccount = $this->seatsioClient->subaccounts->create();
+        $workspace = $this->seatsioClient->workspaces->create('some workspace');
 
-        $subaccountClient = self::createSeatsioClient($this->user->secretKey, $subaccount->publicKey);
-        $holdToken = $subaccountClient->holdTokens->create();
+        $workspaceClient = self::createSeatsioClient($this->user->secretKey, $workspace->key);
+        $holdToken = $workspaceClient->holdTokens->create();
 
-        self::assertEquals($subaccount->publicKey, $holdToken->workspaceKey);
+        self::assertEquals($workspace->key, $holdToken->workspaceKey);
     }
 
 }
