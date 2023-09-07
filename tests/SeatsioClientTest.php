@@ -6,7 +6,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Utils;
 use PHPUnit\Framework\TestCase;
 use Seatsio\Events\Event;
-use Seatsio\Subaccounts\Subaccount;
 
 abstract class SeatsioClientTest extends TestCase
 {
@@ -17,14 +16,10 @@ abstract class SeatsioClientTest extends TestCase
 
     protected $user;
 
-    /** @var Subaccount */
-    protected $subaccount;
-
     protected function setUp(): void
     {
         $company = $this->createTestCompany();
         $this->user = $company->admin;
-        $this->subaccount = $company->subaccount;
         $this->seatsioClient = self::createSeatsioClient($this->user->secretKey);
     }
 

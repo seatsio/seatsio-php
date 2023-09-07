@@ -153,14 +153,6 @@ class Charts
         return $mapper->map($json, new Chart());
     }
 
-    public function copyToSubaccount(string $chartKey, int $subaccountId): Chart
-    {
-        $res = $this->client->post('/charts/' . $chartKey . '/version/published/actions/copy-to/' . $subaccountId);
-        $json = Utils::jsonDecode($res->getBody());
-        $mapper = SeatsioJsonMapper::create();
-        return $mapper->map($json, new Chart());
-    }
-
     public function copyToWorkspace(string $chartKey, string $toWorkspaceKey): Chart
     {
         $res = $this->client->post('/charts/' . $chartKey . '/version/published/actions/copy-to-workspace/' . $toWorkspaceKey);

@@ -13,7 +13,6 @@ use Seatsio\HoldTokens\HoldTokens;
 use Seatsio\Reports\Charts\ChartReports;
 use Seatsio\Reports\Events\EventReports;
 use Seatsio\Reports\Usage\UsageReports;
-use Seatsio\Subaccounts\Subaccounts;
 use Seatsio\Workspaces\Workspaces;
 
 class SeatsioClient
@@ -51,11 +50,6 @@ class SeatsioClient
     public $usageReports;
 
     /**
-     * @var Subaccounts
-     */
-    public $subaccounts;
-
-    /**
      * @var Workspaces
      */
     public $workspaces;
@@ -75,7 +69,6 @@ class SeatsioClient
         $this->eventReports = new EventReports($client);
         $this->chartReports = new ChartReports($client);
         $this->usageReports = new UsageReports($client);
-        $this->subaccounts = new Subaccounts($client);
         $this->workspaces = new Workspaces($client);
         $this->holdTokens = new HoldTokens($client);
     }

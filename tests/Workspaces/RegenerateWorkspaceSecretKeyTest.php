@@ -1,6 +1,6 @@
 <?php
 
-namespace Seatsio\Subaccounts;
+namespace Seatsio\Workspaces;
 
 use Seatsio\SeatsioClientTest;
 
