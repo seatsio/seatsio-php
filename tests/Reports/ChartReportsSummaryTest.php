@@ -2,17 +2,35 @@
 
 namespace Seatsio\Reports;
 
-use Seatsio\Events\Channel;
-use Seatsio\Events\ObjectProperties;
+use Seatsio\SeatsioClient;
 use Seatsio\SeatsioClientTest;
 
 class ChartReportsSummaryTest extends SeatsioClientTest
 {
-    public function testSummaryByObjectType()
+    private function noChartUpdate(): \Closure
+    {
+        return function(SeatsioClient $client, string $chartKey) {
+            // no-op
+        };
+    }
+
+    private function createDraftReport(): \Closure
+    {
+        return function(SeatsioClient $client, string $chartKey) {
+            $client->events->create($chartKey);
+            $client->charts->update($chartKey, "foo");
+        };
+    }
+
+    /**
+     * @dataProvider summaryByObjectTypeDataProvider
+     */
+    public function testSummaryByObjectType($updateChart, $getReport)
     {
         $chartKey = $this->createTestChart();
+        $updateChart($this->seatsioClient, $chartKey);
 
-        $report = $this->seatsioClient->chartReports->summaryByObjectType($chartKey);
+        $report = $getReport($this->seatsioClient, $chartKey);
 
         $expectedReport = [
             'seat' => [
@@ -43,11 +61,31 @@ class ChartReportsSummaryTest extends SeatsioClientTest
         self::assertEquals($expectedReport, $report);
     }
 
-    public function testSummaryByObjectType_bookWholeTablesTrue()
+    public function summaryByObjectTypeDataProvider(): array
+    {
+        $getReport = function(SeatsioClient $client, string $chartKey)
+        {
+            return $client->chartReports->summaryByObjectType($chartKey);
+        };
+        $getDraftReport = function(SeatsioClient $client, string $chartKey)
+        {
+            return $client->chartReports->summaryByObjectType($chartKey, null, "draft");
+        };
+        return array(
+            array($this->noChartUpdate(), $getReport),
+            array($this->createDraftReport(), $getDraftReport)
+        );
+    }
+
+    /**
+     * @dataProvider  summaryByObjectTypeDataProvider_bookWholeTablesTrue
+     */
+    public function testSummaryByObjectType_bookWholeTablesTrue($updateChart, $getReport)
     {
         $chartKey = $this->createTestChartWithTables();
+        $updateChart($this->seatsioClient, $chartKey);
 
-        $report = $this->seatsioClient->chartReports->summaryByObjectType($chartKey, 'true');
+        $report = $getReport($this->seatsioClient, $chartKey);
 
         $expectedReport = [
             'seat' => [
@@ -78,11 +116,31 @@ class ChartReportsSummaryTest extends SeatsioClientTest
         self::assertEquals($expectedReport, $report);
     }
 
-    public function testSummaryByCategoryKey()
+    public function summaryByObjectTypeDataProvider_bookWholeTablesTrue(): array
+    {
+        $getReport = function(SeatsioClient $client, string $chartKey)
+        {
+            return $client->chartReports->summaryByObjectType($chartKey, 'true');
+        };
+        $getDraftReport = function(SeatsioClient $client, string $chartKey)
+        {
+            return $client->chartReports->summaryByObjectType($chartKey, 'true', "draft");
+        };
+        return array(
+            array($this->noChartUpdate(), $getReport),
+            array($this->createDraftReport(), $getDraftReport)
+        );
+    }
+
+    /**
+     * @dataProvider summaryByCategoryKeyDataProvider
+     */
+    public function testSummaryByCategoryKey($updateChart, $getReport)
     {
         $chartKey = $this->createTestChart();
+        $updateChart($this->seatsioClient, $chartKey);
 
-        $report = $this->seatsioClient->chartReports->summaryByCategoryKey($chartKey);
+        $report = $getReport($this->seatsioClient, $chartKey);
 
         $expectedReport = [
             '9' => [
@@ -109,11 +167,31 @@ class ChartReportsSummaryTest extends SeatsioClientTest
         self::assertEquals($expectedReport, $report);
     }
 
-    public function testSummaryByCategoryLabel()
+    public function summaryByCategoryKeyDataProvider(): array
+    {
+        $getReport = function(SeatsioClient $client, string $chartKey)
+        {
+            return $client->chartReports->summaryByCategoryKey($chartKey);
+        };
+        $getDraftReport = function(SeatsioClient $client, string $chartKey)
+        {
+            return $client->chartReports->summaryByCategoryKey($chartKey, null, "draft");
+        };
+        return array(
+            array($this->noChartUpdate(), $getReport),
+            array($this->createDraftReport(), $getDraftReport)
+        );
+    }
+
+    /**
+     * @dataProvider summaryByCategoryLabelDataProvider
+     */
+    public function testSummaryByCategoryLabel($updateChart, $getReport)
     {
         $chartKey = $this->createTestChart();
+        $updateChart($this->seatsioClient, $chartKey);
 
-        $report = $this->seatsioClient->chartReports->summaryByCategoryLabel($chartKey);
+        $report = $getReport($this->seatsioClient, $chartKey);
 
         $expectedReport = [
             'Cat1' => [
@@ -140,11 +218,31 @@ class ChartReportsSummaryTest extends SeatsioClientTest
         self::assertEquals($expectedReport, $report);
     }
 
-    public function testSummaryBySection()
+    public function summaryByCategoryLabelDataProvider(): array
+    {
+        $getReport = function(SeatsioClient $client, string $chartKey)
+        {
+            return $client->chartReports->summaryByCategoryLabel($chartKey);
+        };
+        $getDraftReport = function(SeatsioClient $client, string $chartKey)
+        {
+            return $client->chartReports->summaryByCategoryLabel($chartKey, null, "draft");
+        };
+        return array(
+            array($this->noChartUpdate(), $getReport),
+            array($this->createDraftReport(), $getDraftReport)
+        );
+    }
+
+    /**
+     * @dataProvider summaryBySectionDataProvider
+     */
+    public function testSummaryBySection($updateChart, $getReport)
     {
         $chartKey = $this->createTestChart();
+        $updateChart($this->seatsioClient, $chartKey);
 
-        $report = $this->seatsioClient->chartReports->summaryBySection($chartKey);
+        $report = $getReport($this->seatsioClient, $chartKey);
 
         $expectedReport = [
             'NO_SECTION' => [
@@ -155,5 +253,21 @@ class ChartReportsSummaryTest extends SeatsioClientTest
             ]
         ];
         self::assertEquals($expectedReport, $report);
+    }
+
+    public function summaryBySectionDataProvider(): array
+    {
+        $getReport = function(SeatsioClient $client, string $chartKey)
+        {
+            return $client->chartReports->summaryBySection($chartKey);
+        };
+        $getDraftReport = function(SeatsioClient $client, string $chartKey)
+        {
+            return $client->chartReports->summaryBySection($chartKey, null, "draft");
+        };
+        return array(
+            array($this->noChartUpdate(), $getReport),
+            array($this->createDraftReport(), $getDraftReport)
+        );
     }
 }
