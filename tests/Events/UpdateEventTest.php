@@ -4,7 +4,9 @@ namespace Seatsio\Events;
 
 use Seatsio\Charts\Category;
 use Seatsio\LocalDate;
+use Seatsio\Seasons\SeasonCreationParams;
 use Seatsio\SeatsioClientTest;
+use Seatsio\SeatsioException;
 use stdClass;
 
 class UpdateEventTest extends SeatsioClientTest
@@ -25,18 +27,21 @@ class UpdateEventTest extends SeatsioClientTest
 
     public function testUpdateIsInThePast()
     {
-        $chart1 = $this->seatsioClient->charts->create();
-        $event = $this->seatsioClient->events->create($chart1->key);
+        $chart = $this->seatsioClient->charts->create();
+        $season = $this->seatsioClient->seasons->create($chart->key, (new SeasonCreationParams())->setEventKeys(['event1', 'event2']));
 
-        $this->seatsioClient->events->update($event->key, UpdateEventParams::create()->setIsInThePast(true));
-        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+        $this->seatsioClient->events->update('event1', UpdateEventParams::create()->setIsInThePast(true));
+        $retrievedEvent = $this->seatsioClient->events->retrieve('event1');
         self::assertTrue($retrievedEvent->isInThePast);
         self::assertNotNull($retrievedEvent->updatedOn);
 
-        $this->seatsioClient->events->update($event->key, UpdateEventParams::create()->setIsInThePast(false));
-        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
-        self::assertFalse($retrievedEvent->isInThePast);
-        self::assertNotNull($retrievedEvent->updatedOn);
+        try {
+            $this->seatsioClient->events->update('event1', UpdateEventParams::create()->setIsInThePast(false));
+        } catch (SeatsioException $e) {
+            self::assertEquals('EVENT_IS_IN_THE_PAST', $e->errors[0]->code);
+            self::assertEquals('Events in the past cannot be updated', $e->errors[0]->message);
+            self::assertEquals('Events in the past cannot be updated', $e->getMessage());
+        }
     }
 
     public function testUpdateEventKey()
