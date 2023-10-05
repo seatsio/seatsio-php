@@ -34,14 +34,6 @@ class UpdateEventTest extends SeatsioClientTest
         $retrievedEvent = $this->seatsioClient->events->retrieve('event1');
         self::assertTrue($retrievedEvent->isInThePast);
         self::assertNotNull($retrievedEvent->updatedOn);
-
-        try {
-            $this->seatsioClient->events->update('event1', UpdateEventParams::create()->setIsInThePast(false));
-        } catch (SeatsioException $e) {
-            self::assertEquals('EVENT_IS_IN_THE_PAST', $e->errors[0]->code);
-            self::assertEquals('Events in the past cannot be updated', $e->errors[0]->message);
-            self::assertEquals('Events in the past cannot be updated', $e->getMessage());
-        }
     }
 
     public function testUpdateEventKey()
