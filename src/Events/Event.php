@@ -91,6 +91,11 @@ class Event
      */
     public $categories;
 
+    /**
+     * @var bool
+     */
+    public $isInThePast;
+
     public function isSeason()
     {
         return false;

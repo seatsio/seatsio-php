@@ -9,6 +9,11 @@ class UpdateEventParams extends EventParams
      */
     public $chartKey;
 
+    /**
+     * @var bool
+     */
+    public $isInThePast;
+
     static function create(): UpdateEventParams
     {
         return new UpdateEventParams();
@@ -17,6 +22,11 @@ class UpdateEventParams extends EventParams
     public function setChartKey(string $chartKey): self
     {
         $this->chartKey = $chartKey;
+        return $this;
+    }
+
+    public function setIsInThePast(bool $isInThePast) {
+        $this->isInThePast = $isInThePast;
         return $this;
     }
 }
