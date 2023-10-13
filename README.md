@@ -302,6 +302,9 @@ Passing in 0 disables exponential backoff completely. In that case, the client w
 
 
 ## Upgrading
+### v89 -> v90
+- `$client->usageReports->summaryForAllMonths()` now returns a `UsageSummaryForAllMonths` object
+
 ### v88 -> v89
 - if you're using `$seatsioClient->subaccounts`, you should switch to `$seatsioClient->workspaces`
 
