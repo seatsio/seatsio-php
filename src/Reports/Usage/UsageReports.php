@@ -8,6 +8,7 @@ use Seatsio\Reports\Usage\DetailsForEventInMonth\UsageForObjectV1;
 use Seatsio\Reports\Usage\DetailsForEventInMonth\UsageForObjectV2;
 use Seatsio\Reports\Usage\DetailsForMonth\UsageDetails;
 use Seatsio\Reports\Usage\SummaryForMonths\Month;
+use Seatsio\Reports\Usage\SummaryForMonths\UsageSummaryForAllMonths;
 use Seatsio\Reports\Usage\SummaryForMonths\UsageSummaryForMonth;
 use Seatsio\SeatsioJsonMapper;
 
@@ -24,15 +25,12 @@ class UsageReports
         $this->client = $client;
     }
 
-    /**
-     * @return UsageSummaryForMonth[]
-     */
-    public function summaryForAllMonths(): array
+    public function summaryForAllMonths(): UsageSummaryForAllMonths
     {
-        $res = $this->client->get('/reports/usage');
+        $res = $this->client->get('/reports/usage?version=2');
         $json = Utils::jsonDecode($res->getBody());
         $mapper = SeatsioJsonMapper::create();
-        return $mapper->mapArray($json, array(), UsageSummaryForMonth::class);
+        return $mapper->map($json, new UsageSummaryForAllMonths());
     }
 
     /**

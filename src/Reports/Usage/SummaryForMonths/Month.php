@@ -27,5 +27,4 @@ class Month
     {
         return $this->year . '-' . str_pad($this->month, 2, '0', STR_PAD_LEFT);
     }
-
 }

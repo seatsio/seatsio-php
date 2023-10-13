@@ -123,4 +123,14 @@ abstract class SeatsioClientTest extends TestCase
             }
         }
     }
+
+    protected function demoCompanySecretKey()
+    {
+        return getenv("DEMO_COMPANY_SECRET_KEY");
+    }
+
+    protected function isDemoCompanySecretKeySet()
+    {
+        return getenv("DEMO_COMPANY_SECRET_KEY") !== false;
+    }
 }

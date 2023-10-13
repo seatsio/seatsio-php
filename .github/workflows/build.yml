@@ -29,3 +29,5 @@ jobs:
         timezone: Europe/Brussels
 
     - run: vendor/bin/paratest
+      env:
+        DEMO_COMPANY_SECRET_KEY: ${{ secrets.DEMO_COMPANY_SECRET_KEY }}

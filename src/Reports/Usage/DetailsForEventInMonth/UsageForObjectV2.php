@@ -21,4 +21,11 @@ class UsageForObjectV2
      * @var array
      */
     public $usageByReason;
+
+    public function __construct(string $object = null, int $numUsedObjects = null, array $usageByReason = null)
+    {
+        $this->object = $object;
+        $this->numUsedObjects = $numUsedObjects;
+        $this->usageByReason = $usageByReason;
+    }
 }

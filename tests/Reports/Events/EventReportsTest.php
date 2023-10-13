@@ -1,6 +1,6 @@
 <?php
 
-namespace Seatsio\Reports;
+namespace Reports\Events;
 
 use Seatsio\Common\IDs;
 use Seatsio\Events\Channel;
