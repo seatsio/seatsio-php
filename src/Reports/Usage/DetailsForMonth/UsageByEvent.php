@@ -16,4 +16,14 @@ class UsageByEvent
      * @var int
      */
     public $numUsedObjects;
+
+    /**
+     * @param Event $event
+     * @param int $numUsedObjects
+     */
+    public function __construct(Event $event = null, int $numUsedObjects = null)
+    {
+        $this->event = $event;
+        $this->numUsedObjects = $numUsedObjects;
+    }
 }

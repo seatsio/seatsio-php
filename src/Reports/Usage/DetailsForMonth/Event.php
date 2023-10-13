@@ -16,4 +16,16 @@ class Event
      * @var string
      */
     public $key;
+
+    /**
+     * @var boolean
+     */
+    public $deleted;
+
+    public function __construct(int $id = null, string $key = null, bool $deleted = null)
+    {
+        $this->id = $id;
+        $this->key = $key;
+        $this->deleted = $deleted;
+    }
 }

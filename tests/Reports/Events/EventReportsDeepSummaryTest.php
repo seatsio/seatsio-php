@@ -1,6 +1,6 @@
 <?php
 
-namespace Seatsio\Reports;
+namespace Reports\Events;
 
 use Seatsio\Events\EventObjectInfo;
 use Seatsio\Events\ObjectProperties;

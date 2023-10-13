@@ -16,4 +16,10 @@ class UsageDetails
      * @var UsageByChart[]
      */
     public $usageByChart;
+
+    public function __construct(int $workspace = null, array $usageByChart = null)
+    {
+        $this->workspace = $workspace;
+        $this->usageByChart = $usageByChart;
+    }
 }

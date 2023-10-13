@@ -16,4 +16,10 @@ class UsageByChart
      * @var UsageByEvent[]
      */
     public $usageByEvent;
+
+    public function __construct(Chart $chart = null, array $usageByEvent = null)
+    {
+        $this->chart = $chart;
+        $this->usageByEvent = $usageByEvent;
+    }
 }
