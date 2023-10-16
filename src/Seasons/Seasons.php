@@ -50,6 +50,10 @@ class Seasons
             if ($seasonCreationParams->channels !== null) {
                 $request->channels = $seasonCreationParams->channels;
             }
+
+            if ($seasonCreationParams->forSaleConfig !== null) {
+                $request->forSaleConfig = $seasonCreationParams->forSaleConfig;
+            }
         }
 
         $res = $this->client->post('/seasons', ['json' => $request]);

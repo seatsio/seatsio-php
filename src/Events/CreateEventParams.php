@@ -9,6 +9,11 @@ class CreateEventParams extends EventParams
      */
     public $channels;
 
+    /**
+     * @var \Seatsio\Events\ForSaleConfig
+     */
+    public $forSaleConfig;
+
     static function create(): CreateEventParams
     {
         return new CreateEventParams();
@@ -20,6 +25,15 @@ class CreateEventParams extends EventParams
     public function setChannels(array $channels): self
     {
         $this->channels = $channels;
+        return $this;
+    }
+
+    /**
+     * @param \Seatsio\Events\ForSaleConfig $forSaleConfig
+     */
+    public function setForSaleConfig(ForSaleConfig $forSaleConfig): self
+    {
+        $this->forSaleConfig = $forSaleConfig;
         return $this;
     }
 }

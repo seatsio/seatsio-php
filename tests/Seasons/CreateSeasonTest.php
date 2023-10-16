@@ -3,6 +3,7 @@
 namespace Seatsio\Seasons;
 
 use Seatsio\Events\Channel;
+use Seatsio\Events\ForSaleConfig;
 use Seatsio\Events\TableBookingConfig;
 use Seatsio\SeatsioClientTest;
 use function Functional\map;
@@ -89,5 +90,16 @@ class CreateSeasonTest extends SeatsioClientTest
 
         self::assertNotNull($season->key);
         self::assertEquals($channels, $season->channels);
+    }
+
+    public function testForSaleConfigCanBePassedIn()
+    {
+        $chartKey = $this->createTestChart();
+        $forSaleConfig = new ForSaleConfig(false, ["A-1"], ["GA1" => 3], ["Cat1"]);
+
+        $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setForSaleConfig($forSaleConfig));
+
+        self::assertNotNull($season->key);
+        self::assertEquals($forSaleConfig, $season->forSaleConfig);
     }
 }
