@@ -15,11 +15,13 @@ abstract class SeatsioClientTest extends TestCase
     protected $seatsioClient;
 
     protected $user;
+    protected $workspace;
 
     protected function setUp(): void
     {
         $company = $this->createTestCompany();
         $this->user = $company->admin;
+        $this->workspace = $company->workspace;
         $this->seatsioClient = self::createSeatsioClient($this->user->secretKey);
     }
 
