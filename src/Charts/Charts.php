@@ -161,6 +161,14 @@ class Charts
         return $mapper->map($json, new Chart());
     }
 
+    public function copyFromWorkspaceTo(string $chartKey, string $fromWorkspaceKey, string $toWorkspaceKey): Chart
+    {
+        $res = $this->client->post('/charts/' . $chartKey . '/version/published/actions/copy/from/' . $fromWorkspaceKey . '/to/' . $toWorkspaceKey);
+        $json = Utils::jsonDecode($res->getBody());
+        $mapper = SeatsioJsonMapper::create();
+        return $mapper->map($json, new Chart());
+    }
+
     public function retrievePublishedVersionThumbnail(string $key): StreamInterface
     {
         $res = $this->client->get('/charts/' . $key . '/version/published/thumbnail');
