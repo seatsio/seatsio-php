@@ -65,6 +65,10 @@ class Events
             if ($params->channels !== null) {
                 $request->channels = $params->channels;
             }
+
+            if ($params->forSaleConfig !== null) {
+                $request->forSaleConfig = $params->forSaleConfig;
+            }
         }
 
         $res = $this->client->post('/events', ['json' => $request]);
@@ -110,6 +114,10 @@ class Events
 
             if ($param->channels !== null) {
                 $eventToCreate->channels = $param->channels;
+            }
+
+            if ($param->forSaleConfig !== null) {
+                $eventToCreate->forSaleConfig = $param->forSaleConfig;
             }
 
             $request->events[] = $eventToCreate;

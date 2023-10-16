@@ -2,6 +2,7 @@
 
 namespace Seatsio\Seasons;
 
+use Seatsio\Events\ForSaleConfig;
 use Seatsio\Events\TableBookingConfig;
 
 class SeasonCreationParams
@@ -31,6 +32,11 @@ class SeasonCreationParams
      * @var \Seatsio\Events\Channel[]
      */
     public $channels;
+
+    /**
+     * @var \Seatsio\Events\ForSaleConfig
+     */
+    public $forSaleConfig;
 
     public function __construct(string $key = null)
     {
@@ -66,6 +72,15 @@ class SeasonCreationParams
     public function setChannels(array $channels): self
     {
         $this->channels = $channels;
+        return $this;
+    }
+
+    /**
+     * @param \Seatsio\Events\ForSaleConfig $forSaleConfig
+     */
+    public function setForSaleConfig(ForSaleConfig $forSaleConfig): self
+    {
+        $this->forSaleConfig = $forSaleConfig;
         return $this;
     }
 }
