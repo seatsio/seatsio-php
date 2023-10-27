@@ -280,6 +280,20 @@ class Events
         $this->client->post(UriTemplate::expand('/events/{key}/actions/mark-everything-as-for-sale', array("key" => $eventKey)));
     }
 
+    public function overrideSeasonStatus(string $eventKey, array $objects)
+    {
+        $request = new stdClass();
+        $request->objects = $objects;
+        $this->client->post(UriTemplate::expand('/events/{key}/actions/override-season-status', array("key" => $eventKey)), ['json' => $request]);
+    }
+
+    public function useSeasonStatus(string $eventKey, array $objects)
+    {
+        $request = new stdClass();
+        $request->objects = $objects;
+        $this->client->post(UriTemplate::expand('/events/{key}/actions/use-season-status', array("key" => $eventKey)), ['json' => $request]);
+    }
+
     public function updateExtraData(string $eventKey, string $object, array $extraData): void
     {
         $request = new stdClass();
@@ -543,5 +557,4 @@ class Events
         }
         return self::normalizeObjects([$objectOrObjects]);
     }
-
 }
