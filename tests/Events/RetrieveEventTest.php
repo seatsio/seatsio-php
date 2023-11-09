@@ -29,6 +29,7 @@ class RetrieveEventTest extends SeatsioClientTest
         self::assertEquals(9, $retrievedEvent->categories[0]->key);
         self::assertEquals(10, $retrievedEvent->categories[1]->key);
         self::assertEquals("string11", $retrievedEvent->categories[2]->key);
+        self::assertNull($retrievedEvent->partialSeasonKeysForEvent);
     }
 
     public function testRetrieveSeason()
@@ -43,6 +44,7 @@ class RetrieveEventTest extends SeatsioClientTest
         self::assertEquals('aSeason', $retrievedSeason->key);
         self::assertEquals(true, $retrievedSeason->isTopLevelSeason);
         self::assertEquals(['partialSeason1', 'partialSeason2'], $retrievedSeason->partialSeasonKeys);
+        self::assertNull($retrievedSeason->partialSeasonKeysForEvent);
     }
 
 }
