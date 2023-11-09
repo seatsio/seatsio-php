@@ -96,6 +96,11 @@ class Event
      */
     public $isInThePast;
 
+    /**
+     * @var string[]
+     */
+    public $partialSeasonKeysForEvent;
+
     public function isSeason()
     {
         return false;

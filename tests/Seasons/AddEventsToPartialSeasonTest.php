@@ -19,5 +19,6 @@ class AddEventsToPartialSeasonTest extends SeatsioClientTest
             return $event->key;
         });
         self::assertEquals(['event1', 'event2'], $eventKeys);
+        self::assertEquals([$updatedPartialSeason->key], $updatedPartialSeason->events[0]->partialSeasonKeysForEvent);
     }
 }
