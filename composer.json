@@ -4,7 +4,7 @@
   "type": "library",
   "license": "MIT",
   "require": {
-    "php": ">=7.4.0",
+    "php": ">=8.1.0",
     "guzzlehttp/guzzle": "7.8.1",
     "guzzlehttp/uri-template": "v1.0.3",
     "netresearch/jsonmapper": "4.2.0",
