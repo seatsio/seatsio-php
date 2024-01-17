@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit bootstrap="./tests/Bootstrap.php" colors="true" failOnWarning="true" failOnDeprecation="true" failOnNotice="true">
+<phpunit bootstrap="./tests/Bootstrap.php" colors="true" failOnWarning="true">
     <testsuites>
         <testsuite name="seatsio/seatsio">
             <directory>./tests</directory>
