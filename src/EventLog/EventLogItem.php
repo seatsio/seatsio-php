@@ -17,12 +17,7 @@ class EventLogItem
     /**
      * @var \Seatsio\LocalDate
      */
-    public $date;
-
-    /**
-     * @var string
-     */
-    public $workspaceKey;
+    public $timestamp;
 
     /**
      * @var object
