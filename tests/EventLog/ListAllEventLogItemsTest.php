@@ -36,10 +36,9 @@ class ListAllEventLogItemsTest extends SeatsioClientTest
         $eventLogItem = $this->seatsioClient->eventLog->listAll()->current();
 
         self::assertEquals("chart.created", $eventLogItem->type);
-        self::assertEquals($this->workspace->key, $eventLogItem->workspaceKey);
-        self::assertNotNull($eventLogItem->date);
+        self::assertNotNull($eventLogItem->timestamp);
         self::assertGreaterThan(0, $eventLogItem->id);
-        self::assertEquals((object)["key" => $chart->key], $eventLogItem->data);
+        self::assertEquals((object)["key" => $chart->key, "workspaceKey" => $this->workspace->key], $eventLogItem->data);
     }
 
     private function waitUntilEventLogItemsAvailable()
