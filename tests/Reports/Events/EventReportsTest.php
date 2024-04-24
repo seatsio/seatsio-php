@@ -8,6 +8,7 @@ use Seatsio\Events\CreateEventParams;
 use Seatsio\Events\EventObjectInfo;
 use Seatsio\Events\ObjectProperties;
 use Seatsio\Events\TableBookingConfig;
+use Seatsio\Seasons\SeasonCreationParams;
 use Seatsio\SeatsioClientTest;
 
 class EventReportsTest extends SeatsioClientTest
@@ -48,6 +49,7 @@ class EventReportsTest extends SeatsioClientTest
         self::assertEquals("A-2", $reportItem->rightNeighbour);
         self::assertEquals("channel1", $reportItem->channel);
         self::assertNotNull($reportItem->distanceToFocalPoint);
+        self::assertEquals(0, $reportItem->seasonStatusOverriddenQuantity);
 
         $gaItem = $report["GA1"][0];
         self::assertFalse($gaItem->variableOccupancy);
@@ -66,6 +68,19 @@ class EventReportsTest extends SeatsioClientTest
 
         $reportItem = $report["A-1"][0];
         self::assertEquals("$holdToken->holdToken", $reportItem->holdToken);
+    }
+
+    public function testSeasonStatusOverriddenQuantity()
+    {
+        $chartKey = $this->createTestChart();
+        $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setNumberOfEvents(1));
+        $event = $season->events[0];
+        $this->seatsioClient->events->overrideSeasonStatus($event->key, ["A-1"]);
+
+        $report = $this->seatsioClient->eventReports->byLabel($event->key);
+
+        $reportItem = $report["A-1"][0];
+        self::assertEquals(1, $reportItem->seasonStatusOverriddenQuantity);
     }
 
     public function testReportItemPropertiesForGA()
