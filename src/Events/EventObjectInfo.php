@@ -143,4 +143,8 @@ class EventObjectInfo
      * @var int
      */
     public $maxOccupancy;
+    /**
+     * @var int
+     */
+    public $seasonStatusOverriddenQuantity;
 }
