@@ -53,4 +53,20 @@ class ManageCategoriesTest extends SeatsioClientTest
         $categoryList = $this->seatsioClient->charts->listCategories($chart->key);
         self::assertEquals($categories, $categoryList);
     }
+
+    public function testUpdateCategory()
+    {
+        $categories = [
+            (object)['key' => 1, 'label' => 'Category 1', 'color' => '#aaaaaa', 'accessible' => false]
+        ];
+        $chart = $this->seatsioClient->charts->create('aChart', null, $categories);
+
+        $this-> seatsioClient->charts->updateCategory($chart->key, 1, new CategoryUpdateParams('Updated label', '#bbbbbb', true));
+        $updatedCategories = [
+            new Category(1, 'Updated label', '#bbbbbb', true)
+        ];
+
+        $categoryList = $this->seatsioClient->charts->listCategories($chart->key);
+        self::assertEquals($updatedCategories, $categoryList);
+    }
 }

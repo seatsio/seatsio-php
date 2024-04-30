@@ -89,6 +89,17 @@ class Charts
         }, $json->categories);
     }
 
+    /**
+     * @param $chartKey string
+     * @param $categoryKey string|int
+     * @param $params CategoryUpdateParams
+     * @return void
+     */
+    public function updateCategory(string $chartKey, $categoryKey, CategoryUpdateParams $params): void
+    {
+        $res = $this->client->post('/charts/' . $chartKey . '/categories/' . $categoryKey, ['json' => $params]);
+    }
+
     public function retrieve(string $key): Chart
     {
         $res = $this->client->get('/charts/' . $key);

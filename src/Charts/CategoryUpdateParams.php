@@ -2,15 +2,28 @@
 
 namespace Seatsio\Charts;
 
-class CategoryRequestBuilder
+class CategoryUpdateParams
 {
     /**
-     * @param $key int|string
+     * @var string
      */
-    public function setKey($key): self
+    public string $label;
+
+    /**
+     * @var string
+     */
+    public string $color;
+
+    /**
+     * @var bool
+     */
+    public bool $accessible;
+
+    public function __construct(string $label = null, string $color = null, bool $accessible = false)
     {
-        $this->key = $key;
-        return $this;
+        $this->label = $label;
+        $this->color = $color;
+        $this->accessible = $accessible;
     }
 
     public function setLabel(string $label): self
