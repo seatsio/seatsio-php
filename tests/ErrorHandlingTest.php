@@ -12,8 +12,8 @@ class ErrorHandlingTest extends SeatsioClientTest
             $this->fail();
         } catch (SeatsioException $e) {
             self::assertEquals('CHART_NOT_FOUND', $e->errors[0]->code);
-            self::assertEquals('Chart not found: unexistingChart', $e->errors[0]->message);
-            self::assertEquals('Chart not found: unexistingChart', $e->getMessage());
+            self::assertStringStartsWith('Chart not found: unexistingChart was not found in workspace', $e->errors[0]->message);
+            self::assertStringStartsWith('Chart not found: unexistingChart was not found in workspace', $e->getMessage());
             self::assertNotNull($e->requestId);
         }
     }
