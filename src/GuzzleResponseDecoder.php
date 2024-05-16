@@ -29,7 +29,12 @@ class GuzzleResponseDecoder
 
     public static function decodeToArray($res)
     {
-        return Utils::jsonDecode($res->getBody(), true);
+        $json = GuzzleResponseDecoder::decodeToJson($res);
+        $array = [];
+        foreach ($json as $name => $item) {
+            $array[$name] = json_decode(json_encode($item), true);
+        }
+        return $array;
     }
 
     /**
