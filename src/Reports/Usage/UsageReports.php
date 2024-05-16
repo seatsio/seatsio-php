@@ -49,12 +49,15 @@ class UsageReports
     public function detailsForEventInMonth(int $eventId, Month $month): array
     {
         $res = $this->client->get('/reports/usage/month/' . $month->serialize() . '/event/' . $eventId);
-        $json = GuzzleResponseDecoder::decodeToArray($res);
         $mapper = SeatsioJsonMapper::create();
-        if (count($json) == 0 || !isset($json[0]->usageByReason)) {
-            return $mapper->mapArray($json, array(), UsageForObjectV1::class);
+        $json = GuzzleResponseDecoder::decodeToJson($res);
+
+        $report = [];
+        foreach ($json as $item) {
+            $targetClass = isset($item->usageByReason) ? UsageForObjectV2::class : UsageForObjectV1::class;
+            $report[] = $mapper->map($item, $targetClass);
         }
-        return $mapper->mapArray($json, array(), UsageForObjectV2::class);
+        return $report;
     }
 
 }
