@@ -2,9 +2,7 @@
 
 namespace Seatsio\Charts;
 
-use GuzzleHttp\Promise\Create;
 use Seatsio\Events\CreateEventParams;
-use Seatsio\Events\Event;
 use Seatsio\Events\EventObjectInfo;
 use Seatsio\Events\ObjectProperties;
 use Seatsio\Events\StatusChangeRequest;

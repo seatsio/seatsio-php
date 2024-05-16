@@ -6,7 +6,6 @@ use Seatsio\Charts\Category;
 use Seatsio\LocalDate;
 use Seatsio\Seasons\SeasonCreationParams;
 use Seatsio\SeatsioClientTest;
-use Seatsio\SeatsioException;
 use stdClass;
 
 class UpdateEventTest extends SeatsioClientTest

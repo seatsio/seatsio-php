@@ -4,7 +4,7 @@ namespace Seatsio\Workspaces;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\UriTemplate\UriTemplate;
-use GuzzleHttp\Utils;
+use Seatsio\GuzzleResponseDecoder;
 use Seatsio\PageFetcher;
 use Seatsio\SeatsioJsonMapper;
 use stdClass;
@@ -42,7 +42,7 @@ class Workspaces
             $request->isTest = $isTest;
         }
         $res = $this->client->post('/workspaces', ['json' => $request]);
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Workspace());
     }
@@ -57,8 +57,7 @@ class Workspaces
     public function regenerateSecretKey(string $key): string
     {
         $res = $this->client->post(UriTemplate::expand('/workspaces/{key}/actions/regenerate-secret-key', array("key" => $key)));
-        $json = Utils::jsonDecode($res->getBody());
-        return $json->secretKey;
+        return GuzzleResponseDecoder::decodeToObject($res)->secretKey;
     }
 
     public function activate(string $key): void
@@ -79,7 +78,7 @@ class Workspaces
     public function retrieve(string $key): Workspace
     {
         $res = $this->client->get(UriTemplate::expand('/workspaces/{key}', array("key" => $key)));
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Workspace());
     }

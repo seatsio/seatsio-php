@@ -2,7 +2,6 @@
 
 namespace Seatsio\Events;
 
-use Composer\DependencyResolver\LocalRepoTransaction;
 use Seatsio\Charts\Category;
 use Seatsio\LocalDate;
 use Seatsio\SeatsioClientTest;

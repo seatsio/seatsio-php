@@ -2,9 +2,6 @@
 
 namespace Seatsio\EventLog;
 
-use Seatsio\Charts\ChartListParams;
-use Seatsio\Events\CreateEventParams;
-use Seatsio\Events\ForSaleConfig;
 use Seatsio\SeatsioClientTest;
 use function Functional\map;
 

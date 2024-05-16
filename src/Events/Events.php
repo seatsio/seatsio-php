@@ -5,7 +5,7 @@ namespace Seatsio\Events;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Query;
 use GuzzleHttp\UriTemplate\UriTemplate;
-use GuzzleHttp\Utils;
+use Seatsio\GuzzleResponseDecoder;
 use Seatsio\PageFetcher;
 use Seatsio\Seasons\Season;
 use Seatsio\SeatsioJsonMapper;
@@ -72,7 +72,7 @@ class Events
         }
 
         $res = $this->client->post('/events', ['json' => $request]);
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Event());
     }
@@ -124,7 +124,7 @@ class Events
         }
 
         $res = $this->client->post('/events/actions/create-multiple', ['json' => $request]);
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToObject($res);
         $mapper = SeatsioJsonMapper::create();
 
         return $mapper->mapArray($json->events, array(), 'Seatsio\Events\Event');
@@ -133,7 +133,7 @@ class Events
     public function retrieve(string $eventKey): Event
     {
         $res = $this->client->get(UriTemplate::expand('/events/{key}', array("key" => $eventKey)));
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToObject($res);
         $mapper = SeatsioJsonMapper::create();
         if ($json->isSeason) {
             return $mapper->map($json, new Season());
@@ -327,7 +327,7 @@ class Events
     {
         $options = ['query' => Query::build(["label" => $objectLabels])];
         $res = $this->client->get(UriTemplate::expand('/events/{key}/objects', ["key" => $eventKey]), $options);
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         $result = [];
         foreach ($json as $objectLabel => $objectInfo) {
@@ -377,7 +377,7 @@ class Events
             '/events/groups/actions/change-object-status',
             ['json' => $request, 'query' => ['expand' => 'objects']]
         );
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new ChangeObjectStatusResult());
     }
@@ -396,7 +396,7 @@ class Events
             '/events/actions/change-object-status',
             ['json' => $request, 'query' => ['expand' => 'objects']]
         );
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToObject($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->mapArray($json->results, array(), ChangeObjectStatusResult::class);
     }
@@ -534,7 +534,7 @@ class Events
             UriTemplate::expand('/events/{key}/actions/change-object-status', array("key" => $eventKey)),
             ['json' => $request]
         );
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new BestAvailableObjects());
     }

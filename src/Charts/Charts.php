@@ -4,8 +4,8 @@ namespace Seatsio\Charts;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\UriTemplate\UriTemplate;
-use GuzzleHttp\Utils;
 use Psr\Http\Message\StreamInterface;
+use Seatsio\GuzzleResponseDecoder;
 use Seatsio\PageFetcher;
 use Seatsio\SeatsioJsonMapper;
 use stdClass;
@@ -44,7 +44,7 @@ class Charts
             $request->categories = $categories;
         }
         $res = $this->client->post('/charts', ['json' => $request]);
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Chart());
     }
@@ -82,9 +82,8 @@ class Charts
     public function listCategories(string $chartKey): array
     {
         $res = $this->client->get('/charts/' . $chartKey . '/categories');
-        $json = Utils::jsonDecode($res->getBody());
-        $mapper = SeatsioJsonMapper::create();
-        return array_map(function($cat) {
+        $json = GuzzleResponseDecoder::decodeToObject($res);
+        return array_map(function ($cat) {
             return new Category($cat->key, $cat->label, $cat->color, $cat->accessible);
         }, $json->categories);
     }
@@ -103,7 +102,7 @@ class Charts
     public function retrieve(string $key): Chart
     {
         $res = $this->client->get('/charts/' . $key);
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Chart());
     }
@@ -111,7 +110,7 @@ class Charts
     public function retrieveWithEvents(string $key): Chart
     {
         $res = $this->client->get('/charts/' . $key . '?expand=events');
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Chart());
     }
@@ -119,13 +118,13 @@ class Charts
     public function retrievePublishedVersion(string $key): object
     {
         $res = $this->client->get('/charts/' . $key . '/version/published');
-        return Utils::jsonDecode($res->getBody());
+        return GuzzleResponseDecoder::decodeToObject($res);
     }
 
     public function retrieveDraftVersion(string $key): object
     {
         $res = $this->client->get('/charts/' . $key . '/version/draft');
-        return Utils::jsonDecode($res->getBody());
+        return GuzzleResponseDecoder::decodeToObject($res);
     }
 
     public function publishDraftVersion(string $key): void
@@ -151,7 +150,7 @@ class Charts
     public function copy(string $key): Chart
     {
         $res = $this->client->post('/charts/' . $key . '/version/published/actions/copy');
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Chart());
     }
@@ -159,7 +158,7 @@ class Charts
     public function copyDraftVersion(string $key): Chart
     {
         $res = $this->client->post('/charts/' . $key . '/version/draft/actions/copy');
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Chart());
     }
@@ -167,7 +166,7 @@ class Charts
     public function copyToWorkspace(string $chartKey, string $toWorkspaceKey): Chart
     {
         $res = $this->client->post('/charts/' . $chartKey . '/version/published/actions/copy-to-workspace/' . $toWorkspaceKey);
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Chart());
     }
@@ -175,7 +174,7 @@ class Charts
     public function copyFromWorkspaceTo(string $chartKey, string $fromWorkspaceKey, string $toWorkspaceKey): Chart
     {
         $res = $this->client->post('/charts/' . $chartKey . '/version/published/actions/copy/from/' . $fromWorkspaceKey . '/to/' . $toWorkspaceKey);
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Chart());
     }
@@ -189,13 +188,13 @@ class Charts
     public function validatePublishedVersion(string $key): object
     {
         $res = $this->client->post('/charts/' . $key . '/version/published/actions/validate');
-        return Utils::jsonDecode($res->getBody());
+        return GuzzleResponseDecoder::decodeToObject($res);
     }
 
     public function validateDraftVersion(string $key): object
     {
         $res = $this->client->post('/charts/' . $key . '/version/draft/actions/validate');
-        return Utils::jsonDecode($res->getBody());
+        return GuzzleResponseDecoder::decodeToObject($res);
     }
 
     public function retrieveDraftVersionThumbnail(string $key): StreamInterface
@@ -210,7 +209,7 @@ class Charts
     public function listAllTags(): array
     {
         $res = $this->client->get('/charts/tags');
-        return Utils::jsonDecode($res->getBody())->tags;
+        return GuzzleResponseDecoder::decodeToObject($res)->tags;
     }
 
     public function addTag(string $key, string $tag): void
