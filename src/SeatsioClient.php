@@ -9,11 +9,11 @@ use Psr\Http\Message\ResponseInterface;
 use Seatsio\Charts\Charts;
 use Seatsio\EventLog\EventLog;
 use Seatsio\Events\Events;
-use Seatsio\Seasons\Seasons;
 use Seatsio\HoldTokens\HoldTokens;
 use Seatsio\Reports\Charts\ChartReports;
 use Seatsio\Reports\Events\EventReports;
 use Seatsio\Reports\Usage\UsageReports;
+use Seatsio\Seasons\Seasons;
 use Seatsio\Workspaces\Workspaces;
 
 class SeatsioClient

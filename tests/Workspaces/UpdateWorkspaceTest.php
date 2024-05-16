@@ -2,7 +2,6 @@
 
 namespace Seatsio\Workspaces;
 
-use DateTime;
 use Seatsio\SeatsioClientTest;
 
 class UpdateWorkspaceTest extends SeatsioClientTest

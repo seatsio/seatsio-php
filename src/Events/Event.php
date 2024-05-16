@@ -2,8 +2,6 @@
 
 namespace Seatsio\Events;
 
-use Seatsio\LocalDate;
-
 class Event
 {
     /**
