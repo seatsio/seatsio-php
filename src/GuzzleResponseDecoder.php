@@ -22,9 +22,12 @@ class GuzzleResponseDecoder
 
     public static function decodeToObject($res)
     {
-        $mapper = self::mapperThatSetsUnknownProperties();
         $json = GuzzleResponseDecoder::decodeToJson($res);
-        return $mapper->map($json, 'stdClass');
+        $object = new \stdClass();
+        foreach ($json as $name => $item) {
+            $object->$name = $item;
+        }
+        return $object;
     }
 
     public static function decodeToArray($res)
@@ -35,17 +38,5 @@ class GuzzleResponseDecoder
             $array[$name] = json_decode(json_encode($item), true);
         }
         return $array;
-    }
-
-    /**
-     * @return JsonMapper
-     */
-    public static function mapperThatSetsUnknownProperties(): JsonMapper
-    {
-        $mapper = new JsonMapper();
-        $mapper->undefinedPropertyHandler = function ($object, $propName, $jsonValue) {
-            $object->{$propName} = $jsonValue;
-        };
-        return $mapper;
     }
 }
