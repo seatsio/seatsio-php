@@ -124,10 +124,10 @@ class Events
         }
 
         $res = $this->client->post('/events/actions/create-multiple', ['json' => $request]);
-        $json = GuzzleResponseDecoder::decodeToJson($res, '/events');
+        $json = GuzzleResponseDecoder::decodeToObject($res);
         $mapper = SeatsioJsonMapper::create();
 
-        return $mapper->mapArray($json, array(), 'Seatsio\Events\Event');
+        return $mapper->mapArray($json->events, array(), 'Seatsio\Events\Event');
     }
 
     public function retrieve(string $eventKey): Event
@@ -396,9 +396,9 @@ class Events
             '/events/actions/change-object-status',
             ['json' => $request, 'query' => ['expand' => 'objects']]
         );
-        $json = GuzzleResponseDecoder::decodeToJson($res, '/results');
+        $json = GuzzleResponseDecoder::decodeToObject($res);
         $mapper = SeatsioJsonMapper::create();
-        return $mapper->mapArray($json, array(), ChangeObjectStatusResult::class);
+        return $mapper->mapArray($json->results, array(), ChangeObjectStatusResult::class);
     }
 
     private function serializeStatusChangeRequest($statusChangeRequest)

@@ -3,21 +3,14 @@
 namespace Seatsio;
 
 use GuzzleHttp\Psr7\StreamWrapper;
-use GuzzleHttp\Utils;
 use JsonMachine\Items;
-use JsonMapper;
 
 class GuzzleResponseDecoder
 {
 
-    public static function decodeToJson($res, $pointer = null)
+    public static function decodeToJson($res)
     {
-        $options = [];
-        if ($pointer != null) {
-            $options["pointer"] = $pointer;
-        }
-
-        return Items::fromStream(StreamWrapper::getResource($res->getBody()), $options);
+        return Items::fromStream(StreamWrapper::getResource($res->getBody()));
     }
 
     public static function decodeToObject($res)
