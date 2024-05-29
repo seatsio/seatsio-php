@@ -40,9 +40,12 @@ class Chart
      * @var boolean
      */
     public $archived;
-
     /**
      * @var array
      */
     public $validation;
+    /**
+     * @var string
+     */
+    public $venueType;
 }

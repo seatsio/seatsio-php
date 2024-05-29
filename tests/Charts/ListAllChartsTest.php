@@ -101,15 +101,9 @@ class ListAllChartsTest extends SeatsioClientTest
         self::createTestChartWithErrors();
 
         $charts = $this->seatsioClient->charts->listAll((new ChartListParams())->withValidation(true));
-        $validations = map($charts, function ($chart) {
-            return $chart->validation;
-        });
 
-        $expected = [
-            ["errors" => [], "warnings" => []]
-        ];
-
-        self::assertEquals($expected, array_values($validations));
+        self::assertEquals(["errors" => [], "warnings" => []], $charts->current()->validation);
+        self::assertEquals("ROWS_WITHOUT_SECTIONS", $charts->current()->venueType);
     }
 
     public function testWithoutValidation()
@@ -117,13 +111,8 @@ class ListAllChartsTest extends SeatsioClientTest
         $this->seatsioClient->charts->create();
 
         $charts = $this->seatsioClient->charts->listAll((new ChartListParams()));
-        $validations = map($charts, function ($chart) {
-            return $chart->validation;
-        });
 
-        $expected = [null];
-
-        self::assertEquals($expected, array_values($validations));
+        self::assertNull($charts->current()->validation);
     }
 
 }
