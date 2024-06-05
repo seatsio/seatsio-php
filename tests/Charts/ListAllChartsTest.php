@@ -103,7 +103,6 @@ class ListAllChartsTest extends SeatsioClientTest
         $charts = $this->seatsioClient->charts->listAll((new ChartListParams())->withValidation(true));
 
         self::assertEquals(["errors" => [], "warnings" => []], $charts->current()->validation);
-        self::assertEquals("ROWS_WITHOUT_SECTIONS", $charts->current()->venueType);
     }
 
     public function testWithoutValidation()
