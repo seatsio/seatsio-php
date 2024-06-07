@@ -28,7 +28,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byAvailability' => ['available' => 231],
                 'byAvailabilityReason' => ['available' => 231],
                 'byChannel' => ['NO_CHANNEL' => 231],
-                'byObjectType' => ['seat' => 31, 'generalAdmission' => 200]
+                'byObjectType' => ['seat' => 31, 'generalAdmission' => 200],
+                'byZone' => ['NO_ZONE' => 231]
             ],
             'booked' => [
                 'count' => 1,
@@ -39,7 +40,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byAvailability' => ['not_available' => 1],
                 'byAvailabilityReason' => ['booked' => 1],
                 'byChannel' => ['NO_CHANNEL' => 1],
-                'byObjectType' => ['seat' => 1]
+                'byObjectType' => ['seat' => 1],
+                'byZone' => ['NO_ZONE' => 1]
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -62,7 +64,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byAvailabilityReason' => ['available' => 32],
                 'bySelectability' => ['selectable' => 32],
                 'byChannel' => ['NO_CHANNEL' => 32],
-                'byStatus' => ['free' => 32]
+                'byStatus' => ['free' => 32],
+                'byZone' => ['NO_ZONE' => 32]
             ],
             'generalAdmission' => [
                 'count' => 200,
@@ -73,7 +76,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byAvailabilityReason' => ['available' => 200],
                 'bySelectability' => ['selectable' => 200],
                 'byChannel' => ['NO_CHANNEL' => 200],
-                'byStatus' => ['free' => 200]
+                'byStatus' => ['free' => 200],
+                'byZone' => ['NO_ZONE' => 200]
             ],
             'table' => [
                 'count' => 0,
@@ -84,7 +88,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byAvailabilityReason' => [],
                 'bySelectability' => [],
                 'byChannel' => [],
-                'byStatus' => []
+                'byStatus' => [],
+                'byZone' => []
             ],
             'booth' => [
                 'count' => 0,
@@ -95,7 +100,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byAvailabilityReason' => [],
                 'bySelectability' => [],
                 'byChannel' => [],
-                'byStatus' => []
+                'byStatus' => [],
+                'byZone' => []
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -118,7 +124,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byAvailabilityReason' => ['available' => 115, 'booked' => 1],
                 'bySelectability' => ['selectable' => 115, 'not_selectable' => 1],
                 'byChannel' => ['NO_CHANNEL' => 116],
-                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
+                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100],
+                'byZone' => ['NO_ZONE' => 116]
             ],
             '10' => [
                 'count' => 116,
@@ -128,7 +135,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byAvailabilityReason' => ['available' => 116],
                 'bySelectability' => ['selectable' => 116],
                 'byChannel' => ['NO_CHANNEL' => 116],
-                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
+                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100],
+                'byZone' => ['NO_ZONE' => 116]
             ],
             'string11' => [
                 'count' => 0,
@@ -138,7 +146,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byAvailabilityReason' => [],
                 'bySelectability' => [],
                 'byChannel' => [],
-                'byObjectType' => []
+                'byObjectType' => [],
+                'byZone' => []
             ],
             'NO_CATEGORY' => [
                 'count' => 0,
@@ -148,7 +157,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byAvailabilityReason' => [],
                 'bySelectability' => [],
                 'byChannel' => [],
-                'byObjectType' => []
+                'byObjectType' => [],
+                'byZone' => []
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -171,7 +181,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byAvailabilityReason' => ['available' => 115, 'booked' => 1],
                 'bySelectability' => ['selectable' => 115, 'not_selectable' => 1],
                 'byChannel' => ['NO_CHANNEL' => 116],
-                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
+                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100],
+                'byZone' => ['NO_ZONE' => 116]
             ],
             'Cat2' => [
                 'count' => 116,
@@ -181,7 +192,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byAvailabilityReason' => ['available' => 116],
                 'bySelectability' => ['selectable' => 116],
                 'byChannel' => ['NO_CHANNEL' => 116],
-                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
+                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100],
+                'byZone' => ['NO_ZONE' => 116]
             ],
             'Cat3' => [
                 'count' => 0,
@@ -191,7 +203,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byAvailabilityReason' => [],
                 'bySelectability' => [],
                 'byChannel' => [],
-                'byObjectType' => []
+                'byObjectType' => [],
+                'byZone' => []
             ],
             'NO_CATEGORY' => [
                 'count' => 0,
@@ -201,7 +214,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byAvailabilityReason' => [],
                 'bySelectability' => [],
                 'byChannel' => [],
-                'byObjectType' => []
+                'byObjectType' => [],
+                'byZone' => []
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -225,7 +239,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byAvailabilityReason' => ['available' => 231, 'booked' => 1],
                 'bySelectability' => ['selectable' => 231, 'not_selectable' => 1],
                 'byChannel' => ['NO_CHANNEL' => 232],
-                'byObjectType' => ['seat' => 32, 'generalAdmission' => 200]
+                'byObjectType' => ['seat' => 32, 'generalAdmission' => 200],
+                'byZone' => ['NO_ZONE' => 232]
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -249,7 +264,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byChannel' => ['NO_CHANNEL' => 231],
                 'byObjectType' => ['seat' => 31, 'generalAdmission' => 200],
                 'bySelectability' => ['selectable' => 231],
-                'byAvailabilityReason' => ['available' => 231]
+                'byAvailabilityReason' => ['available' => 231],
+                'byZone' => ['NO_ZONE' => 231]
             ],
             'not_available' => [
                 'count' => 1,
@@ -261,6 +277,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byObjectType' => ['seat' => 1],
                 'bySelectability' => ['not_selectable' => 1],
                 'byAvailabilityReason' => ['booked' => 1],
+                'byZone' => ['NO_ZONE' => 1]
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -284,7 +301,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byChannel' => ['NO_CHANNEL' => 231],
                 'byObjectType' => ['seat' => 31, 'generalAdmission' => 200],
                 'bySelectability' => ['selectable' => 231],
-                'byAvailability' => ['available' => 231]
+                'byAvailability' => ['available' => 231],
+                'byZone' => ['NO_ZONE' => 231]
             ],
             'booked' => [
                 'count' => 1,
@@ -295,7 +313,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byChannel' => ['NO_CHANNEL' => 1],
                 'byObjectType' => ['seat' => 1],
                 'bySelectability' => ['not_selectable' => 1],
-                'byAvailability' => ['not_available' => 1]
+                'byAvailability' => ['not_available' => 1],
+                'byZone' => ['NO_ZONE' => 1]
             ],
             'reservedByToken' => [
                 'count' => 0,
@@ -306,7 +325,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byChannel' => [],
                 'byObjectType' => [],
                 'bySelectability' => [],
-                'byAvailability' => []
+                'byAvailability' => [],
+                'byZone' => []
             ],
             'disabled_by_social_distancing' => [
                 'count' => 0,
@@ -317,7 +337,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byChannel' => [],
                 'byObjectType' => [],
                 'bySelectability' => [],
-                'byAvailability' => []
+                'byAvailability' => [],
+                'byZone' => []
             ],
             'not_for_sale' => [
                 'count' => 0,
@@ -328,7 +349,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byChannel' => [],
                 'byObjectType' => [],
                 'bySelectability' => [],
-                'byAvailability' => []
+                'byAvailability' => [],
+                'byZone' => []
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -353,7 +375,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byAvailability' => ['available' => 230],
                 'byAvailabilityReason' => ['available' => 230],
                 'byObjectType' => ['seat' => 30, 'generalAdmission' => 200],
-                'bySelectability' => ['selectable' => 230]
+                'bySelectability' => ['selectable' => 230],
+                'byZone' => ['NO_ZONE' => 230]
             ],
             'channel1' => [
                 'count' => 2,
@@ -364,7 +387,8 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byAvailability' => ['available' => 2],
                 'byAvailabilityReason' => ['available' => 2],
                 'byObjectType' => ['seat' => 2],
-                'bySelectability' => ['selectable' => 2]
+                'bySelectability' => ['selectable' => 2],
+                'byZone' => ['NO_ZONE' => 2]
             ]
         ];
         self::assertEquals($expectedReport, $report);
