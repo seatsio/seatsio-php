@@ -37,25 +37,29 @@ class ChartReportsSummaryTest extends SeatsioClientTest
                 'count' => 32,
                 'byCategoryKey' => [9 => 16, 10 => 16],
                 'byCategoryLabel' => ['Cat2' => 16, 'Cat1' => 16],
-                'bySection' => ['NO_SECTION' => 32]
+                'bySection' => ['NO_SECTION' => 32],
+                'byZone' => ['NO_ZONE' => 32]
             ],
             'generalAdmission' => [
                 'count' => 200,
                 'byCategoryKey' => [9 => 100, 10 => 100],
                 'byCategoryLabel' => ['Cat1' => 100, 'Cat2' => 100],
-                'bySection' => ['NO_SECTION' => 200]
+                'bySection' => ['NO_SECTION' => 200],
+                'byZone' => ['NO_ZONE' => 200]
             ],
             'table' => [
                 'count' => 0,
                 'byCategoryKey' => [],
                 'byCategoryLabel' => [],
-                'bySection' => []
+                'bySection' => [],
+                'byZone' => []
             ],
             'booth' => [
                 'count' => 0,
                 'byCategoryKey' => [],
                 'byCategoryLabel' => [],
-                'bySection' => []
+                'bySection' => [],
+                'byZone' => []
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -92,25 +96,29 @@ class ChartReportsSummaryTest extends SeatsioClientTest
                 'count' => 0,
                 'byCategoryKey' => [],
                 'byCategoryLabel' => [],
-                'bySection' => []
+                'bySection' => [],
+                'byZone' => []
             ],
             'generalAdmission' => [
                 'count' => 0,
                 'byCategoryKey' => [],
                 'byCategoryLabel' => [],
-                'bySection' => []
+                'bySection' => [],
+                'byZone' => []
             ],
             'table' => [
                 'count' => 2,
                 'byCategoryKey' => [9 => 2],
                 'byCategoryLabel' => ['Cat1' => 2],
-                'bySection' => ['NO_SECTION' => 2]
+                'bySection' => ['NO_SECTION' => 2],
+                'byZone' => ['NO_ZONE' => 2]
             ],
             'booth' => [
                 'count' => 0,
                 'byCategoryKey' => [],
                 'byCategoryLabel' => [],
-                'bySection' => []
+                'bySection' => [],
+                'byZone' => []
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -146,22 +154,26 @@ class ChartReportsSummaryTest extends SeatsioClientTest
             '9' => [
                 'count' => 116,
                 'bySection' => ['NO_SECTION' => 116],
-                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
+                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100],
+                'byZone' => ['NO_ZONE' => 116]
             ],
             '10' => [
                 'count' => 116,
                 'bySection' => ['NO_SECTION' => 116],
-                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
+                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100],
+                'byZone' => ['NO_ZONE' => 116]
             ],
             'string11' => [
                 'count' => 0,
                 'bySection' => [],
-                'byObjectType' => []
+                'byObjectType' => [],
+                'byZone' => []
             ],
             'NO_CATEGORY' => [
                 'count' => 0,
                 'bySection' => [],
-                'byObjectType' => []
+                'byObjectType' => [],
+                'byZone' => []
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -197,22 +209,26 @@ class ChartReportsSummaryTest extends SeatsioClientTest
             'Cat1' => [
                 'count' => 116,
                 'bySection' => ['NO_SECTION' => 116],
-                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
+                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100],
+                'byZone' => ['NO_ZONE' => 116]
             ],
             'Cat2' => [
                 'count' => 116,
                 'bySection' => ['NO_SECTION' => 116],
-                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
+                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100],
+                'byZone' => ['NO_ZONE' => 116]
             ],
             'Cat3' => [
                 'count' => 0,
                 'bySection' => [],
-                'byObjectType' => []
+                'byObjectType' => [],
+                'byZone' => []
             ],
             'NO_CATEGORY' => [
                 'count' => 0,
                 'bySection' => [],
-                'byObjectType' => []
+                'byObjectType' => [],
+                'byZone' => []
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -249,7 +265,8 @@ class ChartReportsSummaryTest extends SeatsioClientTest
                 'count' => 232,
                 'byCategoryKey' => [9 => 116, 10 => 116],
                 'byCategoryLabel' => ['Cat2' => 116, 'Cat1' => 116],
-                'byObjectType' => ['seat' => 32, 'generalAdmission' => 200]
+                'byObjectType' => ['seat' => 32, 'generalAdmission' => 200],
+                'byZone' => ['NO_ZONE' => 232]
             ]
         ];
         self::assertEquals($expectedReport, $report);
