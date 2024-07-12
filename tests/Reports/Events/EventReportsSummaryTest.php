@@ -246,6 +246,54 @@ class EventReportsSummaryTest extends SeatsioClientTest
         self::assertEquals($expectedReport, $report);
     }
 
+    public function testSummaryByZone()
+    {
+        $chartKey = $this->createTestChartWithZones();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $report = $this->seatsioClient->eventReports->summaryByZone($event->key);
+
+        $expectedReport = [
+            'finishline' => [
+                'count' => 2865,
+                'byCategoryKey' => ["1" => 2865],
+                'byCategoryLabel' => ["Goal Stands" => 2865],
+                'byObjectType' => ["seat" => 2865],
+                'bySection' => ["Goal Stand 3" => 2215, "Goal Stand 4" => 650],
+                'byStatus' => ['free' => 2865],
+                'byAvailability' => ['available' => 2865],
+                'byAvailabilityReason' => ['available' => 2865],
+                'bySelectability' => ['selectable' => 2865],
+                'byChannel' => ['NO_CHANNEL' => 2865],
+            ],
+            'midtrack' => [
+                'count' => 6032,
+                'byCategoryKey' => ["2" => 6032],
+                'byCategoryLabel' => ["Mid Track Stand" => 6032],
+                'byObjectType' => ["seat" => 6032],
+                'bySection' => ["MT1" => 2418, "MT3" => 3614],
+                'byStatus' => ['free' => 6032],
+                'byAvailability' => ['available' => 6032],
+                'byAvailabilityReason' => ['available' => 6032],
+                'bySelectability' => ['selectable' => 6032],
+                'byChannel' => ['NO_CHANNEL' => 6032],
+            ],
+            'NO_ZONE' => [
+                'count' => 0,
+                'byCategoryKey' => [],
+                'byCategoryLabel' => [],
+                'byObjectType' => [],
+                'bySection' => [],
+                'byStatus' => [],
+                'byAvailability' => [],
+                'byAvailabilityReason' => [],
+                'bySelectability' => [],
+                'byChannel' => [],
+            ]
+        ];
+        self::assertEquals($expectedReport, $report);
+    }
+
     public function testSummaryByAvailability()
     {
         $chartKey = $this->createTestChart();

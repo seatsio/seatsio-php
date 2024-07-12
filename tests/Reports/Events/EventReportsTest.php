@@ -284,6 +284,24 @@ class EventReportsTest extends SeatsioClientTest
         self::assertCount(34, $report);
     }
 
+    public function testByZone()
+    {
+        $chartKey = $this->createTestChartWithZones();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $report = $this->seatsioClient->eventReports->byZone($event->key);
+        self::assertCount(6032, $report["midtrack"]);
+    }
+
+    public function testBySpecificZone()
+    {
+        $chartKey = $this->createTestChartWithZones();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $report = $this->seatsioClient->eventReports->byZone($event->key, "midtrack");
+        self::assertCount(6032, $report);
+    }
+
     public function testByAvailability()
     {
         $chartKey = $this->createTestChart();
