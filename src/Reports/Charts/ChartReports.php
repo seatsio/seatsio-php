@@ -81,6 +81,19 @@ class ChartReports
         return $this->getChartSummaryReport('bySection', $chartKey, $bookWholeTables, $version);
     }
 
+    /**
+     * @return ChartObjectInfo[][]
+     */
+    public function byZone(string $chartKey, string $bookWholeTables = null, string $version = null): array
+    {
+        return $this->getChartReport('byZone', $chartKey, $bookWholeTables, $version);
+    }
+
+    public function summaryByZone(string $chartKey, string $bookWholeTables = null, string $version = null): array
+    {
+        return $this->getChartSummaryReport('byZone', $chartKey, $bookWholeTables, $version);
+    }
+
     private static function reportUrl(string $reportType, string $chartKey): string
     {
         return UriTemplate::expand('/reports/charts/{key}/{reportType}', array("key" => $chartKey, "reportType" => $reportType));
