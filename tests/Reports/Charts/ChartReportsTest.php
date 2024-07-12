@@ -312,4 +312,34 @@ class ChartReportsTest extends SeatsioClientTest
             array(ChartReportsTest::createDraftReport(), $getDraftReport)
         );
     }
+
+    /**
+     * @dataProvider byZoneDataProvider
+     */
+    public function testByZone($updateChart, $getReport)
+    {
+        $chartKey = $this->createTestChartWithZones();
+        $updateChart($this->seatsioClient, $chartKey);
+
+        $report = $getReport($this->seatsioClient, $chartKey);
+
+        self::assertCount(6032, $report["midtrack"]);
+        self::assertCount(2865, $report["finishline"]);
+    }
+
+    public static function byZoneDataProvider(): array
+    {
+        $getReport = function(SeatsioClient $client, string $chartKey) {
+            $byZone = $client->chartReports->byZone($chartKey);
+            return $byZone;
+        };
+        $getDraftReport = function(SeatsioClient $client, string $chartKey) {
+            $byZone = $client->chartReports->byZone($chartKey, null, "draft");
+            return $byZone;
+        };
+        return array(
+            array(ChartReportsTest::noChartUpdate(), $getReport),
+            array(ChartReportsTest::createDraftReport(), $getDraftReport)
+        );
+    }
 }

@@ -287,4 +287,56 @@ class ChartReportsSummaryTest extends SeatsioClientTest
             array(ChartReportsSummaryTest::createDraftReport(), $getDraftReport)
         );
     }
+
+    /**
+     * @dataProvider summaryByZoneDataProvider
+     */
+    public function testSummaryByZone($updateChart, $getReport)
+    {
+        $chartKey = $this->createTestChartWithZones();
+        $updateChart($this->seatsioClient, $chartKey);
+
+        $report = $getReport($this->seatsioClient, $chartKey);
+
+        $expectedReport = [
+            'finishline' => [
+                'count' => 2865,
+                'byCategoryKey' => ["1" => 2865],
+                'byCategoryLabel' => ["Goal Stands" => 2865],
+                'byObjectType' => ["seat" => 2865],
+                'bySection' => ["Goal Stand 3" => 2215, "Goal Stand 4" => 650]
+            ],
+            'midtrack' => [
+                'count' => 6032,
+                'byCategoryKey' => ["2" => 6032],
+                'byCategoryLabel' => ["Mid Track Stand" => 6032],
+                'byObjectType' => ["seat" => 6032],
+                'bySection' => ["MT1" => 2418, "MT3" => 3614]
+            ],
+            'NO_ZONE' => [
+                'count' => 0,
+                'byCategoryKey' => [],
+                'byCategoryLabel' => [],
+                'byObjectType' => [],
+                'bySection' => []
+            ]
+        ];
+        self::assertEquals($expectedReport, $report);
+    }
+
+    public static function summaryByZoneDataProvider(): array
+    {
+        $getReport = function(SeatsioClient $client, string $chartKey)
+        {
+            return $client->chartReports->summaryByZone($chartKey);
+        };
+        $getDraftReport = function(SeatsioClient $client, string $chartKey)
+        {
+            return $client->chartReports->summaryByZone($chartKey, null, "draft");
+        };
+        return array(
+            array(ChartReportsSummaryTest::noChartUpdate(), $getReport),
+            array(ChartReportsSummaryTest::createDraftReport(), $getDraftReport)
+        );
+    }
 }
