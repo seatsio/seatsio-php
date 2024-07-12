@@ -240,7 +240,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'bySelectability' => ['selectable' => 231, 'not_selectable' => 1],
                 'byChannel' => ['NO_CHANNEL' => 232],
                 'byObjectType' => ['seat' => 32, 'generalAdmission' => 200],
-                'byZone' => ['NO_ZONE' => 232],
+                'byZone' => ['NO_ZONE' => 232]
             ]
         ];
         self::assertEquals($expectedReport, $report);
@@ -265,7 +265,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
                 'byChannel' => ['NO_CHANNEL' => 231],
                 'byObjectType' => ['seat' => 31, 'generalAdmission' => 200],
                 'bySelectability' => ['selectable' => 231],
-                'byAvailabilityReason' => ['available' => 231],
+                'byAvailabilityReason' => ['available' => 231]
             ],
             'not_available' => [
                 'count' => 1,

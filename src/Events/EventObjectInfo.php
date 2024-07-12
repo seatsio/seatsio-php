@@ -80,6 +80,10 @@ class EventObjectInfo
      */
     public $numHeld;
     /**
+     * @var int
+     */
+    public $numNotForSale;
+    /**
      * @var object
      */
     public $extraData;

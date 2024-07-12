@@ -46,4 +46,14 @@ class MarkObjectsAsNotForSaleTest extends SeatsioClientTest
         self::assertEquals(["cat1", "cat2"], $retrievedEvent->forSaleConfig->categories);
     }
 
+    public function testNumNotForSaleIsCorrectlyExposed()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $this->seatsioClient->events->markAsNotForSale($event->key, [], ["GA1" => 3]);
+
+        $eventObjectInfo = $this->seatsioClient->events->retrieveObjectInfo($event->key, "GA1");
+        self::assertEquals(3, $eventObjectInfo->numNotForSale);
+    }
 }
