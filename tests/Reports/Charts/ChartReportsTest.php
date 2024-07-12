@@ -324,6 +324,7 @@ class ChartReportsTest extends SeatsioClientTest
         $report = $getReport($this->seatsioClient, $chartKey);
 
         self::assertCount(6032, $report["midtrack"]);
+        self::assertEquals("midtrack", $report["midtrack"][0]->zone);
         self::assertCount(2865, $report["finishline"]);
     }
 

@@ -291,6 +291,7 @@ class EventReportsTest extends SeatsioClientTest
 
         $report = $this->seatsioClient->eventReports->byZone($event->key);
         self::assertCount(6032, $report["midtrack"]);
+        self::assertEquals("midtrack", $report["midtrack"][0]->zone);
     }
 
     public function testBySpecificZone()

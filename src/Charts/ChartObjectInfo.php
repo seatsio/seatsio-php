@@ -72,4 +72,8 @@ class ChartObjectInfo
      * @var bool
      */
     public $hasRestrictedView;
+    /**
+     * @var string
+     */
+    public $zone;
 }
