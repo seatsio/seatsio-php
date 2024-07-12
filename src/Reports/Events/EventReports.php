@@ -158,6 +158,28 @@ class EventReports
     /**
      * @return EventObjectInfo[][]
      */
+    public function byZone(string $eventKey, string $zone = null): array
+    {
+        $res = $this->client->get(self::reportUrl('byZone', $eventKey, $zone));
+        $json = GuzzleResponseDecoder::decodeToJson($res);
+        return $this->mapMultiValuedReport($json, $zone);
+    }
+
+    public function summaryByZone(string $eventKey): array
+    {
+        $res = $this->client->get(self::summaryReportUrl('byZone', $eventKey));
+        return GuzzleResponseDecoder::decodeToArray($res);
+    }
+
+    public function deepSummaryByZone(string $eventKey): array
+    {
+        $res = $this->client->get(self::deepSummaryReportUrl('byZone', $eventKey));
+        return GuzzleResponseDecoder::decodeToArray($res);
+    }
+
+    /**
+     * @return EventObjectInfo[][]
+     */
     public function byChannel(string $eventKey, string $channel = null): array
     {
         $res = $this->client->get(self::reportUrl('byChannel', $eventKey, $channel));

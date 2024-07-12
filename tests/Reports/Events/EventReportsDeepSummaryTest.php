@@ -73,6 +73,17 @@ class EventReportsDeepSummaryTest extends SeatsioClientTest
         self::assertEquals($report["NO_SECTION"]["byCategoryLabel"]["Cat1"]["byAvailability"]["not_available"], 1);
     }
 
+    public function testDeepSummaryByZone()
+    {
+        $chartKey = $this->createTestChartWithZones();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $report = $this->seatsioClient->eventReports->deepSummaryByZone($event->key);
+
+        self::assertEquals($report["midtrack"]["count"], 6032);
+        self::assertEquals($report["midtrack"]["byCategoryLabel"]["Mid Track Stand"]["count"], 6032);
+    }
+
     public function testDeepSummaryByAvailability()
     {
         $chartKey = $this->createTestChart();

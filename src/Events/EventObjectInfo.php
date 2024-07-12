@@ -151,4 +151,8 @@ class EventObjectInfo
      * @var int
      */
     public $seasonStatusOverriddenQuantity;
+    /**
+     * @var string
+     */
+    public $zone;
 }
