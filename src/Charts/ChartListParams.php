@@ -31,13 +31,19 @@ class ChartListParams
      */
     public $expandVenueType;
 
-    public function __construct(string $filter = null, string $tag = null, bool $expandEvents = false, bool $withExpandValidation = false, bool $withExpandVenueType = false)
+    /**
+     * @var boolean
+     */
+    public $expandZones;
+
+    public function __construct(string $filter = null, string $tag = null, bool $expandEvents = false, bool $withExpandValidation = false, bool $withExpandVenueType = false, bool $withExpandZones = false)
     {
         $this->filter = $filter;
         $this->tag = $tag;
         $this->expandEvents = $expandEvents;
         $this->expandValidation = $withExpandValidation;
         $this->expandVenueType = $withExpandVenueType;
+        $this->expandZones = $withExpandZones;
     }
 
     public function withFilter(string $filter): self
@@ -78,6 +84,12 @@ class ChartListParams
         return $this;
     }
 
+    public function withExpandZones(bool $expandZones): self
+    {
+        $this->expandZones = $expandZones;
+        return $this;
+    }
+
     public function toArray(): array
     {
         $result = [];
@@ -109,6 +121,10 @@ class ChartListParams
 
         if ($this->expandVenueType) {
             $result[] = "venueType";
+        }
+
+        if ($this->expandZones) {
+            $result[] = "zones";
         }
 
         return $result;

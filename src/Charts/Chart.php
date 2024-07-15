@@ -48,4 +48,8 @@ class Chart
      * @var string
      */
     public $venueType;
+    /**
+     * @var \Seatsio\Charts\Zone[]
+     */
+    public $zones;
 }
