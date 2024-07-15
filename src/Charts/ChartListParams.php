@@ -21,12 +21,23 @@ class ChartListParams
      */
     public $expandEvents;
 
-    public function __construct(string $filter = null, string $tag = null, bool $expandEvents = null, bool $withValidation = false)
+    /**
+     * @var boolean
+     */
+    public $expandValidation;
+
+    /**
+     * @var boolean
+     */
+    public $expandVenueType;
+
+    public function __construct(string $filter = null, string $tag = null, bool $expandEvents = false, bool $withExpandValidation = false, bool $withExpandVenueType = false)
     {
         $this->filter = $filter;
         $this->tag = $tag;
         $this->expandEvents = $expandEvents;
-        $this->validation = $withValidation;
+        $this->expandValidation = $withExpandValidation;
+        $this->expandVenueType = $withExpandVenueType;
     }
 
     public function withFilter(string $filter): self
@@ -47,9 +58,23 @@ class ChartListParams
         return $this;
     }
 
+    public function withExpandValidation(bool $expandValidation): self
+    {
+        $this->expandValidation = $expandValidation;
+        return $this;
+    }
+
+    /**
+     * @deprecated Use withExpandValidation instead
+     */
     public function withValidation(bool $withValidation): self
     {
-        $this->validation = $withValidation;
+        return $this->withExpandValidation($withValidation);
+    }
+
+    public function withExpandVenueType(bool $expandVenueType): self
+    {
+        $this->expandVenueType = $expandVenueType;
         return $this;
     }
 
@@ -65,12 +90,25 @@ class ChartListParams
             $result["tag"] = $this->tag;
         }
 
+        $result["expand"] = $this->expandParams();
+
+        return $result;
+    }
+
+    private function expandParams()
+    {
+        $result = [];
+
         if ($this->expandEvents) {
-            $result["expand"] = "events";
+            $result[] = "events";
         }
 
-        if ($this->validation) {
-            $result["validation"] = "true";
+        if ($this->expandValidation) {
+            $result[] = "validation";
+        }
+
+        if ($this->expandVenueType) {
+            $result[] = "venueType";
         }
 
         return $result;
