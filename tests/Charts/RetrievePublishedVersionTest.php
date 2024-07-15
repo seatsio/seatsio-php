@@ -14,7 +14,7 @@ class RetrievePublishedVersionTest extends SeatsioClientTest
         $retrievedChart = $this->seatsioClient->charts->retrievePublishedVersion($chart->key);
 
         self::assertEquals('Untitled chart', $retrievedChart->name);
-        self::assertEquals('MIXED', $retrievedChart->venueType);
+        self::assertEquals('SIMPLE', $retrievedChart->venueType);
         self::assertEmpty($retrievedChart->categories->list);
         self::assertNotEmpty($retrievedChart->subChart);
     }

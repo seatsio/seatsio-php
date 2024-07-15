@@ -24,6 +24,16 @@ class RetrieveChartTest extends SeatsioClientTest
         self::assertEquals(['tag1'], $retrievedChart->tags);
         self::assertFalse($retrievedChart->archived);
         self::assertNull($retrievedChart->events);
+        self::assertNull($retrievedChart->zones);
+    }
+
+    public function zones()
+    {
+        $chart = $this->createTestChartWithZones();
+
+        $retrievedChart = $this->seatsioClient->charts->retrieve($chart);
+
+        self::assertEquals([new Zone("finishline", "Finish Line"), new Zone("midtrack", "Mid Track")], $retrievedChart->zones);
     }
 
     public function testRetrieveWithEvents()

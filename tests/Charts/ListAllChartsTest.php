@@ -84,32 +84,35 @@ class ListAllChartsTest extends SeatsioClientTest
 
     public function testAllFieldsExpanded()
     {
-        $chart = $this->seatsioClient->charts->create();
-        $event1 = $this->seatsioClient->events->create($chart->key);
-        $event2 = $this->seatsioClient->events->create($chart->key);
+        $chart = $this->createTestChartWithZones();
+        $event1 = $this->seatsioClient->events->create($chart);
+        $event2 = $this->seatsioClient->events->create($chart);
 
         $params = (new ChartListParams())
             ->withExpandEvents(true)
             ->withExpandValidation(true)
-            ->withExpandVenueType(true);
+            ->withExpandVenueType(true)
+            ->withExpandZones(true);
         $charts = $this->seatsioClient->charts->listAll($params);
 
         $eventIds = map($charts->current()->events, function ($event) {
             return $event->id;
         });
         self::assertEquals([$event2->id, $event1->id], array_values($eventIds));
-        self::assertEquals("MIXED", $charts->current()->venueType);
+        self::assertEquals("WITH_ZONES", $charts->current()->venueType);
+        self::assertEquals([new Zone("finishline", "Finish Line"), new Zone("midtrack", "Mid Track")], $charts->current()->zones);
         self::assertNotNull($charts->current()->validation);
     }
 
     public function testNoFieldsExpanded()
     {
-        $chart = $this->seatsioClient->charts->create();
+        $this->createTestChartWithZones();
 
         $charts = $this->seatsioClient->charts->listAll((new ChartListParams())->withExpandEvents(true));
         self::assertEmpty($charts->current()->events);
         self::assertNull($charts->current()->venueType);
         self::assertNull($charts->current()->validation);
+        self::assertNull($charts->current()->zones);
     }
 
     public function testWithValidation()

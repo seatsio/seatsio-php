@@ -21,7 +21,7 @@ class CreateChartTest extends SeatsioClientTest
         self::assertFalse($chart->archived);
 
         $retrievedChart = $this->seatsioClient->charts->retrievePublishedVersion($chart->key);
-        self::assertEquals('MIXED', $retrievedChart->venueType);
+        self::assertEquals('SIMPLE', $retrievedChart->venueType);
         self::assertEmpty($retrievedChart->categories->list);
     }
 
@@ -31,17 +31,17 @@ class CreateChartTest extends SeatsioClientTest
 
         $retrievedChart = $this->seatsioClient->charts->retrievePublishedVersion($chart->key);
         self::assertEquals('aChart', $retrievedChart->name);
-        self::assertEquals('MIXED', $retrievedChart->venueType);
+        self::assertEquals('SIMPLE', $retrievedChart->venueType);
         self::assertEmpty($retrievedChart->categories->list);
     }
 
     public function testCreateChartWithVenueType()
     {
-        $chart = $this->seatsioClient->charts->create(null, 'BOOTHS');
+        $chart = $this->seatsioClient->charts->create(null, 'SIMPLE');
 
         $retrievedChart = $this->seatsioClient->charts->retrievePublishedVersion($chart->key);
         self::assertEquals('Untitled chart', $retrievedChart->name);
-        self::assertEquals('BOOTHS', $retrievedChart->venueType);
+        self::assertEquals('SIMPLE', $retrievedChart->venueType);
         self::assertEmpty($retrievedChart->categories->list);
     }
 
@@ -54,7 +54,7 @@ class CreateChartTest extends SeatsioClientTest
 
         $retrievedChart = $this->seatsioClient->charts->retrievePublishedVersion($chart->key);
         self::assertEquals('Untitled chart', $retrievedChart->name);
-        self::assertEquals('MIXED', $retrievedChart->venueType);
+        self::assertEquals('SIMPLE', $retrievedChart->venueType);
         self::assertEquals([(object)$cat1, (object)$cat2], $retrievedChart->categories->list);
     }
 
@@ -71,7 +71,7 @@ class CreateChartTest extends SeatsioClientTest
         ];
         $retrievedChart = $this->seatsioClient->charts->retrievePublishedVersion($chart->key);
         self::assertEquals('Untitled chart', $retrievedChart->name);
-        self::assertEquals('MIXED', $retrievedChart->venueType);
+        self::assertEquals('SIMPLE', $retrievedChart->venueType);
         self::assertEquals($expectedCategories, $retrievedChart->categories->list);
     }
 
