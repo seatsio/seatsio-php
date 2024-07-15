@@ -99,7 +99,7 @@ class ListAllChartsTest extends SeatsioClientTest
             return $event->id;
         });
         self::assertEquals([$event2->id, $event1->id], array_values($eventIds));
-        self::assertEquals("ZONES", $charts->current()->venueType);
+        self::assertEquals("WITH_ZONES", $charts->current()->venueType);
         self::assertEquals([new Zone("finishline", "Finish Line"), new Zone("midtrack", "Mid Track")], $charts->current()->zones);
         self::assertNotNull($charts->current()->validation);
     }
