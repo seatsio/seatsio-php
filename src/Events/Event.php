@@ -25,7 +25,7 @@ class Event
     public $date;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $supportsBestAvailable;
 

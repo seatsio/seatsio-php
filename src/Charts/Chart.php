@@ -37,7 +37,7 @@ class Chart
      */
     public $events;
     /**
-     * @var boolean
+     * @var bool
      */
     public $archived;
     /**

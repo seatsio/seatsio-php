@@ -22,7 +22,7 @@ abstract class EventParams
     public $date;
 
     /**
-     * @var boolean|object|array
+     * @var bool|object|array
      */
     public $tableBookingConfig;
 

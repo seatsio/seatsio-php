@@ -25,17 +25,17 @@ class Workspace
     public $secretKey;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $isTest;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $isDefault;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $isActive;
 
