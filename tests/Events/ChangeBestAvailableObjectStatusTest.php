@@ -59,10 +59,10 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
         $event = $this->seatsioClient->events->create($chartKey);
 
         $bestAvailableObjectsMidtrack = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, (new BestAvailableParams())->setNumber(1)->setZone("midtrack"), "lolzor");
-        self::assertEquals(["Goal Stand 4-A-1"], $bestAvailableObjectsMidtrack->objects);
+        self::assertEquals(["MT3-A-139"], $bestAvailableObjectsMidtrack->objects);
 
         $bestAvailableObjectsFinishline = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, (new BestAvailableParams())->setNumber(1)->setZone("finishline"), "lolzor");
-        self::assertEquals(["MT3-A-139"], $bestAvailableObjectsFinishline->objects);
+        self::assertEquals(["Goal Stand 4-A-1"], $bestAvailableObjectsFinishline->objects);
     }
 
     public function testExtraData()
