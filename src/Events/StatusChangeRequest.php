@@ -30,12 +30,12 @@ class StatusChangeRequest
     public $orderId;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $keepExtraData;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $ignoreChannels;
 

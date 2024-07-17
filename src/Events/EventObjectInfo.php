@@ -52,7 +52,7 @@ class EventObjectInfo
      */
     public $orderId;
     /**
-     * @var boolean
+     * @var bool
      */
     public $forSale;
     /**
@@ -88,15 +88,15 @@ class EventObjectInfo
      */
     public $extraData;
     /**
-     * @var boolean
+     * @var bool
      */
     public $isAccessible;
     /**
-     * @var boolean
+     * @var bool
      */
     public $isCompanionSeat;
     /**
-     * @var boolean
+     * @var bool
      */
     public $hasRestrictedView;
     /**
@@ -112,7 +112,7 @@ class EventObjectInfo
      */
     public $rightNeighbour;
     /**
-     * @var boolean
+     * @var bool
      */
     public $isAvailable;
     /**
@@ -136,7 +136,7 @@ class EventObjectInfo
      */
     public $numSeats;
     /**
-     * @var boolean
+     * @var bool
      */
     public $variableOccupancy;
     /**

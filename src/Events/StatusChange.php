@@ -41,7 +41,7 @@ class StatusChange
      */
     public $origin;
     /**
-     * @var boolean
+     * @var bool
      */
     public $isPresentOnChart;
     /**

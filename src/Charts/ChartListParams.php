@@ -17,22 +17,22 @@ class ChartListParams
     public $tag;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $expandEvents;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $expandValidation;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $expandVenueType;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $expandZones;
 

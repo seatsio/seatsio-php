@@ -5,7 +5,7 @@ namespace Seatsio\Events;
 class ForSaleConfig
 {
     /**
-     * @var boolean
+     * @var bool
      */
     public $forSale;
     /**
