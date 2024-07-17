@@ -507,6 +507,9 @@ class Events
         if ($bestAvailableParams->tryToPreventOrphanSeats !== null) {
             $request->bestAvailable->tryToPreventOrphanSeats = $bestAvailableParams->tryToPreventOrphanSeats;
         }
+        if ($bestAvailableParams->zone !== null) {
+            $request->bestAvailable->zone = $bestAvailableParams->zone;
+        }
         $request->status = $status;
         if ($holdToken !== null) {
             $request->holdToken = $holdToken;

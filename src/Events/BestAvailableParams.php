@@ -15,6 +15,11 @@ class BestAvailableParams
     public $categories;
 
     /**
+     * @var string
+     */
+    public $zone;
+
+    /**
      * @var array
      */
     public $extraData;
@@ -38,6 +43,12 @@ class BestAvailableParams
     public function setCategories(array $categories): self
     {
         $this->categories = $categories;
+        return $this;
+    }
+
+    public function setZone(string $zone): self
+    {
+        $this->zone = $zone;
         return $this;
     }
 
