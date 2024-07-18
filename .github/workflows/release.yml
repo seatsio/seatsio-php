@@ -27,13 +27,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - id: install-zx
-        run: npm i -g zx
-      - id: install-semver-tool
-        run: |
-          wget -O /usr/local/bin/semver https://raw.githubusercontent.com/fsaintjacques/semver-tool/master/src/semver
-          chmod +x /usr/local/bin/semver
-      - run: zx ./release.mjs -v $VERSION_TO_BUMP
+          registry-url: https://registry.npmjs.org/
+      - name: Install dependencies
+        run: yarn add -D -E zx@8.1.4 semver@7.6.3
+      - name: Run release script  
+        run: yarn zx ./release.mjs -v $VERSION_TO_BUMP
         env:
           VERSION_TO_BUMP: ${{ inputs.versionToBump }}
           GH_TOKEN: ${{ github.token }}
