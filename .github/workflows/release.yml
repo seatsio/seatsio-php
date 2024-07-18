@@ -28,7 +28,9 @@ jobs:
         with:
           node-version: 20
       - name: Install dependencies and run release script
-        run: yarn add -D -E zx@8.1.4 semver@7.6.3 && yarn zx ./release.mjs -v $VERSION_TO_BUMP
+        run: |
+          yarn add -D -E zx@8.1.4 semver@7.6.3
+          yarn zx ./release.mjs -v $VERSION_TO_BUMP
         env:
           VERSION_TO_BUMP: ${{ inputs.versionToBump }}
           GH_TOKEN: ${{ github.token }}
