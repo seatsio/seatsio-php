@@ -1,7 +1,7 @@
 #!/usr/bin/env zx
 
 /*
-* Script to release the seats.io java lib.
+* Script to release the seats.io php lib.
 *   - changes the version number in README.md
 *   - changes the version number in build.gradle
 *   - creates the release in Gihub (using gh cli)
@@ -10,15 +10,15 @@
 * Prerequisites:
 *   - zx installed (https://github.com/google/zx)
 *   - gh cli installed (https://cli.github.com/)
-*   - semver cli installed (https://github.com/fsaintjacques/semver-tool)
 *
 * Usage:
-*   zx ./release.mjs -v major/minor -n "release notes"
+*   yarn zx ./release.mjs -v major/minor -n "release notes"
 * */
 
 // don't output the commands themselves
 $.verbose = false
 
+const semver = require('semver')
 const versionToBump = getVersionToBump()
 const latestReleaseTag = await fetchLatestReleasedVersionNumber()
 
@@ -44,7 +44,7 @@ async function fetchLatestReleasedVersionNumber() {
 }
 
 async function determineNextVersionNumber(previous) {
-    return (await $`semver bump ${versionToBump} ${previous}`).stdout.trim()
+    return semver.inc(previous, versionToBump)
 }
 
 async function getCurrentCommitHash() {
