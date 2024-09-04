@@ -59,6 +59,11 @@ abstract class SeatsioClientTest extends TestCase
         return $this->createTestChartFromFile('sampleChartWithSections.json');
     }
 
+    protected function createTestChartWithFloors()
+    {
+        return $this->createTestChartFromFile('sampleChartWithFloors.json');
+    }
+
     protected function createTestChartWithZones()
     {
         return $this->createTestChartFromFile('sampleChartWithZones.json');

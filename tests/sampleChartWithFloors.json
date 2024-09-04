@@ -1,0 +1,627 @@
+{
+  "name": "chartWithFloors",
+  "tablesLabelCounter": 1,
+  "uuidCounter": 43,
+  "categories": {
+    "list": [
+      {
+        "label": "CatA",
+        "color": "#992C4E",
+        "accessible": false,
+        "key": 1
+      },
+      {
+        "label": "CatB",
+        "color": "#CD254A",
+        "accessible": false,
+        "key": 2
+      }
+    ],
+    "maxCategoryKey": 2
+  },
+  "zones": {
+    "list": []
+  },
+  "rowSpacing": 14,
+  "rowChairSpacing": 5,
+  "colorScheme": "light",
+  "version": 21,
+  "venueType": "WITH_SECTIONS_AND_FLOORS",
+  "sectionScaleFactor": 100,
+  "referenceChartVisible": true,
+  "subChartFloors": [
+    {
+      "height": 173.11,
+      "width": 268.67,
+      "tables": [],
+      "texts": [],
+      "imageObjects": [],
+      "rows": [],
+      "shapes": [],
+      "booths": [],
+      "icons": [],
+      "generalAdmissionAreas": [],
+      "sections": [
+        {
+          "points": [
+            {
+              "x": 1,
+              "y": 1
+            },
+            {
+              "x": 238.78,
+              "y": 1
+            },
+            {
+              "x": 238.78,
+              "y": 147.67
+            },
+            {
+              "x": 1,
+              "y": 147.67
+            }
+          ],
+          "label": "S1",
+          "labelSize": 12,
+          "labelShown": true,
+          "labelHorizontalOffset": 0,
+          "labelVerticalOffset": 0,
+          "labelRotationAngle": 0,
+          "uuid": "uuid2",
+          "categoryLabel": null,
+          "categoryKey": null,
+          "topLeft": {
+            "x": 0,
+            "y": 0
+          },
+          "entrance": null,
+          "viewFromYourSeatImage": null,
+          "objectLabeling": {
+            "algoName": "SimpleLettersUppercase",
+            "prefix": "",
+            "startAtIndex": 0,
+            "skippedCharacters": []
+          },
+          "subChart": {
+            "height": 149,
+            "width": 240,
+            "tables": [],
+            "texts": [],
+            "imageObjects": [],
+            "rows": [
+              {
+                "label": "A",
+                "displayLabel": null,
+                "sectionLabel": null,
+                "sectionDisplayedLabel": null,
+                "rowLabelPosition": "label-position-invisible",
+                "seatLabeling": {
+                  "algoName": "SimpleNumbers",
+                  "startAtIndex": null,
+                  "isInverted": null,
+                  "useEndAt": false
+                },
+                "objectLabeling": {
+                  "algoName": null,
+                  "prefix": null,
+                  "startAtIndex": null,
+                  "skippedCharacters": []
+                },
+                "seats": [
+                  {
+                    "x": 42.22,
+                    "y": 105,
+                    "label": "1",
+                    "displayLabel": null,
+                    "categoryLabel": "CatB",
+                    "categoryAccessible": false,
+                    "categoryKey": 2,
+                    "restrictedView": false,
+                    "viewFromYourSeatImage": null,
+                    "accessible": false,
+                    "companionSeat": false,
+                    "semiAmbulatorySeat": false,
+                    "disabledBySocialDistancingRules": false,
+                    "uuid": "uuid5",
+                    "published": true
+                  },
+                  {
+                    "x": 63.22,
+                    "y": 105,
+                    "label": "2",
+                    "displayLabel": null,
+                    "categoryLabel": "CatB",
+                    "categoryAccessible": false,
+                    "categoryKey": 2,
+                    "restrictedView": false,
+                    "viewFromYourSeatImage": null,
+                    "accessible": false,
+                    "companionSeat": false,
+                    "semiAmbulatorySeat": false,
+                    "disabledBySocialDistancingRules": false,
+                    "uuid": "uuid6",
+                    "published": true
+                  },
+                  {
+                    "x": 84.22,
+                    "y": 105,
+                    "label": "3",
+                    "displayLabel": null,
+                    "categoryLabel": "CatB",
+                    "categoryAccessible": false,
+                    "categoryKey": 2,
+                    "restrictedView": false,
+                    "viewFromYourSeatImage": null,
+                    "accessible": false,
+                    "companionSeat": false,
+                    "semiAmbulatorySeat": false,
+                    "disabledBySocialDistancingRules": false,
+                    "uuid": "uuid7",
+                    "published": true
+                  },
+                  {
+                    "x": 105.22,
+                    "y": 105,
+                    "label": "4",
+                    "displayLabel": null,
+                    "categoryLabel": "CatB",
+                    "categoryAccessible": false,
+                    "categoryKey": 2,
+                    "restrictedView": false,
+                    "viewFromYourSeatImage": null,
+                    "accessible": false,
+                    "companionSeat": false,
+                    "semiAmbulatorySeat": false,
+                    "disabledBySocialDistancingRules": false,
+                    "uuid": "uuid8",
+                    "published": true
+                  },
+                  {
+                    "x": 126.22,
+                    "y": 105,
+                    "label": "5",
+                    "displayLabel": null,
+                    "categoryLabel": "CatB",
+                    "categoryAccessible": false,
+                    "categoryKey": 2,
+                    "restrictedView": false,
+                    "viewFromYourSeatImage": null,
+                    "accessible": false,
+                    "companionSeat": false,
+                    "semiAmbulatorySeat": false,
+                    "disabledBySocialDistancingRules": false,
+                    "uuid": "uuid9",
+                    "published": true
+                  },
+                  {
+                    "x": 147.22,
+                    "y": 105,
+                    "label": "6",
+                    "displayLabel": null,
+                    "categoryLabel": "CatB",
+                    "categoryAccessible": false,
+                    "categoryKey": 2,
+                    "restrictedView": false,
+                    "viewFromYourSeatImage": null,
+                    "accessible": false,
+                    "companionSeat": false,
+                    "semiAmbulatorySeat": false,
+                    "disabledBySocialDistancingRules": false,
+                    "uuid": "uuid10",
+                    "published": true
+                  },
+                  {
+                    "x": 168.22,
+                    "y": 105,
+                    "label": "7",
+                    "displayLabel": null,
+                    "categoryLabel": "CatB",
+                    "categoryAccessible": false,
+                    "categoryKey": 2,
+                    "restrictedView": false,
+                    "viewFromYourSeatImage": null,
+                    "accessible": false,
+                    "companionSeat": false,
+                    "semiAmbulatorySeat": false,
+                    "disabledBySocialDistancingRules": false,
+                    "uuid": "uuid11",
+                    "published": true
+                  },
+                  {
+                    "x": 189.22,
+                    "y": 105,
+                    "label": "8",
+                    "displayLabel": null,
+                    "categoryLabel": "CatB",
+                    "categoryAccessible": false,
+                    "categoryKey": 2,
+                    "restrictedView": false,
+                    "viewFromYourSeatImage": null,
+                    "accessible": false,
+                    "companionSeat": false,
+                    "semiAmbulatorySeat": false,
+                    "disabledBySocialDistancingRules": false,
+                    "uuid": "uuid12",
+                    "published": true
+                  },
+                  {
+                    "x": 210.22,
+                    "y": 105,
+                    "label": "9",
+                    "displayLabel": null,
+                    "categoryLabel": "CatB",
+                    "categoryAccessible": false,
+                    "categoryKey": 2,
+                    "restrictedView": false,
+                    "viewFromYourSeatImage": null,
+                    "accessible": false,
+                    "companionSeat": false,
+                    "semiAmbulatorySeat": false,
+                    "disabledBySocialDistancingRules": false,
+                    "uuid": "uuid13",
+                    "published": true
+                  }
+                ],
+                "curve": 0,
+                "chairSpacing": 5,
+                "verticalRowLabelDirection": "BASELINE_LEFT",
+                "displayObjectType": "row",
+                "objectType": "row",
+                "uuid": "uuid15",
+                "points": null,
+                "smooth": false,
+                "smoothness": 50,
+                "rowLabelDisabled": false,
+                "published": true,
+                "rotationAngle": 0
+              }
+            ],
+            "shapes": [],
+            "booths": [
+              {
+                "label": "1",
+                "displayLabel": null,
+                "sectionLabel": null,
+                "sectionDisplayedLabel": null,
+                "objectLabeling": {
+                  "algoName": "SimpleNumbers",
+                  "prefix": "",
+                  "startAtIndex": 0,
+                  "skippedCharacters": []
+                },
+                "center": {
+                  "x": 47.78,
+                  "y": 48.33
+                },
+                "width": 50,
+                "height": 50,
+                "rotationAngle": 0,
+                "categoryLabel": "CatA",
+                "categoryKey": 1,
+                "objectType": "booth",
+                "uuid": "uuid4",
+                "published": true,
+                "entrance": null
+              }
+            ],
+            "icons": [],
+            "generalAdmissionAreas": []
+          },
+          "cutoffAngle": 180,
+          "published": true
+        }
+      ],
+      "focalPoint": null,
+      "backgroundImage": null,
+      "referenceChart": null,
+      "snapOffset": {
+        "x": 3,
+        "y": 2.11
+      },
+      "floorDisplayName": "Floor 1",
+      "floorName": "1"
+    },
+    {
+      "height": 173.11,
+      "width": 268.67,
+      "tables": [],
+      "texts": [],
+      "imageObjects": [],
+      "rows": [],
+      "shapes": [],
+      "booths": [],
+      "icons": [],
+      "generalAdmissionAreas": [],
+      "sections": [
+        {
+          "points": [
+            {
+              "x": 29.89,
+              "y": 25.44
+            },
+            {
+              "x": 267.67,
+              "y": 25.44
+            },
+            {
+              "x": 267.67,
+              "y": 172.11
+            },
+            {
+              "x": 29.89,
+              "y": 172.11
+            }
+          ],
+          "label": "S2",
+          "labelSize": 12,
+          "labelShown": true,
+          "labelHorizontalOffset": 0,
+          "labelVerticalOffset": 0,
+          "labelRotationAngle": 0,
+          "uuid": "uuid31",
+          "categoryLabel": null,
+          "categoryKey": null,
+          "topLeft": {
+            "x": 28.89,
+            "y": 24.44
+          },
+          "entrance": null,
+          "viewFromYourSeatImage": null,
+          "objectLabeling": {
+            "algoName": "SimpleLettersUppercase",
+            "prefix": "",
+            "startAtIndex": 0,
+            "skippedCharacters": []
+          },
+          "subChart": {
+            "height": 149,
+            "width": 240,
+            "tables": [],
+            "texts": [],
+            "imageObjects": [],
+            "rows": [
+              {
+                "label": "A",
+                "displayLabel": null,
+                "sectionLabel": null,
+                "sectionDisplayedLabel": null,
+                "rowLabelPosition": "label-position-invisible",
+                "seatLabeling": {
+                  "algoName": "SimpleNumbers",
+                  "startAtIndex": null,
+                  "isInverted": null,
+                  "useEndAt": false
+                },
+                "objectLabeling": {
+                  "algoName": null,
+                  "prefix": null,
+                  "startAtIndex": null,
+                  "skippedCharacters": []
+                },
+                "seats": [
+                  {
+                    "x": 42.22,
+                    "y": 105,
+                    "label": "1",
+                    "displayLabel": null,
+                    "categoryLabel": "CatB",
+                    "categoryAccessible": false,
+                    "categoryKey": 2,
+                    "restrictedView": false,
+                    "viewFromYourSeatImage": null,
+                    "accessible": false,
+                    "companionSeat": false,
+                    "semiAmbulatorySeat": false,
+                    "disabledBySocialDistancingRules": false,
+                    "entrance": null,
+                    "uuid": "uuid34",
+                    "published": true
+                  },
+                  {
+                    "x": 63.22,
+                    "y": 105,
+                    "label": "2",
+                    "displayLabel": null,
+                    "categoryLabel": "CatB",
+                    "categoryAccessible": false,
+                    "categoryKey": 2,
+                    "restrictedView": false,
+                    "viewFromYourSeatImage": null,
+                    "accessible": false,
+                    "companionSeat": false,
+                    "semiAmbulatorySeat": false,
+                    "disabledBySocialDistancingRules": false,
+                    "entrance": null,
+                    "uuid": "uuid35",
+                    "published": true
+                  },
+                  {
+                    "x": 84.22,
+                    "y": 105,
+                    "label": "3",
+                    "displayLabel": null,
+                    "categoryLabel": "CatB",
+                    "categoryAccessible": false,
+                    "categoryKey": 2,
+                    "restrictedView": false,
+                    "viewFromYourSeatImage": null,
+                    "accessible": false,
+                    "companionSeat": false,
+                    "semiAmbulatorySeat": false,
+                    "disabledBySocialDistancingRules": false,
+                    "entrance": null,
+                    "uuid": "uuid36",
+                    "published": true
+                  },
+                  {
+                    "x": 105.22,
+                    "y": 105,
+                    "label": "4",
+                    "displayLabel": null,
+                    "categoryLabel": "CatB",
+                    "categoryAccessible": false,
+                    "categoryKey": 2,
+                    "restrictedView": false,
+                    "viewFromYourSeatImage": null,
+                    "accessible": false,
+                    "companionSeat": false,
+                    "semiAmbulatorySeat": false,
+                    "disabledBySocialDistancingRules": false,
+                    "entrance": null,
+                    "uuid": "uuid37",
+                    "published": true
+                  },
+                  {
+                    "x": 126.22,
+                    "y": 105,
+                    "label": "5",
+                    "displayLabel": null,
+                    "categoryLabel": "CatB",
+                    "categoryAccessible": false,
+                    "categoryKey": 2,
+                    "restrictedView": false,
+                    "viewFromYourSeatImage": null,
+                    "accessible": false,
+                    "companionSeat": false,
+                    "semiAmbulatorySeat": false,
+                    "disabledBySocialDistancingRules": false,
+                    "entrance": null,
+                    "uuid": "uuid38",
+                    "published": true
+                  },
+                  {
+                    "x": 147.22,
+                    "y": 105,
+                    "label": "6",
+                    "displayLabel": null,
+                    "categoryLabel": "CatB",
+                    "categoryAccessible": false,
+                    "categoryKey": 2,
+                    "restrictedView": false,
+                    "viewFromYourSeatImage": null,
+                    "accessible": false,
+                    "companionSeat": false,
+                    "semiAmbulatorySeat": false,
+                    "disabledBySocialDistancingRules": false,
+                    "entrance": null,
+                    "uuid": "uuid39",
+                    "published": true
+                  },
+                  {
+                    "x": 168.22,
+                    "y": 105,
+                    "label": "7",
+                    "displayLabel": null,
+                    "categoryLabel": "CatB",
+                    "categoryAccessible": false,
+                    "categoryKey": 2,
+                    "restrictedView": false,
+                    "viewFromYourSeatImage": null,
+                    "accessible": false,
+                    "companionSeat": false,
+                    "semiAmbulatorySeat": false,
+                    "disabledBySocialDistancingRules": false,
+                    "entrance": null,
+                    "uuid": "uuid40",
+                    "published": true
+                  },
+                  {
+                    "x": 189.22,
+                    "y": 105,
+                    "label": "8",
+                    "displayLabel": null,
+                    "categoryLabel": "CatB",
+                    "categoryAccessible": false,
+                    "categoryKey": 2,
+                    "restrictedView": false,
+                    "viewFromYourSeatImage": null,
+                    "accessible": false,
+                    "companionSeat": false,
+                    "semiAmbulatorySeat": false,
+                    "disabledBySocialDistancingRules": false,
+                    "entrance": null,
+                    "uuid": "uuid41",
+                    "published": true
+                  },
+                  {
+                    "x": 210.22,
+                    "y": 105,
+                    "label": "9",
+                    "displayLabel": null,
+                    "categoryLabel": "CatB",
+                    "categoryAccessible": false,
+                    "categoryKey": 2,
+                    "restrictedView": false,
+                    "viewFromYourSeatImage": null,
+                    "accessible": false,
+                    "companionSeat": false,
+                    "semiAmbulatorySeat": false,
+                    "disabledBySocialDistancingRules": false,
+                    "entrance": null,
+                    "uuid": "uuid42",
+                    "published": true
+                  }
+                ],
+                "curve": 0,
+                "chairSpacing": 5,
+                "verticalRowLabelDirection": "BASELINE_LEFT",
+                "displayObjectType": "row",
+                "objectType": "row",
+                "uuid": "uuid33",
+                "points": null,
+                "smooth": false,
+                "smoothness": 50,
+                "rowLabelDisabled": false,
+                "published": true,
+                "rotationAngle": 0
+              }
+            ],
+            "shapes": [],
+            "booths": [
+              {
+                "label": "1",
+                "displayLabel": null,
+                "sectionLabel": null,
+                "sectionDisplayedLabel": null,
+                "objectLabeling": {
+                  "algoName": "SimpleNumbers",
+                  "prefix": "",
+                  "startAtIndex": 0,
+                  "skippedCharacters": []
+                },
+                "center": {
+                  "x": 47.78,
+                  "y": 48.33
+                },
+                "width": 50,
+                "height": 50,
+                "rotationAngle": 0,
+                "categoryLabel": "CatA",
+                "categoryKey": 1,
+                "objectType": "booth",
+                "uuid": "uuid43",
+                "published": true,
+                "entrance": null
+              }
+            ],
+            "icons": [],
+            "generalAdmissionAreas": []
+          },
+          "cutoffAngle": 180,
+          "published": true
+        }
+      ],
+      "focalPoint": null,
+      "backgroundImage": null,
+      "referenceChart": null,
+      "snapOffset": {
+        "x": 3,
+        "y": 2.11
+      },
+      "floorDisplayName": "Floor 2",
+      "floorName": "2"
+    }
+  ],
+  "multiFloorView": "isometric"
+}
+
