@@ -24,7 +24,7 @@ class SeasonCreationParams
     public $numberOfEvents;
 
     /**
-     * @var boolean|object|array
+     * @var bool|object|array
      */
     public $tableBookingConfig;
 

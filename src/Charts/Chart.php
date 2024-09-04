@@ -37,12 +37,19 @@ class Chart
      */
     public $events;
     /**
-     * @var boolean
+     * @var bool
      */
     public $archived;
-
     /**
      * @var array
      */
     public $validation;
+    /**
+     * @var string
+     */
+    public $venueType;
+    /**
+     * @var \Seatsio\Charts\Zone[]
+     */
+    public $zones;
 }

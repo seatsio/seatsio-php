@@ -13,7 +13,7 @@ class BestAvailableObjects
      */
     public $objectDetails;
     /**
-     * @var boolean
+     * @var bool
      */
     public $nextToEachOther;
 

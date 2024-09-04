@@ -2,8 +2,6 @@
 
 namespace Seatsio\Events;
 
-use Seatsio\LocalDate;
-
 class Event
 {
     /**
@@ -27,7 +25,7 @@ class Event
     public $date;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $supportsBestAvailable;
 

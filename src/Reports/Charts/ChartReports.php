@@ -3,11 +3,10 @@
 namespace Seatsio\Reports\Charts;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Utils;
-use Seatsio\SeatsioJsonMapper;
 use GuzzleHttp\UriTemplate\UriTemplate;
 use Seatsio\Charts\ChartObjectInfo;
-use function Symfony\Component\String\b;
+use Seatsio\GuzzleResponseDecoder;
+use Seatsio\SeatsioJsonMapper;
 
 class ChartReports
 {
@@ -82,6 +81,19 @@ class ChartReports
         return $this->getChartSummaryReport('bySection', $chartKey, $bookWholeTables, $version);
     }
 
+    /**
+     * @return ChartObjectInfo[][]
+     */
+    public function byZone(string $chartKey, string $bookWholeTables = null, string $version = null): array
+    {
+        return $this->getChartReport('byZone', $chartKey, $bookWholeTables, $version);
+    }
+
+    public function summaryByZone(string $chartKey, string $bookWholeTables = null, string $version = null): array
+    {
+        return $this->getChartSummaryReport('byZone', $chartKey, $bookWholeTables, $version);
+    }
+
     private static function reportUrl(string $reportType, string $chartKey): string
     {
         return UriTemplate::expand('/reports/charts/{key}/{reportType}', array("key" => $chartKey, "reportType" => $reportType));
@@ -98,14 +110,14 @@ class ChartReports
     private function getChartReport(string $reportType, string $chartKey, ?string $bookWholeTables, ?string $version): array
     {
         $res = $this->client->get(self::reportUrl($reportType, $chartKey), ["query" => ["bookWholeTables" => $bookWholeTables, "version" => $version]]);
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         return $this->mapMultiValuedReport($json);
     }
 
     private function getChartSummaryReport(string $reportType, string $chartKey, ?string $bookWholeTables, ?string $version): array
     {
         $res = $this->client->get(self::summaryReportUrl($reportType, $chartKey), ["query" => ["bookWholeTables" => $bookWholeTables, "version" => $version]]);
-        return Utils::jsonDecode($res->getBody(), true);
+        return GuzzleResponseDecoder::decodeToArray($res);
     }
 
     /**

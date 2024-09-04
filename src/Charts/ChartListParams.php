@@ -17,16 +17,33 @@ class ChartListParams
     public $tag;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $expandEvents;
 
-    public function __construct(string $filter = null, string $tag = null, bool $expandEvents = null, bool $withValidation = false)
+    /**
+     * @var bool
+     */
+    public $expandValidation;
+
+    /**
+     * @var bool
+     */
+    public $expandVenueType;
+
+    /**
+     * @var bool
+     */
+    public $expandZones;
+
+    public function __construct(string $filter = null, string $tag = null, bool $expandEvents = false, bool $withExpandValidation = false, bool $withExpandVenueType = false, bool $withExpandZones = false)
     {
         $this->filter = $filter;
         $this->tag = $tag;
         $this->expandEvents = $expandEvents;
-        $this->validation = $withValidation;
+        $this->expandValidation = $withExpandValidation;
+        $this->expandVenueType = $withExpandVenueType;
+        $this->expandZones = $withExpandZones;
     }
 
     public function withFilter(string $filter): self
@@ -47,9 +64,29 @@ class ChartListParams
         return $this;
     }
 
+    public function withExpandValidation(bool $expandValidation): self
+    {
+        $this->expandValidation = $expandValidation;
+        return $this;
+    }
+
+    /**
+     * @deprecated Use withExpandValidation instead
+     */
     public function withValidation(bool $withValidation): self
     {
-        $this->validation = $withValidation;
+        return $this->withExpandValidation($withValidation);
+    }
+
+    public function withExpandVenueType(bool $expandVenueType): self
+    {
+        $this->expandVenueType = $expandVenueType;
+        return $this;
+    }
+
+    public function withExpandZones(bool $expandZones): self
+    {
+        $this->expandZones = $expandZones;
         return $this;
     }
 
@@ -65,12 +102,29 @@ class ChartListParams
             $result["tag"] = $this->tag;
         }
 
+        $result["expand"] = $this->expandParams();
+
+        return $result;
+    }
+
+    private function expandParams()
+    {
+        $result = [];
+
         if ($this->expandEvents) {
-            $result["expand"] = "events";
+            $result[] = "events";
         }
 
-        if ($this->validation) {
-            $result["validation"] = "true";
+        if ($this->expandValidation) {
+            $result[] = "validation";
+        }
+
+        if ($this->expandVenueType) {
+            $result[] = "venueType";
+        }
+
+        if ($this->expandZones) {
+            $result[] = "zones";
         }
 
         return $result;

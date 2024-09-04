@@ -2,9 +2,6 @@
 
 namespace Events;
 
-use Seatsio\Common\IDs;
-use Seatsio\Events\Channel;
-use Seatsio\Events\CreateEventParams;
 use Seatsio\Events\EventObjectInfo;
 use Seatsio\Seasons\SeasonCreationParams;
 use Seatsio\SeatsioClientTest;

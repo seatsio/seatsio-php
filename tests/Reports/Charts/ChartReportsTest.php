@@ -3,20 +3,21 @@
 namespace Reports\Charts;
 
 use Seatsio\Common\IDs;
+use Seatsio\Reports\Charts\ChartReports;
 use Seatsio\SeatsioClient;
 use Seatsio\SeatsioClientTest;
 
 class ChartReportsTest extends SeatsioClientTest
 {
 
-    private function noChartUpdate(): \Closure
+    private static function noChartUpdate(): \Closure
     {
         return function(SeatsioClient $client, string $chartKey) {
             // no-op
         };
     }
 
-    private function createDraftReport(): \Closure
+    private static function createDraftReport(): \Closure
     {
         return function(SeatsioClient $client, string $chartKey) {
             $client->events->create($chartKey);
@@ -24,7 +25,7 @@ class ChartReportsTest extends SeatsioClientTest
         };
     }
 
-    public function byLabelDataProvider(): array
+    public static function byLabelDataProvider(): array
     {
         $getReport = function(SeatsioClient $client, string $chartKey)
         {
@@ -35,24 +36,24 @@ class ChartReportsTest extends SeatsioClientTest
             return $client->chartReports->byLabel($chartKey, null, "draft");
         };
         return array(
-            array($this->noChartUpdate(), $getReport),
-            array($this->createDraftReport(), $getDraftReport)
+            array(ChartReportsTest::noChartUpdate(), $getReport),
+            array(ChartReportsTest::createDraftReport(), $getDraftReport)
         );
     }
 
-    public function byLabelAndChart(): array {
-        return $this->byLabelAndTableBookingModelDataProvider("chart");
+    public static function byLabelAndChart(): array {
+        return ChartReportsTest::byLabelAndTableBookingModelDataProvider("chart");
     }
 
-    public function byLabelAndTrue(): array {
-        return $this->byLabelAndTableBookingModelDataProvider("true");
+    public static function byLabelAndTrue(): array {
+        return ChartReportsTest::byLabelAndTableBookingModelDataProvider("true");
     }
 
-    public function byLabelAndFalse(): array {
-        return $this->byLabelAndTableBookingModelDataProvider("false");
+    public static function byLabelAndFalse(): array {
+        return ChartReportsTest::byLabelAndTableBookingModelDataProvider("false");
     }
 
-    private function byLabelAndTableBookingModelDataProvider(string $tableBookingMode): array
+    private static function byLabelAndTableBookingModelDataProvider(string $tableBookingMode): array
     {
         $getReport = function(SeatsioClient $client, string $chartKey) use ($tableBookingMode)
         {
@@ -63,8 +64,8 @@ class ChartReportsTest extends SeatsioClientTest
             return $client->chartReports->byLabel($chartKey, $tableBookingMode, "draft");
         };
         return array(
-            array($this->noChartUpdate(), $getReport),
-            array($this->createDraftReport(), $getDraftReport)
+            array(ChartReportsTest::noChartUpdate(), $getReport),
+            array(ChartReportsTest::createDraftReport(), $getDraftReport)
         );
     }
 
@@ -154,7 +155,7 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertCount(2, $report["generalAdmission"]);
     }
 
-    public function byObjectTypeDataProvider(): array
+    public static function byObjectTypeDataProvider(): array
     {
         $getReport = function(SeatsioClient $client, string $chartKey)
         {
@@ -165,8 +166,8 @@ class ChartReportsTest extends SeatsioClientTest
             return $client->chartReports->byObjectType($chartKey, null, "draft");
         };
         return array(
-            array($this->noChartUpdate(), $getReport),
-            array($this->createDraftReport(), $getDraftReport)
+            array(ChartReportsTest::noChartUpdate(), $getReport),
+            array(ChartReportsTest::createDraftReport(), $getDraftReport)
         );
     }
 
@@ -236,7 +237,7 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertCount(17, $report["10"]);
     }
 
-    public function byCategoryKeyDataProvider(): array
+    public static function byCategoryKeyDataProvider(): array
     {
         $getReport = function(SeatsioClient $client, string $chartKey) {
             $bySection = $client->chartReports->byCategoryKey($chartKey);
@@ -247,8 +248,8 @@ class ChartReportsTest extends SeatsioClientTest
             return $bySection;
         };
         return array(
-            array($this->noChartUpdate(), $getReport),
-            array($this->createDraftReport(), $getDraftReport)
+            array(ChartReportsTest::noChartUpdate(), $getReport),
+            array(ChartReportsTest::createDraftReport(), $getDraftReport)
         );
     }
 
@@ -266,7 +267,7 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertCount(17, $report["Cat2"]);
     }
 
-    public function byCategoryLabelDataProvider(): array
+    public static function byCategoryLabelDataProvider(): array
     {
         $getReport = function(SeatsioClient $client, string $chartKey) {
             $bySection = $client->chartReports->byCategoryLabel($chartKey);
@@ -277,8 +278,8 @@ class ChartReportsTest extends SeatsioClientTest
             return $bySection;
         };
         return array(
-            array($this->noChartUpdate(), $getReport),
-            array($this->createDraftReport(), $getDraftReport)
+            array(ChartReportsTest::noChartUpdate(), $getReport),
+            array(ChartReportsTest::createDraftReport(), $getDraftReport)
         );
     }
 
@@ -296,7 +297,7 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertCount(35, $report["Section B"]);
     }
 
-    public function bySectionDataProvider(): array
+    public static function bySectionDataProvider(): array
     {
         $getReport = function(SeatsioClient $client, string $chartKey) {
             $bySection = $client->chartReports->bySection($chartKey);
@@ -307,8 +308,39 @@ class ChartReportsTest extends SeatsioClientTest
             return $bySection;
         };
         return array(
-            array($this->noChartUpdate(), $getReport),
-            array($this->createDraftReport(), $getDraftReport)
+            array(ChartReportsTest::noChartUpdate(), $getReport),
+            array(ChartReportsTest::createDraftReport(), $getDraftReport)
+        );
+    }
+
+    /**
+     * @dataProvider byZoneDataProvider
+     */
+    public function testByZone($updateChart, $getReport)
+    {
+        $chartKey = $this->createTestChartWithZones();
+        $updateChart($this->seatsioClient, $chartKey);
+
+        $report = $getReport($this->seatsioClient, $chartKey);
+
+        self::assertCount(6032, $report["midtrack"]);
+        self::assertEquals("midtrack", $report["midtrack"][0]->zone);
+        self::assertCount(2865, $report["finishline"]);
+    }
+
+    public static function byZoneDataProvider(): array
+    {
+        $getReport = function(SeatsioClient $client, string $chartKey) {
+            $byZone = $client->chartReports->byZone($chartKey);
+            return $byZone;
+        };
+        $getDraftReport = function(SeatsioClient $client, string $chartKey) {
+            $byZone = $client->chartReports->byZone($chartKey, null, "draft");
+            return $byZone;
+        };
+        return array(
+            array(ChartReportsTest::noChartUpdate(), $getReport),
+            array(ChartReportsTest::createDraftReport(), $getDraftReport)
         );
     }
 }

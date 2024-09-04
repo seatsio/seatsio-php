@@ -150,7 +150,7 @@
             "categoryAccessible": false,
             "categoryKey": 9,
             "restrictedView": false,
-            "accessible": false,
+            "accessible": true,
             "companionSeat": false,
             "disabledBySocialDistancingRules": false,
             "uuid": "uuid294",

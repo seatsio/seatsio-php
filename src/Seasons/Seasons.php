@@ -4,7 +4,7 @@ namespace Seatsio\Seasons;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\UriTemplate\UriTemplate;
-use GuzzleHttp\Utils;
+use Seatsio\GuzzleResponseDecoder;
 use Seatsio\SeatsioJsonMapper;
 use stdClass;
 
@@ -57,7 +57,7 @@ class Seasons
         }
 
         $res = $this->client->post('/seasons', ['json' => $request]);
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Season());
     }
@@ -83,7 +83,7 @@ class Seasons
         }
 
         $res = $this->client->post(UriTemplate::expand('/seasons/{seasonKey}/partial-seasons', ['seasonKey' => $topLevelSeasonKey]), ['json' => $request]);
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Season());
     }
@@ -93,7 +93,7 @@ class Seasons
         $request = new stdClass();
         $request->eventKeys = $eventKeys;
         $res = $this->client->post(UriTemplate::expand('/seasons/{topLevelSeasonKey}/partial-seasons/{partialSeasonKey}/actions/add-events', ['topLevelSeasonKey' => $topLevelSeasonKey, 'partialSeasonKey' => $partialSeasonKey]), ['json' => $request]);
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Season());
     }
@@ -115,7 +115,7 @@ class Seasons
         }
 
         $res = $this->client->post(UriTemplate::expand('/seasons/{seasonKey}/actions/create-events', ['seasonKey' => $seasonKey]), ['json' => $request]);
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToObject($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->mapArray($json->events, array(), 'Seatsio\Events\Event');
     }
@@ -124,7 +124,7 @@ class Seasons
     {
         $request = new stdClass();
         $res = $this->client->delete(UriTemplate::expand('/seasons/{topLevelSeasonKey}/partial-seasons/{partialSeasonKey}/events/{eventKey}', ['topLevelSeasonKey' => $topLevelSeasonKey, 'partialSeasonKey' => $partialSeasonKey, 'eventKey' => $eventKey]), ['json' => $request]);
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Season());
     }

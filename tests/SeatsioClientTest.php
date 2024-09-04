@@ -3,7 +3,6 @@
 namespace Seatsio;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Utils;
 use PHPUnit\Framework\TestCase;
 use Seatsio\Events\Event;
 
@@ -37,7 +36,7 @@ abstract class SeatsioClientTest extends TestCase
     {
         $client = new Client();
         $res = $client->post(self::$BASE_URL . 'system/public/users/actions/create-test-company');
-        return Utils::jsonDecode($res->getBody());
+        return GuzzleResponseDecoder::decodeToObject($res);
     }
 
     protected function randomEmail()
@@ -63,6 +62,11 @@ abstract class SeatsioClientTest extends TestCase
     protected function createTestChartWithFloors()
     {
         return $this->createTestChartFromFile('sampleChartWithFloors.json');
+    }
+
+    protected function createTestChartWithZones()
+    {
+        return $this->createTestChartFromFile('sampleChartWithZones.json');
     }
 
     protected function createTestChartWithErrors()

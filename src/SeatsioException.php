@@ -2,7 +2,6 @@
 
 namespace Seatsio;
 
-use GuzzleHttp\Utils;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
@@ -50,7 +49,7 @@ class SeatsioException extends RuntimeException
     {
         $contentType = $response->getHeaderLine("content-type");
         if (strpos($contentType, 'application/json') !== false) {
-            $json = Utils::jsonDecode($response->getBody());
+            $json = GuzzleResponseDecoder::decodeToObject($response);
             $mapper = SeatsioJsonMapper::create();
             $errors = $mapper->mapArray($json->errors, array(), 'Seatsio\ApiError');
             return ["messages" => $json->messages, "errors" => $errors, "requestId" => $json->requestId ?? null];

@@ -7,14 +7,14 @@ use Seatsio\SeatsioClientTest;
 
 class ChartReportsSummaryTest extends SeatsioClientTest
 {
-    private function noChartUpdate(): \Closure
+    private static function noChartUpdate(): \Closure
     {
         return function(SeatsioClient $client, string $chartKey) {
             // no-op
         };
     }
 
-    private function createDraftReport(): \Closure
+    private static function createDraftReport(): \Closure
     {
         return function(SeatsioClient $client, string $chartKey) {
             $client->events->create($chartKey);
@@ -37,31 +37,35 @@ class ChartReportsSummaryTest extends SeatsioClientTest
                 'count' => 32,
                 'byCategoryKey' => [9 => 16, 10 => 16],
                 'byCategoryLabel' => ['Cat2' => 16, 'Cat1' => 16],
-                'bySection' => ['NO_SECTION' => 32]
+                'bySection' => ['NO_SECTION' => 32],
+                'byZone' => ['NO_ZONE' => 32]
             ],
             'generalAdmission' => [
                 'count' => 200,
                 'byCategoryKey' => [9 => 100, 10 => 100],
                 'byCategoryLabel' => ['Cat1' => 100, 'Cat2' => 100],
-                'bySection' => ['NO_SECTION' => 200]
+                'bySection' => ['NO_SECTION' => 200],
+                'byZone' => ['NO_ZONE' => 200]
             ],
             'table' => [
                 'count' => 0,
                 'byCategoryKey' => [],
                 'byCategoryLabel' => [],
-                'bySection' => []
+                'bySection' => [],
+                'byZone' => []
             ],
             'booth' => [
                 'count' => 0,
                 'byCategoryKey' => [],
                 'byCategoryLabel' => [],
-                'bySection' => []
+                'bySection' => [],
+                'byZone' => []
             ]
         ];
         self::assertEquals($expectedReport, $report);
     }
 
-    public function summaryByObjectTypeDataProvider(): array
+    public static function summaryByObjectTypeDataProvider(): array
     {
         $getReport = function(SeatsioClient $client, string $chartKey)
         {
@@ -72,8 +76,8 @@ class ChartReportsSummaryTest extends SeatsioClientTest
             return $client->chartReports->summaryByObjectType($chartKey, null, "draft");
         };
         return array(
-            array($this->noChartUpdate(), $getReport),
-            array($this->createDraftReport(), $getDraftReport)
+            array(ChartReportsSummaryTest::noChartUpdate(), $getReport),
+            array(ChartReportsSummaryTest::createDraftReport(), $getDraftReport)
         );
     }
 
@@ -92,31 +96,35 @@ class ChartReportsSummaryTest extends SeatsioClientTest
                 'count' => 0,
                 'byCategoryKey' => [],
                 'byCategoryLabel' => [],
-                'bySection' => []
+                'bySection' => [],
+                'byZone' => []
             ],
             'generalAdmission' => [
                 'count' => 0,
                 'byCategoryKey' => [],
                 'byCategoryLabel' => [],
-                'bySection' => []
+                'bySection' => [],
+                'byZone' => []
             ],
             'table' => [
                 'count' => 2,
                 'byCategoryKey' => [9 => 2],
                 'byCategoryLabel' => ['Cat1' => 2],
-                'bySection' => ['NO_SECTION' => 2]
+                'bySection' => ['NO_SECTION' => 2],
+                'byZone' => ['NO_ZONE' => 2]
             ],
             'booth' => [
                 'count' => 0,
                 'byCategoryKey' => [],
                 'byCategoryLabel' => [],
-                'bySection' => []
+                'bySection' => [],
+                'byZone' => []
             ]
         ];
         self::assertEquals($expectedReport, $report);
     }
 
-    public function summaryByObjectTypeDataProvider_bookWholeTablesTrue(): array
+    public static function summaryByObjectTypeDataProvider_bookWholeTablesTrue(): array
     {
         $getReport = function(SeatsioClient $client, string $chartKey)
         {
@@ -127,8 +135,8 @@ class ChartReportsSummaryTest extends SeatsioClientTest
             return $client->chartReports->summaryByObjectType($chartKey, 'true', "draft");
         };
         return array(
-            array($this->noChartUpdate(), $getReport),
-            array($this->createDraftReport(), $getDraftReport)
+            array(ChartReportsSummaryTest::noChartUpdate(), $getReport),
+            array(ChartReportsSummaryTest::createDraftReport(), $getDraftReport)
         );
     }
 
@@ -146,28 +154,32 @@ class ChartReportsSummaryTest extends SeatsioClientTest
             '9' => [
                 'count' => 116,
                 'bySection' => ['NO_SECTION' => 116],
-                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
+                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100],
+                'byZone' => ['NO_ZONE' => 116]
             ],
             '10' => [
                 'count' => 116,
                 'bySection' => ['NO_SECTION' => 116],
-                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
+                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100],
+                'byZone' => ['NO_ZONE' => 116]
             ],
             'string11' => [
                 'count' => 0,
                 'bySection' => [],
-                'byObjectType' => []
+                'byObjectType' => [],
+                'byZone' => []
             ],
             'NO_CATEGORY' => [
                 'count' => 0,
                 'bySection' => [],
-                'byObjectType' => []
+                'byObjectType' => [],
+                'byZone' => []
             ]
         ];
         self::assertEquals($expectedReport, $report);
     }
 
-    public function summaryByCategoryKeyDataProvider(): array
+    public static function summaryByCategoryKeyDataProvider(): array
     {
         $getReport = function(SeatsioClient $client, string $chartKey)
         {
@@ -178,8 +190,8 @@ class ChartReportsSummaryTest extends SeatsioClientTest
             return $client->chartReports->summaryByCategoryKey($chartKey, null, "draft");
         };
         return array(
-            array($this->noChartUpdate(), $getReport),
-            array($this->createDraftReport(), $getDraftReport)
+            array(ChartReportsSummaryTest::noChartUpdate(), $getReport),
+            array(ChartReportsSummaryTest::createDraftReport(), $getDraftReport)
         );
     }
 
@@ -197,28 +209,32 @@ class ChartReportsSummaryTest extends SeatsioClientTest
             'Cat1' => [
                 'count' => 116,
                 'bySection' => ['NO_SECTION' => 116],
-                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
+                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100],
+                'byZone' => ['NO_ZONE' => 116]
             ],
             'Cat2' => [
                 'count' => 116,
                 'bySection' => ['NO_SECTION' => 116],
-                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100]
+                'byObjectType' => ['seat' => 16, 'generalAdmission' => 100],
+                'byZone' => ['NO_ZONE' => 116]
             ],
             'Cat3' => [
                 'count' => 0,
                 'bySection' => [],
-                'byObjectType' => []
+                'byObjectType' => [],
+                'byZone' => []
             ],
             'NO_CATEGORY' => [
                 'count' => 0,
                 'bySection' => [],
-                'byObjectType' => []
+                'byObjectType' => [],
+                'byZone' => []
             ]
         ];
         self::assertEquals($expectedReport, $report);
     }
 
-    public function summaryByCategoryLabelDataProvider(): array
+    public static function summaryByCategoryLabelDataProvider(): array
     {
         $getReport = function(SeatsioClient $client, string $chartKey)
         {
@@ -229,8 +245,8 @@ class ChartReportsSummaryTest extends SeatsioClientTest
             return $client->chartReports->summaryByCategoryLabel($chartKey, null, "draft");
         };
         return array(
-            array($this->noChartUpdate(), $getReport),
-            array($this->createDraftReport(), $getDraftReport)
+            array(ChartReportsSummaryTest::noChartUpdate(), $getReport),
+            array(ChartReportsSummaryTest::createDraftReport(), $getDraftReport)
         );
     }
 
@@ -249,13 +265,14 @@ class ChartReportsSummaryTest extends SeatsioClientTest
                 'count' => 232,
                 'byCategoryKey' => [9 => 116, 10 => 116],
                 'byCategoryLabel' => ['Cat2' => 116, 'Cat1' => 116],
-                'byObjectType' => ['seat' => 32, 'generalAdmission' => 200]
+                'byObjectType' => ['seat' => 32, 'generalAdmission' => 200],
+                'byZone' => ['NO_ZONE' => 232]
             ]
         ];
         self::assertEquals($expectedReport, $report);
     }
 
-    public function summaryBySectionDataProvider(): array
+    public static function summaryBySectionDataProvider(): array
     {
         $getReport = function(SeatsioClient $client, string $chartKey)
         {
@@ -266,8 +283,60 @@ class ChartReportsSummaryTest extends SeatsioClientTest
             return $client->chartReports->summaryBySection($chartKey, null, "draft");
         };
         return array(
-            array($this->noChartUpdate(), $getReport),
-            array($this->createDraftReport(), $getDraftReport)
+            array(ChartReportsSummaryTest::noChartUpdate(), $getReport),
+            array(ChartReportsSummaryTest::createDraftReport(), $getDraftReport)
+        );
+    }
+
+    /**
+     * @dataProvider summaryByZoneDataProvider
+     */
+    public function testSummaryByZone($updateChart, $getReport)
+    {
+        $chartKey = $this->createTestChartWithZones();
+        $updateChart($this->seatsioClient, $chartKey);
+
+        $report = $getReport($this->seatsioClient, $chartKey);
+
+        $expectedReport = [
+            'finishline' => [
+                'count' => 2865,
+                'byCategoryKey' => ["1" => 2865],
+                'byCategoryLabel' => ["Goal Stands" => 2865],
+                'byObjectType' => ["seat" => 2865],
+                'bySection' => ["Goal Stand 3" => 2215, "Goal Stand 4" => 650]
+            ],
+            'midtrack' => [
+                'count' => 6032,
+                'byCategoryKey' => ["2" => 6032],
+                'byCategoryLabel' => ["Mid Track Stand" => 6032],
+                'byObjectType' => ["seat" => 6032],
+                'bySection' => ["MT1" => 2418, "MT3" => 3614]
+            ],
+            'NO_ZONE' => [
+                'count' => 0,
+                'byCategoryKey' => [],
+                'byCategoryLabel' => [],
+                'byObjectType' => [],
+                'bySection' => []
+            ]
+        ];
+        self::assertEquals($expectedReport, $report);
+    }
+
+    public static function summaryByZoneDataProvider(): array
+    {
+        $getReport = function(SeatsioClient $client, string $chartKey)
+        {
+            return $client->chartReports->summaryByZone($chartKey);
+        };
+        $getDraftReport = function(SeatsioClient $client, string $chartKey)
+        {
+            return $client->chartReports->summaryByZone($chartKey, null, "draft");
+        };
+        return array(
+            array(ChartReportsSummaryTest::noChartUpdate(), $getReport),
+            array(ChartReportsSummaryTest::createDraftReport(), $getDraftReport)
         );
     }
 }

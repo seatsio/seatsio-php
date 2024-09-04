@@ -7,12 +7,13 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use Psr\Http\Message\ResponseInterface;
 use Seatsio\Charts\Charts;
+use Seatsio\EventLog\EventLog;
 use Seatsio\Events\Events;
-use Seatsio\Seasons\Seasons;
 use Seatsio\HoldTokens\HoldTokens;
 use Seatsio\Reports\Charts\ChartReports;
 use Seatsio\Reports\Events\EventReports;
 use Seatsio\Reports\Usage\UsageReports;
+use Seatsio\Seasons\Seasons;
 use Seatsio\Workspaces\Workspaces;
 
 class SeatsioClient
@@ -59,6 +60,11 @@ class SeatsioClient
      */
     public $holdTokens;
 
+    /**
+     * @var EventLog
+     */
+    public $eventLog;
+
     public function __construct(Region $region, string $secretKey, string $workspaceKey = null, int $maxRetries = 5)
     {
         $client = new Client($this->clientConfig($secretKey, $workspaceKey, $region->url(), $maxRetries));
@@ -71,6 +77,7 @@ class SeatsioClient
         $this->usageReports = new UsageReports($client);
         $this->workspaces = new Workspaces($client);
         $this->holdTokens = new HoldTokens($client);
+        $this->eventLog = new EventLog($client);
     }
 
     private function clientConfig($secretKey, $workspaceKey, $baseUrl, $maxRetries)

@@ -18,7 +18,7 @@ class Event
     public $key;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $deleted;
 

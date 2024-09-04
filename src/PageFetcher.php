@@ -3,7 +3,7 @@
 namespace Seatsio;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Utils;
+use GuzzleHttp\Psr7\Query;
 
 class PageFetcher
 {
@@ -45,8 +45,8 @@ class PageFetcher
             $queryParams['limit'] = $pageSize;
         }
         $mergedQueryParams = $this->queryParams ? array_merge($queryParams, $this->queryParams) : $queryParams;
-        $res = $this->client->get($this->url, ['query' => $mergedQueryParams]);
-        $json = Utils::jsonDecode($res->getBody());
+        $res = $this->client->get($this->url, ['query' => Query::build($mergedQueryParams)]);
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, $this->pageCreator->__invoke());
     }

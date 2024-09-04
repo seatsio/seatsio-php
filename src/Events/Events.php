@@ -5,7 +5,7 @@ namespace Seatsio\Events;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Query;
 use GuzzleHttp\UriTemplate\UriTemplate;
-use GuzzleHttp\Utils;
+use Seatsio\GuzzleResponseDecoder;
 use Seatsio\PageFetcher;
 use Seatsio\Seasons\Season;
 use Seatsio\SeatsioJsonMapper;
@@ -72,7 +72,7 @@ class Events
         }
 
         $res = $this->client->post('/events', ['json' => $request]);
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Event());
     }
@@ -124,7 +124,7 @@ class Events
         }
 
         $res = $this->client->post('/events/actions/create-multiple', ['json' => $request]);
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToObject($res);
         $mapper = SeatsioJsonMapper::create();
 
         return $mapper->mapArray($json->events, array(), 'Seatsio\Events\Event');
@@ -133,7 +133,7 @@ class Events
     public function retrieve(string $eventKey): Event
     {
         $res = $this->client->get(UriTemplate::expand('/events/{key}', array("key" => $eventKey)));
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToObject($res);
         $mapper = SeatsioJsonMapper::create();
         if ($json->isSeason) {
             return $mapper->map($json, new Season());
@@ -327,7 +327,7 @@ class Events
     {
         $options = ['query' => Query::build(["label" => $objectLabels])];
         $res = $this->client->get(UriTemplate::expand('/events/{key}/objects', ["key" => $eventKey]), $options);
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         $result = [];
         foreach ($json as $objectLabel => $objectInfo) {
@@ -377,7 +377,7 @@ class Events
             '/events/groups/actions/change-object-status',
             ['json' => $request, 'query' => ['expand' => 'objects']]
         );
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new ChangeObjectStatusResult());
     }
@@ -396,7 +396,7 @@ class Events
             '/events/actions/change-object-status',
             ['json' => $request, 'query' => ['expand' => 'objects']]
         );
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToObject($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->mapArray($json->results, array(), ChangeObjectStatusResult::class);
     }
@@ -452,13 +452,11 @@ class Events
     }
 
     /**
-     * @param $categories string[]|null
-     * @param $ticketTypes string[]|null
      * @param $channelKeys string[]|null
      */
-    public function bookBestAvailable(string $eventKey, int $number, array $categories = null, string $holdToken = null, array $extraData = null, array $ticketTypes = null, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null): BestAvailableObjects
+    public function bookBestAvailable(string $eventKey, BestAvailableParams $bestAvailableParams, string $holdToken = null, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null): BestAvailableObjects
     {
-        return $this::changeBestAvailableObjectStatus($eventKey, $number, EventObjectInfo::$BOOKED, $categories, $holdToken, $extraData, $ticketTypes, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
+        return $this::changeBestAvailableObjectStatus($eventKey, $bestAvailableParams, EventObjectInfo::$BOOKED, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
 
     /**
@@ -482,38 +480,36 @@ class Events
     }
 
     /**
-     * @param $categories string[]|null
-     * @param $ticketTypes string[]|null
      * @param $channelKeys string[]|null
      */
-    public function holdBestAvailable(string $eventKey, int $number, string $holdToken, array $categories = null, array $extraData = null, array $ticketTypes = null, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null): BestAvailableObjects
+    public function holdBestAvailable(string $eventKey,BestAvailableParams $bestAvailableParams, string $holdToken, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null): BestAvailableObjects
     {
-        return $this::changeBestAvailableObjectStatus($eventKey, $number, EventObjectInfo::$HELD, $categories, $holdToken, $extraData, $ticketTypes, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
+        return $this::changeBestAvailableObjectStatus($eventKey, $bestAvailableParams, EventObjectInfo::$HELD, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
 
     /**
-     * @param $categories string[]|null
-     * @param $ticketTypes string[]|null
      * @param $channelKeys string[]|null
      */
-    public function changeBestAvailableObjectStatus(string $eventKey, int $number, string $status, array $categories = null, string $holdToken = null, array $extraData = null, array $ticketTypes = null, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null, bool $tryToPreventOrphanSeats = null): BestAvailableObjects
+    public function changeBestAvailableObjectStatus(string $eventKey, BestAvailableParams $bestAvailableParams, string $status, string $holdToken = null, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null): BestAvailableObjects
     {
         $request = new stdClass();
-        $bestAvailable = new stdClass();
-        $bestAvailable->number = $number;
-        if ($categories !== null) {
-            $bestAvailable->categories = $categories;
+        $request->bestAvailable = new stdClass();
+        $request->bestAvailable->number = $bestAvailableParams->number;
+        if ($bestAvailableParams->categories !== null) {
+            $request->bestAvailable->categories = $bestAvailableParams->categories;
         }
-        if ($extraData != null) {
-            $bestAvailable->extraData = $extraData;
+        if ($bestAvailableParams->extraData != null) {
+            $request->bestAvailable->extraData = $bestAvailableParams->extraData;
         }
-        if ($ticketTypes !== null) {
-            $bestAvailable->ticketTypes = $ticketTypes;
+        if ($bestAvailableParams->ticketTypes !== null) {
+            $request->bestAvailable->ticketTypes = $bestAvailableParams->ticketTypes;
         }
-        if ($tryToPreventOrphanSeats !== null) {
-            $bestAvailable->tryToPreventOrphanSeats = $tryToPreventOrphanSeats;
+        if ($bestAvailableParams->tryToPreventOrphanSeats !== null) {
+            $request->bestAvailable->tryToPreventOrphanSeats = $bestAvailableParams->tryToPreventOrphanSeats;
         }
-        $request->bestAvailable = $bestAvailable;
+        if ($bestAvailableParams->zone !== null) {
+            $request->bestAvailable->zone = $bestAvailableParams->zone;
+        }
         $request->status = $status;
         if ($holdToken !== null) {
             $request->holdToken = $holdToken;
@@ -534,7 +530,7 @@ class Events
             UriTemplate::expand('/events/{key}/actions/change-object-status', array("key" => $eventKey)),
             ['json' => $request]
         );
-        $json = Utils::jsonDecode($res->getBody());
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new BestAvailableObjects());
     }
