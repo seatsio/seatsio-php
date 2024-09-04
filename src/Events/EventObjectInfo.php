@@ -48,6 +48,10 @@ class EventObjectInfo
      */
     public $section;
     /**
+     * @var \Seatsio\Common\Floor
+     */
+    var $floor;
+    /**
      * @var string
      */
     public $orderId;

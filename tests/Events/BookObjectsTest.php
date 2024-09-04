@@ -21,6 +21,18 @@ class BookObjectsTest extends SeatsioClientTest
         self::assertEquals(["A-1", "A-2"], SeatsioClientTest::sort(array_keys($res->objects)));
     }
 
+    public function testFloors()
+    {
+        $chartKey = $this->createTestChartWithFloors();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $res = $this->seatsioClient->events->book($event->key, ["S1-A-1"]);
+
+        $a1ObjectInfo = $res->objects["S1-A-1"];
+
+        self::assertEquals(aFloor("1", "Floor 1"), $a1ObjectInfo->floor);
+    }
+
     public function testSections()
     {
         $chartKey = $this->createTestChartWithSections();
@@ -34,6 +46,7 @@ class BookObjectsTest extends SeatsioClientTest
         $a1ObjectInfo = $res->objects["Section A-A-1"];
         self::assertEquals("Section A", $a1ObjectInfo->section);
         self::assertEquals("Entrance 1", $a1ObjectInfo->entrance);
+        self::assertNull($a1ObjectInfo->floor);
         self::assertEquals(someLabels("1", "seat", "A", "row", "Section A"), $a1ObjectInfo->labels);
         self::assertEquals(new IDs("1", "A", "Section A"), $a1ObjectInfo->ids);
     }
