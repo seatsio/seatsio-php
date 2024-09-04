@@ -192,4 +192,15 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
 
         self::assertEquals(["A-5"], $bestAvailableObjects->objects);
     }
+
+    public function accessibleSeats()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, (new BestAvailableParams())->setNumber(3)->setAccessibleSeats(1), "lolzor");
+
+        self::assertTrue($bestAvailableObjects->nextToEachOther);
+        self::assertEquals(["A-6", "A-7", "A-8"], $bestAvailableObjects->objects);
+    }
 }

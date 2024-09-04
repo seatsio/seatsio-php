@@ -34,6 +34,11 @@ class BestAvailableParams
      */
     public $tryToPreventOrphanSeats;
 
+    /**
+     * @var int
+     */
+    public $accessibleSeats;
+
     public function setNumber(int $number): self
     {
         $this->number = $number;
@@ -67,6 +72,12 @@ class BestAvailableParams
     public function setTryToPreventOrphanSeats(bool $tryToPreventOrphanSeats): self
     {
         $this->tryToPreventOrphanSeats = $tryToPreventOrphanSeats;
+        return $this;
+    }
+
+    public function setAccessibleSeats(int $accessibleSeats): self
+    {
+        $this->accessibleSeats = $accessibleSeats;
         return $this;
     }
 }
