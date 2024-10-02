@@ -18,6 +18,7 @@ class SeatsioJsonMapper extends JsonMapper
         $mapper = new SeatsioJsonMapper();
         $mapper->classMap["\DateTime"] = JsonDateTime::class;
         $mapper->classMap["Seatsio\Events\Event"] = $eventMapper;
+        $mapper->bStrictObjectTypeChecking = false;
         return $mapper;
     }
 
