@@ -76,4 +76,8 @@ class ChartObjectInfo
      * @var string
      */
     public $zone;
+    /**
+     * @var \Seatsio\Common\Floor
+     */
+    var $floor;
 }

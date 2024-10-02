@@ -2,6 +2,7 @@
 
 namespace Reports\Charts;
 
+use Seatsio\Common\Floor;
 use Seatsio\Common\IDs;
 use Seatsio\Reports\Charts\ChartReports;
 use Seatsio\SeatsioClient;
@@ -94,6 +95,7 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertNotNull($reportItem->isAccessible);
         self::assertNotNull($reportItem->isCompanionSeat);
         self::assertNotNull($reportItem->hasRestrictedView);
+        self::assertNull($reportItem->floor);
     }
 
     /**
@@ -142,6 +144,23 @@ class ChartReportsTest extends SeatsioClientTest
     }
 
     /**
+     * @dataProvider byLabelDataProvider
+     */
+    public function testByLabelWithFloor($updateChart, $getReport)
+    {
+        $chartKey = $this->createTestChartWithFloors();
+        $updateChart($this->seatsioClient, $chartKey);
+
+        $report = $getReport($this->seatsioClient, $chartKey);
+
+        $floors = self::floors();
+        self::assertEquals($floors[0], $report["S1-A-1"][0]->floor);
+        self::assertEquals($floors[0], $report["S1-A-2"][0]->floor);
+        self::assertEquals($floors[1], $report["S2-B-1"][0]->floor);
+        self::assertEquals($floors[1], $report["S2-B-2"][0]->floor);
+    }
+
+    /**
      * @dataProvider byObjectTypeDataProvider
      */
     public function testByObjectType($updateChart, $getReport)
@@ -153,6 +172,23 @@ class ChartReportsTest extends SeatsioClientTest
 
         self::assertCount(32, $report["seat"]);
         self::assertCount(2, $report["generalAdmission"]);
+    }
+
+    /**
+     * @dataProvider byObjectTypeDataProvider
+     */
+    public function testByObjectTypeWithFloors($updateChart, $getReport)
+    {
+        $chartKey = $this->createTestChartWithFloors();
+        $updateChart($this->seatsioClient, $chartKey);
+
+        $report = $getReport($this->seatsioClient, $chartKey);
+
+        $floors = self::floors();
+        self::assertEquals($floors[0], $report["seat"][0]->floor);
+        self::assertEquals($floors[0], $report["seat"][1]->floor);
+        self::assertEquals($floors[1], $report["seat"][2]->floor);
+        self::assertEquals($floors[1], $report["seat"][3]->floor);
     }
 
     public static function byObjectTypeDataProvider(): array
@@ -237,6 +273,23 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertCount(17, $report["10"]);
     }
 
+    /**
+     * @dataProvider byCategoryKeyDataProvider
+     */
+    public function testByCategoryKeyWithFloor($updateChart, $getReport)
+    {
+        $chartKey = $this->createTestChartWithFloors();
+        $updateChart($this->seatsioClient, $chartKey);
+
+        $report = $this->seatsioClient->chartReports->byCategoryKey($chartKey);
+
+        $floors = self::floors();
+        self::assertEquals($floors[0], $report["1"][0]->floor);
+        self::assertEquals($floors[0], $report["1"][1]->floor);
+        self::assertEquals($floors[1], $report["2"][0]->floor);
+        self::assertEquals($floors[1], $report["2"][1]->floor);
+    }
+
     public static function byCategoryKeyDataProvider(): array
     {
         $getReport = function(SeatsioClient $client, string $chartKey) {
@@ -267,6 +320,23 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertCount(17, $report["Cat2"]);
     }
 
+    /**
+     * @dataProvider byCategoryLabelDataProvider
+     */
+    public function testByCategoryLabelWithFloors($updateChart, $getReport)
+    {
+        $chartKey = $this->createTestChartWithFloors();
+        $updateChart($this->seatsioClient, $chartKey);
+
+        $report = $this->seatsioClient->chartReports->byCategoryLabel($chartKey);
+
+        $floors = self::floors();
+        self::assertEquals($floors[0], $report["CatA"][0]->floor);
+        self::assertEquals($floors[0], $report["CatA"][1]->floor);
+        self::assertEquals($floors[1], $report["CatB"][0]->floor);
+        self::assertEquals($floors[1], $report["CatB"][1]->floor);
+    }
+
     public static function byCategoryLabelDataProvider(): array
     {
         $getReport = function(SeatsioClient $client, string $chartKey) {
@@ -295,6 +365,23 @@ class ChartReportsTest extends SeatsioClientTest
 
         self::assertCount(36, $report["Section A"]);
         self::assertCount(35, $report["Section B"]);
+    }
+
+    /**
+     * @dataProvider bySectionDataProvider
+     */
+    public function testBySectionWithFloors($updateChart, $getReport)
+    {
+        $chartKey = $this->createTestChartWithFloors();
+        $updateChart($this->seatsioClient, $chartKey);
+
+        $report = $getReport($this->seatsioClient, $chartKey);
+
+        $floors = self::floors();
+        self::assertEquals($floors[0], $report["S1"][0]->floor);
+        self::assertEquals($floors[0], $report["S1"][1]->floor);
+        self::assertEquals($floors[1], $report["S2"][0]->floor);
+        self::assertEquals($floors[1], $report["S2"][1]->floor);
     }
 
     public static function bySectionDataProvider(): array
@@ -342,5 +429,18 @@ class ChartReportsTest extends SeatsioClientTest
             array(ChartReportsTest::noChartUpdate(), $getReport),
             array(ChartReportsTest::createDraftReport(), $getDraftReport)
         );
+    }
+
+    private static function floors(): array
+    {
+        $floor1 = new Floor();
+        $floor1->name = "1";
+        $floor1->displayName = "Floor 1";
+
+        $floor2 = new Floor();
+        $floor2->name = "2";
+        $floor2->displayName = "Floor 2";
+
+        return [$floor1, $floor2];
     }
 }
