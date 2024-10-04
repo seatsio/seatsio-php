@@ -348,9 +348,22 @@ class Events
                                        bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null,
                                        array $allowedPreviousStatuses = null, array $rejectedPreviousStatuses = null): ChangeObjectStatusResult
     {
+        return $this->changeObjectStatusWithType($eventKeyOrKeys, $objectOrObjects, "CHANGE_STATUS_TO", $status, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys, $allowedPreviousStatuses, $rejectedPreviousStatuses);
+    }
+
+    private function changeObjectStatusWithType(
+        $eventKeyOrKeys, $objectOrObjects, string $statusChangeCommandType, string $status = null, string $holdToken = null, string $orderId = null,
+        bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null,
+        array $allowedPreviousStatuses = null, array $rejectedPreviousStatuses = null): ChangeObjectStatusResult
+    {
         $request = new stdClass();
         $request->objects = self::normalizeObjects($objectOrObjects);
-        $request->status = $status;
+        if ($statusChangeCommandType != null) {
+            $request->type = $statusChangeCommandType;
+        }
+        if ($status != null) {
+            $request->status = $status;
+        }
         if ($holdToken !== null) {
             $request->holdToken = $holdToken;
         }
@@ -466,7 +479,7 @@ class Events
      */
     public function release($eventKeyOrKeys, $objectOrObjects, string $holdToken = null, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null): ChangeObjectStatusResult
     {
-        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, EventObjectInfo::$FREE, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
+        return $this::changeObjectStatusWithType($eventKeyOrKeys, $objectOrObjects, "RELEASE", null, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
 
     /**
@@ -482,7 +495,7 @@ class Events
     /**
      * @param $channelKeys string[]|null
      */
-    public function holdBestAvailable(string $eventKey,BestAvailableParams $bestAvailableParams, string $holdToken, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null): BestAvailableObjects
+    public function holdBestAvailable(string $eventKey, BestAvailableParams $bestAvailableParams, string $holdToken, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null): BestAvailableObjects
     {
         return $this::changeBestAvailableObjectStatus($eventKey, $bestAvailableParams, EventObjectInfo::$HELD, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
