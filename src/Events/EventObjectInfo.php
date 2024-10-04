@@ -7,6 +7,7 @@ class EventObjectInfo
     public static $HELD = "reservedByToken";
     public static $BOOKED = "booked";
     public static $FREE = "free";
+    public static $RESALE = "resale";
     /**
      * @var string
      */

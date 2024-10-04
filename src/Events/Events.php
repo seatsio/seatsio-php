@@ -475,6 +475,16 @@ class Events
     /**
      * @param $eventKeyOrKeys string|string[]
      * @param $objectOrObjects mixed
+     * @return ChangeObjectStatusResult
+     */
+    public function putUpForResale($eventKeyOrKeys, $objectOrObjects)
+    {
+        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, EventObjectInfo::$RESALE, null, null, null, null, null, null);
+    }
+
+    /**
+     * @param $eventKeyOrKeys string|string[]
+     * @param $objectOrObjects mixed
      * @param $channelKeys string[]|null
      */
     public function release($eventKeyOrKeys, $objectOrObjects, string $holdToken = null, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null): ChangeObjectStatusResult
