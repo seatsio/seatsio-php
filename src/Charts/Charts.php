@@ -83,9 +83,10 @@ class Charts
     {
         $res = $this->client->get('/charts/' . $chartKey . '/categories');
         $json = GuzzleResponseDecoder::decodeToObject($res);
-        return array_map(function ($cat) {
-            return new Category($cat->key, $cat->label, $cat->color, $cat->accessible);
+        $categories = array_map(function ($cat) {
+            return new Category($cat->key, $cat->label, $cat->color, $cat->accessible != null ? $cat->accessible : false);
         }, $json->categories);
+        return $categories;
     }
 
     /**

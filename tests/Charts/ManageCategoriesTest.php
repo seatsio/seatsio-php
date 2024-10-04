@@ -54,6 +54,17 @@ class ManageCategoriesTest extends SeatsioClientTest
         self::assertEquals($categories, $categoryList);
     }
 
+    public function testListCategories_accessibleIsNull()
+    {
+        $chartKey = $this->createTestChartWithNullCategoryAccessible();
+
+        $categoryList = $this->seatsioClient->charts->listCategories($chartKey);
+        self::assertCount(3, $categoryList);
+        self::assertFalse($categoryList[0]->accessible);
+        self::assertTrue($categoryList[1]->accessible);
+        self::assertFalse($categoryList[2]->accessible);
+    }
+
     public function testUpdateCategory()
     {
         $categories = [
