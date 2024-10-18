@@ -419,7 +419,7 @@ class Events
         $request = new stdClass();
         $request->type = $statusChangeRequest->type;
         $request->event = $statusChangeRequest->event;
-        $request->objects = self::normalizeObjects($statusChangeRequest->objectOrObjects);
+        $request->objects = self::normalizeObjects($statusChangeRequest->objects);
         if ($statusChangeRequest->type == StatusChangeRequest::$TYPE_CHANGE_STATUS_TO) {
             $request->status = $statusChangeRequest->status;
         }

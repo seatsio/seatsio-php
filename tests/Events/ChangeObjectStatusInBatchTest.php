@@ -16,8 +16,8 @@ class ChangeObjectStatusInBatchTest extends SeatsioClientTest
         $event2 = $this->seatsioClient->events->create($chartKey2);
 
         $response = $this->seatsioClient->events->changeObjectStatusInBatch([
-            (new StatusChangeRequest())->setEvent($event1->key)->setObjectOrObjects("A-1")->setStatus("lolzor"),
-            (new StatusChangeRequest())->setEvent($event2->key)->setObjectOrObjects("A-2")->setStatus("lolzor")
+            (new StatusChangeRequest())->setEvent($event1->key)->setObjects("A-1")->setStatus("lolzor"),
+            (new StatusChangeRequest())->setEvent($event2->key)->setObjects("A-2")->setStatus("lolzor")
         ]);
 
         self::assertEquals('lolzor', $response[0]->objects['A-1']->status);
@@ -37,7 +37,7 @@ class ChangeObjectStatusInBatchTest extends SeatsioClientTest
         ]));
 
         $response = $this->seatsioClient->events->changeObjectStatusInBatch([
-            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects("A-1")->setStatus("lolzor")->setChannelKeys(["channelKey1"])
+            (new StatusChangeRequest())->setEvent($event->key)->setObjects("A-1")->setStatus("lolzor")->setChannelKeys(["channelKey1"])
         ]);
 
         self::assertEquals('lolzor', $response[0]->objects['A-1']->status);
@@ -51,7 +51,7 @@ class ChangeObjectStatusInBatchTest extends SeatsioClientTest
         ]));
 
         $response = $this->seatsioClient->events->changeObjectStatusInBatch([
-            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects("A-1")->setStatus("lolzor")->setIgnoreChannels(true)
+            (new StatusChangeRequest())->setEvent($event->key)->setObjects("A-1")->setStatus("lolzor")->setIgnoreChannels(true)
         ]);
 
         self::assertEquals('lolzor', $response[0]->objects['A-1']->status);
@@ -67,7 +67,7 @@ class ChangeObjectStatusInBatchTest extends SeatsioClientTest
                 (new StatusChangeRequest())
                     ->setEvent($event->key)
                     ->setStatus("lolzor")
-                    ->setObjectOrObjects("A-1")
+                    ->setObjects("A-1")
                     ->setAllowedPreviousStatuses(['someOtherStatus'])
             ]);
             throw new \Exception("Should have failed");
@@ -87,7 +87,7 @@ class ChangeObjectStatusInBatchTest extends SeatsioClientTest
                 (new StatusChangeRequest())
                     ->setEvent($event->key)
                     ->setStatus("lolzor")
-                    ->setObjectOrObjects("A-1")
+                    ->setObjects("A-1")
                     ->setRejectedPreviousStatuses(['free'])
             ]);
             throw new \Exception("Should have failed");
@@ -104,7 +104,7 @@ class ChangeObjectStatusInBatchTest extends SeatsioClientTest
         $this->seatsioClient->events->book($event->key, "A-1");
 
         $response = $this->seatsioClient->events->changeObjectStatusInBatch([
-            (new StatusChangeRequest())->setType(StatusChangeRequest::$TYPE_RELEASE)->setEvent($event->key)->setObjectOrObjects("A-1"),
+            (new StatusChangeRequest())->setType(StatusChangeRequest::$TYPE_RELEASE)->setEvent($event->key)->setObjects("A-1"),
         ]);
 
         self::assertEquals(EventObjectInfo::$FREE, $response[0]->objects['A-1']->status);

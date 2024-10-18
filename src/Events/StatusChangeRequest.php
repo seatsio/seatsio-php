@@ -21,7 +21,7 @@ class StatusChangeRequest
     /**
      * @var mixed
      */
-    public $objectOrObjects;
+    public $objects;
 
     /**
      * @var string
@@ -73,8 +73,8 @@ class StatusChangeRequest
         return $this;
     }
 
-    public function setObjectOrObjects($objectOrObjects) {
-        $this->objectOrObjects = $objectOrObjects;
+    public function setObjects($objects) {
+        $this->objects = $objects;
         return $this;
     }
 
