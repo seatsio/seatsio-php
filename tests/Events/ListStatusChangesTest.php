@@ -19,9 +19,9 @@ class ListStatusChangesTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
         $this->seatsioClient->events->changeObjectStatusInBatch([
-            new StatusChangeRequest($event->key, 'A-1', EventObjectInfo::$BOOKED),
-            new StatusChangeRequest($event->key, 'A-2', EventObjectInfo::$BOOKED),
-            new StatusChangeRequest($event->key, 'A-3', EventObjectInfo::$BOOKED)
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-1')->setStatus(EventObjectInfo::$BOOKED),
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-2')->setStatus(EventObjectInfo::$BOOKED),
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-3')->setStatus(EventObjectInfo::$BOOKED)
         ]);
         $this->waitForStatusChanges($event, 3);
 
@@ -106,10 +106,10 @@ class ListStatusChangesTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
         $this->seatsioClient->events->changeObjectStatusInBatch([
-            new StatusChangeRequest($event->key, 'A-1', EventObjectInfo::$BOOKED),
-            new StatusChangeRequest($event->key, 'A-2', EventObjectInfo::$BOOKED),
-            new StatusChangeRequest($event->key, 'B-1', EventObjectInfo::$BOOKED),
-            new StatusChangeRequest($event->key, 'A-3', EventObjectInfo::$BOOKED)
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-1')->setStatus(EventObjectInfo::$BOOKED),
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-2')->setStatus(EventObjectInfo::$BOOKED),
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('B-1')->setStatus(EventObjectInfo::$BOOKED),
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-3')->setStatus(EventObjectInfo::$BOOKED)
         ]);
         $this->waitForStatusChanges($event, 4);
 
@@ -126,10 +126,10 @@ class ListStatusChangesTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
         $this->seatsioClient->events->changeObjectStatusInBatch([
-            new StatusChangeRequest($event->key, 'A-1', EventObjectInfo::$BOOKED),
-            new StatusChangeRequest($event->key, 'A-2', EventObjectInfo::$BOOKED),
-            new StatusChangeRequest($event->key, 'B-1', EventObjectInfo::$BOOKED),
-            new StatusChangeRequest($event->key, 'A-3', EventObjectInfo::$BOOKED)
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-1')->setStatus(EventObjectInfo::$BOOKED),
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-2')->setStatus(EventObjectInfo::$BOOKED),
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('B-1')->setStatus(EventObjectInfo::$BOOKED),
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-3')->setStatus(EventObjectInfo::$BOOKED)
         ]);
         $this->waitForStatusChanges($event, 4);
 
@@ -146,10 +146,10 @@ class ListStatusChangesTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
         $this->seatsioClient->events->changeObjectStatusInBatch([
-            new StatusChangeRequest($event->key, 'A-1', EventObjectInfo::$BOOKED),
-            new StatusChangeRequest($event->key, 'A-2', EventObjectInfo::$BOOKED),
-            new StatusChangeRequest($event->key, 'B-1', EventObjectInfo::$BOOKED),
-            new StatusChangeRequest($event->key, 'A-3', EventObjectInfo::$BOOKED)
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-1')->setStatus(EventObjectInfo::$BOOKED),
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-2')->setStatus(EventObjectInfo::$BOOKED),
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('B-1')->setStatus(EventObjectInfo::$BOOKED),
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-3')->setStatus(EventObjectInfo::$BOOKED),
         ]);
         $this->waitForStatusChanges($event, 4);
 
@@ -169,10 +169,10 @@ class ListStatusChangesTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
         $this->seatsioClient->events->changeObjectStatusInBatch([
-            new StatusChangeRequest($event->key, 'A-1', EventObjectInfo::$BOOKED),
-            new StatusChangeRequest($event->key, 'A-2', EventObjectInfo::$BOOKED),
-            new StatusChangeRequest($event->key, 'B-1', EventObjectInfo::$BOOKED),
-            new StatusChangeRequest($event->key, 'A-3', EventObjectInfo::$BOOKED)
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-1')->setStatus(EventObjectInfo::$BOOKED),
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-2')->setStatus(EventObjectInfo::$BOOKED),
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('B-1')->setStatus(EventObjectInfo::$BOOKED),
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-3')->setStatus(EventObjectInfo::$BOOKED),
         ]);
         $this->waitForStatusChanges($event, 4);
 
@@ -192,10 +192,10 @@ class ListStatusChangesTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
         $this->seatsioClient->events->changeObjectStatusInBatch([
-            new StatusChangeRequest($event->key, 'A-1', EventObjectInfo::$BOOKED),
-            new StatusChangeRequest($event->key, 'A-2', EventObjectInfo::$BOOKED),
-            new StatusChangeRequest($event->key, 'B-1', EventObjectInfo::$BOOKED),
-            new StatusChangeRequest($event->key, 'A-3', EventObjectInfo::$BOOKED)
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-1')->setStatus(EventObjectInfo::$BOOKED),
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-2')->setStatus(EventObjectInfo::$BOOKED),
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('B-1')->setStatus(EventObjectInfo::$BOOKED),
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-3')->setStatus(EventObjectInfo::$BOOKED),
         ]);
         $this->waitForStatusChanges($event, 4);
 

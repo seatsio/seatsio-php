@@ -14,10 +14,10 @@ class ListStatusChangesForObjectTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
         $this->seatsioClient->events->changeObjectStatusInBatch([
-            new StatusChangeRequest($event->key, 'A-1', 's1'),
-            new StatusChangeRequest($event->key, 'A-1', 's2'),
-            new StatusChangeRequest($event->key, 'A-2', 's4'),
-            new StatusChangeRequest($event->key, 'A-1', 's3')
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-1')->setStatus('s1'),
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-1')->setStatus('s2'),
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-2')->setStatus('s4'),
+            (new StatusChangeRequest())->setEvent($event->key)->setObjectOrObjects('A-1')->setStatus('s3'),
         ]);
         $this->waitForStatusChanges($event, 4);
 

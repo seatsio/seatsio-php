@@ -417,9 +417,12 @@ class Events
     private function serializeStatusChangeRequest($statusChangeRequest)
     {
         $request = new stdClass();
+        $request->type = $statusChangeRequest->type;
         $request->event = $statusChangeRequest->event;
         $request->objects = self::normalizeObjects($statusChangeRequest->objectOrObjects);
-        $request->status = $statusChangeRequest->status;
+        if ($statusChangeRequest->type == StatusChangeRequest::$TYPE_CHANGE_STATUS_TO) {
+            $request->status = $statusChangeRequest->status;
+        }
         if ($statusChangeRequest->holdToken !== null) {
             $request->holdToken = $statusChangeRequest->holdToken;
         }
