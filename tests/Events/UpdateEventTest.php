@@ -11,19 +11,6 @@ use stdClass;
 class UpdateEventTest extends SeatsioClientTest
 {
 
-    public function testUpdateChartKey()
-    {
-        $chart1 = $this->seatsioClient->charts->create();
-        $chart2 = $this->seatsioClient->charts->create();
-        $event = $this->seatsioClient->events->create($chart1->key);
-
-        $this->seatsioClient->events->update($event->key, UpdateEventParams::create()->setChartKey($chart2->key));
-
-        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
-        self::assertEquals($chart2->key, $retrievedEvent->chartKey);
-        self::assertNotNull($retrievedEvent->updatedOn);
-    }
-
     public function testUpdateIsInThePast()
     {
         $chart = $this->seatsioClient->charts->create();

@@ -5,11 +5,6 @@ namespace Seatsio\Events;
 class UpdateEventParams extends EventParams
 {
     /**
-     * @var string
-     */
-    public $chartKey;
-
-    /**
      * @var bool
      */
     public $isInThePast;
