@@ -145,10 +145,6 @@ class Events
     {
         $request = new stdClass();
 
-        if ($params->chartKey !== null) {
-            $request->chartKey = $params->chartKey;
-        }
-
         if ($params->eventKey !== null) {
             $request->eventKey = $params->eventKey;
         }
