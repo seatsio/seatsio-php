@@ -307,13 +307,13 @@ Passing in 0 disables exponential backoff completely. In that case, the client w
 - An event's chart key can no longer be changed
 
 ### v92 -> v93
-- Objects can be released in batch
+- Removed StatusChangeRequest constructor. Use setters instead.
 
 ### v91 -> v92
-- Use new RELEASE statusChangeCommand type instead of hardcoded FREE status, when releasing objects
+- No breaking changes.
 
 ### v90 -> v91
-- Only PHP 8.1 and newer are supported (older versions have reached end of life)
+- Only PHP 8.1 and newer are supported (older versions have reached end of life).
 
 ### v89 -> v90
 - `$client->usageReports->summaryForAllMonths()` now returns a `UsageSummaryForAllMonths` object
