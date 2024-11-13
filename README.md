@@ -311,26 +311,9 @@ Passing in 0 disables exponential backoff completely. In that case, the client w
 
 ### v91 -> v92
 - Use new RELEASE statusChangeCommand type instead of hardcoded FREE status, when releasing objects
-- Add methods to put up objects for resale
 
 ### v90 -> v91
 - Only PHP 8.1 and newer are supported (older versions have reached end of life)
-- List event log items
-- `EventLogItem` now includes `$timestamp`
-- Exposed season status overridden quantity
-- Update category
-- More memory-efficient json parsing
-- Exposed venue type in `Chart`
-- Expose `$numNotForSale` in `EventObjectInfo`
-- Added chart report byZone
-- Event reports byZone
-- Allow fine-grained control over the expanded chart fields
-- Zones can be expanded
-- Zone can be passed in to best available calls
-- Best available call supports accessible seats
-- Expose floor information when changing object status
-- Expose floor info in `ChartObjectInfo`
-- 
 
 ### v89 -> v90
 - `$client->usageReports->summaryForAllMonths()` now returns a `UsageSummaryForAllMonths` object
