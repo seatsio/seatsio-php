@@ -7,6 +7,8 @@ class StatusChangeRequest
 
     public static $TYPE_CHANGE_STATUS_TO = "CHANGE_STATUS_TO";
     public static $TYPE_RELEASE = "RELEASE";
+    public static $TYPE_OVERRIDE_SEASON_STATUS = "OVERRIDE_SEASON_STATUS";
+    public static $TYPE_USE_SEASON_STATUS = "USE_SEASON_STATUS";
 
     /**
      * @var string
