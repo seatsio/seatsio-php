@@ -9,7 +9,7 @@
     "guzzlehttp/uri-template": "v1.0.3",
     "netresearch/jsonmapper": "5.0.0",
     "lstrojny/functional-php": "1.17.0",
-    "halaxa/json-machine": "1.1.4"
+    "halaxa/json-machine": "1.2.0"
   },
   "require-dev": {
     "brianium/paratest": "7.3.1"
