@@ -20,7 +20,7 @@ class ListWorkspacesTest extends SeatsioClientTest
             return $workspace->name;
         });
 
-        self::assertEquals(["ws3", "ws2", "ws1", "Default workspace"], array_values($workspaceNames));
+        self::assertEquals(["ws3", "ws2", "ws1", "Production workspace"], array_values($workspaceNames));
     }
 
     public function test_filter()
