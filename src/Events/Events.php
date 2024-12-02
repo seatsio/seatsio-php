@@ -565,7 +565,7 @@ class Events
             }
             return array_map(function ($object) {
                 if ($object instanceof ObjectProperties) {
-                    return $object;
+                    return ["objectId" => $object->objectId];
                 }
                 if (is_string($object)) {
                     return ["objectId" => $object];

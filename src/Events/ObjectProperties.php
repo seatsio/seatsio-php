@@ -8,6 +8,19 @@ class ObjectProperties
      * @var string
      */
     public $objectId;
+    /**
+     * @var string
+     */
+    public $ticketType;
+    /**
+     * @var int
+     */
+    public $quantity;
+    /**
+     * @var array
+     */
+    public $extraData;
+
 
     public function __construct(string $objectId)
     {
