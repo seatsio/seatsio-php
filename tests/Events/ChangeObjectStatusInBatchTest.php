@@ -30,6 +30,20 @@ class ChangeObjectStatusInBatchTest extends SeatsioClientTest
         self::assertEquals("lolzor", $objectInfo2->status);
     }
 
+    public function testCanPassInExtraData()
+    {
+        $chartKey1 = $this->createTestChart();
+        $event1 = $this->seatsioClient->events->create($chartKey1);
+
+        $response = $this->seatsioClient->events->changeObjectStatusInBatch([
+            (new StatusChangeRequest())->setEvent($event1->key)->setObjects((new ObjectProperties("A-1"))->setExtraData(["foo" => "bar"]))->setStatus("lolzor"),
+        ]);
+
+        self::assertEquals('lolzor', $response[0]->objects['A-1']->status);
+        $objectInfo1 = $this->seatsioClient->events->retrieveObjectInfo($event1->key, "A-1");
+        self::assertEquals("bar", $objectInfo1->extraData->foo);
+    }
+
     public function testChannelKeys()
     {
         $chartKey = $this->createTestChart();
