@@ -32,11 +32,11 @@ class SeatsioException extends RuntimeException
         return new SeatsioException($request, $parsedResponse, $message);
     }
 
-    public function __construct(RequestInterface $request, array $info, string $message)
+    public function __construct(RequestInterface $request, array $parsedResponse, string $message)
     {
         parent::__construct($message);
-        $this->errors = $info['errors'];
-        $this->requestId = $info['requestId'];
+        $this->errors = $parsedResponse['errors'];
+        $this->requestId = $parsedResponse['requestId'];
     }
 
     private static function message($request, $response, $messages)
