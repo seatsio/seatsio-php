@@ -25,14 +25,14 @@ class SeatsioException extends RuntimeException
         $parsedResponse = self::extractInfo($response);
         $message = self::message($request, $response, $parsedResponse['messages']);
         if ($code == 429) {
-            return new RateLimitExceededException($request, $response, $parsedResponse, $message);
+            return new RateLimitExceededException($request, $parsedResponse, $message);
         } else if (self::isBestAvailableObjectsNotFound($parsedResponse['errors'])) {
-            throw new BestAvailableObjectsNotFoundException($request, $response, $parsedResponse, $message);
+            throw new BestAvailableObjectsNotFoundException($request, $parsedResponse, $message);
         }
-        return new SeatsioException($request, $response, $parsedResponse, $message);
+        return new SeatsioException($request, $parsedResponse, $message);
     }
 
-    public function __construct(RequestInterface $request, ResponseInterface $response, array $info, string $message)
+    public function __construct(RequestInterface $request, array $info, string $message)
     {
         parent::__construct($message);
         $this->errors = $info['errors'];
