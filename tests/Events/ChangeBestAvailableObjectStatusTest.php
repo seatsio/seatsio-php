@@ -2,6 +2,7 @@
 
 namespace Seatsio\Events;
 
+use Seatsio\BestAvailableObjectsNotFoundException;
 use Seatsio\Common\IDs;
 use Seatsio\SeatsioClientTest;
 use Seatsio\SeatsioException;

@@ -5,7 +5,6 @@ namespace Seatsio;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
-use Seatsio\Events\BestAvailableObjectsNotFoundException;
 
 class SeatsioException extends RuntimeException
 {

@@ -1,11 +1,10 @@
 <?php
 
-namespace Seatsio\Events;
+namespace Seatsio;
 
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Seatsio\SeatsioException;
 
 class BestAvailableObjectsNotFoundException extends SeatsioException
 {
