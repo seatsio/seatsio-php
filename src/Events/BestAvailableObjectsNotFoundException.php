@@ -1,11 +1,13 @@
 <?php
 
-namespace Seatsio;
+namespace Seatsio\Events;
+
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Seatsio\SeatsioException;
 
-class RateLimitExceededException extends SeatsioException
+class BestAvailableObjectsNotFoundException extends SeatsioException
 {
     public function __construct(RequestInterface $request, ResponseInterface $response, array $parsedResponseInfo, string $message)
     {
