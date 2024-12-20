@@ -2,8 +2,10 @@
 
 namespace Seatsio\Events;
 
+use Seatsio\BestAvailableObjectsNotFoundException;
 use Seatsio\Common\IDs;
 use Seatsio\SeatsioClientTest;
+use Seatsio\SeatsioException;
 
 class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
 {
@@ -202,5 +204,33 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
 
         self::assertTrue($bestAvailableObjects->nextToEachOther);
         self::assertEquals(["A-6", "A-7", "A-8"], $bestAvailableObjects->objects);
+    }
+
+    public function testNotFoundThrowsBestAvailableObjectsNotFoundException()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        try
+        {
+            $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, (new BestAvailableParams())->setNumber(3000), "lolzor");
+            self::fail("expected exception");
+        }  catch (BestAvailableObjectsNotFoundException $exception) {
+            self::assertInstanceOf(BestAvailableObjectsNotFoundException::class, $exception);
+            self::assertEquals("Best available objects not found", $exception->getMessage());
+        }
+
+    }
+
+    public function testNormalSeatsioExceptionIfEventNotFound()
+    {
+        try
+        {
+            $this->seatsioClient->events->changeBestAvailableObjectStatus("unexistingEvent", (new BestAvailableParams())->setNumber(3), "lolzor");
+            self::fail("expected exception");
+        }  catch (SeatsioException $exception) {
+            self::assertNotInstanceOf(BestAvailableObjectsNotFoundException::class, $exception);
+        }
+
     }
 }

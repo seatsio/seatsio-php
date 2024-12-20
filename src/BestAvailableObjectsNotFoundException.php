@@ -2,9 +2,10 @@
 
 namespace Seatsio;
 
+
 use Psr\Http\Message\RequestInterface;
 
-class RateLimitExceededException extends SeatsioException
+class BestAvailableObjectsNotFoundException extends SeatsioException
 {
     public function __construct(RequestInterface $request, array $parsedResponse, string $message)
     {
