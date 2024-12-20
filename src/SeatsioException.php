@@ -19,6 +19,15 @@ class SeatsioException extends RuntimeException
      */
     public $requestId;
 
+    public static function from(RequestInterface $request, ResponseInterface $response): SeatsioException
+    {
+        $code = $response->getStatusCode();
+        if ($code == 429) {
+            return new RateLimitExceededException($request, $response);
+        }
+        return new SeatsioException($request, $response);
+    }
+
     public function __construct(RequestInterface $request, ResponseInterface $response)
     {
         $info = self::extractInfo($response);

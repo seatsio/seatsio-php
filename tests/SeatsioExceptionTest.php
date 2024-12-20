@@ -19,7 +19,7 @@ class SeatsioExceptionTest extends SeatsioClientTest
             ["Content-Type" => "application/json"],
             "{\"errors\": [], \"messages\":[]}"
         );
-        $exception = new SeatsioException($request, $response);
+        $exception = SeatsioException::from($request, $response);
         self::assertNull($exception->requestId);
         self::assertStringStartsWith("GET http://dummy.uri resulted in a `400 Bad Request` response.", $exception->getMessage());
     }
