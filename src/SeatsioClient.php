@@ -118,10 +118,7 @@ class SeatsioClient
                         if ($code < 400) {
                             return $response;
                         }
-                        if ($code == 429) {
-                            throw new RateLimitExceededException($request, $response);
-                        }
-                        throw new SeatsioException($request, $response);
+                        throw SeatsioException::from($request, $response);
                     }
                 );
             };
