@@ -3,7 +3,6 @@
 namespace Seatsio\Charts;
 
 use Seatsio\SeatsioClientTest;
-use function Functional\map;
 
 class ListWorkspacesTest extends SeatsioClientTest
 {
@@ -16,11 +15,11 @@ class ListWorkspacesTest extends SeatsioClientTest
         $this->seatsioClient->workspaces->create("ws3");
 
         $workspaces = $this->seatsioClient->workspaces->listAll();
-        $workspaceNames = map($workspaces, function ($workspace) {
+        $workspaceNames = array_map(function ($workspace) {
             return $workspace->name;
-        });
+        }, iterator_to_array($workspaces));
 
-        self::assertEquals(["ws3", "ws2", "ws1", "Default workspace"], array_values($workspaceNames));
+        self::assertEquals(["ws3", "ws2", "ws1", "Production workspace"], array_values($workspaceNames));
     }
 
     public function test_filter()
@@ -31,9 +30,9 @@ class ListWorkspacesTest extends SeatsioClientTest
         $this->seatsioClient->workspaces->create("anotherAnotherWorkspace");
 
         $workspaces = $this->seatsioClient->workspaces->listAll("another");
-        $workspaceNames = map($workspaces, function ($workspace) {
+        $workspaceNames = array_map(function ($workspace) {
             return $workspace->name;
-        });
+        }, iterator_to_array($workspaces));
 
         self::assertEquals(["anotherAnotherWorkspace", "anotherWorkspace"], array_values($workspaceNames));
     }

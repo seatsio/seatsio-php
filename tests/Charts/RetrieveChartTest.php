@@ -3,7 +3,6 @@
 namespace Seatsio\Charts;
 
 use Seatsio\SeatsioClientTest;
-use function Functional\map;
 
 class RetrieveChartTest extends SeatsioClientTest
 {
@@ -44,9 +43,9 @@ class RetrieveChartTest extends SeatsioClientTest
 
         $retrievedChart = $this->seatsioClient->charts->retrieveWithEvents($chart->key);
 
-        $eventIds = map($retrievedChart->events, function ($event) {
+        $eventIds = array_map(function ($event) {
             return $event->id;
-        });
+        }, $retrievedChart->events);
 
         self::assertEquals([$event2->id, $event1->id], array_values($eventIds));
     }

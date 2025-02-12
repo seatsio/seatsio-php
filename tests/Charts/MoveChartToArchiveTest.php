@@ -3,7 +3,6 @@
 namespace Seatsio\Charts;
 
 use Seatsio\SeatsioClientTest;
-use function Functional\map;
 
 class MoveChartToArchiveTest extends SeatsioClientTest
 {
@@ -15,7 +14,7 @@ class MoveChartToArchiveTest extends SeatsioClientTest
         $this->seatsioClient->charts->moveToArchive($chart->key);
 
         $archivedCharts = $this->seatsioClient->charts->archive->all();
-        $archivedChartKeys = map($archivedCharts, function($chart) { return $chart->key; });
+        $archivedChartKeys = array_map(function($chart) { return $chart->key; }, iterator_to_array($archivedCharts));
 
         self::assertEquals([$chart->key], array_values($archivedChartKeys));
     }

@@ -8,7 +8,6 @@
     "guzzlehttp/guzzle": "7.9.2",
     "guzzlehttp/uri-template": "v1.0.3",
     "netresearch/jsonmapper": "5.0.0",
-    "lstrojny/functional-php": "1.17.0",
     "halaxa/json-machine": "1.1.4"
   },
   "require-dev": {

@@ -3,7 +3,6 @@
 namespace Seatsio\Charts;
 
 use Seatsio\SeatsioClientTest;
-use function Functional\map;
 
 class ListFirstPageOfChartsTest extends SeatsioClientTest
 {
@@ -15,7 +14,7 @@ class ListFirstPageOfChartsTest extends SeatsioClientTest
         $chart3 = $this->seatsioClient->charts->create();
 
         $page = $this->seatsioClient->charts->listFirstPage();
-        $chartKeys = map($page->items, function($chart) { return $chart->key; });
+        $chartKeys = array_map(function($chart) { return $chart->key; }, $page->items);
 
         self::assertEquals([$chart3->key, $chart2->key, $chart1->key], array_values($chartKeys));
     }
@@ -28,7 +27,7 @@ class ListFirstPageOfChartsTest extends SeatsioClientTest
         $chart4 = $this->seatsioClient->charts->create('foo');
 
         $page = $this->seatsioClient->charts->listFirstPage((new ChartListParams())->withFilter('foo'));
-        $chartKeys = map($page->items, function($chart) { return $chart->key; });
+        $chartKeys = array_map(function($chart) { return $chart->key; }, $page->items);
 
         self::assertEquals([$chart4->key, $chart2->key, $chart1->key], array_values($chartKeys));
     }
@@ -41,7 +40,7 @@ class ListFirstPageOfChartsTest extends SeatsioClientTest
         $chart4 = $this->seatsioClient->charts->create();
 
         $page = $this->seatsioClient->charts->listFirstPage(null, 2);
-        $chartKeys = map($page->items, function($chart) { return $chart->key; });
+        $chartKeys = array_map(function($chart) { return $chart->key; }, $page->items);
 
         self::assertEquals([$chart4->key, $chart3->key], array_values($chartKeys));
     }

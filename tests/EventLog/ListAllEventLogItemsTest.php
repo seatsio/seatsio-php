@@ -3,7 +3,6 @@
 namespace Seatsio\EventLog;
 
 use Seatsio\SeatsioClientTest;
-use function Functional\map;
 
 class ListAllEventLogItemsTest extends SeatsioClientTest
 {
@@ -16,9 +15,9 @@ class ListAllEventLogItemsTest extends SeatsioClientTest
         $this->waitUntilEventLogItemsAvailable();
 
         $eventLogItems = $this->seatsioClient->eventLog->listAll();
-        $types = map($eventLogItems, function ($eventLogItem) {
+        $types = array_map(function ($eventLogItem) {
             return $eventLogItem->type;
-        });
+        }, iterator_to_array($eventLogItems));
 
         self::assertEquals(["chart.created", "chart.published"], array_values($types));
     }

@@ -6,7 +6,6 @@ use Seatsio\Events\Channel;
 use Seatsio\Events\ForSaleConfig;
 use Seatsio\Events\TableBookingConfig;
 use Seatsio\SeatsioClientTest;
-use function Functional\map;
 
 class CreateSeasonTest extends SeatsioClientTest
 {
@@ -43,9 +42,9 @@ class CreateSeasonTest extends SeatsioClientTest
 
         $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setEventKeys(['event1', 'event2']));
 
-        $eventKeys = map($season->events, function ($event) {
+        $eventKeys = array_map(function ($event) {
             return $event->key;
-        });
+        }, $season->events);
         self::assertEquals(['event1', 'event2'], $eventKeys);
     }
 

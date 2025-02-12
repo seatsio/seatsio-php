@@ -9,7 +9,6 @@ use Seatsio\Events\StatusChangeRequest;
 use Seatsio\Events\TableBookingConfig;
 use Seatsio\Events\UpdateEventParams;
 use Seatsio\SeatsioClientTest;
-use function Functional\map;
 
 class ListStatusChangesTest extends SeatsioClientTest
 {
@@ -26,9 +25,9 @@ class ListStatusChangesTest extends SeatsioClientTest
         $this->waitForStatusChanges($event, 3);
 
         $statusChanges = $this->seatsioClient->events->statusChanges($event->key)->all();
-        $objectIds = map($statusChanges, function ($statusChange) {
+        $objectIds = array_map(function ($statusChange) {
             return $statusChange->objectLabel;
-        });
+        }, iterator_to_array($statusChanges));
 
         self::assertEquals(["A-3", "A-2", "A-1"], array_values($objectIds));
     }
@@ -114,9 +113,9 @@ class ListStatusChangesTest extends SeatsioClientTest
         $this->waitForStatusChanges($event, 4);
 
         $statusChanges = $this->seatsioClient->events->statusChanges($event->key, "A-")->all();
-        $objectIds = map($statusChanges, function ($statusChange) {
+        $objectIds = array_map(function ($statusChange) {
             return $statusChange->objectLabel;
-        });
+        }, iterator_to_array($statusChanges));
 
         self::assertEquals(["A-3", "A-2", "A-1"], array_values($objectIds));
     }
@@ -134,9 +133,9 @@ class ListStatusChangesTest extends SeatsioClientTest
         $this->waitForStatusChanges($event, 4);
 
         $statusChanges = $this->seatsioClient->events->statusChanges($event->key, null, "objectLabel")->all();
-        $objectIds = map($statusChanges, function ($statusChange) {
+        $objectIds = array_map(function ($statusChange) {
             return $statusChange->objectLabel;
-        });
+        }, iterator_to_array($statusChanges));
 
         self::assertEquals(["A-1", "A-2", "A-3", "B-1"], array_values($objectIds));
     }
@@ -157,9 +156,9 @@ class ListStatusChangesTest extends SeatsioClientTest
         $allStatusChanges = iterator_to_array($statusChangeLister->all(), false);
         $b1ID = $allStatusChanges[2]->id;
         $statusChanges = $statusChangeLister->pageBefore($b1ID, 2)->items;
-        $objectIds = map($statusChanges, function ($statusChange) {
+        $objectIds = array_map(function ($statusChange) {
             return $statusChange->objectLabel;
-        });
+        }, $statusChanges);
 
         self::assertEquals(["A-1", "A-2"], array_values($objectIds));
     }
@@ -180,9 +179,9 @@ class ListStatusChangesTest extends SeatsioClientTest
         $allStatusChanges = iterator_to_array($statusChangeLister->all(), false);
         $a1ID = $allStatusChanges[0]->id;
         $statusChanges = $statusChangeLister->pageAfter($a1ID, 2)->items;
-        $objectIds = map($statusChanges, function ($statusChange) {
+        $objectIds = array_map(function ($statusChange) {
             return $statusChange->objectLabel;
-        });
+        }, $statusChanges);
 
         self::assertEquals(["A-2", "A-3"], array_values($objectIds));
     }
@@ -200,9 +199,9 @@ class ListStatusChangesTest extends SeatsioClientTest
         $this->waitForStatusChanges($event, 4);
 
         $statusChanges = $this->seatsioClient->events->statusChanges($event->key, null, "objectLabel", "DESC")->all();
-        $objectIds = map($statusChanges, function ($statusChange) {
+        $objectIds = array_map(function ($statusChange) {
             return $statusChange->objectLabel;
-        });
+        }, iterator_to_array($statusChanges));
 
         self::assertEquals(["B-1", "A-3", "A-2", "A-1"], array_values($objectIds));
     }
