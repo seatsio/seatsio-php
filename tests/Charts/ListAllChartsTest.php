@@ -3,7 +3,6 @@
 namespace Seatsio\Charts;
 
 use Seatsio\SeatsioClientTest;
-use function Functional\map;
 
 class ListAllChartsTest extends SeatsioClientTest
 {
@@ -15,9 +14,9 @@ class ListAllChartsTest extends SeatsioClientTest
         $chart3 = $this->seatsioClient->charts->create();
 
         $charts = $this->seatsioClient->charts->listAll();
-        $chartKeys = map($charts, function ($chart) {
+        $chartKeys = array_map(function ($chart) {
             return $chart->key;
-        });
+        }, iterator_to_array($charts));
 
         self::assertEquals([$chart3->key, $chart2->key, $chart1->key], array_values($chartKeys));
     }
@@ -36,9 +35,9 @@ class ListAllChartsTest extends SeatsioClientTest
         $chart3 = $this->seatsioClient->charts->create('foofoo');
 
         $charts = $this->seatsioClient->charts->listAll((new ChartListParams())->withFilter('foo'));
-        $chartKeys = map($charts, function ($chart) {
+        $chartKeys = array_map(function ($chart) {
             return $chart->key;
-        });
+        }, iterator_to_array($charts));
 
         self::assertEquals([$chart3->key, $chart1->key], array_values($chartKeys));
     }
@@ -54,9 +53,9 @@ class ListAllChartsTest extends SeatsioClientTest
         $this->seatsioClient->charts->addTag($chart3->key, 'foo');
 
         $charts = $this->seatsioClient->charts->listAll((new ChartListParams())->withTag('foo'));
-        $chartKeys = map($charts, function ($chart) {
+        $chartKeys = array_map(function ($chart) {
             return $chart->key;
-        });
+        }, iterator_to_array($charts));
 
         self::assertEquals([$chart3->key, $chart1->key], array_values($chartKeys));
     }
@@ -75,9 +74,9 @@ class ListAllChartsTest extends SeatsioClientTest
         $chart4 = $this->seatsioClient->charts->create('bar');
 
         $charts = $this->seatsioClient->charts->listAll((new ChartListParams())->withFilter('bar')->withTag('foo'));
-        $chartKeys = map($charts, function ($chart) {
+        $chartKeys = array_map(function ($chart) {
             return $chart->key;
-        });
+        }, iterator_to_array($charts));
 
         self::assertEquals([$chart3->key, $chart1->key], array_values($chartKeys));
     }
@@ -95,9 +94,9 @@ class ListAllChartsTest extends SeatsioClientTest
             ->withExpandZones(true);
         $charts = $this->seatsioClient->charts->listAll($params);
 
-        $eventIds = map($charts->current()->events, function ($event) {
+        $eventIds = array_map(function ($event) {
             return $event->id;
-        });
+        }, $charts->current()->events);
         self::assertEquals([$event2->id, $event1->id], array_values($eventIds));
         self::assertEquals("WITH_ZONES", $charts->current()->venueType);
         self::assertEquals([new Zone("finishline", "Finish Line"), new Zone("midtrack", "Mid Track")], $charts->current()->zones);

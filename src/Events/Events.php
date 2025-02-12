@@ -10,7 +10,6 @@ use Seatsio\PageFetcher;
 use Seatsio\Seasons\Season;
 use Seatsio\SeatsioJsonMapper;
 use stdClass;
-use function Functional\map;
 
 class Events
 {
@@ -398,9 +397,9 @@ class Events
     public function changeObjectStatusInBatch(array $statusChangeRequests): array
     {
         $request = new stdClass();
-        $request->statusChanges = map($statusChangeRequests, function ($statusChangeRequest) {
+        $request->statusChanges = array_map(function ($statusChangeRequest) {
             return $this->serializeStatusChangeRequest($statusChangeRequest);
-        });
+        }, $statusChangeRequests);
         $res = $this->client->post(
             '/events/actions/change-object-status',
             ['json' => $request, 'query' => ['expand' => 'objects']]

@@ -4,7 +4,6 @@ namespace Seatsio\Charts;
 
 use Seatsio\Events\StatusChangeRequest;
 use Seatsio\SeatsioClientTest;
-use function Functional\map;
 
 class ListStatusChangesForObjectTest extends SeatsioClientTest
 {
@@ -22,9 +21,9 @@ class ListStatusChangesForObjectTest extends SeatsioClientTest
         $this->waitForStatusChanges($event, 4);
 
         $statusChanges = $this->seatsioClient->events->statusChangesForObject($event->key, "A-1")->all();
-        $statuses = map($statusChanges, function ($statusChange) {
+        $statuses = array_map(function ($statusChange) {
             return $statusChange->status;
-        });
+        }, iterator_to_array($statusChanges));
 
         self::assertEquals(["s3", "s2", "s1"], array_values($statuses));
     }

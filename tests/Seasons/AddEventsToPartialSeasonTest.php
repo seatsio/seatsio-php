@@ -3,7 +3,6 @@
 namespace Seatsio\Seasons;
 
 use Seatsio\SeatsioClientTest;
-use function Functional\map;
 
 class AddEventsToPartialSeasonTest extends SeatsioClientTest
 {
@@ -15,9 +14,9 @@ class AddEventsToPartialSeasonTest extends SeatsioClientTest
 
         $updatedPartialSeason = $this->seatsioClient->seasons->addEventsToPartialSeason($season->key, $partialSeason->key, ['event1', 'event2']);
 
-        $eventKeys = map($updatedPartialSeason->events, function ($event) {
+        $eventKeys = array_map(function ($event) {
             return $event->key;
-        });
+        }, $updatedPartialSeason->events);
         self::assertEquals(['event1', 'event2'], $eventKeys);
         self::assertEquals([$updatedPartialSeason->key], $updatedPartialSeason->events[0]->partialSeasonKeysForEvent);
     }

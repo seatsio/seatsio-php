@@ -3,7 +3,6 @@
 namespace Seatsio\Charts;
 
 use Seatsio\SeatsioClientTest;
-use function Functional\map;
 
 class ListInactiveWorkspacesTest extends SeatsioClientTest
 {
@@ -17,9 +16,9 @@ class ListInactiveWorkspacesTest extends SeatsioClientTest
         $this->seatsioClient->workspaces->deactivate($ws3->key);
 
         $workspaces = $this->seatsioClient->workspaces->inactive->all();
-        $workspaceNames = map($workspaces, function ($workspace) {
+        $workspaceNames = array_map(function ($workspace) {
             return $workspace->name;
-        });
+        }, iterator_to_array($workspaces));
 
         self::assertEquals(["ws3", "ws1"], array_values($workspaceNames));
     }
@@ -34,9 +33,9 @@ class ListInactiveWorkspacesTest extends SeatsioClientTest
         $this->seatsioClient->workspaces->create("anotherAnotherAnotherWorkspace");
 
         $workspaces = $this->seatsioClient->workspaces->inactive->all("another");
-        $workspaceNames = map($workspaces, function ($workspace) {
+        $workspaceNames = array_map(function ($workspace) {
             return $workspace->name;
-        });
+        }, iterator_to_array($workspaces));
 
         self::assertEquals(["anotherAnotherWorkspace", "anotherWorkspace"], array_values($workspaceNames));
     }
