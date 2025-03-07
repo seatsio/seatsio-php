@@ -36,6 +36,15 @@ class CreateSeasonTest extends SeatsioClientTest
         self::assertEquals('aSeason', $season->key);
     }
 
+    public function testNameCanBePassedIn()
+    {
+        $chartKey = $this->createTestChart();
+
+        $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setName('aSeason'));
+
+        self::assertEquals('aSeason', $season->name);
+    }
+
     public function testEventKeysCanBePassedIn()
     {
         $chartKey = $this->createTestChart();

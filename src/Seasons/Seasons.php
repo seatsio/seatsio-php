@@ -35,6 +35,10 @@ class Seasons
                 $request->key = $seasonCreationParams->key;
             }
 
+            if ($seasonCreationParams->name !== null) {
+                $request->name = $seasonCreationParams->name;
+            }
+
             if ($seasonCreationParams->eventKeys !== null) {
                 $request->eventKeys = $seasonCreationParams->eventKeys;
             }
@@ -70,12 +74,16 @@ class Seasons
     /**
      * @param $eventKeys string[]|null
      */
-    public function createPartialSeason(string $topLevelSeasonKey, string $partialSeasonKey = null, array $eventKeys = null): Season
+    public function createPartialSeason(string $topLevelSeasonKey, string $partialSeasonKey = null, string $name = null, array $eventKeys = null): Season
     {
         $request = new stdClass();
 
         if ($partialSeasonKey !== null) {
             $request->key = $partialSeasonKey;
+        }
+
+        if ($name !== null) {
+            $request->name = $name;
         }
 
         if ($eventKeys !== null) {

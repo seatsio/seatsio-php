@@ -14,6 +14,11 @@ class SeasonCreationParams
     public $key;
 
     /**
+     * @var string
+     */
+    public $name;
+
+    /**
      * @var string[]
      */
     public $eventKeys;
@@ -46,6 +51,12 @@ class SeasonCreationParams
     static function seasonCreationParams(string $key = null): SeasonCreationParams
     {
         return new SeasonCreationParams($key);
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
     }
 
     public function setEventKeys(array $eventKeys): self
