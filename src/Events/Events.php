@@ -531,6 +531,9 @@ class Events
         if ($bestAvailableParams->zone !== null) {
             $request->bestAvailable->zone = $bestAvailableParams->zone;
         }
+        if ($bestAvailableParams->sections !== null) {
+            $request->bestAvailable->sections = $bestAvailableParams->sections;
+        }
         $request->status = $status;
         if ($holdToken !== null) {
             $request->holdToken = $holdToken;

@@ -20,6 +20,11 @@ class BestAvailableParams
     public $zone;
 
     /**
+     * @var string[]
+     */
+    public $sections;
+
+    /**
      * @var array
      */
     public $extraData;
@@ -56,6 +61,13 @@ class BestAvailableParams
         $this->zone = $zone;
         return $this;
     }
+
+    public function setSections(array $sections): self
+    {
+        $this->sections = $sections;
+        return $this;
+    }
+
 
     public function setExtraData(array $extraData): self
     {
