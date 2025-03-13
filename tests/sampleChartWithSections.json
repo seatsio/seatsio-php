@@ -1010,7 +1010,10 @@
         }
       }
     ],
-    "focalPoint": null,
+    "focalPoint": {
+      "x": 0,
+      "y": 0
+    },
     "backgroundImage": null,
     "referenceChart": null,
     "snapOffset": {
