@@ -155,4 +155,23 @@ class ChangeObjectStatusInBatchTest extends SeatsioClientTest
         self::assertEquals(EventObjectInfo::$BOOKED, $response[0]->objects['A-1']->status);
         self::assertEquals(EventObjectInfo::$BOOKED, $response[0]->objects['A-2']->status);
     }
+
+    public function testResaleListingId()
+    {
+        $chartKey1 = $this->createTestChart();
+        $chartKey2 = $this->createTestChart();
+        $event1 = $this->seatsioClient->events->create($chartKey1);
+        $event2 = $this->seatsioClient->events->create($chartKey2);
+
+        $response = $this->seatsioClient->events->changeObjectStatusInBatch([
+            (new StatusChangeRequest())->setEvent($event1->key)->setObjects("A-1")->setStatus(EventObjectInfo::$RESALE)->setResaleListingId("listing1"),
+            (new StatusChangeRequest())->setEvent($event2->key)->setObjects("A-2")->setStatus(EventObjectInfo::$RESALE)->setResaleListingId("listing1")
+        ]);
+
+        $objectInfo1 = $this->seatsioClient->events->retrieveObjectInfo($event1->key, "A-1");
+        self::assertEquals("listing1", $objectInfo1->resaleListingId);
+
+        $objectInfo2 = $this->seatsioClient->events->retrieveObjectInfo($event2->key, "A-2");
+        self::assertEquals("listing1", $objectInfo2->resaleListingId);
+    }
 }

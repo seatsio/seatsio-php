@@ -196,4 +196,15 @@ class ChangeObjectStatusTest extends SeatsioClientTest
             self::assertEquals("ILLEGAL_STATUS_CHANGE", $exception->errors[0]->code);
         }
     }
+
+    public function testResaleListingId()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $result = $this->seatsioClient->events->changeObjectStatus($event->key, "A-1", EventObjectInfo::$RESALE, null, null, null, null, null, null, null, "lsting1");
+
+        $objectDetails = $result->objects["A-1"];
+        self::assertEquals("lsting1", $objectDetails->resaleListingId);
+    }
 }
