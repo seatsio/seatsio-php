@@ -160,4 +160,8 @@ class EventObjectInfo
      * @var string
      */
     public $zone;
+    /**
+     * @var string
+     */
+    public $resaleListingId;
 }

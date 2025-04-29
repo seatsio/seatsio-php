@@ -65,6 +65,11 @@ class StatusChangeRequest
      */
     public $rejectedPreviousStatuses;
 
+    /**
+     * @var string
+     */
+    public $resaleListingId;
+
     public function setType(string $type) {
         $this->type = $type;
         return $this;
@@ -117,6 +122,11 @@ class StatusChangeRequest
 
     public function setRejectedPreviousStatuses(array $rejectedPreviousStatuses) {
         $this->rejectedPreviousStatuses = $rejectedPreviousStatuses;
+        return $this;
+    }
+
+    public function setResaleListingId(string $resaleListingId) {
+        $this->resaleListingId = $resaleListingId;
         return $this;
     }
 }

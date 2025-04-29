@@ -69,4 +69,18 @@ class ChangeObjectStatusForMultipleEventsTest extends SeatsioClientTest
         self::assertEquals(EventObjectInfo::$HELD, $objectInfo2->status);
     }
 
+    public function testResaleListingId()
+    {
+        $chartKey = $this->createTestChart();
+        $event1 = $this->seatsioClient->events->create($chartKey);
+        $event2 = $this->seatsioClient->events->create($chartKey);
+
+        $this->seatsioClient->events->changeObjectStatus([$event1->key, $event2->key], "A-1", EventObjectInfo::$RESALE, null, null, null, null, null, null,null, "listing1");
+
+        $objectInfo1 = $this->seatsioClient->events->retrieveObjectInfo($event1->key, "A-1");
+        self::assertEquals("listing1", $objectInfo1->resaleListingId);
+
+        $objectInfo2 = $this->seatsioClient->events->retrieveObjectInfo($event2->key, "A-1");
+        self::assertEquals("listing1", $objectInfo2->resaleListingId);
+    }
 }

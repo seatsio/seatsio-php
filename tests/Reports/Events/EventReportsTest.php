@@ -50,6 +50,7 @@ class EventReportsTest extends SeatsioClientTest
         self::assertEquals("channel1", $reportItem->channel);
         self::assertNotNull($reportItem->distanceToFocalPoint);
         self::assertEquals(0, $reportItem->seasonStatusOverriddenQuantity);
+        self::assertNull($reportItem->resaleListingId);
 
         $gaItem = $report["GA1"][0];
         self::assertFalse($gaItem->variableOccupancy);
@@ -67,7 +68,19 @@ class EventReportsTest extends SeatsioClientTest
         $report = $this->seatsioClient->eventReports->byLabel($event->key);
 
         $reportItem = $report["A-1"][0];
-        self::assertEquals("$holdToken->holdToken", $reportItem->holdToken);
+        self::assertEquals($holdToken->holdToken, $reportItem->holdToken);
+    }
+
+    public function testResaleListingId()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $this->seatsioClient->events->putUpForResale($event->key, "A-1", "listing1");
+
+        $report = $this->seatsioClient->eventReports->byLabel($event->key);
+
+        $reportItem = $report["A-1"][0];
+        self::assertEquals("listing1", $reportItem->resaleListingId);
     }
 
     public function testSeasonStatusOverriddenQuantity()

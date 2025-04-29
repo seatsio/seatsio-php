@@ -341,15 +341,15 @@ class Events
      */
     public function changeObjectStatus($eventKeyOrKeys, $objectOrObjects, string $status, string $holdToken = null, string $orderId = null,
                                        bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null,
-                                       array $allowedPreviousStatuses = null, array $rejectedPreviousStatuses = null): ChangeObjectStatusResult
+                                       array $allowedPreviousStatuses = null, array $rejectedPreviousStatuses = null, $resaleListingId = null): ChangeObjectStatusResult
     {
-        return $this->changeObjectStatusWithType($eventKeyOrKeys, $objectOrObjects, "CHANGE_STATUS_TO", $status, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys, $allowedPreviousStatuses, $rejectedPreviousStatuses);
+        return $this->changeObjectStatusWithType($eventKeyOrKeys, $objectOrObjects, "CHANGE_STATUS_TO", $status, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys, $allowedPreviousStatuses, $rejectedPreviousStatuses, $resaleListingId);
     }
 
     private function changeObjectStatusWithType(
         $eventKeyOrKeys, $objectOrObjects, string $statusChangeCommandType, string $status = null, string $holdToken = null, string $orderId = null,
         bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null,
-        array $allowedPreviousStatuses = null, array $rejectedPreviousStatuses = null): ChangeObjectStatusResult
+        array $allowedPreviousStatuses = null, array $rejectedPreviousStatuses = null, $resaleListingId = null): ChangeObjectStatusResult
     {
         $request = new stdClass();
         $request->objects = self::normalizeObjects($objectOrObjects);
@@ -379,6 +379,9 @@ class Events
         }
         if ($rejectedPreviousStatuses !== null) {
             $request->rejectedPreviousStatuses = $rejectedPreviousStatuses;
+        }
+        if ($resaleListingId !== null) {
+            $request->resaleListingId = $resaleListingId;
         }
         $request->events = is_array($eventKeyOrKeys) ? $eventKeyOrKeys : [$eventKeyOrKeys];
         $res = $this->client->post(
@@ -439,6 +442,9 @@ class Events
         if ($statusChangeRequest->rejectedPreviousStatuses !== null) {
             $request->rejectedPreviousStatuses = $statusChangeRequest->rejectedPreviousStatuses;
         }
+        if ($statusChangeRequest->resaleListingId !== null) {
+            $request->resaleListingId = $statusChangeRequest->resaleListingId;
+        }
         return $request;
     }
 
@@ -475,9 +481,9 @@ class Events
      * @param $objectOrObjects mixed
      * @return ChangeObjectStatusResult
      */
-    public function putUpForResale($eventKeyOrKeys, $objectOrObjects)
+    public function putUpForResale($eventKeyOrKeys, $objectOrObjects, $resaleListingId = null)
     {
-        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, EventObjectInfo::$RESALE, null, null, null, null, null, null);
+        return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, EventObjectInfo::$RESALE, null, null, null, null, null, null, null, $resaleListingId);
     }
 
     /**
