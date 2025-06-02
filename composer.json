@@ -8,7 +8,7 @@
     "guzzlehttp/guzzle": "7.9.3",
     "guzzlehttp/uri-template": "v1.0.4",
     "netresearch/jsonmapper": "5.0.0",
-    "halaxa/json-machine": "1.2.2"
+    "halaxa/json-machine": "1.2.3"
   },
   "require-dev": {
     "brianium/paratest": "v7.3.1",
