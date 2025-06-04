@@ -21,12 +21,7 @@ class TicketBuyers
         $this->client = $client;
     }
 
-    public function add(string ...$uuids): AddTicketBuyerIdsResponse
-    {
-        return $this->addArray($uuids);
-    }
-
-    public function addArray(array $uuids): AddTicketBuyerIdsResponse
+    public function add(array $uuids): AddTicketBuyerIdsResponse
     {
         $filtered = array_values(array_unique(array_filter($uuids, fn($id) => $id !== null)));
 

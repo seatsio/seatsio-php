@@ -12,7 +12,7 @@ class AddTicketBuyerIdsTest extends SeatsioClientTest
         $ticketBuyerId2 = self::uuid();
         $ticketBuyerId3 = self::uuid();
 
-        $response = $this->seatsioClient->ticketBuyers->add($ticketBuyerId1, $ticketBuyerId2, $ticketBuyerId3);
+        $response = $this->seatsioClient->ticketBuyers->add([$ticketBuyerId1, $ticketBuyerId2, $ticketBuyerId3]);
 
         self::assertEqualsCanonicalizing([$ticketBuyerId1, $ticketBuyerId2, $ticketBuyerId3], $response->added);
         self::assertEmpty($response->alreadyPresent);
@@ -23,7 +23,7 @@ class AddTicketBuyerIdsTest extends SeatsioClientTest
         $ticketBuyerId1 = self::uuid();
         $ticketBuyerId2 = self::uuid();
 
-        $response = $this->seatsioClient->ticketBuyers->addArray([
+        $response = $this->seatsioClient->ticketBuyers->add([
             $ticketBuyerId1, $ticketBuyerId1, $ticketBuyerId1,
             $ticketBuyerId2, $ticketBuyerId2
         ]);
@@ -37,12 +37,12 @@ class AddTicketBuyerIdsTest extends SeatsioClientTest
         $ticketBuyerId1 = self::uuid();
         $ticketBuyerId2 = self::uuid();
 
-        $response = $this->seatsioClient->ticketBuyers->add($ticketBuyerId1, $ticketBuyerId2);
+        $response = $this->seatsioClient->ticketBuyers->add([$ticketBuyerId1, $ticketBuyerId2]);
 
         self::assertEqualsCanonicalizing([$ticketBuyerId1, $ticketBuyerId2], $response->added);
         self::assertEmpty($response->alreadyPresent);
 
-        $secondResponse = $this->seatsioClient->ticketBuyers->add($ticketBuyerId1);
+        $secondResponse = $this->seatsioClient->ticketBuyers->add([$ticketBuyerId1]);
 
         self::assertEquals([$ticketBuyerId1], $secondResponse->alreadyPresent);
     }
@@ -51,7 +51,7 @@ class AddTicketBuyerIdsTest extends SeatsioClientTest
     {
         $ticketBuyerId1 = self::uuid();
 
-        $response = $this->seatsioClient->ticketBuyers->addArray([$ticketBuyerId1, null]);
+        $response = $this->seatsioClient->ticketBuyers->add([$ticketBuyerId1, null]);
 
         self::assertEquals([$ticketBuyerId1], $response->added);
         self::assertEmpty($response->alreadyPresent);

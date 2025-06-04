@@ -12,7 +12,7 @@ class ListTicketBuyerIdsTest extends SeatsioClientTest
         $ticketBuyerId2 = self::uuid();
         $ticketBuyerId3 = self::uuid();
 
-        $this->seatsioClient->ticketBuyers->add($ticketBuyerId1, $ticketBuyerId2, $ticketBuyerId3);
+        $this->seatsioClient->ticketBuyers->add([$ticketBuyerId1, $ticketBuyerId2, $ticketBuyerId3]);
 
         $ticketBuyerIds = iterator_to_array($this->seatsioClient->ticketBuyers->listAll(), false);
 
