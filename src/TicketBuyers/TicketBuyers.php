@@ -3,8 +3,8 @@
 namespace Seatsio\TicketBuyers;
 
 use GuzzleHttp\Client;
-use Seatsio\Events\Event;
 use Seatsio\GuzzleResponseDecoder;
+use Seatsio\PageFetcher;
 use Seatsio\SeatsioJsonMapper;
 use stdClass;
 
@@ -37,5 +37,17 @@ class TicketBuyers
         $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new AddTicketBuyerIdsResponse());
+    }
+
+    public function listAll(): TicketBuyerIdPagedIterator
+    {
+        return $this->iterator()->all();
+    }
+
+    private function iterator(): TicketBuyerIdLister
+    {
+        return new TicketBuyerIdLister(new PageFetcher('/ticket-buyers', $this->client, function () {
+            return new TicketBuyerIdPage();
+        }));
     }
 }
