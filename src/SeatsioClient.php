@@ -14,6 +14,7 @@ use Seatsio\Reports\Charts\ChartReports;
 use Seatsio\Reports\Events\EventReports;
 use Seatsio\Reports\Usage\UsageReports;
 use Seatsio\Seasons\Seasons;
+use Seatsio\TicketBuyers\TicketBuyers;
 use Seatsio\Workspaces\Workspaces;
 
 class SeatsioClient
@@ -65,6 +66,11 @@ class SeatsioClient
      */
     public $eventLog;
 
+    /**
+     * @var TicketBuyers
+     */
+    public $ticketBuyers;
+
     public function __construct(Region $region, string $secretKey, string $workspaceKey = null, int $maxRetries = 5)
     {
         $client = new Client($this->clientConfig($secretKey, $workspaceKey, $region->url(), $maxRetries));
@@ -78,6 +84,7 @@ class SeatsioClient
         $this->workspaces = new Workspaces($client);
         $this->holdTokens = new HoldTokens($client);
         $this->eventLog = new EventLog($client);
+        $this->ticketBuyers = new TicketBuyers($client);
     }
 
     private function clientConfig($secretKey, $workspaceKey, $baseUrl, $maxRetries)
