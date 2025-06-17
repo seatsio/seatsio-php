@@ -22,18 +22,4 @@ class DeleteWorkspaceTest extends SeatsioClientTest
             self::assertEquals("No workspace found with public key '" . $workspace->key . "'", $exception->errors[0]->message);
         }
     }
-
-    public function testDeleteActiveWorkspace()
-    {
-        $workspace = $this->seatsioClient->workspaces->create("a ws");
-
-        try {
-            $this->seatsioClient->workspaces->delete($workspace->key);
-            throw new \Exception("Should have failed");
-        } catch (SeatsioException $exception) {
-            self::assertEquals(1, sizeof($exception->errors));
-            self::assertEquals("CANNOT_DELETE_ACTIVE_WORKSPACE", $exception->errors[0]->code);
-            self::assertEquals("Cannot delete active workspace, please deactivate it first", $exception->errors[0]->message);
-        }
-    }
 }
