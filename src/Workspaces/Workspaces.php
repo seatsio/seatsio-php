@@ -70,6 +70,11 @@ class Workspaces
         $this->client->post(UriTemplate::expand('/workspaces/{key}/actions/deactivate', array("key" => $key)));
     }
 
+    public function delete(string $key): void
+    {
+        $this->client->delete(UriTemplate::expand('/workspaces/{key}', array("key" => $key)));
+    }
+
     public function setDefault(string $key): void
     {
         $this->client->post(UriTemplate::expand('/workspaces/actions/set-default/{key}', array("key" => $key)));
