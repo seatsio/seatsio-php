@@ -45,6 +45,7 @@ class EventReportsTest extends SeatsioClientTest
         self::assertFalse($reportItem->isAvailable);
         self::assertEquals(EventObjectInfo::$BOOKED, $reportItem->availabilityReason);
         self::assertNull($reportItem->displayedObjectType);
+        self::assertNull($reportItem->parentDisplayedObjectType);
         self::assertNull($reportItem->leftNeighbour);
         self::assertEquals("A-2", $reportItem->rightNeighbour);
         self::assertEquals("channel1", $reportItem->channel);
@@ -117,6 +118,7 @@ class EventReportsTest extends SeatsioClientTest
         self::assertNull($reportItem->hasRestrictedView);
         self::assertNull($reportItem->isCompanionSeat);
         self::assertNull($reportItem->displayedObjectType);
+        self::assertNull($reportItem->parentDisplayedObjectType);
     }
 
     public function testReportItemPropertiesForTable()

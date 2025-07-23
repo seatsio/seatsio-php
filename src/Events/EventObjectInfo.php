@@ -111,6 +111,10 @@ class EventObjectInfo
     /**
      * @var string
      */
+    public $parentDisplayedObjectType;
+    /**
+     * @var string
+     */
     public $leftNeighbour;
     /**
      * @var string
