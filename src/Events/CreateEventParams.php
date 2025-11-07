@@ -2,6 +2,8 @@
 
 namespace Seatsio\Events;
 
+use Seatsio\LocalDate;
+
 class CreateEventParams extends EventParams
 {
     /**
@@ -13,6 +15,11 @@ class CreateEventParams extends EventParams
      * @var \Seatsio\Events\ForSaleConfig
      */
     public $forSaleConfig;
+
+    /**
+     * @var \Seatsio\LocalDate
+     */
+    public $date;
 
     static function create(): CreateEventParams
     {
@@ -34,6 +41,12 @@ class CreateEventParams extends EventParams
     public function setForSaleConfig(ForSaleConfig $forSaleConfig): self
     {
         $this->forSaleConfig = $forSaleConfig;
+        return $this;
+    }
+
+    public function setDate(LocalDate $date): self
+    {
+        $this->date = $date;
         return $this;
     }
 }

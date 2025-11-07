@@ -2,7 +2,9 @@
 
 namespace Seatsio\Seasons;
 
+use Seatsio\Charts\Category;
 use Seatsio\Events\Channel;
+use Seatsio\Events\CreateEventParams;
 use Seatsio\Events\ForSaleConfig;
 use Seatsio\Events\TableBookingConfig;
 use Seatsio\SeatsioClientTest;
@@ -110,4 +112,44 @@ class CreateSeasonTest extends SeatsioClientTest
         self::assertNotNull($season->key);
         self::assertEquals($forSaleConfig, $season->forSaleConfig);
     }
+
+    public function testForSalePropagatedFlagCanBePassedIn()
+    {
+        $chartKey = $this->createTestChart();
+
+        $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setForSalePropagated(false));
+
+        self::assertFalse($season->forSalePropagated);
+    }
+
+    public function testObjectCategoriesCanBePassedIn()
+    {
+        $chartKey = $this->createTestChart();
+
+        $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setObjectCategories(["A-1" => 10]));
+
+        self::assertEquals(["A-1" => 10], $season->objectCategories);
+    }
+
+    public function testCategoriesCanBePassedIn()
+    {
+        $chartKey = $this->createTestChart();
+
+        $category = new Category("eventCategory", "event-level category", "#AAABBB");
+        $categories = [
+            $category
+        ];
+        $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setCategories($categories));
+
+        self::assertEquals(4, count($season->categories));
+        $eventCategory = current(array_filter($season->categories, function ($category) {
+            return $category->key == 'eventCategory';
+        }));
+        self::assertNotNull($eventCategory);
+        self::assertEquals('eventCategory', $eventCategory->key);
+        self::assertEquals('event-level category', $eventCategory->label);
+        self::assertEquals('#AAABBB', $eventCategory->color);
+        self::assertEquals(false, $eventCategory->accessible);
+    }
+
 }

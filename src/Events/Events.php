@@ -233,8 +233,57 @@ class Events
     }
 
     /**
+     * @param $forSale ObjectAndQuantity[]|null
+     * @param $notForSale ObjectAndQuantity[]|null
+     */
+    public function editForSaleConfig(string $eventKey, array $forSale = null, array $notForSale = null): ForSaleConfig {
+        $request = new stdClass();
+        if ($forSale !== null) {
+            $request->forSale = array_map(function ($object) {
+                return $object->toArray();
+            }, $forSale);
+        }
+        if ($notForSale !== null) {
+            $request->notForSale = array_map(function ($object) {
+                return $object->toArray();
+            }, $notForSale);
+        }
+
+        $res = $this->client->post(UriTemplate::expand('/events/{key}/actions/edit-for-sale-config', array("key" => $eventKey)), ['json' => $request]);
+        $json = GuzzleResponseDecoder::decodeToObject($res);
+        $mapper = SeatsioJsonMapper::create();
+        return $mapper->map($json->forSaleConfig, 'Seatsio\Events\ForSaleConfig');
+    }
+
+    public function editForSaleConfigForEvents(array $events): array {
+        $request = new stdClass();
+        $request->events = array_map(function ($params) {
+            $paramsRequest = new stdClass();
+            if ($params->forSale !== null) {
+                $paramsRequest->forSale = array_map(function ($object) {
+                    return $object->toArray();
+                }, $params->forSale);
+            }
+            if ($params->notForSale !== null) {
+                $paramsRequest->notForSale = array_map(function ($object) {
+                    return $object->toArray();
+                }, $paramsRequest->notForSale);
+            }
+            return $paramsRequest;
+        }, $events);
+
+        $res = $this->client->post('/events/actions/edit-for-sale-config', ['json' => $request]);
+        $json = GuzzleResponseDecoder::decodeToArray($res);
+        $mapper = SeatsioJsonMapper::create();
+        return $mapper->mapArray(array_map(function ($json) {
+            return json_decode(json_encode($json["forSaleConfig"]));
+        }, $json), array(), 'Seatsio\Events\ForSaleConfig');
+    }
+
+    /**
      * @param $objects string[]|null
      * @param $categories string[]|null
+     * @deprecated
      */
     public function markAsForSale(string $eventKey, array $objects = null, array $areaPlaces = null, array $categories = null): void
     {
@@ -254,6 +303,7 @@ class Events
     /**
      * @param $objects string[]|null
      * @param $categories string[]|null
+     * @deprecated
      */
     public function markAsNotForSale(string $eventKey, array $objects = null, array $areaPlaces = null, array $categories = null): void
     {

@@ -2,8 +2,6 @@
 
 namespace Seatsio\Events;
 
-use Seatsio\LocalDate;
-
 abstract class EventParams
 {
     /**
@@ -15,11 +13,6 @@ abstract class EventParams
      * @var string
      */
     public $name;
-
-    /**
-     * @var \Seatsio\LocalDate
-     */
-    public $date;
 
     /**
      * @var bool|object|array
@@ -45,12 +38,6 @@ abstract class EventParams
     public function setName(string $name): self
     {
         $this->name = $name;
-        return $this;
-    }
-
-    public function setDate(LocalDate $date): self
-    {
-        $this->date = $date;
         return $this;
     }
 
