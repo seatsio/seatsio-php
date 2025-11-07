@@ -116,7 +116,7 @@ class SeasonCreationParams
         return $this;
     }
 
-    public function setObjectCategories($objectCategories): self
+    public function setObjectCategories(array $objectCategories): self
     {
         $this->objectCategories = $objectCategories;
         return $this;
