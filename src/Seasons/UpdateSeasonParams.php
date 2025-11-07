@@ -3,7 +3,6 @@
 namespace Seatsio\Seasons;
 
 use Seatsio\Events\EventParams;
-use Seatsio\LocalDate;
 
 class UpdateSeasonParams extends EventParams
 {
