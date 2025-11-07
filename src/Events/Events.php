@@ -236,7 +236,8 @@ class Events
      * @param $forSale ObjectAndQuantity[]|null
      * @param $notForSale ObjectAndQuantity[]|null
      */
-    public function editForSaleConfig(string $eventKey, array $forSale = null, array $notForSale = null): ForSaleConfig {
+    public function editForSaleConfig(string $eventKey, array $forSale = null, array $notForSale = null): ForSaleConfig
+    {
         $request = new stdClass();
         if ($forSale !== null) {
             $request->forSale = array_map(function ($object) {
@@ -255,7 +256,8 @@ class Events
         return $mapper->map($json->forSaleConfig, 'Seatsio\Events\ForSaleConfig');
     }
 
-    public function editForSaleConfigForEvents(array $events): array {
+    public function editForSaleConfigForEvents(array $events): array
+    {
         $request = new stdClass();
         $request->events = array_map(function ($params) {
             $paramsRequest = new stdClass();
@@ -283,10 +285,9 @@ class Events
     /**
      * @param $objects string[]|null
      * @param $categories string[]|null
-     * @deprecated
      */
-    public function markAsForSale(string $eventKey, array $objects = null, array $areaPlaces = null, array $categories = null): void
-    {
+    public function replaceForSaleConfig(string $eventKey, bool $forSale, array $objects = null, array $areaPlaces = null, array $categories = null) {
+        $action = $forSale ? 'mark-as-for-sale' : 'mark-as-not-for-sale';
         $request = new stdClass();
         if ($objects !== null) {
             $request->objects = $objects;
@@ -297,7 +298,17 @@ class Events
         if ($categories !== null) {
             $request->categories = $categories;
         }
-        $this->client->post(UriTemplate::expand('/events/{key}/actions/mark-as-for-sale', array("key" => $eventKey)), ['json' => $request]);
+        $this->client->post(UriTemplate::expand('/events/{key}/actions/{action}', array("key" => $eventKey, "action" => $action)), ['json' => $request]);
+    }
+
+    /**
+     * @param $objects string[]|null
+     * @param $categories string[]|null
+     * @deprecated
+     */
+    public function markAsForSale(string $eventKey, array $objects = null, array $areaPlaces = null, array $categories = null): void
+    {
+        self::replaceForSaleConfig($eventKey, true, $objects, $areaPlaces, $categories);
     }
 
     /**
@@ -307,17 +318,7 @@ class Events
      */
     public function markAsNotForSale(string $eventKey, array $objects = null, array $areaPlaces = null, array $categories = null): void
     {
-        $request = new stdClass();
-        if ($objects !== null) {
-            $request->objects = $objects;
-        }
-        if ($areaPlaces !== null) {
-            $request->areaPlaces = $areaPlaces;
-        }
-        if ($categories !== null) {
-            $request->categories = $categories;
-        }
-        $this->client->post(UriTemplate::expand('/events/{key}/actions/mark-as-not-for-sale', array("key" => $eventKey)), ['json' => $request]);
+        self::replaceForSaleConfig($eventKey, false, $objects, $areaPlaces, $categories);
     }
 
     public function markEverythingAsForSale(string $eventKey): void
