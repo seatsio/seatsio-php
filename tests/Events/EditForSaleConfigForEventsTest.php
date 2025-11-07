@@ -28,4 +28,22 @@ class EditForSaleConfigForEventsTest extends SeatsioClientTest
         self::assertFalse($forSaleConfigs[$event2->key]->forSale);
         self::assertEquals(["A-1", "A-3"], $forSaleConfigs[$event2->key]->objects);
     }
+
+    public function testMarkObjectsAsNotForSale()
+    {
+        $chartKey = $this->createTestChart();
+        $event1 = $this->seatsioClient->events->create($chartKey);
+        $event2 = $this->seatsioClient->events->create($chartKey);
+
+        $forSaleConfigs = $this->seatsioClient->events->editForSaleConfigForEvents([
+            $event1->key => new ForSaleConfigParams(null, [new ObjectAndQuantity("A-1")]),
+            $event2->key => new ForSaleConfigParams(null, [new ObjectAndQuantity("A-2")])
+        ]);
+
+        self::assertFalse($forSaleConfigs[$event1->key]->forSale);
+        self::assertEquals(["A-1"], $forSaleConfigs[$event1->key]->objects);
+
+        self::assertFalse($forSaleConfigs[$event2->key]->forSale);
+        self::assertEquals(["A-2"], $forSaleConfigs[$event2->key]->objects);
+    }
 }

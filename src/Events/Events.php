@@ -267,7 +267,7 @@ class Events
             if ($params->notForSale !== null) {
                 $paramsRequest->notForSale = array_map(function ($object) {
                     return $object->toArray();
-                }, $paramsRequest->notForSale);
+                }, $params->notForSale);
             }
             return $paramsRequest;
         }, $events);
