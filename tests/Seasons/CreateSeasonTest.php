@@ -4,7 +4,6 @@ namespace Seatsio\Seasons;
 
 use Seatsio\Charts\Category;
 use Seatsio\Events\Channel;
-use Seatsio\Events\CreateEventParams;
 use Seatsio\Events\ForSaleConfig;
 use Seatsio\Events\TableBookingConfig;
 use Seatsio\SeatsioClientTest;
