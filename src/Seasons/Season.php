@@ -16,6 +16,11 @@ class Season extends Event
      */
     public $partialSeasonKeys;
 
+    /**
+     * @var bool
+     */
+    public $forSalePropagated;
+
     public function isSeason() {
         return true;
     }

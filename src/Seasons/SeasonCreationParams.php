@@ -11,7 +11,7 @@ class SeasonCreationParams
     /**
      * @var string
      */
-    public $key;
+    public ?string $key;
 
     /**
      * @var string
@@ -42,6 +42,21 @@ class SeasonCreationParams
      * @var \Seatsio\Events\ForSaleConfig
      */
     public $forSaleConfig;
+
+    /**
+     * @var bool
+     */
+    public $forSalePropagated;
+
+    /**
+     * @var array
+     */
+    public $objectCategories;
+
+    /**
+     * @var array
+     */
+    public $categories;
 
     public function __construct(string $key = null)
     {
@@ -92,6 +107,27 @@ class SeasonCreationParams
     public function setForSaleConfig(ForSaleConfig $forSaleConfig): self
     {
         $this->forSaleConfig = $forSaleConfig;
+        return $this;
+    }
+
+    public function setForSalePropagated(bool $forSalePropagated): self
+    {
+        $this->forSalePropagated = $forSalePropagated;
+        return $this;
+    }
+
+    public function setObjectCategories(array $objectCategories): self
+    {
+        $this->objectCategories = $objectCategories;
+        return $this;
+    }
+
+    /**
+     * @param \Seatsio\Charts\Category[] $categories
+     */
+    public function setCategories(array $categories): self
+    {
+        $this->categories = $categories;
         return $this;
     }
 }

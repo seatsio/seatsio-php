@@ -58,12 +58,55 @@ class Seasons
             if ($seasonCreationParams->forSaleConfig !== null) {
                 $request->forSaleConfig = $seasonCreationParams->forSaleConfig;
             }
+
+            if ($seasonCreationParams->forSalePropagated !== null) {
+                $request->forSalePropagated = $seasonCreationParams->forSalePropagated;
+            }
+
+            if ($seasonCreationParams->objectCategories !== null) {
+                $request->objectCategories = $seasonCreationParams->objectCategories;
+            }
+
+            if ($seasonCreationParams->categories !== null) {
+                $request->categories = $seasonCreationParams->categories;
+            }
         }
 
         $res = $this->client->post('/seasons', ['json' => $request]);
         $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Season());
+    }
+
+    public function update(string $key, UpdateSeasonParams $params): void
+    {
+        $request = new stdClass();
+
+        if ($params->eventKey !== null) {
+            $request->eventKey = $params->eventKey;
+        }
+
+        if ($params->tableBookingConfig !== null) {
+            $request->tableBookingConfig = $this->serializeTableBookingConfig($params->tableBookingConfig);
+        }
+
+        if ($params->objectCategories !== null) {
+            $request->objectCategories = $params->objectCategories;
+        }
+
+        if ($params->categories !== null) {
+            $request->categories = $params->categories;
+        }
+
+        if ($params->name !== null) {
+            $request->name = $params->name;
+        }
+
+        if ($params->forSalePropagated !== null) {
+            $request->forSalePropagated = $params->forSalePropagated;
+        }
+
+        $this->client->post(UriTemplate::expand('/events/{key}', array("key" => $key)), ['json' => $request]);
     }
 
     public function retrieve(string $key): Season

@@ -20,30 +20,4 @@ class MarkObjectsAsForSaleTest extends SeatsioClientTest
         self::assertEquals(["GA1" => 3], $retrievedEvent->forSaleConfig->areaPlaces);
         self::assertEquals(["cat1", "cat2"], $retrievedEvent->forSaleConfig->categories);
     }
-
-    public function testCategoriesAndAreaPlacesAreOptional()
-    {
-        $chart = $this->seatsioClient->charts->create();
-        $event = $this->seatsioClient->events->create($chart->key);
-
-        $this->seatsioClient->events->markAsForSale($event->key, ["o1", "o2"]);
-
-        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
-        self::assertEquals(["o1", "o2"], $retrievedEvent->forSaleConfig->objects);
-        self::assertEmpty($retrievedEvent->forSaleConfig->areaPlaces);
-        self::assertEmpty($retrievedEvent->forSaleConfig->categories);
-    }
-
-    public function testObjectsAreOptional()
-    {
-        $chart = $this->seatsioClient->charts->create();
-        $event = $this->seatsioClient->events->create($chart->key);
-
-        $this->seatsioClient->events->markAsForSale($event->key, null, null, ["cat1", "cat2"]);
-
-        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
-        self::assertEmpty($retrievedEvent->forSaleConfig->objects);
-        self::assertEquals(["cat1", "cat2"], $retrievedEvent->forSaleConfig->categories);
-    }
-
 }

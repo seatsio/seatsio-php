@@ -2,6 +2,8 @@
 
 namespace Seatsio\Events;
 
+use stdClass;
+
 class ForSaleConfig
 {
     /**
@@ -21,10 +23,11 @@ class ForSaleConfig
      */
     public $categories;
 
-    public function __construct(bool $forSale, array $objects = null, array $areaPlaces = null, array $categories = null) {
+    public function __construct(bool $forSale, array $objects = [], array $areaPlaces = null, array $categories = [])
+    {
         $this->forSale = $forSale;
         $this->objects = $objects;
-        $this-> areaPlaces = $areaPlaces;
+        $this->areaPlaces = $areaPlaces == null ? new stdClass() : $areaPlaces;
         $this->categories = $categories;
     }
 }
