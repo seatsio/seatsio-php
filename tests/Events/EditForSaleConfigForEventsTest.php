@@ -17,16 +17,16 @@ class EditForSaleConfigForEventsTest extends SeatsioClientTest
         $event1 = $this->seatsioClient->events->create($chartKey, (new CreateEventParams())->setForSaleConfig(new ForSaleConfig(false, ['A-1', 'A-2', 'A-3'])));
         $event2 = $this->seatsioClient->events->create($chartKey, (new CreateEventParams())->setForSaleConfig(new ForSaleConfig(false, ['A-1', 'A-2', 'A-3'])));
 
-        $forSaleConfigs = $this->seatsioClient->events->editForSaleConfigForEvents([
+        $result = $this->seatsioClient->events->editForSaleConfigForEvents([
             $event1->key => new ForSaleConfigParams([new ObjectAndQuantity("A-1")]),
             $event2->key => new ForSaleConfigParams([new ObjectAndQuantity("A-2")])
         ]);
 
-        self::assertFalse($forSaleConfigs[$event1->key]->forSale);
-        self::assertEquals(["A-2", "A-3"], $forSaleConfigs[$event1->key]->objects);
+        self::assertFalse($result[$event1->key]->forSaleConfig->forSale);
+        self::assertEquals(["A-2", "A-3"], $result[$event1->key]->forSaleConfig->objects);
 
-        self::assertFalse($forSaleConfigs[$event2->key]->forSale);
-        self::assertEquals(["A-1", "A-3"], $forSaleConfigs[$event2->key]->objects);
+        self::assertFalse($result[$event2->key]->forSaleConfig->forSale);
+        self::assertEquals(["A-1", "A-3"], $result[$event2->key]->forSaleConfig->objects);
     }
 
     public function testMarkObjectsAsNotForSale()
@@ -35,15 +35,15 @@ class EditForSaleConfigForEventsTest extends SeatsioClientTest
         $event1 = $this->seatsioClient->events->create($chartKey);
         $event2 = $this->seatsioClient->events->create($chartKey);
 
-        $forSaleConfigs = $this->seatsioClient->events->editForSaleConfigForEvents([
+        $result = $this->seatsioClient->events->editForSaleConfigForEvents([
             $event1->key => new ForSaleConfigParams(null, [new ObjectAndQuantity("A-1")]),
             $event2->key => new ForSaleConfigParams(null, [new ObjectAndQuantity("A-2")])
         ]);
 
-        self::assertFalse($forSaleConfigs[$event1->key]->forSale);
-        self::assertEquals(["A-1"], $forSaleConfigs[$event1->key]->objects);
+        self::assertFalse($result[$event1->key]->forSaleConfig->forSale);
+        self::assertEquals(["A-1"], $result[$event1->key]->forSaleConfig->objects);
 
-        self::assertFalse($forSaleConfigs[$event2->key]->forSale);
-        self::assertEquals(["A-2"], $forSaleConfigs[$event2->key]->objects);
+        self::assertFalse($result[$event2->key]->forSaleConfig->forSale);
+        self::assertEquals(["A-2"], $result[$event2->key]->forSaleConfig->objects);
     }
 }

@@ -236,7 +236,7 @@ class Events
      * @param $forSale ObjectAndQuantity[]|null
      * @param $notForSale ObjectAndQuantity[]|null
      */
-    public function editForSaleConfig(string $eventKey, array $forSale = null, array $notForSale = null): ForSaleConfig
+    public function editForSaleConfig(string $eventKey, array $forSale = null, array $notForSale = null): EditForSaleConfigResult
     {
         $request = new stdClass();
         if ($forSale !== null) {
@@ -253,9 +253,12 @@ class Events
         $res = $this->client->post(UriTemplate::expand('/events/{key}/actions/edit-for-sale-config', array("key" => $eventKey)), ['json' => $request]);
         $json = GuzzleResponseDecoder::decodeToObject($res);
         $mapper = SeatsioJsonMapper::create();
-        return $mapper->map($json->forSaleConfig, 'Seatsio\Events\ForSaleConfig');
+        return $mapper->map($json, new EditForSaleConfigResult());
     }
 
+    /**
+     * @return array<string, EditForSaleConfigResult>
+     */
     public function editForSaleConfigForEvents(array $events): array
     {
         $request = new stdClass();
@@ -275,11 +278,13 @@ class Events
         }, $events);
 
         $res = $this->client->post('/events/actions/edit-for-sale-config', ['json' => $request]);
-        $json = GuzzleResponseDecoder::decodeToArray($res);
+        $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
-        return $mapper->mapArray(array_map(function ($json) {
-            return json_decode(json_encode($json["forSaleConfig"]));
-        }, $json), array(), 'Seatsio\Events\ForSaleConfig');
+        $result = [];
+        foreach ($json as $event => $eventJson) {
+            $result[$event] = $mapper->map($eventJson, new EditForSaleConfigResult());
+        }
+        return $result;
     }
 
     /**
