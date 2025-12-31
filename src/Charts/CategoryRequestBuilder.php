@@ -53,16 +53,16 @@ class CategoryRequestBuilder
     public function build()
     {
         $categoryRequest = new stdClass();
-        if($this->key !== null) {
+        if ($this->key !== null) {
             $categoryRequest->key = $this->key;
         }
-        if($this->label !== null) {
+        if ($this->label !== null) {
             $categoryRequest->label = $this->label;
         }
-        if($this->color !== null) {
+        if ($this->color !== null) {
             $categoryRequest->color = $this->color;
         }
-        if($this->accessible !== null) {
+        if ($this->accessible !== null) {
             $categoryRequest->accessible = $this->accessible;
         }
         return $categoryRequest;

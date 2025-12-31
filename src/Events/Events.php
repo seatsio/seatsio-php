@@ -565,7 +565,7 @@ class Events
     /**
      * @param $channelKeys string[]|null
      */
-    public function holdBestAvailable(string $eventKey, BestAvailableParams $bestAvailableParams, ?string $holdToken, ?string $orderId = null, ?bool $keepExtraData = null, ?bool $ignoreChannels = null, ?array $channelKeys = null): BestAvailableObjects
+    public function holdBestAvailable(string $eventKey, BestAvailableParams $bestAvailableParams, string $holdToken, ?string $orderId = null, ?bool $keepExtraData = null, ?bool $ignoreChannels = null, ?array $channelKeys = null): BestAvailableObjects
     {
         return $this::changeBestAvailableObjectStatus($eventKey, $bestAvailableParams, EventObjectInfo::$HELD, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
