@@ -32,7 +32,7 @@ class UsageForObjectV1
      */
     public $numFirstBookingsOrSelections;
 
-    public function __construct(string $object = null, int $numFirstBookings = null, \DateTime $firstBookingDate = null, int $numFirstSelections = null, int $numFirstBookingsOrSelections = null)
+    public function __construct(?string $object = null, ?int $numFirstBookings = null, ?\DateTime $firstBookingDate = null, ?int $numFirstSelections = null, ?int $numFirstBookingsOrSelections = null)
     {
         $this->object = $object;
         $this->numFirstBookings = $numFirstBookings;

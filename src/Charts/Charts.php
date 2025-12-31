@@ -31,7 +31,7 @@ class Charts
         }));
     }
 
-    public function create(string $name = null, string $venueType = null, array $categories = null): Chart
+    public function create(?string $name = null, ?string $venueType = null, ?array $categories = null): Chart
     {
         $request = new stdClass();
         if ($name !== null) {
@@ -49,7 +49,7 @@ class Charts
         return $mapper->map($json, new Chart());
     }
 
-    public function update(string $key, string $name = null, array $categories = null): void
+    public function update(string $key, ?string $name = null, ?array $categories = null): void
     {
         $request = new stdClass();
         if ($name !== null) {
@@ -63,7 +63,7 @@ class Charts
 
     public function addCategory(string $key, CategoryRequestBuilder $category): void
     {
-        $this->client->post('/charts/' . $key . '/categories', ['json' => $category]);
+        $this->client->post('/charts/' . $key . '/categories', ['json' => $category->build()]);
     }
 
     /**
@@ -222,22 +222,22 @@ class Charts
         $this->client->delete(UriTemplate::expand('/charts/{key}/tags/{tag}', array("key" => $key, "tag" => $tag)));
     }
 
-    public function listAll(ChartListParams $chartListParams = null): ChartPagedIterator
+    public function listAll(?ChartListParams $chartListParams = null): ChartPagedIterator
     {
         return $this->iterator()->all($this->listParamsToArray($chartListParams));
     }
 
-    public function listFirstPage(ChartListParams $chartListParams = null, int $pageSize = null): ChartPage
+    public function listFirstPage(?ChartListParams $chartListParams = null, ?int $pageSize = null): ChartPage
     {
         return $this->iterator()->firstPage($this->listParamsToArray($chartListParams), $pageSize);
     }
 
-    public function listPageAfter(int $afterId, ChartListParams $chartListParams = null, int $pageSize = null): ChartPage
+    public function listPageAfter(int $afterId, ?ChartListParams $chartListParams = null, ?int $pageSize = null): ChartPage
     {
         return $this->iterator()->pageAfter($afterId, $this->listParamsToArray($chartListParams), $pageSize);
     }
 
-    public function listPageBefore(int $beforeId, ChartListParams $chartListParams = null, int $pageSize = null): ChartPage
+    public function listPageBefore(int $beforeId, ?ChartListParams $chartListParams = null, ?int $pageSize = null): ChartPage
     {
         return $this->iterator()->pageBefore($beforeId, $this->listParamsToArray($chartListParams), $pageSize);
     }

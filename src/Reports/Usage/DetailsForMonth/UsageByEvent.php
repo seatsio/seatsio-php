@@ -21,7 +21,7 @@ class UsageByEvent
      * @param Event $event
      * @param int $numUsedObjects
      */
-    public function __construct(Event $event = null, int $numUsedObjects = null)
+    public function __construct(?Event $event = null, ?int $numUsedObjects = null)
     {
         $this->event = $event;
         $this->numUsedObjects = $numUsedObjects;

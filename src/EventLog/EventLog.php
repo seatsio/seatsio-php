@@ -23,17 +23,17 @@ class EventLog
         return $this->iterator()->all();
     }
 
-    public function listFirstPage(int $pageSize = null): EventLogItemPage
+    public function listFirstPage(?int $pageSize = null): EventLogItemPage
     {
         return $this->iterator()->firstPage($pageSize);
     }
 
-    public function listPageAfter(int $afterId, int $pageSize = null): EventLogItemPage
+    public function listPageAfter(int $afterId, ?int $pageSize = null): EventLogItemPage
     {
         return $this->iterator()->pageAfter($afterId, $pageSize);
     }
 
-    public function listPageBefore(int $beforeId, int $pageSize = null): EventLogItemPage
+    public function listPageBefore(int $beforeId, ?int $pageSize = null): EventLogItemPage
     {
         return $this->iterator()->pageBefore($beforeId, $pageSize);
     }

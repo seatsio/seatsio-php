@@ -58,12 +58,12 @@ class SeasonCreationParams
      */
     public $categories;
 
-    public function __construct(string $key = null)
+    public function __construct(?string $key = null)
     {
         $this->key = $key;
     }
 
-    static function seasonCreationParams(string $key = null): SeasonCreationParams
+    static function seasonCreationParams(?string $key = null): SeasonCreationParams
     {
         return new SeasonCreationParams($key);
     }

@@ -22,7 +22,7 @@ class UsageForObjectV2
      */
     public $usageByReason;
 
-    public function __construct(string $object = null, int $numUsedObjects = null, array $usageByReason = null)
+    public function __construct(?string $object = null, ?int $numUsedObjects = null, ?array $usageByReason = null)
     {
         $this->object = $object;
         $this->numUsedObjects = $numUsedObjects;

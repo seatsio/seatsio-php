@@ -19,7 +19,7 @@ class LocalDate
      */
     public int $day;
 
-    public function __construct(string $date = null)
+    public function __construct(?string $date = null)
     {
         if ($date != null) {
             $this->year = (int)substr($date, 0, 4);

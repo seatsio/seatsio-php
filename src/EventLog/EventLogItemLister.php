@@ -19,17 +19,17 @@ class EventLogItemLister
         return new EventLogItemPagedIterator($this->pageFetcher);
     }
 
-    public function firstPage(int $pageSize = null): EventLogItemPage
+    public function firstPage(?int $pageSize = null): EventLogItemPage
     {
         return $this->pageFetcher->fetchAfter(null, [], $pageSize);
     }
 
-    public function pageAfter(int $afterId, int $pageSize = null): EventLogItemPage
+    public function pageAfter(int $afterId, ?int $pageSize = null): EventLogItemPage
     {
         return $this->pageFetcher->fetchAfter($afterId, [], $pageSize);
     }
 
-    public function pageBefore(int $beforeId, int $pageSize = null): EventLogItemPage
+    public function pageBefore(int $beforeId, ?int $pageSize = null): EventLogItemPage
     {
         return $this->pageFetcher->fetchBefore($beforeId, [], $pageSize);
     }

@@ -21,7 +21,7 @@ class UsageSummaryForAllMonths
      * @param \DateTime $usageCutoffDate
      * @param UsageSummaryForMonth[] $usage
      */
-    public function __construct(\DateTime $usageCutoffDate = null, array $usage = null)
+    public function __construct(?\DateTime $usageCutoffDate = null, ?array $usage = null)
     {
         $this->usageCutoffDate = $usageCutoffDate;
         $this->usage = $usage;

@@ -60,8 +60,8 @@ class CreateChartTest extends SeatsioClientTest
 
     public function testCreateChartWithCategoriesAsObjects()
     {
-        $cat1 = (new CategoryRequestBuilder())->setKey(1)->setLabel('Category 1')->setColor('#aaaaaa');
-        $cat2 = (new CategoryRequestBuilder())->setKey(2)->setLabel('Category 2')->setColor('#bbbbbb')->setAccessible(true);
+        $cat1 = (new CategoryRequestBuilder())->setKey(1)->setLabel('Category 1')->setColor('#aaaaaa')->build();
+        $cat2 = (new CategoryRequestBuilder())->setKey(2)->setLabel('Category 2')->setColor('#bbbbbb')->setAccessible(true)->build();
 
         $chart = $this->seatsioClient->charts->create(null, null, [$cat1, $cat2]);
 

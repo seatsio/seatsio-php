@@ -23,7 +23,7 @@ class ForSaleConfig
      */
     public $categories;
 
-    public function __construct(bool $forSale, array $objects = [], array $areaPlaces = null, array $categories = [])
+    public function __construct(bool $forSale, array $objects = [], ?array $areaPlaces = null, array $categories = [])
     {
         $this->forSale = $forSale;
         $this->objects = $objects;

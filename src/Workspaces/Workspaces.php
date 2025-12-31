@@ -34,7 +34,7 @@ class Workspaces
         }));
     }
 
-    public function create(string $name, bool $isTest = null): Workspace
+    public function create(string $name, ?bool $isTest = null): Workspace
     {
         $request = new stdClass();
         $request->name = $name;
@@ -88,22 +88,22 @@ class Workspaces
         return $mapper->map($json, new Workspace());
     }
 
-    public function listAll(string $filter = null): WorkspacePagedIterator
+    public function listAll(?string $filter = null): WorkspacePagedIterator
     {
         return $this->iterator()->all($filter);
     }
 
-    public function listFirstPage(int $pageSize = null, string $filter = null): WorkspacePage
+    public function listFirstPage(?int $pageSize = null, ?string $filter = null): WorkspacePage
     {
         return $this->iterator()->firstPage($pageSize, $filter);
     }
 
-    public function listPageAfter(int $afterId, int $pageSize = null, string $filter = null): WorkspacePage
+    public function listPageAfter(int $afterId, ?int $pageSize = null, ?string $filter = null): WorkspacePage
     {
         return $this->iterator()->pageAfter($afterId, $pageSize, $filter);
     }
 
-    public function listPageBefore(int $beforeId, int $pageSize = null, string $filter = null): WorkspacePage
+    public function listPageBefore(int $beforeId, ?int $pageSize = null, ?string $filter = null): WorkspacePage
     {
         return $this->iterator()->pageBefore($beforeId, $pageSize, $filter);
     }

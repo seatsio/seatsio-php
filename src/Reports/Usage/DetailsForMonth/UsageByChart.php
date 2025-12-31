@@ -17,7 +17,7 @@ class UsageByChart
      */
     public $usageByEvent;
 
-    public function __construct(Chart $chart = null, array $usageByEvent = null)
+    public function __construct(?Chart $chart = null, ?array $usageByEvent = null)
     {
         $this->chart = $chart;
         $this->usageByEvent = $usageByEvent;

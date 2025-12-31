@@ -20,7 +20,7 @@ class HoldTokens
         $this->client = $client;
     }
 
-    public function create(int $expiresInMinutes = null): HoldToken
+    public function create(?int $expiresInMinutes = null): HoldToken
     {
         $request = new stdClass();
         if (!is_null($expiresInMinutes)) {
