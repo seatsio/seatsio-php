@@ -7,6 +7,23 @@ use stdClass;
 class CategoryRequestBuilder
 {
     /**
+     * @var string
+     */
+    public $key;
+    /**
+     * @var string
+     */
+    public $label;
+    /**
+     * @var string
+     */
+    public $color;
+    /**
+     * @var bool
+     */
+    public $accessible;
+
+    /**
      * @param $key int|string
      */
     public function setKey($key): self

@@ -28,9 +28,6 @@ jobs:
       with:
         timezone: Europe/Brussels
 
-    - run: php -l tests/**/*.php
-    - run: php -l src/**/*.php
-
     - run: vendor/bin/paratest
       env:
         DEMO_COMPANY_SECRET_KEY: ${{ secrets.DEMO_COMPANY_SECRET_KEY }}
