@@ -2,6 +2,7 @@
 
 namespace Reports\Charts;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Seatsio\SeatsioClient;
 use Seatsio\SeatsioClientTest;
 
@@ -22,9 +23,7 @@ class ChartReportsSummaryTest extends SeatsioClientTest
         };
     }
 
-    /**
-     * @dataProvider summaryByObjectTypeDataProvider
-     */
+    #[DataProvider("summaryByObjectTypeDataProvider")]
     public function testSummaryByObjectType($updateChart, $getReport)
     {
         $chartKey = $this->createTestChart();
@@ -81,9 +80,7 @@ class ChartReportsSummaryTest extends SeatsioClientTest
         );
     }
 
-    /**
-     * @dataProvider  summaryByObjectTypeDataProvider_bookWholeTablesTrue
-     */
+    #[DataProvider("summaryByObjectTypeDataProvider_bookWholeTablesTrue")]
     public function testSummaryByObjectType_bookWholeTablesTrue($updateChart, $getReport)
     {
         $chartKey = $this->createTestChartWithTables();
@@ -140,9 +137,7 @@ class ChartReportsSummaryTest extends SeatsioClientTest
         );
     }
 
-    /**
-     * @dataProvider summaryByCategoryKeyDataProvider
-     */
+    #[DataProvider("summaryByCategoryKeyDataProvider")]
     public function testSummaryByCategoryKey($updateChart, $getReport)
     {
         $chartKey = $this->createTestChart();
@@ -195,9 +190,7 @@ class ChartReportsSummaryTest extends SeatsioClientTest
         );
     }
 
-    /**
-     * @dataProvider summaryByCategoryLabelDataProvider
-     */
+    #[DataProvider("summaryByCategoryLabelDataProvider")]
     public function testSummaryByCategoryLabel($updateChart, $getReport)
     {
         $chartKey = $this->createTestChart();
@@ -250,9 +243,7 @@ class ChartReportsSummaryTest extends SeatsioClientTest
         );
     }
 
-    /**
-     * @dataProvider summaryBySectionDataProvider
-     */
+    #[DataProvider("summaryBySectionDataProvider")]
     public function testSummaryBySection($updateChart, $getReport)
     {
         $chartKey = $this->createTestChart();
@@ -288,9 +279,7 @@ class ChartReportsSummaryTest extends SeatsioClientTest
         );
     }
 
-    /**
-     * @dataProvider summaryByZoneDataProvider
-     */
+    #[DataProvider("summaryByZoneDataProvider")]
     public function testSummaryByZone($updateChart, $getReport)
     {
         $chartKey = $this->createTestChartWithZones();
