@@ -30,7 +30,7 @@ class Channels
      * @return void
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function add(string $eventKey, string $channelKey, string $name, string $color, int $index = null, array $objects = null)
+    public function add(string $eventKey, string $channelKey, string $name, string $color, ?int $index = null, ?array $objects = null)
     {
         $request = new stdClass();
         $request->key = $channelKey;
@@ -94,7 +94,7 @@ class Channels
      * @return void
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function update(string $eventKey, string $channelKey, string $name = null, string $color = null, array $objects = null)
+    public function update(string $eventKey, string $channelKey, ?string $name = null, ?string $color = null, ?array $objects = null)
     {
         $request = new stdClass();
         if ($name !== null) {

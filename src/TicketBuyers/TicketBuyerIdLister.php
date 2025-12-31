@@ -19,17 +19,17 @@ class TicketBuyerIdLister
         return new TicketBuyerIdPagedIterator($this->pageFetcher);
     }
 
-    public function firstPage(int $pageSize = null): TicketBuyerIdPage
+    public function firstPage(?int $pageSize = null): TicketBuyerIdPage
     {
         return $this->pageFetcher->fetchAfter(null, [], $pageSize);
     }
 
-    public function pageAfter(int $afterId, int $pageSize = null): TicketBuyerIdPage
+    public function pageAfter(int $afterId, ?int $pageSize = null): TicketBuyerIdPage
     {
         return $this->pageFetcher->fetchAfter($afterId, [], $pageSize);
     }
 
-    public function pageBefore(int $beforeId, int $pageSize = null): TicketBuyerIdPage
+    public function pageBefore(int $beforeId, ?int $pageSize = null): TicketBuyerIdPage
     {
         return $this->pageFetcher->fetchBefore($beforeId, [], $pageSize);
     }

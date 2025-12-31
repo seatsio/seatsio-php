@@ -36,7 +36,7 @@ class ChartListParams
      */
     public $expandZones;
 
-    public function __construct(string $filter = null, string $tag = null, bool $expandEvents = false, bool $withExpandValidation = false, bool $withExpandVenueType = false, bool $withExpandZones = false)
+    public function __construct(?string $filter = null, ?string $tag = null, bool $expandEvents = false, bool $withExpandValidation = false, bool $withExpandVenueType = false, bool $withExpandZones = false)
     {
         $this->filter = $filter;
         $this->tag = $tag;

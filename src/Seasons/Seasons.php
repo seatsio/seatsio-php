@@ -25,7 +25,7 @@ class Seasons
         $this->seatsioClient = $seatsioClient;
     }
 
-    public function create(string $chartKey, SeasonCreationParams $seasonCreationParams = null): Season
+    public function create(string $chartKey, ?SeasonCreationParams $seasonCreationParams = null): Season
     {
         $request = new stdClass();
         $request->chartKey = $chartKey;
@@ -117,7 +117,7 @@ class Seasons
     /**
      * @param $eventKeys string[]|null
      */
-    public function createPartialSeason(string $topLevelSeasonKey, string $partialSeasonKey = null, string $name = null, array $eventKeys = null): Season
+    public function createPartialSeason(string $topLevelSeasonKey, ?string $partialSeasonKey = null, ?string $name = null, ?array $eventKeys = null): Season
     {
         $request = new stdClass();
 
@@ -153,7 +153,7 @@ class Seasons
      * @param $eventKeys string[]|null
      * @return \Seatsio\Events\Event[]
      */
-    public function createEvents(string $seasonKey, array $eventKeys = null, int $numberOfEvents = null): array
+    public function createEvents(string $seasonKey, ?array $eventKeys = null, ?int $numberOfEvents = null): array
     {
         $request = new stdClass();
 

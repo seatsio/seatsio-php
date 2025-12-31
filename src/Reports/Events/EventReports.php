@@ -24,7 +24,7 @@ class EventReports
     /**
      * @return EventObjectInfo[][]
      */
-    public function byStatus(string $eventKey, string $status = null): array
+    public function byStatus(string $eventKey, ?string $status = null): array
     {
         $res = $this->client->get(self::reportUrl('byStatus', $eventKey, $status));
         $json = GuzzleResponseDecoder::decodeToJson($res);
@@ -48,7 +48,7 @@ class EventReports
     /**
      * @return EventObjectInfo[][]
      */
-    public function byObjectType(string $eventKey, string $objectType = null): array
+    public function byObjectType(string $eventKey, ?string $objectType = null): array
     {
         $res = $this->client->get(self::reportUrl('byObjectType', $eventKey, $objectType));
         $json = GuzzleResponseDecoder::decodeToJson($res);
@@ -72,7 +72,7 @@ class EventReports
     /**
      * @return EventObjectInfo[][]
      */
-    public function byCategoryLabel(string $eventKey, string $categoryLabel = null): array
+    public function byCategoryLabel(string $eventKey, ?string $categoryLabel = null): array
     {
         $res = $this->client->get(self::reportUrl('byCategoryLabel', $eventKey, $categoryLabel));
         $json = GuzzleResponseDecoder::decodeToJson($res);
@@ -94,7 +94,7 @@ class EventReports
     /**
      * @return EventObjectInfo[][]
      */
-    public function byCategoryKey(string $eventKey, string $categoryKey = null): array
+    public function byCategoryKey(string $eventKey, ?string $categoryKey = null): array
     {
         $res = $this->client->get(self::reportUrl('byCategoryKey', $eventKey, $categoryKey));
         $json = GuzzleResponseDecoder::decodeToJson($res);
@@ -116,7 +116,7 @@ class EventReports
     /**
      * @return EventObjectInfo[][]
      */
-    public function byLabel(string $eventKey, string $label = null): array
+    public function byLabel(string $eventKey, ?string $label = null): array
     {
         $res = $this->client->get(self::reportUrl('byLabel', $eventKey, $label));
         $json = GuzzleResponseDecoder::decodeToJson($res);
@@ -126,7 +126,7 @@ class EventReports
     /**
      * @return EventObjectInfo[][]
      */
-    public function byOrderId(string $eventKey, string $orderId = null): array
+    public function byOrderId(string $eventKey, ?string $orderId = null): array
     {
         $res = $this->client->get(self::reportUrl('byOrderId', $eventKey, $orderId));
         $json = GuzzleResponseDecoder::decodeToJson($res);
@@ -136,7 +136,7 @@ class EventReports
     /**
      * @return EventObjectInfo[][]
      */
-    public function bySection(string $eventKey, string $section = null): array
+    public function bySection(string $eventKey, ?string $section = null): array
     {
         $res = $this->client->get(self::reportUrl('bySection', $eventKey, $section));
         $json = GuzzleResponseDecoder::decodeToJson($res);
@@ -158,7 +158,7 @@ class EventReports
     /**
      * @return EventObjectInfo[][]
      */
-    public function byZone(string $eventKey, string $zone = null): array
+    public function byZone(string $eventKey, ?string $zone = null): array
     {
         $res = $this->client->get(self::reportUrl('byZone', $eventKey, $zone));
         $json = GuzzleResponseDecoder::decodeToJson($res);
@@ -180,7 +180,7 @@ class EventReports
     /**
      * @return EventObjectInfo[][]
      */
-    public function byChannel(string $eventKey, string $channel = null): array
+    public function byChannel(string $eventKey, ?string $channel = null): array
     {
         $res = $this->client->get(self::reportUrl('byChannel', $eventKey, $channel));
         $json = GuzzleResponseDecoder::decodeToJson($res);
@@ -202,7 +202,7 @@ class EventReports
     /**
      * @return EventObjectInfo[][]
      */
-    public function byAvailability(string $eventKey, string $selectability = null): array
+    public function byAvailability(string $eventKey, ?string $selectability = null): array
     {
         $res = $this->client->get(self::reportUrl('byAvailability', $eventKey, $selectability));
         $json = GuzzleResponseDecoder::decodeToJson($res);
@@ -212,7 +212,7 @@ class EventReports
     /**
      * @return EventObjectInfo[][]
      */
-    public function byAvailabilityReason(string $eventKey, string $availabilityReason = null): array
+    public function byAvailabilityReason(string $eventKey, ?string $availabilityReason = null): array
     {
         $res = $this->client->get(self::reportUrl('byAvailabilityReason', $eventKey, $availabilityReason));
         $json = GuzzleResponseDecoder::decodeToJson($res);

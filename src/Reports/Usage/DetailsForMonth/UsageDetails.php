@@ -17,7 +17,7 @@ class UsageDetails
      */
     public $usageByChart;
 
-    public function __construct(int $workspace = null, array $usageByChart = null)
+    public function __construct(?int $workspace = null, ?array $usageByChart = null)
     {
         $this->workspace = $workspace;
         $this->usageByChart = $usageByChart;

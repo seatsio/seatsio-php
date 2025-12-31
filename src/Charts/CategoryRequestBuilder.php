@@ -2,8 +2,27 @@
 
 namespace Seatsio\Charts;
 
+use stdClass;
+
 class CategoryRequestBuilder
 {
+    /**
+     * @var string
+     */
+    public $key;
+    /**
+     * @var string
+     */
+    public $label;
+    /**
+     * @var string
+     */
+    public $color;
+    /**
+     * @var bool
+     */
+    public $accessible;
+
     /**
      * @param $key int|string
      */
@@ -29,5 +48,23 @@ class CategoryRequestBuilder
     {
         $this->accessible = $accessible;
         return $this;
+    }
+
+    public function build()
+    {
+        $categoryRequest = new stdClass();
+        if ($this->key !== null) {
+            $categoryRequest->key = $this->key;
+        }
+        if ($this->label !== null) {
+            $categoryRequest->label = $this->label;
+        }
+        if ($this->color !== null) {
+            $categoryRequest->color = $this->color;
+        }
+        if ($this->accessible !== null) {
+            $categoryRequest->accessible = $this->accessible;
+        }
+        return $categoryRequest;
     }
 }

@@ -30,7 +30,7 @@ class Events
         $this->channels = new Channels($client);
     }
 
-    public function create(string $chartKey, CreateEventParams $params = null): Event
+    public function create(string $chartKey, ?CreateEventParams $params = null): Event
     {
         $request = new stdClass();
 
@@ -185,17 +185,17 @@ class Events
         return $this->iterator()->all();
     }
 
-    public function listFirstPage(int $pageSize = null): EventPage
+    public function listFirstPage(?int $pageSize = null): EventPage
     {
         return $this->iterator()->firstPage($pageSize);
     }
 
-    public function listPageAfter(int $afterId, int $pageSize = null): EventPage
+    public function listPageAfter(int $afterId, ?int $pageSize = null): EventPage
     {
         return $this->iterator()->pageAfter($afterId, $pageSize);
     }
 
-    public function listPageBefore(int $beforeId, int $pageSize = null): EventPage
+    public function listPageBefore(int $beforeId, ?int $pageSize = null): EventPage
     {
         return $this->iterator()->pageBefore($beforeId, $pageSize);
     }
@@ -207,7 +207,7 @@ class Events
         }));
     }
 
-    public function statusChanges(string $eventKey, string $filter = null, string $sortField = null, string $sortDirection = null): StatusChangeLister
+    public function statusChanges(string $eventKey, ?string $filter = null, ?string $sortField = null, ?string $sortDirection = null): StatusChangeLister
     {
         return new StatusChangeLister(new PageFetcher(UriTemplate::expand('/events/{key}/status-changes', array("key" => $eventKey)), $this->client, function () {
             return new StatusChangePage();
@@ -236,7 +236,7 @@ class Events
      * @param $forSale ObjectAndQuantity[]|null
      * @param $notForSale ObjectAndQuantity[]|null
      */
-    public function editForSaleConfig(string $eventKey, array $forSale = null, array $notForSale = null): EditForSaleConfigResult
+    public function editForSaleConfig(string $eventKey, ?array $forSale = null, ?array $notForSale = null): EditForSaleConfigResult
     {
         $request = new stdClass();
         if ($forSale !== null) {
@@ -291,7 +291,7 @@ class Events
      * @param $objects string[]|null
      * @param $categories string[]|null
      */
-    public function replaceForSaleConfig(string $eventKey, bool $forSale, array $objects = null, array $areaPlaces = null, array $categories = null) {
+    public function replaceForSaleConfig(string $eventKey, bool $forSale, ?array $objects = null, ?array $areaPlaces = null, ?array $categories = null) {
         $action = $forSale ? 'mark-as-for-sale' : 'mark-as-not-for-sale';
         $request = new stdClass();
         if ($objects !== null) {
@@ -311,7 +311,7 @@ class Events
      * @param $categories string[]|null
      * @deprecated
      */
-    public function markAsForSale(string $eventKey, array $objects = null, array $areaPlaces = null, array $categories = null): void
+    public function markAsForSale(string $eventKey, ?array $objects = null, ?array $areaPlaces = null, ?array $categories = null): void
     {
         self::replaceForSaleConfig($eventKey, true, $objects, $areaPlaces, $categories);
     }
@@ -321,7 +321,7 @@ class Events
      * @param $categories string[]|null
      * @deprecated
      */
-    public function markAsNotForSale(string $eventKey, array $objects = null, array $areaPlaces = null, array $categories = null): void
+    public function markAsNotForSale(string $eventKey, ?array $objects = null, ?array $areaPlaces = null, ?array $categories = null): void
     {
         self::replaceForSaleConfig($eventKey, false, $objects, $areaPlaces, $categories);
     }
@@ -395,17 +395,17 @@ class Events
      * @param $rejectedPreviousStatuses string[]|null
      * @return ChangeObjectStatusResult
      */
-    public function changeObjectStatus($eventKeyOrKeys, $objectOrObjects, string $status, string $holdToken = null, string $orderId = null,
-                                       bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null,
-                                       array $allowedPreviousStatuses = null, array $rejectedPreviousStatuses = null, $resaleListingId = null): ChangeObjectStatusResult
+    public function changeObjectStatus($eventKeyOrKeys, $objectOrObjects, string $status, ?string $holdToken = null, ?string $orderId = null,
+                                       ?bool $keepExtraData = null, ?bool $ignoreChannels = null, ?array $channelKeys = null,
+                                       ?array $allowedPreviousStatuses = null, ?array $rejectedPreviousStatuses = null, $resaleListingId = null): ChangeObjectStatusResult
     {
         return $this->changeObjectStatusWithType($eventKeyOrKeys, $objectOrObjects, "CHANGE_STATUS_TO", $status, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys, $allowedPreviousStatuses, $rejectedPreviousStatuses, $resaleListingId);
     }
 
     private function changeObjectStatusWithType(
-        $eventKeyOrKeys, $objectOrObjects, string $statusChangeCommandType, string $status = null, string $holdToken = null, string $orderId = null,
-        bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null,
-        array $allowedPreviousStatuses = null, array $rejectedPreviousStatuses = null, $resaleListingId = null): ChangeObjectStatusResult
+        $eventKeyOrKeys, $objectOrObjects, string $statusChangeCommandType, ?string $status = null, ?string $holdToken = null, ?string $orderId = null,
+        ?bool $keepExtraData = null, ?bool $ignoreChannels = null, ?array $channelKeys = null,
+        ?array $allowedPreviousStatuses = null, ?array $rejectedPreviousStatuses = null, $resaleListingId = null): ChangeObjectStatusResult
     {
         $request = new stdClass();
         $request->objects = self::normalizeObjects($objectOrObjects);
@@ -519,7 +519,7 @@ class Events
      * @param $objectOrObjects mixed
      * @param $channelKeys string[]|null
      */
-    public function book($eventKeyOrKeys, $objectOrObjects, string $holdToken = null, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null): ChangeObjectStatusResult
+    public function book($eventKeyOrKeys, $objectOrObjects, ?string $holdToken = null, ?string $orderId = null, ?bool $keepExtraData = null, ?bool $ignoreChannels = null, ?array $channelKeys = null): ChangeObjectStatusResult
     {
         return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, EventObjectInfo::$BOOKED, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
@@ -527,7 +527,7 @@ class Events
     /**
      * @param $channelKeys string[]|null
      */
-    public function bookBestAvailable(string $eventKey, BestAvailableParams $bestAvailableParams, string $holdToken = null, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null): BestAvailableObjects
+    public function bookBestAvailable(string $eventKey, BestAvailableParams $bestAvailableParams, ?string $holdToken = null, ?string $orderId = null, ?bool $keepExtraData = null, ?bool $ignoreChannels = null, ?array $channelKeys = null): BestAvailableObjects
     {
         return $this::changeBestAvailableObjectStatus($eventKey, $bestAvailableParams, EventObjectInfo::$BOOKED, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
@@ -547,7 +547,7 @@ class Events
      * @param $objectOrObjects mixed
      * @param $channelKeys string[]|null
      */
-    public function release($eventKeyOrKeys, $objectOrObjects, string $holdToken = null, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null): ChangeObjectStatusResult
+    public function release($eventKeyOrKeys, $objectOrObjects, ?string $holdToken = null, ?string $orderId = null, ?bool $keepExtraData = null, ?bool $ignoreChannels = null, ?array $channelKeys = null): ChangeObjectStatusResult
     {
         return $this::changeObjectStatusWithType($eventKeyOrKeys, $objectOrObjects, "RELEASE", null, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
@@ -557,7 +557,7 @@ class Events
      * @param $objectOrObjects mixed
      * @param $channelKeys string[]|null
      */
-    public function hold($eventKeyOrKeys, $objectOrObjects, string $holdToken, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null): ChangeObjectStatusResult
+    public function hold($eventKeyOrKeys, $objectOrObjects, string $holdToken, ?string $orderId = null, ?bool $keepExtraData = null, ?bool $ignoreChannels = null, ?array $channelKeys = null): ChangeObjectStatusResult
     {
         return $this::changeObjectStatus($eventKeyOrKeys, $objectOrObjects, EventObjectInfo::$HELD, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
@@ -565,7 +565,7 @@ class Events
     /**
      * @param $channelKeys string[]|null
      */
-    public function holdBestAvailable(string $eventKey, BestAvailableParams $bestAvailableParams, string $holdToken, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null): BestAvailableObjects
+    public function holdBestAvailable(string $eventKey, BestAvailableParams $bestAvailableParams, string $holdToken, ?string $orderId = null, ?bool $keepExtraData = null, ?bool $ignoreChannels = null, ?array $channelKeys = null): BestAvailableObjects
     {
         return $this::changeBestAvailableObjectStatus($eventKey, $bestAvailableParams, EventObjectInfo::$HELD, $holdToken, $orderId, $keepExtraData, $ignoreChannels, $channelKeys);
     }
@@ -573,7 +573,7 @@ class Events
     /**
      * @param $channelKeys string[]|null
      */
-    public function changeBestAvailableObjectStatus(string $eventKey, BestAvailableParams $bestAvailableParams, string $status, string $holdToken = null, string $orderId = null, bool $keepExtraData = null, bool $ignoreChannels = null, array $channelKeys = null): BestAvailableObjects
+    public function changeBestAvailableObjectStatus(string $eventKey, BestAvailableParams $bestAvailableParams, string $status, ?string $holdToken = null, ?string $orderId = null, ?bool $keepExtraData = null, ?bool $ignoreChannels = null, ?array $channelKeys = null): BestAvailableObjects
     {
         $request = new stdClass();
         $request->bestAvailable = new stdClass();

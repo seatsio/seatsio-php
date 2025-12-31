@@ -17,7 +17,7 @@ class Month
      */
     public $year;
 
-    public function __construct(int $year = null, int $month = null)
+    public function __construct(?int $year = null, ?int $month = null)
     {
         $this->year = $year;
         $this->month = $month;

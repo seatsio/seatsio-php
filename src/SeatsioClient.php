@@ -71,7 +71,7 @@ class SeatsioClient
      */
     public $ticketBuyers;
 
-    public function __construct(Region $region, string $secretKey, string $workspaceKey = null, int $maxRetries = 5)
+    public function __construct(Region $region, string $secretKey, ?string $workspaceKey = null, int $maxRetries = 5)
     {
         $client = new Client($this->clientConfig($secretKey, $workspaceKey, $region->url(), $maxRetries));
         $this->client = $client;

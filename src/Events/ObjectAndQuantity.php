@@ -8,7 +8,7 @@ class ObjectAndQuantity
 
     public ?int $quantity;
 
-    public function __construct(string $object, int $quantity = null)
+    public function __construct(string $object, ?int $quantity = null)
     {
         $this->object = $object;
         $this->quantity = $quantity;

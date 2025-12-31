@@ -21,7 +21,7 @@ class UsageSummaryForMonth
      * @param Month $month
      * @param int $numUsedObjects
      */
-    public function __construct(Month $month = null, int $numUsedObjects = null)
+    public function __construct(?Month $month = null, ?int $numUsedObjects = null)
     {
         $this->month = $month;
         $this->numUsedObjects = $numUsedObjects;

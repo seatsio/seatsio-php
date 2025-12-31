@@ -22,7 +22,7 @@ class Event
      */
     public $deleted;
 
-    public function __construct(int $id = null, string $key = null, bool $deleted = null)
+    public function __construct(?int $id = null, ?string $key = null, ?bool $deleted = null)
     {
         $this->id = $id;
         $this->key = $key;
