@@ -4,15 +4,15 @@
   "type": "library",
   "license": "MIT",
   "require": {
-    "php": ">=8.1.0",
+    "php": ">=8.3.0",
     "guzzlehttp/guzzle": "7.10.0",
     "guzzlehttp/uri-template": "v1.0.5",
     "netresearch/jsonmapper": "5.0.0",
     "halaxa/json-machine": "1.2.6"
   },
   "require-dev": {
-    "brianium/paratest": "v7.3.1",
-    "phpunit/phpunit": "10.5.30"
+    "brianium/paratest": "v7.16.0",
+    "phpunit/phpunit": "12.5.4"
   },
   "autoload": {
     "psr-4": {
