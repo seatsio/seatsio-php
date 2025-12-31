@@ -2,6 +2,7 @@
 
 namespace Reports\Charts;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Seatsio\Common\Floor;
 use Seatsio\Common\IDs;
 use Seatsio\Reports\Charts\ChartReports;
@@ -70,9 +71,7 @@ class ChartReportsTest extends SeatsioClientTest
         );
     }
 
-    /**
-     * @dataProvider byLabelDataProvider
-     */
+    #[DataProvider("byLabelDataProvider")]
     public function testReportItemProperties($updateChart, $getReport)
     {
         $chartKey = $this->createTestChart();
@@ -98,9 +97,7 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertNull($reportItem->floor);
     }
 
-    /**
-     * @dataProvider byLabelDataProvider
-     */
+    #[DataProvider("byLabelDataProvider")]
     public function testReportItemPropertiesForGA($updateChart, $getReport)
     {
         $chartKey = $this->createTestChart();
@@ -114,9 +111,7 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertEquals(false, $reportItem->bookAsAWhole);
     }
 
-    /**
-     * @dataProvider byLabelAndTrue
-     */
+    #[DataProvider("byLabelAndTrue")]
     public function testReportItemPropertiesForTable($updateChart, $getReport)
     {
         $chartKey = $this->createTestChartWithTables();
@@ -129,9 +124,7 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertEquals(6, $reportItem->numSeats);
     }
 
-    /**
-     * @dataProvider byLabelDataProvider
-     */
+    #[DataProvider("byLabelDataProvider")]
     public function testByLabel($updateChart, $getReport)
     {
         $chartKey = $this->createTestChart();
@@ -143,9 +136,7 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertCount(1, $report["A-2"]);
     }
 
-    /**
-     * @dataProvider byLabelDataProvider
-     */
+    #[DataProvider("byLabelDataProvider")]
     public function testByLabelWithFloor($updateChart, $getReport)
     {
         $chartKey = $this->createTestChartWithFloors();
@@ -160,9 +151,7 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertEquals($floors[1], $report["S2-B-2"][0]->floor);
     }
 
-    /**
-     * @dataProvider byObjectTypeDataProvider
-     */
+    #[DataProvider("byObjectTypeDataProvider")]
     public function testByObjectType($updateChart, $getReport)
     {
         $chartKey = $this->createTestChart();
@@ -174,9 +163,7 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertCount(2, $report["generalAdmission"]);
     }
 
-    /**
-     * @dataProvider byObjectTypeDataProvider
-     */
+    #[DataProvider("byObjectTypeDataProvider")]
     public function testByObjectTypeWithFloors($updateChart, $getReport)
     {
         $chartKey = $this->createTestChartWithFloors();
@@ -207,9 +194,7 @@ class ChartReportsTest extends SeatsioClientTest
         );
     }
 
-    /**
-     * @dataProvider byLabelDataProvider
-     */
+    #[DataProvider("byLabelDataProvider")]
     public function testByLabel_bookWholeTablesNull($updateChart, $getReport)
     {
         $chartKey = $this->createTestChartWithTables();
@@ -220,9 +205,7 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertCount(14, array_keys($report));
     }
 
-    /**
-     * @dataProvider byLabelAndChart
-     */
+    #[DataProvider("byLabelAndChart")]
     public function testByLabel_bookWholeTablesChart($updateChart, $getReport)
     {
         $chartKey = $this->createTestChartWithTables();
@@ -233,9 +216,7 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertCount(7, array_keys($report));
     }
 
-    /**
-     * @dataProvider byLabelAndTrue
-     */
+    #[DataProvider("byLabelAndTrue")]
     public function testByLabel_bookWholeTablesTrue($updateChart, $getReport)
     {
         $chartKey = $this->createTestChartWithTables();
@@ -246,9 +227,7 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertCount(2, array_keys($report));
     }
 
-    /**
-     * @dataProvider byLabelAndFalse
-     */
+    #[DataProvider("byLabelAndFalse")]
     public function testByLabel_bookWholeTablesFalse($updateChart, $getReport)
     {
         $chartKey = $this->createTestChartWithTables();
@@ -259,9 +238,7 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertCount(12, array_keys($report));
     }
 
-    /**
-     * @dataProvider byCategoryKeyDataProvider
-     */
+    #[DataProvider("byCategoryKeyDataProvider")]
     public function testByCategoryKey($updateChart, $getReport)
     {
         $chartKey = $this->createTestChart();
@@ -273,9 +250,7 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertCount(17, $report["10"]);
     }
 
-    /**
-     * @dataProvider byCategoryKeyDataProvider
-     */
+    #[DataProvider("byCategoryKeyDataProvider")]
     public function testByCategoryKeyWithFloor($updateChart, $getReport)
     {
         $chartKey = $this->createTestChartWithFloors();
@@ -306,9 +281,7 @@ class ChartReportsTest extends SeatsioClientTest
         );
     }
 
-    /**
-     * @dataProvider byCategoryLabelDataProvider
-     */
+    #[DataProvider("byCategoryLabelDataProvider")]
     public function testByCategoryLabel($updateChart, $getReport)
     {
         $chartKey = $this->createTestChart();
@@ -320,9 +293,7 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertCount(17, $report["Cat2"]);
     }
 
-    /**
-     * @dataProvider byCategoryLabelDataProvider
-     */
+    #[DataProvider("byCategoryLabelDataProvider")]
     public function testByCategoryLabelWithFloors($updateChart, $getReport)
     {
         $chartKey = $this->createTestChartWithFloors();
@@ -353,9 +324,7 @@ class ChartReportsTest extends SeatsioClientTest
         );
     }
 
-    /**
-     * @dataProvider bySectionDataProvider
-     */
+    #[DataProvider("bySectionDataProvider")]
     public function testBySection($updateChart, $getReport)
     {
         $chartKey = $this->createTestChartWithSections();
@@ -367,9 +336,7 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertCount(35, $report["Section B"]);
     }
 
-    /**
-     * @dataProvider bySectionDataProvider
-     */
+    #[DataProvider("bySectionDataProvider")]
     public function testBySectionWithFloors($updateChart, $getReport)
     {
         $chartKey = $this->createTestChartWithFloors();
@@ -400,9 +367,7 @@ class ChartReportsTest extends SeatsioClientTest
         );
     }
 
-    /**
-     * @dataProvider byZoneDataProvider
-     */
+    #[DataProvider("byZoneDataProvider")]
     public function testByZone($updateChart, $getReport)
     {
         $chartKey = $this->createTestChartWithZones();
