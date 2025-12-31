@@ -19,7 +19,7 @@ class CategoryUpdateParams
      */
     public bool $accessible;
 
-    public function __construct(?string $label = null, string $color = null, bool $accessible = false)
+    public function __construct(?string $label = null, ?string $color = null, bool $accessible = false)
     {
         $this->label = $label;
         $this->color = $color;
