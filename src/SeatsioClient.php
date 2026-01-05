@@ -95,7 +95,7 @@ class SeatsioClient
         $stack->push(self::errorHandler());
         $stack->push(Middleware::retry(
             function ($numRetries, $request, ?Response $response, ?\Exception $exception) use ($maxRetries) {
-                if($exception instanceof ConnectException) {
+                if ($exception instanceof ConnectException) {
                     throw SeatsioException::fromException($request, $exception);
                 }
                 return $numRetries < $maxRetries - 1 && $response->getStatusCode() == 429;
