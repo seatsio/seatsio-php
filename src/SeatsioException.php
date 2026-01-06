@@ -32,6 +32,11 @@ class SeatsioException extends RuntimeException
         return new SeatsioException($request, $parsedResponse, $message);
     }
 
+    public static function fromException($request, \Exception $exception)
+    {
+        return new SeatsioException($request, ['errors' => [], 'requestId' => null], $exception->getMessage());
+    }
+
     public function __construct(RequestInterface $request, array $parsedResponse, string $message)
     {
         parent::__construct($message);

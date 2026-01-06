@@ -3,8 +3,10 @@
 namespace Seatsio;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
+use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Seatsio\Charts\Charts;
 use Seatsio\EventLog\EventLog;
@@ -92,7 +94,10 @@ class SeatsioClient
         $stack = HandlerStack::create();
         $stack->push(self::errorHandler());
         $stack->push(Middleware::retry(
-            function ($numRetries, $request, $response) use ($maxRetries) {
+            function ($numRetries, $request, ?Response $response, ?\Exception $exception) use ($maxRetries) {
+                if ($exception instanceof ConnectException) {
+                    throw SeatsioException::fromException($request, $exception);
+                }
                 return $numRetries < $maxRetries - 1 && $response->getStatusCode() == 429;
             },
             function ($numRetries) {
