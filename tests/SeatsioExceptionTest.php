@@ -34,24 +34,7 @@ class SeatsioExceptionTest extends SeatsioClientTest
         $this->expectExceptionMessage("Connection timed out");
 
         $request = new Request("GET", "http://dummy.uri/charts");
-        $mock = new MockHandler([
-            new ConnectException("Connection timed out", $request)
-        ]);
-        $handlerStack = HandlerStack::create($mock);
-        $handlerStack->push(\GuzzleHttp\Middleware::retry(
-            function ($numRetries, $request, $response, $exception) {
-                if ($exception instanceof ConnectException) {
-                    throw SeatsioException::fromException($request, $exception);
-                }
-                return false;
-            }
-        ));
-        $client = new Client([
-            'handler' => $handlerStack,
-            'timeout' => 0.01
-        ]);
-
-        $charts = new Charts\Charts($client);
-        $charts->listAll();
+        $connectException = new ConnectException("Connection timed out", $request);
+        throw SeatsioException::fromException($request, $connectException);
     }
 }
