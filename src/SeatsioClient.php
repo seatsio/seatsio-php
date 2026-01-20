@@ -109,6 +109,7 @@ class SeatsioClient
             'auth' => [$secretKey, null],
             'http_errors' => false,
             'handler' => $stack,
+            'timeout' => 10,
             'headers' => [
                 'Accept-Encoding' => 'gzip',
                 'X-Client-Lib' => 'php'
