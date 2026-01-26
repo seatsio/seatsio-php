@@ -9,7 +9,6 @@ use Seatsio\Events\Event;
 
 abstract class SeatsioClientTest extends TestCase
 {
-    private static $BASE_URL = 'https://api-staging-eu.seatsio.net/';
 
     /** @var SeatsioClient */
     protected $seatsioClient;
@@ -30,13 +29,18 @@ abstract class SeatsioClientTest extends TestCase
      */
     protected static function createSeatsioClient($secretKey, $workspaceKey = null)
     {
-        return new SeatsioClient(Region::withUrl(self::$BASE_URL), $secretKey, $workspaceKey);
+        return new SeatsioClient(Region::withUrl(self::baseUrl()), $secretKey, $workspaceKey);
+    }
+
+    private static function baseUrl(): string
+    {
+        return getenv('API_URL') ?: 'http://localhost:9001/';
     }
 
     private function createTestCompany()
     {
         $client = new Client();
-        $res = $client->post(self::$BASE_URL . 'system/private/create-test-company', [
+        $res = $client->post(self::baseUrl() . '/system/private/create-test-company', [
             'auth' => [$this->systemApiSecret(), null]
         ]);
         return GuzzleResponseDecoder::decodeToObject($res);
@@ -83,7 +87,7 @@ abstract class SeatsioClientTest extends TestCase
         $requestBody = file_get_contents(dirname(__FILE__) . '/' . $file);
         $chartKey = self::uuid();
         $client->post(
-            self::$BASE_URL . 'system/public/charts/' . $chartKey,
+            self::baseUrl() . '/system/public/charts/' . $chartKey,
             [
                 'body' => $requestBody,
                 'auth' => [$this->user->secretKey, null]
@@ -141,7 +145,7 @@ abstract class SeatsioClientTest extends TestCase
     private function systemApiSecret() {
         $secret = getenv('CORE_V2_STAGING_EU_SYSTEM_API_SECRET');
         if ($secret === false || $secret === '') {
-            throw new RuntimeException('Missing CORE_V2_STAGING_EU_SYSTEM_API_SECRET');
+            return 'superSecretSystemApi';
         }
         return $secret;
     }

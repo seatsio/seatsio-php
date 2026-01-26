@@ -30,5 +30,6 @@ jobs:
 
     - run: vendor/bin/paratest
       env:
+        API_URL: https://api-staging-eu.seatsio.net
         DEMO_COMPANY_SECRET_KEY: ${{ secrets.DEMO_COMPANY_SECRET_KEY }}
         CORE_V2_STAGING_EU_SYSTEM_API_SECRET: ${{ secrets.CORE_V2_STAGING_EU_SYSTEM_API_SECRET }}
