@@ -35,7 +35,9 @@ abstract class SeatsioClientTest extends TestCase
     private function createTestCompany()
     {
         $client = new Client();
-        $res = $client->post(self::$BASE_URL . 'system/public/users/actions/create-test-company');
+        $res = $client->post(self::$BASE_URL . 'system/private/create-test-company', [
+            'auth' => [getenv("CORE_V2_STAGING_EU_SYSTEM_API_SECRET"), null]
+        ]);
         return GuzzleResponseDecoder::decodeToObject($res);
     }
 
