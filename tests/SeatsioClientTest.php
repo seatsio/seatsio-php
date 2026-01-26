@@ -4,6 +4,7 @@ namespace Seatsio;
 
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Seatsio\Events\Event;
 
 abstract class SeatsioClientTest extends TestCase
@@ -35,7 +36,9 @@ abstract class SeatsioClientTest extends TestCase
     private function createTestCompany()
     {
         $client = new Client();
-        $res = $client->post(self::$BASE_URL . 'system/public/users/actions/create-test-company');
+        $res = $client->post(self::$BASE_URL . 'system/private/create-test-company', [
+            'auth' => [$this->systemApiSecret(), null]
+        ]);
         return GuzzleResponseDecoder::decodeToObject($res);
     }
 
@@ -133,6 +136,14 @@ abstract class SeatsioClientTest extends TestCase
                 return;
             }
         }
+    }
+
+    private function systemApiSecret() {
+        $secret = getenv('CORE_V2_STAGING_EU_SYSTEM_API_SECRET');
+        if ($secret === false || $secret === '') {
+            throw new RuntimeException('Missing CORE_V2_STAGING_EU_SYSTEM_API_SECRET');
+        }
+        return $secret;
     }
 
     protected function demoCompanySecretKey()
