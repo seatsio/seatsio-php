@@ -34,7 +34,7 @@ abstract class SeatsioClientTest extends TestCase
 
     private static function baseUrl(): string
     {
-        return getenv('API_URL') ?: 'http://localhost:9001/';
+        return getenv('API_URL') ?: 'http://localhost:9001';
     }
 
     private function createTestCompany()
