@@ -11,8 +11,8 @@
     "halaxa/json-machine": "1.2.6"
   },
   "require-dev": {
-    "brianium/paratest": "v7.16.0",
-    "phpunit/phpunit": "12.5.4"
+    "brianium/paratest": "v7.16.1",
+    "phpunit/phpunit": "12.5.8"
   },
   "autoload": {
     "psr-4": {
