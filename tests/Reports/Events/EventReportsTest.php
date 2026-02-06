@@ -42,6 +42,11 @@ class EventReportsTest extends SeatsioClientTest
         self::assertFalse($reportItem->isAccessible);
         self::assertFalse($reportItem->hasRestrictedView);
         self::assertFalse($reportItem->isCompanionSeat);
+        self::assertFalse($reportItem->hasLiftUpArmrests);
+        self::assertFalse($reportItem->isHearingImpaired);
+        self::assertFalse($reportItem->isSemiAmbulatorySeat);
+        self::assertFalse($reportItem->hasSignLanguageInterpretation);
+        self::assertFalse($reportItem->isPlusSize);
         self::assertFalse($reportItem->isAvailable);
         self::assertEquals(EventObjectInfo::$BOOKED, $reportItem->availabilityReason);
         self::assertNull($reportItem->displayedObjectType);
@@ -117,6 +122,11 @@ class EventReportsTest extends SeatsioClientTest
         self::assertNull($reportItem->isAccessible);
         self::assertNull($reportItem->hasRestrictedView);
         self::assertNull($reportItem->isCompanionSeat);
+        self::assertNull($reportItem->hasLiftUpArmrests);
+        self::assertNull($reportItem->isHearingImpaired);
+        self::assertNull($reportItem->isSemiAmbulatorySeat);
+        self::assertNull($reportItem->hasSignLanguageInterpretation);
+        self::assertNull($reportItem->isPlusSize);
         self::assertNull($reportItem->displayedObjectType);
         self::assertNull($reportItem->parentDisplayedObjectType);
     }

@@ -91,9 +91,14 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertNull($reportItem->leftNeighbour);
         self::assertEquals("A-2", $reportItem->rightNeighbour);
         self::assertNotNull($reportItem->distanceToFocalPoint);
-        self::assertNotNull($reportItem->isAccessible);
-        self::assertNotNull($reportItem->isCompanionSeat);
-        self::assertNotNull($reportItem->hasRestrictedView);
+        self::assertFalse($reportItem->isAccessible);
+        self::assertFalse($reportItem->isCompanionSeat);
+        self::assertFalse($reportItem->hasRestrictedView);
+        self::assertFalse($reportItem->hasLiftUpArmrests);
+        self::assertFalse($reportItem->isHearingImpaired);
+        self::assertFalse($reportItem->isSemiAmbulatorySeat);
+        self::assertFalse($reportItem->hasSignLanguageInterpretation);
+        self::assertFalse($reportItem->isPlusSize);
         self::assertNull($reportItem->floor);
     }
 

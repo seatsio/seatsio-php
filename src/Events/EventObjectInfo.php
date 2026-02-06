@@ -103,6 +103,26 @@ class EventObjectInfo
     /**
      * @var bool
      */
+    public $hasLiftUpArmrests;
+    /**
+     * @var bool
+     */
+    public $isHearingImpaired;
+    /**
+     * @var bool
+     */
+    public $isSemiAmbulatorySeat;
+    /**
+     * @var bool
+     */
+    public $hasSignLanguageInterpretation;
+    /**
+     * @var bool
+     */
+    public $isPlusSize;
+    /**
+     * @var bool
+     */
     public $hasRestrictedView;
     /**
      * @var string
