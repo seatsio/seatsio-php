@@ -7,7 +7,7 @@
     "php": ">=8.3.0",
     "guzzlehttp/guzzle": "7.10.0",
     "guzzlehttp/uri-template": "v1.0.5",
-    "netresearch/jsonmapper": "5.0.0",
+    "netresearch/jsonmapper": "5.0.1",
     "halaxa/json-machine": "1.2.6"
   },
   "require-dev": {
