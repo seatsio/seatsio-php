@@ -20,4 +20,16 @@ class OverrideSeasonObjectStatusTest extends SeatsioClientTest
         self::assertEquals(EventObjectInfo::$FREE, $this->seatsioClient->events->retrieveObjectInfo("anEvent", "A-1")->status);
         self::assertEquals(EventObjectInfo::$FREE, $this->seatsioClient->events->retrieveObjectInfo("anEvent", "A-2")->status);
     }
+
+    public function testWithSeason()
+    {
+        $chartKey = $this->createTestChart();
+        $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setEventKeys(["anEvent"]));
+        $this->seatsioClient->events->book($season->key, ["A-1", "A-2"]);
+
+        $this->seatsioClient->events->overrideSeasonStatus("anEvent", ["A-1", "A-2"], $season->key);
+
+        self::assertEquals(EventObjectInfo::$FREE, $this->seatsioClient->events->retrieveObjectInfo("anEvent", "A-1")->status);
+        self::assertEquals(EventObjectInfo::$FREE, $this->seatsioClient->events->retrieveObjectInfo("anEvent", "A-2")->status);
+    }
 }
