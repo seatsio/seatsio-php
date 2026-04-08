@@ -141,6 +141,20 @@ class ChangeObjectStatusInBatchTest extends SeatsioClientTest
         self::assertEquals(EventObjectInfo::$FREE, $response[0]->objects['A-2']->status);
     }
 
+    public function testOverrideSeasonStatusWithSeason()
+    {
+        $chartKey = $this->createTestChart();
+        $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setEventKeys(["anEvent"]));
+        $this->seatsioClient->events->book($season->key, ["A-1", "A-2"]);
+
+        $response = $this->seatsioClient->events->changeObjectStatusInBatch([
+            (new StatusChangeRequest())->setType(StatusChangeRequest::$TYPE_OVERRIDE_SEASON_STATUS)->setEvent("anEvent")->setObjects(["A-1", "A-2"])->setSeason($season->key),
+        ]);
+
+        self::assertEquals(EventObjectInfo::$FREE, $response[0]->objects['A-1']->status);
+        self::assertEquals(EventObjectInfo::$FREE, $response[0]->objects['A-2']->status);
+    }
+
     public function testUseSeasonStatus()
     {
         $chartKey = $this->createTestChart();
@@ -150,6 +164,21 @@ class ChangeObjectStatusInBatchTest extends SeatsioClientTest
 
         $response = $this->seatsioClient->events->changeObjectStatusInBatch([
             (new StatusChangeRequest())->setType(StatusChangeRequest::$TYPE_USE_SEASON_STATUS)->setEvent("anEvent")->setObjects(["A-1", "A-2"]),
+        ]);
+
+        self::assertEquals(EventObjectInfo::$BOOKED, $response[0]->objects['A-1']->status);
+        self::assertEquals(EventObjectInfo::$BOOKED, $response[0]->objects['A-2']->status);
+    }
+
+    public function testUseSeasonStatusWithSeason()
+    {
+        $chartKey = $this->createTestChart();
+        $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setEventKeys(["anEvent"]));
+        $this->seatsioClient->events->book($season->key, ["A-1", "A-2"]);
+        $this->seatsioClient->events->overrideSeasonStatus("anEvent", ["A-1", "A-2"]);
+
+        $response = $this->seatsioClient->events->changeObjectStatusInBatch([
+            (new StatusChangeRequest())->setType(StatusChangeRequest::$TYPE_USE_SEASON_STATUS)->setEvent("anEvent")->setObjects(["A-1", "A-2"])->setSeason($season->key),
         ]);
 
         self::assertEquals(EventObjectInfo::$BOOKED, $response[0]->objects['A-1']->status);

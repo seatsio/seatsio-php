@@ -331,17 +331,23 @@ class Events
         $this->client->post(UriTemplate::expand('/events/{key}/actions/mark-everything-as-for-sale', array("key" => $eventKey)));
     }
 
-    public function overrideSeasonStatus(string $eventKey, array $objects)
+    public function overrideSeasonStatus(string $eventKey, array $objects, ?string $season = null)
     {
         $request = new stdClass();
         $request->objects = $objects;
+        if ($season !== null) {
+            $request->season = $season;
+        }
         $this->client->post(UriTemplate::expand('/events/{key}/actions/override-season-status', array("key" => $eventKey)), ['json' => $request]);
     }
 
-    public function useSeasonStatus(string $eventKey, array $objects)
+    public function useSeasonStatus(string $eventKey, array $objects, ?string $season = null)
     {
         $request = new stdClass();
         $request->objects = $objects;
+        if ($season !== null) {
+            $request->season = $season;
+        }
         $this->client->post(UriTemplate::expand('/events/{key}/actions/use-season-status', array("key" => $eventKey)), ['json' => $request]);
     }
 
@@ -500,6 +506,9 @@ class Events
         }
         if ($statusChangeRequest->resaleListingId !== null) {
             $request->resaleListingId = $statusChangeRequest->resaleListingId;
+        }
+        if ($statusChangeRequest->season !== null) {
+            $request->season = $statusChangeRequest->season;
         }
         return $request;
     }

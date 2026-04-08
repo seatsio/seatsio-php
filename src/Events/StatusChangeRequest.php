@@ -70,6 +70,11 @@ class StatusChangeRequest
      */
     public $resaleListingId;
 
+    /**
+     * @var string
+     */
+    public $season;
+
     public function setType(string $type) {
         $this->type = $type;
         return $this;
@@ -127,6 +132,11 @@ class StatusChangeRequest
 
     public function setResaleListingId(string $resaleListingId) {
         $this->resaleListingId = $resaleListingId;
+        return $this;
+    }
+
+    public function setSeason(string $season) {
+        $this->season = $season;
         return $this;
     }
 }
