@@ -12,7 +12,7 @@
   },
   "require-dev": {
     "brianium/paratest": "v7.16.1",
-    "phpunit/phpunit": "12.5.8"
+    "phpunit/phpunit": "12.5.22"
   },
   "autoload": {
     "psr-4": {
