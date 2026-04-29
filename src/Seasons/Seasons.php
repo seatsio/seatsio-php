@@ -52,7 +52,7 @@ class Seasons
             }
 
             if ($seasonCreationParams->channels !== null) {
-                $request->channels = $seasonCreationParams->channels;
+                $request->channels = $this->serializeChannels($seasonCreationParams->channels);
             }
 
             if ($seasonCreationParams->forSaleConfig !== null) {
@@ -178,6 +178,11 @@ class Seasons
         $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Season());
+    }
+
+    private function serializeChannels(array $channels): array
+    {
+        return array_map(fn($channel) => $channel->toArray(), $channels);
     }
 
     private function serializeTableBookingConfig($tableBookingConfig)

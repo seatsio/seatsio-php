@@ -30,6 +30,11 @@ class ChannelCreationParams
      */
     public array $objects;
 
+    /**
+     * @var array
+     */
+    public ?array $areaPlaces = null;
+
     public function setChannelKey(string $channelKey): self
     {
         $this->channelKey = $channelKey;
@@ -57,6 +62,12 @@ class ChannelCreationParams
     public function setObjects(array $objects): self
     {
         $this->objects = $objects;
+        return $this;
+    }
+
+    public function setAreaPlaces(array $areaPlaces): self
+    {
+        $this->areaPlaces = $areaPlaces;
         return $this;
     }
 }

@@ -8,7 +8,7 @@ use Seatsio\SeatsioClientTest;
 class RemoveObjectsFromChannelTest extends SeatsioClientTest
 {
 
-    public function test()
+    public function testRemoveObjectsFromChannel()
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
@@ -20,6 +20,21 @@ class RemoveObjectsFromChannelTest extends SeatsioClientTest
 
         self::assertEquals([
             new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-1", "A-2"]),
+        ], $retrievedEvent->channels);
+    }
+
+    public function testRemoveAreaPlacesFromChannel()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $this->seatsioClient->events->channels->add($event->key, "channelKey1", "channel 1", "#FFFF98", 1, ["A-1"], ["GA1" => 3]);
+
+        $this->seatsioClient->events->channels->removeObjects($event->key, "channelKey1", [], ["GA1" => 1]);
+
+        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+
+        self::assertEquals([
+            new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-1"], ["GA1" => 2]),
         ], $retrievedEvent->channels);
     }
 

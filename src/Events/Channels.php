@@ -27,10 +27,11 @@ class Channels
      * @param string $color
      * @param int|null $index
      * @param array|null $objects
+     * @param array|null $areaPlaces
      * @return void
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function add(string $eventKey, string $channelKey, string $name, string $color, ?int $index = null, ?array $objects = null)
+    public function add(string $eventKey, string $channelKey, string $name, string $color, ?int $index = null, ?array $objects = null, ?array $areaPlaces = null)
     {
         $request = new stdClass();
         $request->key = $channelKey;
@@ -41,6 +42,9 @@ class Channels
         }
         if ($objects !== null) {
             $request->objects = $objects;
+        }
+        if ($areaPlaces !== null) {
+            $request->areaPlaces = $areaPlaces;
         }
         $this->client->post(UriTemplate::expand('/events/{key}/channels', array("key" => $eventKey)), ['json' => $request]);
     }
@@ -65,6 +69,9 @@ class Channels
             if ($param->objects !== null) {
                 $channelToCreate->objects = $param->objects;
             }
+            if ($param->areaPlaces !== null) {
+                $channelToCreate->areaPlaces = $param->areaPlaces;
+            }
             $request[] = $channelToCreate;
         }
         $this->client->post(UriTemplate::expand('/events/{key}/channels', array("key" => $eventKey)), ['json' => $request]);
@@ -84,17 +91,18 @@ class Channels
     }
 
     /**
-     * update the name, color or objects of a channel
+     * update the name, color, objects or areaPlaces of a channel
      *
      * @param string $eventKey
      * @param string $channelKey
      * @param string|null $name
      * @param string|null $color
      * @param array|null $objects
+     * @param array|null $areaPlaces
      * @return void
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function update(string $eventKey, string $channelKey, ?string $name = null, ?string $color = null, ?array $objects = null)
+    public function update(string $eventKey, string $channelKey, ?string $name = null, ?string $color = null, ?array $objects = null, ?array $areaPlaces = null)
     {
         $request = new stdClass();
         if ($name !== null) {
@@ -106,6 +114,9 @@ class Channels
         if ($objects !== null) {
             $request->objects = $objects;
         }
+        if ($areaPlaces !== null) {
+            $request->areaPlaces = $areaPlaces;
+        }
         $this->client->post(UriTemplate::expand('/events/{eventKey}/channels/{channelKey}', array("eventKey" => $eventKey, "channelKey" => $channelKey)),
             ['json' => $request]);
     }
@@ -115,14 +126,20 @@ class Channels
      *
      * @param string $eventKey
      * @param string $channelKey
-     * @param array $objects
+     * @param array|null $objects
+     * @param array|null $areaPlaces
      * @return void
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function addObjects(string $eventKey, string $channelKey, array $objects)
+    public function addObjects(string $eventKey, string $channelKey, array $objects = null, ?array $areaPlaces = null)
     {
         $request = new stdClass();
-        $request->objects = $objects;
+        if ($objects != null) {
+            $request->objects = $objects;
+        }
+        if ($areaPlaces !== null) {
+            $request->areaPlaces = $areaPlaces;
+        }
         $this->client->post(UriTemplate::expand('/events/{eventKey}/channels/{channelKey}/objects', array(
                 "eventKey" => $eventKey,
                 "channelKey" => $channelKey)
@@ -134,14 +151,20 @@ class Channels
      *
      * @param string $eventKey
      * @param string $channelKey
-     * @param array $objects
+     * @param array|null $objects
+     * @param array|null $areaPlaces
      * @return void
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function removeObjects(string $eventKey, string $channelKey, array $objects)
+    public function removeObjects(string $eventKey, string $channelKey, array $objects = null, ?array $areaPlaces = null)
     {
         $request = new stdClass();
-        $request->objects = $objects;
+        if ($objects !== null) {
+            $request->objects = $objects;
+        }
+        if ($areaPlaces !== null) {
+            $request->areaPlaces = $areaPlaces;
+        }
         $this->client->delete(UriTemplate::expand('/events/{eventKey}/channels/{channelKey}/objects', array(
                 "eventKey" => $eventKey,
                 "channelKey" => $channelKey)
@@ -159,7 +182,9 @@ class Channels
     public function replace(string $eventKey, array $channels): void
     {
         $request = new stdClass();
-        $request->channels = $channels;
+        $request->channels = array_map(function ($channel) {
+            return $channel->toArray();
+        }, $channels);
         $this->client->post(UriTemplate::expand('/events/{key}/channels/replace', array("key" => $eventKey)), ['json' => $request]);
     }
 }
