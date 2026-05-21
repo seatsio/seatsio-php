@@ -62,7 +62,7 @@ class Events
             }
 
             if ($params->channels !== null) {
-                $request->channels = $params->channels;
+                $request->channels = $this->serializeChannels($params->channels);
             }
 
             if ($params->forSaleConfig !== null) {
@@ -112,7 +112,7 @@ class Events
             }
 
             if ($param->channels !== null) {
-                $eventToCreate->channels = $param->channels;
+                $eventToCreate->channels = $this->serializeChannels($param->channels);
             }
 
             if ($param->forSaleConfig !== null) {
@@ -511,6 +511,11 @@ class Events
             $request->season = $statusChangeRequest->season;
         }
         return $request;
+    }
+
+    private function serializeChannels(array $channels): array
+    {
+        return array_map(fn($channel) => $channel->toArray(), $channels);
     }
 
     private function serializeTableBookingConfig($tableBookingConfig)

@@ -8,7 +8,7 @@ use Seatsio\SeatsioClientTest;
 class AddObjectsToChannelTest extends SeatsioClientTest
 {
 
-    public function test()
+    public function testAddObjectsToChannel()
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
@@ -23,6 +23,22 @@ class AddObjectsToChannelTest extends SeatsioClientTest
         self::assertEquals([
             new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-1", "A-2", "A-3", "A-4"]),
             new Channel("channelKey2", "channel 2", "#FFFF99", 2, [])
+        ], $retrievedEvent->channels);
+    }
+
+    public function testAddAreaPlacesToChannel()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $this->seatsioClient->events->channels->add($event->key, "channelKey1", "channel 1", "#FFFF98", 1, ["A-1"], ["GA1" => 3]);
+
+        $this->seatsioClient->events->channels->addObjects($event->key, "channelKey1", null, ["GA1" => 3]);
+
+        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+
+        self::assertEquals([
+            new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-1"], ["GA1" => 6]),
         ], $retrievedEvent->channels);
     }
 

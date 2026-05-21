@@ -50,4 +50,18 @@ class UpdateChannelTest extends SeatsioClientTest
         ], $retrievedEvent->channels);
     }
 
+    public function testUpdateAreaPlaces()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+        $this->seatsioClient->events->channels->add($event->key, "channelKey1", "channel 1", "#FFFF98", 1, ["A-1"]);
+
+        $this->seatsioClient->events->channels->update($event->key, "channelKey1", null, null, null, ["GA1" => 5]);
+
+        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+        self::assertEquals([
+            new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-1"], ["GA1" => 5]),
+        ], $retrievedEvent->channels);
+    }
+
 }
