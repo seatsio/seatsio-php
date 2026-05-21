@@ -131,10 +131,10 @@ class Channels
      * @return void
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function addObjects(string $eventKey, string $channelKey, array $objects = null, ?array $areaPlaces = null)
+    public function addObjects(string $eventKey, string $channelKey, ?array $objects = null, ?array $areaPlaces = null)
     {
         $request = new stdClass();
-        if ($objects != null) {
+        if ($objects !== null) {
             $request->objects = $objects;
         }
         if ($areaPlaces !== null) {
@@ -156,7 +156,7 @@ class Channels
      * @return void
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function removeObjects(string $eventKey, string $channelKey, array $objects = null, ?array $areaPlaces = null)
+    public function removeObjects(string $eventKey, string $channelKey, ?array $objects = null, ?array $areaPlaces = null)
     {
         $request = new stdClass();
         if ($objects !== null) {
