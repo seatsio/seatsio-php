@@ -98,7 +98,7 @@ class CreateSeasonTest extends SeatsioClientTest
         $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setChannels($channels));
 
         self::assertNotNull($season->key);
-        self::assertEquals($channels, $season->channels);
+        self::assertEquals($channels, self::stripChannelIds($season->channels));
     }
 
     public function testForSaleConfigCanBePassedIn()

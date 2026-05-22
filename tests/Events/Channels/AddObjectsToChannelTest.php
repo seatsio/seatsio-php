@@ -23,7 +23,7 @@ class AddObjectsToChannelTest extends SeatsioClientTest
         self::assertEquals([
             new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-1", "A-2", "A-3", "A-4"]),
             new Channel("channelKey2", "channel 2", "#FFFF99", 2, [])
-        ], $retrievedEvent->channels);
+        ], self::stripChannelIds($retrievedEvent->channels));
     }
 
     public function testAddAreaPlacesToChannel()
@@ -39,7 +39,7 @@ class AddObjectsToChannelTest extends SeatsioClientTest
 
         self::assertEquals([
             new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-1"], ["GA1" => 6]),
-        ], $retrievedEvent->channels);
+        ], self::stripChannelIds($retrievedEvent->channels));
     }
 
 }

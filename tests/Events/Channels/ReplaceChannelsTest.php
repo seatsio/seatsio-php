@@ -23,7 +23,7 @@ class ReplaceChannelsTest extends SeatsioClientTest
         self::assertEquals([
             new Channel("channelKey1", "channel 1", "#FF0000", 1, ["A-1", "A-2"], ["GA1" => 3]),
             new Channel("channelKey2", "channel 2", "#00FFFF", 2, [])
-        ], $retrievedEvent->channels);
+        ], self::stripChannelIds($retrievedEvent->channels));
     }
 
 }

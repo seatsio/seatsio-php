@@ -19,7 +19,7 @@ class UpdateChannelTest extends SeatsioClientTest
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
         self::assertEquals([
             new Channel("channelKey1", "channel 2", "#FFFF98", 1, ["A-1", "A-2"]),
-        ], $retrievedEvent->channels);
+        ], self::stripChannelIds($retrievedEvent->channels));
     }
 
     public function testUpdateColor()
@@ -33,7 +33,7 @@ class UpdateChannelTest extends SeatsioClientTest
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
         self::assertEquals([
             new Channel("channelKey1", "channel 1", "#FFAABB", 1, ["A-1", "A-2"]),
-        ], $retrievedEvent->channels);
+        ], self::stripChannelIds($retrievedEvent->channels));
     }
 
     public function testUpdateObjects()
@@ -47,7 +47,7 @@ class UpdateChannelTest extends SeatsioClientTest
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
         self::assertEquals([
             new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-3"]),
-        ], $retrievedEvent->channels);
+        ], self::stripChannelIds($retrievedEvent->channels));
     }
 
     public function testUpdateAreaPlaces()
@@ -61,7 +61,7 @@ class UpdateChannelTest extends SeatsioClientTest
         $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
         self::assertEquals([
             new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-1"], ["GA1" => 5]),
-        ], $retrievedEvent->channels);
+        ], self::stripChannelIds($retrievedEvent->channels));
     }
 
 }

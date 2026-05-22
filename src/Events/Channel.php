@@ -7,6 +7,11 @@ class Channel
     /**
      * @var string
      */
+    public $id;
+
+    /**
+     * @var string
+     */
     public $key;
 
     /**
@@ -42,6 +47,11 @@ class Channel
         $this->index = $index;
         $this->objects = $objects;
         $this->areaPlaces = $areaPlaces ?? [];
+    }
+
+    public function areaPartitionLabel(string $areaLabel): string
+    {
+        return $areaLabel . '##' . $this->id;
     }
 
     public function toArray(): array

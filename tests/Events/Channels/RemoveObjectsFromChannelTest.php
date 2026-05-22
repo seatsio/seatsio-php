@@ -20,7 +20,7 @@ class RemoveObjectsFromChannelTest extends SeatsioClientTest
 
         self::assertEquals([
             new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-1", "A-2"]),
-        ], $retrievedEvent->channels);
+        ], self::stripChannelIds($retrievedEvent->channels));
     }
 
     public function testRemoveAreaPlacesFromChannel()
@@ -35,7 +35,7 @@ class RemoveObjectsFromChannelTest extends SeatsioClientTest
 
         self::assertEquals([
             new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-1"], ["GA1" => 2]),
-        ], $retrievedEvent->channels);
+        ], self::stripChannelIds($retrievedEvent->channels));
     }
 
 }

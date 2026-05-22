@@ -24,7 +24,7 @@ class RemoveChannelTest extends SeatsioClientTest
 
         self::assertEquals([
             new Channel("channelKey1", "channel 1", "#FF0000", 1, ["A-1", "A-2"], ["GA1" => 3]),
-        ], $retrievedEvent->channels);
+        ], self::stripChannelIds($retrievedEvent->channels));
     }
 
 }

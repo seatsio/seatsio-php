@@ -22,7 +22,7 @@ class AddChannelTest extends SeatsioClientTest
         self::assertEquals([
             new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-1", "A-2"]),
             new Channel("channelKey2", "channel 2", "#FFFF99", 2, ["A-3"])
-        ], $retrievedEvent->channels);
+        ], self::stripChannelIds($retrievedEvent->channels));
     }
 
     public function testAddMultipleChannels()
@@ -43,7 +43,7 @@ class AddChannelTest extends SeatsioClientTest
         self::assertEquals([
             new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-1", "A-2"]),
             new Channel("channelKey2", "channel 2", "#FFFF99", 2, ["A-3"])
-        ], $retrievedEvent->channels);
+        ], self::stripChannelIds($retrievedEvent->channels));
     }
 
     public function testIndexIsOptional()
@@ -57,7 +57,7 @@ class AddChannelTest extends SeatsioClientTest
 
         self::assertEquals([
             new Channel("channelKey1", "channel 1", "#FFFF98", 0, ["A-1", "A-2"]),
-        ], $retrievedEvent->channels);
+        ], self::stripChannelIds($retrievedEvent->channels));
     }
 
     public function testObjectsAreOptional()
@@ -71,7 +71,7 @@ class AddChannelTest extends SeatsioClientTest
 
         self::assertEquals([
             new Channel("channelKey1", "channel 1", "#FFFF98", 1, []),
-        ], $retrievedEvent->channels);
+        ], self::stripChannelIds($retrievedEvent->channels));
     }
 
     public function testAddChannelWithAreaPlaces()
@@ -85,6 +85,18 @@ class AddChannelTest extends SeatsioClientTest
 
         self::assertEquals([
             new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-1"], ["GA1" => 3]),
-        ], $retrievedEvent->channels);
+        ], self::stripChannelIds($retrievedEvent->channels));
+    }
+
+    public function testChannelHasId()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $this->seatsioClient->events->channels->add($event->key, "channelKey1", "channel 1", "#FFFF98", 1, ["A-1"]);
+
+        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+
+        self::assertNotNull($retrievedEvent->channels[0]->id);
     }
 }

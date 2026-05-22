@@ -132,7 +132,7 @@ class CreateEventsTest extends SeatsioClientTest
         $params = [CreateEventParams::create()->setChannels($channels)];
         $events = $this->seatsioClient->events->createMultiple($chartKey, $params);
 
-        self::assertEquals($channels, $events[0]->channels);
+        self::assertEquals($channels, self::stripChannelIds($events[0]->channels));
     }
 
     public function test_forSaleConfigCanBePassedIn()
