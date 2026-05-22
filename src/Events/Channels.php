@@ -43,7 +43,7 @@ class Channels
         if ($objects !== null) {
             $request->objects = $objects;
         }
-        if ($areaPlaces !== null) {
+        if (!empty($areaPlaces)) {
             $request->areaPlaces = $areaPlaces;
         }
         $this->client->post(UriTemplate::expand('/events/{key}/channels', array("key" => $eventKey)), ['json' => $request]);
@@ -115,7 +115,7 @@ class Channels
             $request->objects = $objects;
         }
         if ($areaPlaces !== null) {
-            $request->areaPlaces = $areaPlaces;
+            $request->areaPlaces = !empty($areaPlaces) ? $areaPlaces : new stdClass();
         }
         $this->client->post(UriTemplate::expand('/events/{eventKey}/channels/{channelKey}', array("eventKey" => $eventKey, "channelKey" => $channelKey)),
             ['json' => $request]);
@@ -172,10 +172,10 @@ class Channels
     }
 
     /**
-     * Replace one channel completely with a new channel
+     * Replace channels on an event
      *
      * @param string $eventKey
-     * @param array $channels
+     * @param ChannelCreationParams[] $channels
      * @return void
      * @throws \GuzzleHttp\Exception\GuzzleException
      */

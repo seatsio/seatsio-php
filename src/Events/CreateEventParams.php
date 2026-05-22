@@ -7,7 +7,7 @@ use Seatsio\LocalDate;
 class CreateEventParams extends EventParams
 {
     /**
-     * @var \Seatsio\Events\Channel[]
+     * @var \Seatsio\Events\ChannelCreationParams[]
      */
     public $channels;
 
@@ -27,7 +27,7 @@ class CreateEventParams extends EventParams
     }
 
     /**
-     * @param \Seatsio\Events\Channel[] $channels
+     * @param \Seatsio\Events\ChannelCreationParams[] $channels
      */
     public function setChannels(array $channels): self
     {

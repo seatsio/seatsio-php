@@ -70,4 +70,19 @@ class ChannelCreationParams
         $this->areaPlaces = $areaPlaces;
         return $this;
     }
+
+    public function toArray(): array
+    {
+        $result = [
+            'key' => $this->channelKey,
+            'name' => $this->name,
+            'color' => $this->color,
+            'index' => $this->index ?? null,
+            'objects' => $this->objects ?? [],
+        ];
+        if (!empty($this->areaPlaces)) {
+            $result['areaPlaces'] = $this->areaPlaces;
+        }
+        return $result;
+    }
 }

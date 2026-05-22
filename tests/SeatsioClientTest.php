@@ -125,15 +125,6 @@ abstract class SeatsioClientTest extends TestCase
         return $array;
     }
 
-    protected static function stripChannelIds(array $channels): array
-    {
-        return array_map(function ($channel) {
-            $channel = clone $channel;
-            $channel->id = null;
-            return $channel;
-        }, $channels);
-    }
-
     protected function waitForStatusChanges(Event $event, $numStatusChanges)
     {
         $start = time();

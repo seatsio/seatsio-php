@@ -4,6 +4,7 @@ namespace Seatsio\Events;
 
 use Seatsio\BestAvailableObjectsNotFoundException;
 use Seatsio\Common\IDs;
+use Seatsio\Events\ChannelCreationParams;
 use Seatsio\SeatsioClientTest;
 use Seatsio\SeatsioException;
 
@@ -187,7 +188,7 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey, (new CreateEventParams())->setChannels([
-            new Channel("channelKey1", "channel 1", "#FF0000", 1, ["B-6"])
+            (new ChannelCreationParams())->setChannelKey("channelKey1")->setName("channel 1")->setColor("#FF0000")->setIndex(1)->setObjects(["B-6"])
         ]));
 
         $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, (new BestAvailableParams())->setNumber(1), "lolzor", null, null, null, null, ["channelKey1"]);
@@ -199,7 +200,7 @@ class ChangeBestAvailableObjectStatusTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey, (new CreateEventParams())->setChannels([
-            new Channel("channelKey1", "channel 1", "#FF0000", 1, ["A-5"])
+            (new ChannelCreationParams())->setChannelKey("channelKey1")->setName("channel 1")->setColor("#FF0000")->setIndex(1)->setObjects(["A-5"])
         ]));
 
         $bestAvailableObjects = $this->seatsioClient->events->changeBestAvailableObjectStatus($event->key, (new BestAvailableParams())->setNumber(1), "lolzor", null, null, null, true);

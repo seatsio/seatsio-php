@@ -4,6 +4,7 @@ namespace Reports\Events;
 
 use Seatsio\Common\IDs;
 use Seatsio\Events\Channel;
+use Seatsio\Events\ChannelCreationParams;
 use Seatsio\Events\CreateEventParams;
 use Seatsio\Events\EventObjectInfo;
 use Seatsio\Events\ObjectProperties;
@@ -18,7 +19,7 @@ class EventReportsTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey, (new CreateEventParams())->setChannels([
-            new Channel("channel1", "channel 1", "#FF0000", 1, ["A-1", "A-2"])
+            (new ChannelCreationParams())->setChannelKey("channel1")->setName("channel 1")->setColor("#FF0000")->setIndex(1)->setObjects(["A-1", "A-2"])
         ]));
         $extraData = ["foo" => "bar"];
         $this->seatsioClient->events->book($event->key, (new ObjectProperties("A-1"))->setTicketType("ticketType1")->setExtraData($extraData), null, "order1", null, true);
@@ -374,7 +375,7 @@ class EventReportsTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey, (new CreateEventParams())->setChannels([
-            new Channel("channel1", "channel 1", "#FF0000", 1, ["A-1", "A-2"])
+            (new ChannelCreationParams())->setChannelKey("channel1")->setName("channel 1")->setColor("#FF0000")->setIndex(1)->setObjects(["A-1", "A-2"])
         ]));
 
         $report = $this->seatsioClient->eventReports->byChannel($event->key);
@@ -387,7 +388,7 @@ class EventReportsTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey, (new CreateEventParams())->setChannels([
-            new Channel("channel1", "channel 1", "#FF0000", 1, ["A-1", "A-2"])
+            (new ChannelCreationParams())->setChannelKey("channel1")->setName("channel 1")->setColor("#FF0000")->setIndex(1)->setObjects(["A-1", "A-2"])
         ]));
 
         $report = $this->seatsioClient->eventReports->byChannel($event->key, 'channel1');
