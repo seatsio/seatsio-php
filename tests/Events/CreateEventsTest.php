@@ -125,14 +125,18 @@ class CreateEventsTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $channels = [
-            new Channel("channelKey1", "channel 1", "#FF0000", 1, ["A-1", "A-2"], ["GA1" => 3]),
-            new Channel("channelKey2", "channel 2", "#00FFFF", 2, [])
+            (new ChannelCreationParams())->setChannelKey("channelKey1")->setName("channel 1")->setColor("#FF0000")->setIndex(1)->setObjects(["A-1", "A-2"])->setAreaPlaces(["GA1" => 3]),
+            (new ChannelCreationParams())->setChannelKey("channelKey2")->setName("channel 2")->setColor("#00FFFF")->setIndex(2)->setObjects([])
         ];
 
         $params = [CreateEventParams::create()->setChannels($channels)];
         $events = $this->seatsioClient->events->createMultiple($chartKey, $params);
 
-        self::assertEquals($channels, $events[0]->channels);
+        $eventChannels = $events[0]->channels;
+        self::assertEquals([
+            new Channel("channelKey1", $eventChannels[0]->id, "channel 1", "#FF0000", 1, ["A-1", "A-2"], ["GA1" => 3]),
+            new Channel("channelKey2", $eventChannels[1]->id, "channel 2", "#00FFFF", 2, [], [])
+        ], $eventChannels);
     }
 
     public function test_forSaleConfigCanBePassedIn()

@@ -14,15 +14,15 @@ class AddChannelTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
 
-        $this->seatsioClient->events->channels->add($event->key, "channelKey1", "channel 1", "#FFFF98", 1, ["A-1", "A-2"]);
-        $this->seatsioClient->events->channels->add($event->key, "channelKey2", "channel 2", "#FFFF99", 2, ["A-3"]);
+        $this->seatsioClient->events->channels->add($event->key, "channelKey1", "channel 1", "#FFFF98", 1, ["A-1", "A-2"], null);
+        $this->seatsioClient->events->channels->add($event->key, "channelKey2", "channel 2", "#FFFF99", 2, ["A-3"], null);
 
-        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+        $channels = $this->seatsioClient->events->retrieve($event->key)->channels;
 
         self::assertEquals([
-            new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-1", "A-2"]),
-            new Channel("channelKey2", "channel 2", "#FFFF99", 2, ["A-3"])
-        ], $retrievedEvent->channels);
+            new Channel("channelKey1", $channels[0]->id, "channel 1", "#FFFF98", 1, ["A-1", "A-2"], []),
+            new Channel("channelKey2", $channels[1]->id, "channel 2", "#FFFF99", 2, ["A-3"], [])
+        ], $channels);
     }
 
     public function testAddMultipleChannels()
@@ -38,12 +38,12 @@ class AddChannelTest extends SeatsioClientTest
             ]
         );
 
-        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+        $channels = $this->seatsioClient->events->retrieve($event->key)->channels;
 
         self::assertEquals([
-            new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-1", "A-2"]),
-            new Channel("channelKey2", "channel 2", "#FFFF99", 2, ["A-3"])
-        ], $retrievedEvent->channels);
+            new Channel("channelKey1", $channels[0]->id, "channel 1", "#FFFF98", 1, ["A-1", "A-2"], []),
+            new Channel("channelKey2", $channels[1]->id, "channel 2", "#FFFF99", 2, ["A-3"], [])
+        ], $channels);
     }
 
     public function testIndexIsOptional()
@@ -51,13 +51,13 @@ class AddChannelTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
 
-        $this->seatsioClient->events->channels->add($event->key, "channelKey1", "channel 1", "#FFFF98", null, ["A-1", "A-2"]);
+        $this->seatsioClient->events->channels->add($event->key, "channelKey1", "channel 1", "#FFFF98", null, ["A-1", "A-2"], null);
 
-        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+        $channels = $this->seatsioClient->events->retrieve($event->key)->channels;
 
         self::assertEquals([
-            new Channel("channelKey1", "channel 1", "#FFFF98", 0, ["A-1", "A-2"]),
-        ], $retrievedEvent->channels);
+            new Channel("channelKey1", $channels[0]->id, "channel 1", "#FFFF98", 0, ["A-1", "A-2"], []),
+        ], $channels);
     }
 
     public function testObjectsAreOptional()
@@ -65,13 +65,13 @@ class AddChannelTest extends SeatsioClientTest
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey);
 
-        $this->seatsioClient->events->channels->add($event->key, "channelKey1", "channel 1", "#FFFF98", 1, null);
+        $this->seatsioClient->events->channels->add($event->key, "channelKey1", "channel 1", "#FFFF98", 1, [], null);
 
-        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+        $channels = $this->seatsioClient->events->retrieve($event->key)->channels;
 
         self::assertEquals([
-            new Channel("channelKey1", "channel 1", "#FFFF98", 1, []),
-        ], $retrievedEvent->channels);
+            new Channel("channelKey1", $channels[0]->id, "channel 1", "#FFFF98", 1, [], []),
+        ], $channels);
     }
 
     public function testAddChannelWithAreaPlaces()
@@ -81,10 +81,22 @@ class AddChannelTest extends SeatsioClientTest
 
         $this->seatsioClient->events->channels->add($event->key, "channelKey1", "channel 1", "#FFFF98", 1, ["A-1"], ["GA1" => 3]);
 
-        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+        $channels = $this->seatsioClient->events->retrieve($event->key)->channels;
 
         self::assertEquals([
-            new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-1"], ["GA1" => 3]),
-        ], $retrievedEvent->channels);
+            new Channel("channelKey1", $channels[0]->id, "channel 1", "#FFFF98", 1, ["A-1"], ["GA1" => 3]),
+        ], $channels);
+    }
+
+    public function testChannelHasId()
+    {
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $this->seatsioClient->events->channels->add($event->key, "channelKey1", "channel 1", "#FFFF98", 1, ["A-1"]);
+
+        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+
+        self::assertNotEmpty($retrievedEvent->channels[0]->id);
     }
 }

@@ -7,6 +7,11 @@ class Channel
     /**
      * @var string
      */
+    public $id;
+
+    /**
+     * @var string
+     */
     public $key;
 
     /**
@@ -34,25 +39,26 @@ class Channel
      */
     public $areaPlaces;
 
-    public function __construct(?string $key = null, ?string $name = null, ?string $color = null, ?int $index = null, array $objects = [], ?array $areaPlaces = [])
+    public function __construct(string $key, string $id, string $name, string $color, int $index, array $objects, array $areaPlaces)
     {
         $this->key = $key;
+        $this->id = $id;
         $this->name = $name;
         $this->color = $color;
         $this->index = $index;
         $this->objects = $objects;
-        $this->areaPlaces = $areaPlaces ?? [];
+        $this->setAreaPlaces($areaPlaces);
     }
 
-    public function toArray(): array
+    public function setAreaPlaces($areaPlaces): void
     {
-        return [
-            'key' => $this->key,
-            'name' => $this->name,
-            'color' => $this->color,
-            'index' => $this->index,
-            'objects' => $this->objects,
-            'areaPlaces' => !empty($this->areaPlaces) ? $this->areaPlaces : new \stdClass(),
-        ];
+        $this->areaPlaces = is_array($areaPlaces) ? $areaPlaces : (array)$areaPlaces;
     }
+
+    public function areaPartitionLabel(string $areaLabel): string
+    {
+        return $areaLabel . '##' . $this->id;
+    }
+
+
 }

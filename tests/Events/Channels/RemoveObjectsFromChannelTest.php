@@ -16,11 +16,11 @@ class RemoveObjectsFromChannelTest extends SeatsioClientTest
 
         $this->seatsioClient->events->channels->removeObjects($event->key, "channelKey1", ["A-3", "A-4"]);
 
-        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+        $channels = $this->seatsioClient->events->retrieve($event->key)->channels;
 
         self::assertEquals([
-            new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-1", "A-2"]),
-        ], $retrievedEvent->channels);
+            new Channel("channelKey1", $channels[0]->id, "channel 1", "#FFFF98", 1, ["A-1", "A-2"], []),
+        ], $channels);
     }
 
     public function testRemoveAreaPlacesFromChannel()
@@ -31,11 +31,11 @@ class RemoveObjectsFromChannelTest extends SeatsioClientTest
 
         $this->seatsioClient->events->channels->removeObjects($event->key, "channelKey1", [], ["GA1" => 1]);
 
-        $retrievedEvent = $this->seatsioClient->events->retrieve($event->key);
+        $channels = $this->seatsioClient->events->retrieve($event->key)->channels;
 
         self::assertEquals([
-            new Channel("channelKey1", "channel 1", "#FFFF98", 1, ["A-1"], ["GA1" => 2]),
-        ], $retrievedEvent->channels);
+            new Channel("channelKey1", $channels[0]->id, "channel 1", "#FFFF98", 1, ["A-1"], ["GA1" => 2]),
+        ], $channels);
     }
 
 }

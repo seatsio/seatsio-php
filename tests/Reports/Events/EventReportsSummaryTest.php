@@ -3,6 +3,7 @@
 namespace Reports\Events;
 
 use Seatsio\Events\Channel;
+use Seatsio\Events\ChannelCreationParams;
 use Seatsio\Events\CreateEventParams;
 use Seatsio\Events\ObjectProperties;
 use Seatsio\SeatsioClientTest;
@@ -408,7 +409,7 @@ class EventReportsSummaryTest extends SeatsioClientTest
     {
         $chartKey = $this->createTestChart();
         $event = $this->seatsioClient->events->create($chartKey, (new CreateEventParams())->setChannels([
-            new Channel("channel1", "channel 1", "#FF0000", 1, ["A-1", "A-2"])
+            (new ChannelCreationParams())->setChannelKey("channel1")->setName("channel 1")->setColor("#FF0000")->setIndex(1)->setObjects(["A-1", "A-2"])
         ]));
 
         $report = $this->seatsioClient->eventReports->summaryByChannel($event->key);
