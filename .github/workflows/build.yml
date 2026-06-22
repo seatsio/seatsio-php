@@ -28,7 +28,7 @@ jobs:
       with:
         timezone: Europe/Brussels
 
-    - run: vendor/bin/paratest
+    - run: vendor/bin/phpunit
       env:
         API_URL: https://api-staging-eu.seatsio.net
         DEMO_COMPANY_SECRET_KEY: ${{ secrets.DEMO_COMPANY_SECRET_KEY }}
