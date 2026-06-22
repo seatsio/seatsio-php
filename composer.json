@@ -12,7 +12,10 @@
   },
   "require-dev": {
     "brianium/paratest": "v7.16.1",
-    "phpunit/phpunit": "12.5.22"
+    "phpunit/phpunit": "12.5.22",
+    "symfony/console": "^7.3",
+    "symfony/process": "^7.3",
+    "symfony/string": "^7.3"
   },
   "autoload": {
     "psr-4": {
