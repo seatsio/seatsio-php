@@ -182,7 +182,7 @@ class Seasons
 
     private function serializeChannels(array $channels): array
     {
-        return array_map(fn($channel) => $channel->toArray(), $channels);
+        return array_values(array_map(fn($channel) => $channel->toArray(), $channels));
     }
 
     private function serializeTableBookingConfig($tableBookingConfig)

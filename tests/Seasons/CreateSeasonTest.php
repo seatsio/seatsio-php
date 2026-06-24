@@ -106,6 +106,24 @@ class CreateSeasonTest extends SeatsioClientTest
         ], $seasonChannels);
     }
 
+    public function testChannelsCanBePassedInAsAssociativeArray()
+    {
+        $chartKey = $this->createTestChart();
+        $channels = [
+            "channelKey1" => (new ChannelCreationParams())->setChannelKey("channelKey1")->setName("channel 1")->setColor("#FF0000")->setIndex(1)->setObjects(["A-1", "A-2"]),
+            "channelKey2" => (new ChannelCreationParams())->setChannelKey("channelKey2")->setName("channel 2")->setColor("#00FFFF")->setIndex(2)->setObjects([])
+        ];
+
+        $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setChannels($channels));
+
+        self::assertNotNull($season->key);
+        $seasonChannels = $season->channels;
+        self::assertEquals([
+            new Channel("channelKey1", $seasonChannels[0]->id, "channel 1", "#FF0000", 1, ["A-1", "A-2"], []),
+            new Channel("channelKey2", $seasonChannels[1]->id, "channel 2", "#00FFFF", 2, [], [])
+        ], $seasonChannels);
+    }
+
     public function testForSaleConfigCanBePassedIn()
     {
         $chartKey = $this->createTestChart();
