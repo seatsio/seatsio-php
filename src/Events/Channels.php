@@ -182,9 +182,9 @@ class Channels
     public function replace(string $eventKey, array $channels): void
     {
         $request = new stdClass();
-        $request->channels = array_map(function ($channel) {
+        $request->channels = array_values(array_map(function ($channel) {
             return $channel->toArray();
-        }, $channels);
+        }, $channels));
         $this->client->post(UriTemplate::expand('/events/{key}/channels/replace', array("key" => $eventKey)), ['json' => $request]);
     }
 }
