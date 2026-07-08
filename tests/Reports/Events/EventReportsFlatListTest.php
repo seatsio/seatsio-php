@@ -2,7 +2,6 @@
 
 namespace Reports\Events;
 
-use Seatsio\Events\CreateEventParams;
 use Seatsio\Events\EventObjectInfo;
 use Seatsio\SeatsioClientTest;
 
