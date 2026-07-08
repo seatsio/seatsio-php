@@ -250,6 +250,23 @@ class EventReports
     }
 
     /**
+     * @return EventObjectInfo[]
+     */
+    public function flatList(string $eventKey): array
+    {
+        $res = $this->client->get(UriTemplate::expand('/reports/events/{key}', array("key" => $eventKey)));
+        $json = GuzzleResponseDecoder::decodeToJson($res);
+        $mapper = SeatsioJsonMapper::create();
+        return $mapper->mapArray(iterator_to_array($json), array(), EventObjectInfo::class);
+    }
+
+    public function flatListCsv(string $eventKey): string
+    {
+        $res = $this->client->get(UriTemplate::expand('/reports/events/{key}.csv', array("key" => $eventKey)));
+        return $res->getBody()->getContents();
+    }
+
+    /**
      * @param $json mixed
      * @return EventObjectInfo[][]
      */
