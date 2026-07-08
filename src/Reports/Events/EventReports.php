@@ -257,7 +257,11 @@ class EventReports
         $res = $this->client->get(UriTemplate::expand('/reports/events/{key}', array("key" => $eventKey)));
         $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
-        return $mapper->mapArray(iterator_to_array($json), array(), EventObjectInfo::class);
+        $result = [];
+        foreach ($json as $item) {
+            $result[] = $mapper->map($item, new EventObjectInfo());
+        }
+        return $result;
     }
 
     public function flatListCsv(string $eventKey): string
