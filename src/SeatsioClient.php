@@ -106,7 +106,7 @@ class SeatsioClient
         ));
         $config = [
             'base_uri' => $baseUrl,
-            'auth' => [$secretKey, null],
+            'auth' => [$secretKey, ''],
             'http_errors' => false,
             'handler' => $stack,
             'timeout' => 10,

@@ -41,7 +41,7 @@ abstract class SeatsioClientTest extends TestCase
     {
         $client = new Client();
         $res = $client->post(self::baseUrl() . '/system/private/create-test-company', [
-            'auth' => [$this->systemApiSecret(), null]
+            'auth' => [$this->systemApiSecret(), '']
         ]);
         return GuzzleResponseDecoder::decodeToObject($res);
     }
@@ -90,7 +90,7 @@ abstract class SeatsioClientTest extends TestCase
             self::baseUrl() . '/system/public/charts/' . $chartKey,
             [
                 'body' => $requestBody,
-                'auth' => [$this->user->secretKey, null]
+                'auth' => [$this->user->secretKey, '']
             ]
         );
         return $chartKey;
