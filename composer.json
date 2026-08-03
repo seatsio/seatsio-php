@@ -5,8 +5,8 @@
   "license": "MIT",
   "require": {
     "php": ">=8.3.0",
-    "guzzlehttp/guzzle": "^7.10.4 || ^8.0.0",
-    "guzzlehttp/uri-template": "^v1.0.6 || ^2.0.0",
+    "guzzlehttp/guzzle": "^8.0.0",
+    "guzzlehttp/uri-template": "^2.0.0",
     "netresearch/jsonmapper": "^5.0.1 || ^6.0.0",
     "halaxa/json-machine": "^1.2.6"
   },
