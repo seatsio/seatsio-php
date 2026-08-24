@@ -26,7 +26,7 @@ jobs:
       - uses: fregante/setup-git-user@v2
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           registry-url: https://registry.npmjs.org/
       - name: Install dependencies
         run: yarn add -D -E zx@8.1.4 semver@7.6.3
