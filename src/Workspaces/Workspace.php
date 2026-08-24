@@ -39,4 +39,8 @@ class Workspace
      */
     public $isActive;
 
+    /**
+     * @var string[]
+     */
+    public $secretKeys;
 }

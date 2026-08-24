@@ -60,6 +60,19 @@ class Workspaces
         return GuzzleResponseDecoder::decodeToObject($res)->secretKey;
     }
 
+    public function addSecretKey(string $key): string
+    {
+        $res = $this->client->post(UriTemplate::expand('/workspaces/{key}/actions/add-secret-key', array("key" => $key)));
+        return GuzzleResponseDecoder::decodeToObject($res)->secretKey;
+    }
+
+    public function removeSecretKey(string $key, string $secretKeyToRemove): void
+    {
+        $request = new stdClass();
+        $request->secretKey = $secretKeyToRemove;
+        $this->client->post(UriTemplate::expand('/workspaces/{key}/actions/remove-secret-key', array("key" => $key)), ['json' => $request]);
+    }
+
     public function activate(string $key): void
     {
         $this->client->post(UriTemplate::expand('/workspaces/{key}/actions/activate', array("key" => $key)));
