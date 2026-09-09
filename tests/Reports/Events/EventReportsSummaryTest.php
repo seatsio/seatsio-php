@@ -5,11 +5,25 @@ namespace Reports\Events;
 use Seatsio\Events\Channel;
 use Seatsio\Events\ChannelCreationParams;
 use Seatsio\Events\CreateEventParams;
+use Seatsio\Events\EventObjectInfo;
 use Seatsio\Events\ObjectProperties;
+use Seatsio\Seasons\SeasonCreationParams;
 use Seatsio\SeatsioClientTest;
 
 class EventReportsSummaryTest extends SeatsioClientTest
 {
+
+    public function testWithSeasonBookingsNotPropagatedCanBeUsedToFetchAReportForAnEventInASeason()
+    {
+        $chartKey = $this->createTestChart();
+        $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setNumberOfEvents(1));
+        $event = $season->events[0];
+        $this->seatsioClient->events->book($season->key, ["A-1", "A-2"]);
+
+        $report = $this->seatsioClient->eventReports->withSeasonBookingsNotPropagated()->summaryByStatus($event->key);
+
+        self::assertEquals(232, $report[EventObjectInfo::$FREE]['count']);
+    }
 
     public function testSummaryByStatus()
     {
@@ -46,6 +60,21 @@ class EventReportsSummaryTest extends SeatsioClientTest
             ]
         ];
         self::assertEquals($expectedReport, $report);
+    }
+
+    public function testSummaryByStatusWithSeasonBookingsNotPropagated()
+    {
+        $chartKey = $this->createTestChart();
+        $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setNumberOfEvents(1));
+        $event = $season->events[0];
+        $this->seatsioClient->events->book($season->key, ["A-1", "A-2"]);
+        $this->seatsioClient->events->book($event->key, ["A-3"]);
+
+        $reportWithPropagation = $this->seatsioClient->eventReports->summaryByStatus($season->key);
+        $reportWithoutPropagation = $this->seatsioClient->eventReports->withSeasonBookingsNotPropagated()->summaryByStatus($season->key);
+
+        self::assertEquals(3, $reportWithPropagation[EventObjectInfo::$BOOKED]['count']);
+        self::assertEquals(2, $reportWithoutPropagation[EventObjectInfo::$BOOKED]['count']);
     }
 
     public function testSummaryByObjectType()
