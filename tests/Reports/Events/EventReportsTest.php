@@ -11,9 +11,37 @@ use Seatsio\Events\ObjectProperties;
 use Seatsio\Events\TableBookingConfig;
 use Seatsio\Seasons\SeasonCreationParams;
 use Seatsio\SeatsioClientTest;
+use RuntimeException;
 
 class EventReportsTest extends SeatsioClientTest
 {
+
+    public function testWithSeasonBookingsNotPropagatedReturnsANewInstanceRatherThanMutatingTheOriginal()
+    {
+        $withoutPropagation = $this->seatsioClient->eventReports->withSeasonBookingsNotPropagated();
+
+        self::assertNotSame($this->seatsioClient->eventReports, $withoutPropagation);
+
+        $chartKey = $this->createTestChart();
+        $event = $this->seatsioClient->events->create($chartKey);
+
+        $reportFromOriginal = $this->seatsioClient->eventReports->byLabel($event->key);
+        self::assertCount(1, $reportFromOriginal["A-1"]);
+    }
+
+    public function testWithSeasonBookingsNotPropagatedCanBeUsedToFetchAReportForAnEventInASeason()
+    {
+        $chartKey = $this->createTestChart();
+        $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setNumberOfEvents(1));
+        $event = $season->events[0];
+        $this->seatsioClient->events->book($season->key, ["A-1", "A-2"]);
+        $this->seatsioClient->events->book($event->key, ["A-3"]);
+
+        $report = $this->seatsioClient->eventReports->withSeasonBookingsNotPropagated()->byLabel($event->key);
+
+        self::assertNotEquals(EventObjectInfo::$BOOKED, $report["A-1"][0]->status);
+        self::assertEquals(EventObjectInfo::$BOOKED, $report["A-3"][0]->status);
+    }
 
     public function testReportItemProperties()
     {
@@ -156,6 +184,21 @@ class EventReportsTest extends SeatsioClientTest
         self::assertCount(2, $report["lolzor"]);
         self::assertCount(1, $report[EventObjectInfo::$BOOKED]);
         self::assertCount(31, $report[EventObjectInfo::$FREE]);
+    }
+
+    public function testByStatusWithSeasonBookingsNotPropagated()
+    {
+        $chartKey = $this->createTestChart();
+        $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setNumberOfEvents(1));
+        $event = $season->events[0];
+        $this->seatsioClient->events->book($season->key, ["A-1", "A-2"]);
+        $this->seatsioClient->events->book($event->key, ["A-3"]);
+
+        $reportWithPropagation = $this->seatsioClient->eventReports->byStatus($season->key);
+        $reportWithoutPropagation = $this->seatsioClient->eventReports->withSeasonBookingsNotPropagated()->byStatus($season->key);
+
+        self::assertEquals(EventObjectInfo::$BOOKED, self::findByLabel($reportWithPropagation, "A-3")->status);
+        self::assertNotEquals(EventObjectInfo::$BOOKED, self::findByLabel($reportWithoutPropagation, "A-3")->status);
     }
 
     public function testByStatus_emptyChart()
@@ -394,6 +437,18 @@ class EventReportsTest extends SeatsioClientTest
         $report = $this->seatsioClient->eventReports->byChannel($event->key, 'channel1');
 
         self::assertCount(2, $report);
+    }
+
+    private static function findByLabel(array $report, string $label): EventObjectInfo
+    {
+        foreach ($report as $items) {
+            foreach ($items as $item) {
+                if ($item->label === $label) {
+                    return $item;
+                }
+            }
+        }
+        throw new RuntimeException("no item found with label $label");
     }
 
 }

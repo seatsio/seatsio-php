@@ -4,10 +4,23 @@ namespace Reports\Events;
 
 use Seatsio\Events\EventObjectInfo;
 use Seatsio\Events\ObjectProperties;
+use Seatsio\Seasons\SeasonCreationParams;
 use Seatsio\SeatsioClientTest;
 
 class EventReportsDeepSummaryTest extends SeatsioClientTest
 {
+
+    public function testWithSeasonBookingsNotPropagatedCanBeUsedToFetchAReportForAnEventInASeason()
+    {
+        $chartKey = $this->createTestChart();
+        $season = $this->seatsioClient->seasons->create($chartKey, (new SeasonCreationParams())->setNumberOfEvents(1));
+        $event = $season->events[0];
+        $this->seatsioClient->events->book($season->key, ["A-1", "A-2"]);
+
+        $report = $this->seatsioClient->eventReports->withSeasonBookingsNotPropagated()->deepSummaryByStatus($event->key);
+
+        self::assertEquals(232, $report[EventObjectInfo::$FREE]["count"]);
+    }
 
     public function testDeepSummaryByStatus()
     {
@@ -122,4 +135,5 @@ class EventReportsDeepSummaryTest extends SeatsioClientTest
         self::assertEquals($report["NO_CHANNEL"]["byCategoryLabel"]["Cat1"]["count"], 116);
         self::assertEquals($report["NO_CHANNEL"]["byCategoryLabel"]["Cat1"]["bySection"]["NO_SECTION"], 116);
     }
+
 }
