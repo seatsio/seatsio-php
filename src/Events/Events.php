@@ -331,6 +331,11 @@ class Events
         $this->client->post(UriTemplate::expand('/events/{key}/actions/mark-everything-as-for-sale', array("key" => $eventKey)));
     }
 
+    public function markEverythingAsForNotSale(string $eventKey): void
+    {
+        self::replaceForSaleConfig($eventKey, false);
+    }
+
     public function overrideSeasonStatus(string $eventKey, array $objects, ?string $season = null)
     {
         $request = new stdClass();
