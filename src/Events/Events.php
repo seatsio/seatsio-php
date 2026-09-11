@@ -331,7 +331,7 @@ class Events
         $this->client->post(UriTemplate::expand('/events/{key}/actions/mark-everything-as-for-sale', array("key" => $eventKey)));
     }
 
-    public function markEverythingAsForNotSale(string $eventKey): void
+    public function markEverythingAsNotForSale(string $eventKey): void
     {
         self::replaceForSaleConfig($eventKey, false);
     }
@@ -640,30 +640,5 @@ class Events
         return $mapper->map($json, new BestAvailableObjects());
     }
 
-    public function moveEventToNewChartCopy(string $eventKey): Event
-    {
-        $res = $this->client->post(UriTemplate::expand('/events/{key}/actions/move-to-new-chart-copy', array("key" => $eventKey)));
-        $json = GuzzleResponseDecoder::decodeToObject($res);
-        $mapper = SeatsioJsonMapper::create();
-        return $mapper->map($json, new Event());
-    }
-
-    private static function normalizeObjects($objectOrObjects): array
-    {
-        if (is_array($objectOrObjects)) {
-            if (count($objectOrObjects) === 0) {
-                return [];
-            }
-            return array_map(function ($object) {
-                if ($object instanceof ObjectProperties) {
-                    return $object->toArray();
-                }
-                if (is_string($object)) {
-                    return ["objectId" => $object];
-                }
-                return $object;
-            }, $objectOrObjects);
-        }
-        return self::normalizeObjects([$objectOrObjects]);
-    }
 }
+
