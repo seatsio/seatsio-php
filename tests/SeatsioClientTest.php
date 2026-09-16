@@ -37,6 +37,11 @@ abstract class SeatsioClientTest extends TestCase
         return getenv('API_URL') ?: 'http://localhost:9001';
     }
 
+    protected static function httpbinUrl(): string
+    {
+        return getenv('HTTPBIN_URL') ?: 'https://httpbingo.org';
+    }
+
     private function createTestCompany()
     {
         $client = new Client();
