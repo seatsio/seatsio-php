@@ -47,6 +47,10 @@ class EventObjectInfo
     /**
      * @var string
      */
+    public $areaType;
+    /**
+     * @var string
+     */
     public $section;
     /**
      * @var \Seatsio\Common\Floor
