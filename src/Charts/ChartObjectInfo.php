@@ -35,6 +35,10 @@ class ChartObjectInfo
     /**
      * @var string
      */
+    public $areaType;
+    /**
+     * @var string
+     */
     public $section;
     /**
      * @var int
