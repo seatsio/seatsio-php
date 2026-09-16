@@ -21,7 +21,7 @@ class ErrorHandlingTest extends SeatsioClientTest
     public function test5xx()
     {
         try {
-            $client = new SeatsioClient(Region::withUrl("https://httpbingo.org"), "aSecretKey");
+            $client = new SeatsioClient(Region::withUrl(self::httpbinUrl()), "aSecretKey");
             $client->client->get("/status/500")->getBody();
             throw new \Exception("Should have failed");
         } catch (SeatsioException $e) {

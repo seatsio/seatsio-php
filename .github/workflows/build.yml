@@ -8,28 +8,28 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         php-versions: ['8.3', '8.5']
+    services:
+      httpbin:
+        image: mccutchen/go-httpbin:v2.15.0
+        ports:
+          - 8080:8080
 
     steps:
     - uses: actions/checkout@v2
-
     - uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
-
     - run: composer install --ignore-platform-reqs
-
     - uses: zcong1993/setup-timezone@master
       with:
         timezone: Europe/Brussels
-
     - run: vendor/bin/paratest
       env:
         API_URL: https://api-staging-eu.seatsio.net
+        HTTPBIN_URL: http://localhost:8080
         DEMO_COMPANY_SECRET_KEY: ${{ secrets.DEMO_COMPANY_SECRET_KEY }}
         CORE_V2_STAGING_EU_SYSTEM_API_SECRET: ${{ secrets.CORE_V2_STAGING_EU_SYSTEM_API_SECRET }}
