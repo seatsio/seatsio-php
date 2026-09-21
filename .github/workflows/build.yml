@@ -29,7 +29,8 @@ jobs:
         timezone: Europe/Brussels
     - run: vendor/bin/paratest
       env:
-        API_URL: https://api-staging-eu.seatsio.net
+        API_URL: https://api-staging-na.seatsio.net
         HTTPBIN_URL: http://localhost:8080
-        DEMO_COMPANY_SECRET_KEY: ${{ secrets.DEMO_COMPANY_SECRET_KEY }}
-        CORE_V2_STAGING_EU_SYSTEM_API_SECRET: ${{ secrets.CORE_V2_STAGING_EU_SYSTEM_API_SECRET }}
+        USAGE_REPORTING_TESTS_API_URL: https://api-staging-eu.seatsio.net
+        USAGE_REPORTING_TESTS_SECRET_KEY: ${{ secrets.DEMO_COMPANY_SECRET_KEY }}
+        CORE_V2_API_SECRET: ${{ secrets.CORE_V2_STAGING_NA_SYSTEM_API_SECRET }}

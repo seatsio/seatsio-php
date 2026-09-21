@@ -148,20 +148,10 @@ abstract class SeatsioClientTest extends TestCase
     }
 
     private function systemApiSecret() {
-        $secret = getenv('CORE_V2_STAGING_EU_SYSTEM_API_SECRET');
+        $secret = getenv('CORE_V2_API_SECRET');
         if ($secret === false || $secret === '') {
             return 'superSecretSystemApi';
         }
         return $secret;
-    }
-
-    protected function demoCompanySecretKey()
-    {
-        return getenv("DEMO_COMPANY_SECRET_KEY");
-    }
-
-    protected function isDemoCompanySecretKeySet()
-    {
-        return getenv("DEMO_COMPANY_SECRET_KEY") !== false;
     }
 }

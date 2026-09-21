@@ -2,18 +2,19 @@
 
 namespace Reports\Usage;
 
+use PHPUnit\Framework\TestCase;
+use Seatsio\Region;
 use Seatsio\Reports\Usage\DetailsForEventInMonth\UsageForObjectV1;
 use Seatsio\Reports\Usage\DetailsForMonth\Event;
 use Seatsio\Reports\Usage\DetailsForMonth\UsageByEvent;
 use Seatsio\Reports\Usage\SummaryForMonths\Month;
-use Seatsio\SeatsioClientTest;
+use Seatsio\SeatsioClient;
 
-class UsageReportTest extends SeatsioClientTest
+class UsageReportTest extends TestCase
 {
     public function testUsageReportForAllMonths()
     {
-        $this->skipTestIfDemoCompanySecretKeyNotSet();
-        $client = $this->createSeatsioClient($this->demoCompanySecretKey());
+        $client = $this->usageReportingClient();
 
         $report = $client->usageReports->summaryForAllMonths();
 
@@ -24,8 +25,7 @@ class UsageReportTest extends SeatsioClientTest
 
     public function testUsageReportForMonth()
     {
-        $this->skipTestIfDemoCompanySecretKeyNotSet();
-        $client = $this->createSeatsioClient($this->demoCompanySecretKey());
+        $client = $this->usageReportingClient();
 
         $report = $client->usageReports->detailsForMonth(new Month(2021, 11));
 
@@ -37,8 +37,7 @@ class UsageReportTest extends SeatsioClientTest
 
     public function testUsageReportForEventInMonth()
     {
-        $this->skipTestIfDemoCompanySecretKeyNotSet();
-        $client = $this->createSeatsioClient($this->demoCompanySecretKey());
+        $client = $this->usageReportingClient();
 
         $report = $client->usageReports->detailsForEventInMonth(580293, new Month(2021, 11));
 
@@ -47,10 +46,31 @@ class UsageReportTest extends SeatsioClientTest
         self::assertEquals($expected, $report[0]);
     }
 
-    private function skipTestIfDemoCompanySecretKeyNotSet(): void
+    private function usageReportingClient(): SeatsioClient
     {
-        if (!$this->isDemoCompanySecretKeySet()) {
-            $this->markTestSkipped("DEMO_COMPANY_SECRET_KEY environment variable not set");
+        if (!self::isConfigured()) {
+            $this->markTestSkipped("USAGE_REPORTING_TESTS_API_URL and USAGE_REPORTING_TESTS_SECRET_KEY environment variables not set");
         }
+        return new SeatsioClient(Region::withUrl(self::apiUrl()), self::secretKey());
+    }
+
+    private static function apiUrl()
+    {
+        return getenv('USAGE_REPORTING_TESTS_API_URL');
+    }
+
+    private static function secretKey()
+    {
+        return getenv('USAGE_REPORTING_TESTS_SECRET_KEY');
+    }
+
+    private static function isConfigured(): bool
+    {
+        return self::isSet(self::apiUrl()) && self::isSet(self::secretKey());
+    }
+
+    private static function isSet($value): bool
+    {
+        return $value !== false && trim($value) !== '';
     }
 }
