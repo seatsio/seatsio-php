@@ -27,7 +27,7 @@ jobs:
     - uses: zcong1993/setup-timezone@master
       with:
         timezone: Europe/Brussels
-    - run: vendor/bin/paratest
+    - run: vendor/bin/paratest -p 8
       env:
         API_URL: https://api-staging-eu.seatsio.net
         HTTPBIN_URL: http://localhost:8080
