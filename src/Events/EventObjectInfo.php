@@ -51,6 +51,10 @@ class EventObjectInfo
     /**
      * @var string
      */
+    public $tableType;
+    /**
+     * @var string
+     */
     public $section;
     /**
      * @var \Seatsio\Common\Floor

@@ -65,6 +65,7 @@ class EventReportsTest extends SeatsioClientTest
         self::assertEquals("order1", $reportItem->orderId);
         self::assertEquals("seat", $reportItem->objectType);
         self::assertNull($reportItem->areaType);
+        self::assertNull($reportItem->tableType);
         self::assertTrue($reportItem->forSale);
         self::assertNull($reportItem->section);
         self::assertNull($reportItem->entrance);
@@ -149,6 +150,7 @@ class EventReportsTest extends SeatsioClientTest
         self::assertEquals(92, $reportItem->numFree);
         self::assertEquals("generalAdmission", $reportItem->objectType);
         self::assertEquals("generalAdmission", $reportItem->areaType);
+        self::assertNull($reportItem->tableType);
         self::assertEquals(false, $reportItem->bookAsAWhole);
         self::assertNull($reportItem->isAccessible);
         self::assertNull($reportItem->hasRestrictedView);
@@ -172,6 +174,7 @@ class EventReportsTest extends SeatsioClientTest
         $reportItem = $report["T1"][0];
         self::assertEquals(false, $reportItem->bookAsAWhole);
         self::assertEquals(6, $reportItem->numSeats);
+        self::assertEquals("bookByTable", $reportItem->tableType);
     }
 
     public function testByStatus()

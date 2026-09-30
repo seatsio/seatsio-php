@@ -87,6 +87,7 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertEquals(9, $reportItem->categoryKey);
         self::assertEquals("seat", $reportItem->objectType);
         self::assertNull($reportItem->areaType);
+        self::assertNull($reportItem->tableType);
         self::assertNull($reportItem->section);
         self::assertNull($reportItem->entrance);
         self::assertNull($reportItem->leftNeighbour);
@@ -115,6 +116,7 @@ class ChartReportsTest extends SeatsioClientTest
         self::assertEquals(100, $reportItem->capacity);
         self::assertEquals("generalAdmission", $reportItem->objectType);
         self::assertEquals("generalAdmission", $reportItem->areaType);
+        self::assertNull($reportItem->tableType);
         self::assertEquals(false, $reportItem->bookAsAWhole);
     }
 
@@ -129,6 +131,7 @@ class ChartReportsTest extends SeatsioClientTest
         $reportItem = $report["T1"][0];
         self::assertEquals(false, $reportItem->bookAsAWhole);
         self::assertEquals(6, $reportItem->numSeats);
+        self::assertEquals("bookByTable", $reportItem->tableType);
     }
 
     #[DataProvider("byLabelDataProvider")]
