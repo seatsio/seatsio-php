@@ -131,7 +131,7 @@ class ChartReportsTest extends SeatsioClientTest
         $reportItem = $report["T1"][0];
         self::assertEquals(false, $reportItem->bookAsAWhole);
         self::assertEquals(6, $reportItem->numSeats);
-        self::assertEquals("bookByTable", $reportItem->tableType);
+        self::assertEquals("bookBySeat", $reportItem->tableType);
     }
 
     #[DataProvider("byLabelDataProvider")]
