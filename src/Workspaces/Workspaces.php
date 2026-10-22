@@ -34,12 +34,15 @@ class Workspaces
         }));
     }
 
-    public function create(string $name, ?bool $isTest = null): Workspace
+    public function create(string $name, ?bool $isTest = null, ?ForSaleMode $forSaleMode = null): Workspace
     {
         $request = new stdClass();
         $request->name = $name;
         if ($isTest !== null) {
             $request->isTest = $isTest;
+        }
+        if ($forSaleMode !== null) {
+            $request->forSaleMode = $forSaleMode->value;
         }
         $res = $this->client->post('/workspaces', ['json' => $request]);
         $json = GuzzleResponseDecoder::decodeToJson($res);
@@ -47,10 +50,13 @@ class Workspaces
         return $mapper->map($json, new Workspace());
     }
 
-    public function update(string $key, string $name): void
+    public function update(string $key, string $name, ?ForSaleMode $forSaleMode = null): void
     {
         $request = new stdClass();
         $request->name = $name;
+        if ($forSaleMode !== null) {
+            $request->forSaleMode = $forSaleMode->value;
+        }
         $this->client->post(UriTemplate::expand('/workspaces/{key}', array("key" => $key)), ['json' => $request]);
     }
 
