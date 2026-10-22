@@ -20,4 +20,14 @@ class UpdateWorkspaceTest extends SeatsioClientTest
         self::assertFalse($retrievedWorkspace->isTest);
     }
 
+    public function testUpdateForSaleMode()
+    {
+        $workspace = $this->seatsioClient->workspaces->create("my workspace");
+
+        $this->seatsioClient->workspaces->update($workspace->key, "my ws", ForSaleMode::UNLIMITED_BILLABLE);
+
+        $retrievedWorkspace = $this->seatsioClient->workspaces->retrieve($workspace->key);
+        self::assertEquals("my ws", $retrievedWorkspace->name);
+    }
+
 }

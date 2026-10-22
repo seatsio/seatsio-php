@@ -29,4 +29,13 @@ class CreateWorkspaceTest extends SeatsioClientTest
         self::assertTrue($workspace->isActive);
     }
 
+    public function testCreateWorkspaceWithForSaleMode()
+    {
+        $workspace = $this->seatsioClient->workspaces->create("my workspace", null, ForSaleMode::UNLIMITED_BILLABLE);
+
+        self::assertEquals("my workspace", $workspace->name);
+        self::assertNotNull($workspace->key);
+        self::assertTrue($workspace->isActive);
+    }
+
 }
