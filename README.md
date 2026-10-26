@@ -300,6 +300,23 @@ $seatsio = new SeatsioClient(Region::EU(), <WORKSPACE SECRET KEY>, null, 3);
 
 Passing in 0 disables exponential backoff completely. In that case, the client will never retry a failed request.
 
+## Timeouts
+
+By default, the client waits up to 30 seconds for a response, and up to 10 seconds to establish a connection.
+
+To change these, pass the timeout and the connect timeout (both in seconds) as the fifth and sixth argument of the `SeatsioClient` constructor:
+
+```php
+require 'vendor/autoload.php';
+
+use Seatsio\Region;
+use Seatsio\SeatsioClient;
+
+$seatsio = new SeatsioClient(Region::EU(), <WORKSPACE SECRET KEY>, null, 5, 60, 5);
+```
+
+Requests that time out are not retried. The client throws a `SeatsioException` instead.
+
 
 ## Upgrading
 

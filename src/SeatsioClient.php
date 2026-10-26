@@ -73,9 +73,9 @@ class SeatsioClient
      */
     public $ticketBuyers;
 
-    public function __construct(Region $region, string $secretKey, ?string $workspaceKey = null, int $maxRetries = 5)
+    public function __construct(Region $region, string $secretKey, ?string $workspaceKey = null, int $maxRetries = 5, float $timeout = 30, float $connectTimeout = 10)
     {
-        $client = new Client($this->clientConfig($secretKey, $workspaceKey, $region->url(), $maxRetries));
+        $client = new Client($this->clientConfig($secretKey, $workspaceKey, $region->url(), $maxRetries, $timeout, $connectTimeout));
         $this->client = $client;
         $this->charts = new Charts($client);
         $this->events = new Events($client);
@@ -89,7 +89,7 @@ class SeatsioClient
         $this->ticketBuyers = new TicketBuyers($client);
     }
 
-    private function clientConfig($secretKey, $workspaceKey, $baseUrl, $maxRetries)
+    private function clientConfig($secretKey, $workspaceKey, $baseUrl, $maxRetries, $timeout, $connectTimeout)
     {
         $stack = HandlerStack::create();
         $stack->push(self::errorHandler());
@@ -109,7 +109,8 @@ class SeatsioClient
             'auth' => [$secretKey, ''],
             'http_errors' => false,
             'handler' => $stack,
-            'timeout' => 10,
+            'timeout' => $timeout,
+            'connect_timeout' => $connectTimeout,
             'headers' => [
                 'Accept-Encoding' => 'gzip',
                 'X-Client-Lib' => 'php'
