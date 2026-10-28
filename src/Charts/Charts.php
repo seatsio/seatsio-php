@@ -5,6 +5,8 @@ namespace Seatsio\Charts;
 use GuzzleHttp\Client;
 use GuzzleHttp\UriTemplate\UriTemplate;
 use Psr\Http\Message\StreamInterface;
+use Seatsio\Events\EventLister;
+use Seatsio\Events\EventPage;
 use Seatsio\GuzzleResponseDecoder;
 use Seatsio\PageFetcher;
 use Seatsio\SeatsioJsonMapper;
@@ -135,6 +137,13 @@ class Charts
     public function discardDraftVersion(string $key): void
     {
         $this->client->post('/charts/' . $key . '/version/draft/actions/discard');
+    }
+
+    public function events(string $chartKey): EventLister
+    {
+        return new EventLister(new PageFetcher(UriTemplate::expand('/charts/{key}/events', array("key" => $chartKey)), $this->client, function () {
+            return new EventPage();
+        }));
     }
 
     public function moveToArchive(string $key): void
