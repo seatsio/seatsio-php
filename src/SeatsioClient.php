@@ -101,7 +101,7 @@ class SeatsioClient
         if (!preg_match(self::V4_UUID, $idempotencyKey)) {
             throw new InvalidArgumentException("Idempotency key $idempotencyKey is not a v4 UUID");
         }
-        $copy = new SeatsioClient($this->region, $this->secretKey, $this->workspaceKey);
+        $copy = clone $this;
         $copy->initialize($this->region, $this->secretKey, $this->workspaceKey, $this->retrySettings, $idempotencyKey);
         return $copy;
     }

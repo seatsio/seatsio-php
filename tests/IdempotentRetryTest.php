@@ -95,11 +95,26 @@ class IdempotentRetryTest extends TestCase
 
     public function testConnectionRefusedIsRetriedWhenEnabled()
     {
-        $client = new SeatsioClient(Region::withUrl('http://127.0.0.1:1'), 'secretKey', null, 2);
-        $client->retryNonIdempotentRequests(true);
+        $refused = Region::withUrl('http://127.0.0.1:1');
+        $notRetried = microtime(true);
+        $this->expectConnectionFailure(new SeatsioClient($refused, 'secretKey', null, 2));
+        $notRetried = microtime(true) - $notRetried;
 
-        $this->expectException(SeatsioException::class);
-        $client->client->post('/anything');
+        $retried = microtime(true);
+        $this->expectConnectionFailure((new SeatsioClient($refused, 'secretKey', null, 2))->retryNonIdempotentRequests(true));
+        $retried = microtime(true) - $retried;
+
+        self::assertGreaterThan($notRetried + 0.3, $retried);
+    }
+
+    private function expectConnectionFailure(SeatsioClient $client): void
+    {
+        try {
+            $client->client->post('/anything');
+            self::fail('expected exception');
+        } catch (SeatsioException $e) {
+            self::assertTrue($e->outcomeIsUnknown());
+        }
     }
 
     public function testWritesAreRetriedOn429WithTheSameKey()

@@ -105,6 +105,32 @@ class IdempotencyKeyTest extends TestCase
         self::assertNotNull($copy->charts);
     }
 
+    public function testErrorBodyWithEmptyErrorsKeepsMessagesAndRequestId()
+    {
+        $client = $this->client(FakeServer::replying(FakeServer::json(400, '{"errors": [], "messages": ["went wrong"], "requestId": "req-9"}')), 0);
+
+        try {
+            $client->client->post('/anything', ['body' => '{}']);
+            self::fail('expected exception');
+        } catch (SeatsioException $e) {
+            self::assertEquals('went wrong', $e->getMessage());
+            self::assertEquals('req-9', $e->requestId);
+        }
+    }
+
+    public function testClientWithKeySendsTheSecretKeyAndWorkspaceKey()
+    {
+        $this->server = FakeServer::replying(FakeServer::status(204));
+        $client = (new SeatsioClient(Region::withUrl($this->server->url()), 'secretKey', 'workspaceKey'))
+            ->withIdempotencyKey('3f0a7a41-7c5c-4a43-9b0e-0d6c2a5f8e11');
+
+        $client->client->post('/anything');
+
+        $headers = $this->server->requests()[0]['headers'];
+        self::assertEquals('Basic ' . base64_encode('secretKey:'), $headers['authorization']);
+        self::assertEquals('workspaceKey', $headers['x-workspace-key']);
+    }
+
     public static function errorResponses(): array
     {
         return [

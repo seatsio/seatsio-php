@@ -38,7 +38,7 @@ class SeatsioException extends RuntimeException
         } else {
             $exception = new SeatsioException($request, $parsedResponse, $message);
         }
-        $exception->outcomeIsUnknown = $code >= 500 || self::isIdempotencyKeyInUse($response);
+        $exception->outcomeIsUnknown = $code >= 500 || self::hasIdempotencyKeyInUseError($code, $parsedResponse['errors']);
         return $exception;
     }
 
@@ -59,8 +59,12 @@ class SeatsioException extends RuntimeException
         if ($response->getStatusCode() != 409) {
             return false;
         }
-        $errors = self::parseErrorResponse($response)['errors'] ?? null;
-        return $errors !== null && ($errors[0]->code ?? null) === 'IDEMPOTENCY_KEY_IN_USE';
+        return self::hasIdempotencyKeyInUseError(409, self::parseErrorResponse($response)['errors'] ?? []);
+    }
+
+    private static function hasIdempotencyKeyInUseError(int $statusCode, array $errors): bool
+    {
+        return $statusCode == 409 && ($errors[0]->code ?? null) === 'IDEMPOTENCY_KEY_IN_USE';
     }
 
     public function __construct(RequestInterface $request, array $parsedResponse, string $message)
@@ -68,7 +72,7 @@ class SeatsioException extends RuntimeException
         parent::__construct($message);
         $this->errors = $parsedResponse['errors'];
         $this->requestId = $parsedResponse['requestId'];
-        $this->idempotencyKey = $request->getHeaderLine('Idempotency-Key') ?: null;
+        $this->idempotencyKey = $request->getHeaderLine(SeatsioClient::IDEMPOTENCY_KEY_HEADER) ?: null;
     }
 
     private static function message($request, $response, $messages)
@@ -107,7 +111,7 @@ class SeatsioException extends RuntimeException
         $body = (string)$response->getBody();
         $response->getBody()->rewind();
         $json = json_decode($body);
-        if (!($json instanceof \stdClass) || !isset($json->errors) || !is_array($json->errors) || empty($json->errors)) {
+        if (!($json instanceof \stdClass) || !isset($json->errors) || !is_array($json->errors)) {
             return null;
         }
         foreach ($json->errors as $error) {
