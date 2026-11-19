@@ -2,6 +2,7 @@
 
 namespace Seatsio;
 
+use GuzzleHttp\Exception\ConnectException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -114,6 +115,7 @@ class IdempotentRetryTest extends TestCase
             self::fail('expected exception');
         } catch (SeatsioException $e) {
             self::assertTrue($e->outcomeIsUnknown());
+            self::assertInstanceOf(ConnectException::class, $e->getPrevious());
         }
     }
 
@@ -198,6 +200,32 @@ class IdempotentRetryTest extends TestCase
 
         self::assertEquals(204, $withKey->client->post('/anything')->getStatusCode());
         self::assertCount(2, $this->server->requests());
+    }
+
+    public function testRetrySettingOfAClientWithAKeyDoesNotChangeTheOriginal()
+    {
+        $client = $this->client(FakeServer::replying(FakeServer::drop(), FakeServer::status(204)));
+        $client->withIdempotencyKey('3f0a7a41-7c5c-4a43-9b0e-0d6c2a5f8e11')->retryNonIdempotentRequests(true);
+
+        $this->expectException(SeatsioException::class);
+        try {
+            $client->client->post('/anything');
+        } finally {
+            self::assertCount(1, $this->server->requests());
+        }
+    }
+
+    public function testRetrySettingOfAClientWithAKeyOverridesTheOriginal()
+    {
+        $client = $this->client(FakeServer::replying(FakeServer::drop(), FakeServer::status(204)))->retryNonIdempotentRequests(true);
+        $withKey = $client->withIdempotencyKey('3f0a7a41-7c5c-4a43-9b0e-0d6c2a5f8e11')->retryNonIdempotentRequests(false);
+
+        $this->expectException(SeatsioException::class);
+        try {
+            $withKey->client->post('/anything');
+        } finally {
+            self::assertCount(1, $this->server->requests());
+        }
     }
 
     public function testMaxRetriesIsSharedWithClientsThatHaveAKey()

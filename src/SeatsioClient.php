@@ -26,7 +26,7 @@ class SeatsioClient
     public const IDEMPOTENCY_KEY_HEADER = 'Idempotency-Key';
 
     private const SAFE_METHODS = ['GET', 'HEAD', 'OPTIONS', 'TRACE'];
-    private const V4_UUID = '/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i';
+    private const V4_UUID = '/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/iD';
 
     public $client;
 
@@ -92,7 +92,7 @@ class SeatsioClient
 
     public function retryNonIdempotentRequests(bool $retryNonIdempotentRequests): SeatsioClient
     {
-        $this->retrySettings->retryNonIdempotentRequests = $retryNonIdempotentRequests;
+        $this->retrySettings->setRetryNonIdempotentRequests($retryNonIdempotentRequests);
         return $this;
     }
 
@@ -102,7 +102,7 @@ class SeatsioClient
             throw new InvalidArgumentException("Idempotency key $idempotencyKey is not a v4 UUID");
         }
         $copy = clone $this;
-        $copy->initialize($this->region, $this->secretKey, $this->workspaceKey, $this->retrySettings, $idempotencyKey);
+        $copy->initialize($this->region, $this->secretKey, $this->workspaceKey, $this->retrySettings->inherit(), $idempotencyKey);
         return $copy;
     }
 
@@ -144,7 +144,7 @@ class SeatsioClient
                     if (!($exception instanceof TransferException)) {
                         return false;
                     }
-                    if ($canRetry && $retrySettings->retryNonIdempotentRequests && !self::isSafe($request)) {
+                    if ($canRetry && $retrySettings->retryNonIdempotentRequests() && !self::isSafe($request)) {
                         return true;
                     }
                     throw SeatsioException::fromException($request, $exception);

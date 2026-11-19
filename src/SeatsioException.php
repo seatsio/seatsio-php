@@ -44,7 +44,7 @@ class SeatsioException extends RuntimeException
 
     public static function fromException($request, \Throwable $exception)
     {
-        $seatsioException = new SeatsioException($request, ['errors' => [], 'requestId' => null], $exception->getMessage());
+        $seatsioException = new SeatsioException($request, ['errors' => [], 'requestId' => null], $exception->getMessage(), $exception);
         $seatsioException->outcomeIsUnknown = true;
         return $seatsioException;
     }
@@ -67,9 +67,9 @@ class SeatsioException extends RuntimeException
         return $statusCode == 409 && ($errors[0]->code ?? null) === 'IDEMPOTENCY_KEY_IN_USE';
     }
 
-    public function __construct(RequestInterface $request, array $parsedResponse, string $message)
+    public function __construct(RequestInterface $request, array $parsedResponse, string $message, ?\Throwable $previous = null)
     {
-        parent::__construct($message);
+        parent::__construct($message, 0, $previous);
         $this->errors = $parsedResponse['errors'];
         $this->requestId = $parsedResponse['requestId'];
         $this->idempotencyKey = $request->getHeaderLine(SeatsioClient::IDEMPOTENCY_KEY_HEADER) ?: null;

@@ -313,7 +313,7 @@ By default, the client doesn't retry `POST`, `PUT` and `DELETE` requests when th
 $seatsio = (new SeatsioClient(Region::EU(), <WORKSPACE SECRET KEY>))->retryNonIdempotentRequests(true);
 ```
 
-This setting also applies to the clients returned by `withIdempotencyKey()`, and the number of retries is limited by the `$maxRetries` constructor argument.
+Clients returned by `withIdempotencyKey()` follow this setting of the client they were made from, unless you call `retryNonIdempotentRequests()` on them; that changes only the copy. The number of retries is limited by the `$maxRetries` constructor argument.
 
 ## Rate limiting - exponential backoff
 

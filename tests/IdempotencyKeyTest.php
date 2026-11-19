@@ -94,7 +94,7 @@ class IdempotencyKeyTest extends TestCase
 
     public static function invalidKeys(): array
     {
-        return [[''], ['notAUuid'], ['f81d4fae-7dec-11d0-a765-00a0c91e6bf6'], ['00000000-0000-0000-0000-000000000000'], ['1-1-1-1-1']];
+        return [[''], ['notAUuid'], ['f81d4fae-7dec-11d0-a765-00a0c91e6bf6'], ['00000000-0000-0000-0000-000000000000'], ['1-1-1-1-1'], ["3f0a7a41-7c5c-4a43-9b0e-0d6c2a5f8e11\n"]];
     }
 
     #[DataProvider('invalidKeys')]
