@@ -72,6 +72,16 @@ class IdempotencyKeyTest extends TestCase
         self::assertEquals([$key, $key], $this->server->sentIdempotencyKeys());
     }
 
+    public function testKeepsAKeyTheRequestAlreadyHas()
+    {
+        $key = '3f0a7a41-7c5c-4a43-9b0e-0d6c2a5f8e11';
+        $client = $this->client(FakeServer::replying(FakeServer::status(204)));
+
+        $client->client->post('/anything', ['headers' => ['Idempotency-Key' => $key]]);
+
+        self::assertEquals([$key], $this->server->sentIdempotencyKeys());
+    }
+
     public function testKeyIsCaseInsensitive()
     {
         $key = strtoupper('3f0a7a41-7c5c-4a43-9b0e-0d6c2a5f8e11');
