@@ -3,10 +3,12 @@
 namespace Seatsio;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
+use InvalidArgumentException;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Seatsio\Charts\Charts;
 use Seatsio\EventLog\EventLog;
@@ -21,7 +23,17 @@ use Seatsio\Workspaces\Workspaces;
 
 class SeatsioClient
 {
+    public const IDEMPOTENCY_KEY_HEADER = 'Idempotency-Key';
+
+    private const SAFE_METHODS = ['GET', 'HEAD', 'OPTIONS', 'TRACE'];
+    private const V4_UUID = '/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i';
+
     public $client;
+
+    private Region $region;
+    private string $secretKey;
+    private ?string $workspaceKey;
+    private RetrySettings $retrySettings;
 
     /**
      * @var Charts
@@ -75,7 +87,43 @@ class SeatsioClient
 
     public function __construct(Region $region, string $secretKey, ?string $workspaceKey = null, int $maxRetries = 5)
     {
-        $client = new Client($this->clientConfig($secretKey, $workspaceKey, $region->url(), $maxRetries));
+        $this->initialize($region, $secretKey, $workspaceKey, new RetrySettings($maxRetries), null);
+    }
+
+    /**
+     * By default, POST, PUT and DELETE requests are not retried when the connection fails. Enable this only if
+     * idempotency is enabled for your company: the requests are retried with the same Idempotency-Key.
+     */
+    public function retryNonIdempotentRequests(bool $retryNonIdempotentRequests): SeatsioClient
+    {
+        $this->retrySettings->retryNonIdempotentRequests = $retryNonIdempotentRequests;
+        return $this;
+    }
+
+    /**
+     * Returns a client that sends the given Idempotency-Key with every POST, PUT and DELETE request.
+     * Use it to retry an operation whose outcome is unknown: take the key from SeatsioException::$idempotencyKey and
+     * make the same call again on the returned client. Use the returned client for that one operation only.
+     *
+     * @throws InvalidArgumentException if the key is not a v4 UUID
+     */
+    public function withIdempotencyKey(string $idempotencyKey): SeatsioClient
+    {
+        if (!preg_match(self::V4_UUID, $idempotencyKey)) {
+            throw new InvalidArgumentException("Idempotency key $idempotencyKey is not a v4 UUID");
+        }
+        $copy = new SeatsioClient($this->region, $this->secretKey, $this->workspaceKey);
+        $copy->initialize($this->region, $this->secretKey, $this->workspaceKey, $this->retrySettings, $idempotencyKey);
+        return $copy;
+    }
+
+    private function initialize(Region $region, string $secretKey, ?string $workspaceKey, RetrySettings $retrySettings, ?string $idempotencyKey): void
+    {
+        $this->region = $region;
+        $this->secretKey = $secretKey;
+        $this->workspaceKey = $workspaceKey;
+        $this->retrySettings = $retrySettings;
+        $client = new Client($this->clientConfig($secretKey, $workspaceKey, $region->url(), $retrySettings, $idempotencyKey));
         $this->client = $client;
         $this->charts = new Charts($client);
         $this->events = new Events($client);
@@ -89,16 +137,32 @@ class SeatsioClient
         $this->ticketBuyers = new TicketBuyers($client);
     }
 
-    private function clientConfig($secretKey, $workspaceKey, $baseUrl, $maxRetries)
+    private function clientConfig($secretKey, $workspaceKey, $baseUrl, RetrySettings $retrySettings, ?string $idempotencyKey)
     {
         $stack = HandlerStack::create();
+        // the first middleware pushed is the outermost one: the key is added before the error handler and the retry
+        // middleware see the request, so exceptions can expose it and retries reuse it
+        $stack->push(Middleware::mapRequest(function (RequestInterface $request) use ($idempotencyKey) {
+            if (self::isSafe($request) || $request->hasHeader(self::IDEMPOTENCY_KEY_HEADER)) {
+                return $request;
+            }
+            return $request->withHeader(self::IDEMPOTENCY_KEY_HEADER, $idempotencyKey ?? self::randomUuid());
+        }));
         $stack->push(self::errorHandler());
         $stack->push(Middleware::retry(
-            function ($numRetries, $request, ?Response $response, ?\Exception $exception) use ($maxRetries) {
-                if ($exception instanceof ConnectException) {
+            function ($numRetries, $request, ?ResponseInterface $response, ?\Throwable $exception) use ($retrySettings) {
+                $canRetry = $numRetries < $retrySettings->maxRetries - 1;
+                if ($response === null) {
+                    // no response: the connection failed
+                    if (!($exception instanceof TransferException)) {
+                        return false;
+                    }
+                    if ($canRetry && $retrySettings->retryNonIdempotentRequests && !self::isSafe($request)) {
+                        return true;
+                    }
                     throw SeatsioException::fromException($request, $exception);
                 }
-                return $numRetries < $maxRetries - 1 && $response->getStatusCode() == 429;
+                return $canRetry && ($response->getStatusCode() == 429 || SeatsioException::isIdempotencyKeyInUse($response));
             },
             function ($numRetries) {
                 return pow(2, $numRetries + 2) * 100;
@@ -119,6 +183,19 @@ class SeatsioClient
             $config['headers']['X-Workspace-Key'] = $workspaceKey;
         }
         return $config;
+    }
+
+    private static function isSafe(RequestInterface $request): bool
+    {
+        return in_array(strtoupper($request->getMethod()), self::SAFE_METHODS, true);
+    }
+
+    private static function randomUuid(): string
+    {
+        $bytes = random_bytes(16);
+        $bytes[6] = chr((ord($bytes[6]) & 0x0f) | 0x40);
+        $bytes[8] = chr((ord($bytes[8]) & 0x3f) | 0x80);
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($bytes), 4));
     }
 
     private function errorHandler()
