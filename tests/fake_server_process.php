@@ -35,7 +35,7 @@ while ($conn = @stream_socket_accept($server, -1)) {
         foreach ($reply['headers'] as $name => $value) {
             $out .= "$name: $value\r\n";
         }
-        $out .= 'Content-Length: ' . strlen($reply['body']) . "\r\nConnection: close\r\n\r\n" . $reply['body'];
+        $out .= 'Content-Length: ' . ($reply['contentLength'] ?? strlen($reply['body'])) . "\r\nConnection: close\r\n\r\n" . $reply['body'];
         fwrite($conn, $out);
     }
     fclose($conn);

@@ -3,6 +3,7 @@
 namespace Seatsio;
 
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -106,6 +107,33 @@ class IdempotentRetryTest extends TestCase
         $retried = microtime(true) - $retried;
 
         self::assertGreaterThan($notRetried + 0.3, $retried);
+    }
+
+    public function testTruncatedResponseOfAWriteHasAnUnknownOutcome()
+    {
+        $client = $this->client(FakeServer::replying(FakeServer::truncated(), FakeServer::status(204)));
+
+        try {
+            $client->client->post('/anything', ['body' => '{}']);
+            self::fail('expected exception');
+        } catch (SeatsioException $e) {
+            self::assertCount(1, $this->server->requests());
+            self::assertTrue($e->outcomeIsUnknown());
+            self::assertInstanceOf(RequestException::class, $e->getPrevious());
+            self::assertNotInstanceOf(ConnectException::class, $e->getPrevious());
+        }
+    }
+
+    public function testTruncatedResponseOfAWriteIsRetriedWithTheSameKeyWhenEnabled()
+    {
+        $client = $this->client(FakeServer::replying(FakeServer::truncated(), FakeServer::status(204)))->retryNonIdempotentRequests(true);
+
+        $response = $client->client->post('/anything', ['body' => '{}']);
+
+        self::assertEquals(204, $response->getStatusCode());
+        $keys = $this->server->sentIdempotencyKeys();
+        self::assertCount(2, $keys);
+        self::assertEquals($keys[0], $keys[1]);
     }
 
     private function expectConnectionFailure(SeatsioClient $client): void

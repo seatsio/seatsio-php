@@ -192,6 +192,25 @@ class IdempotencyKeyTest extends TestCase
         }
     }
 
+    public static function bodiesWithMalformedMessagesOrRequestId(): array
+    {
+        return [['{"errors": [], "messages": "went wrong"}'], ['{"errors": [], "messages": [], "requestId": 5}']];
+    }
+
+    #[DataProvider('bodiesWithMalformedMessagesOrRequestId')]
+    public function testMalformedMessagesOrRequestIdAreIgnored(string $body)
+    {
+        $client = $this->client(FakeServer::replying(FakeServer::json(400, $body)), 0);
+
+        try {
+            $client->client->get('/anything');
+            self::fail('expected exception');
+        } catch (SeatsioException $e) {
+            self::assertEquals('GET ' . $this->server->url('/anything') . ' resulted in a `400 Fake` response. Body: ' . $body, $e->getMessage());
+            self::assertNull($e->requestId);
+        }
+    }
+
     public function testConnectionFailuresOfGetsHaveNoKey()
     {
         $client = new SeatsioClient(Region::withUrl('http://localhost:1'), 'secretKey');

@@ -33,6 +33,11 @@ class FakeServer
         return ['drop' => true];
     }
 
+    public static function truncated(): array
+    {
+        return ['status' => 200, 'headers' => ['Content-Type' => 'application/json'], 'body' => '{"par', 'contentLength' => 100];
+    }
+
     private function __construct(array $replies)
     {
         $this->logFile = tempnam(sys_get_temp_dir(), 'fakeserver');
