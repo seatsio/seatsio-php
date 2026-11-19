@@ -1,5 +1,4 @@
 <?php
-// Child process of FakeServer. Usage: php fake_server_process.php <replies file> <log file>
 [, $replyFile, $logFile] = $argv;
 $replies = json_decode(file_get_contents($replyFile), true);
 $server = stream_socket_server('tcp://127.0.0.1:0', $errno, $errstr);

@@ -20,8 +20,6 @@ class SeatsioException extends RuntimeException
     public $requestId;
 
     /**
-     * The Idempotency-Key sent with a POST, PUT or DELETE request, or null for other requests.
-     *
      * @var string|null
      */
     public $idempotencyKey;
@@ -51,11 +49,6 @@ class SeatsioException extends RuntimeException
         return $seatsioException;
     }
 
-    /**
-     * True if the request may or may not have been executed: the connection failed, the server answered with a 5xx,
-     * or the key was still in use after all retries (the first request may still succeed).
-     * Only then can retrying the same operation (with the same idempotencyKey) give a different result.
-     */
     public function outcomeIsUnknown(): bool
     {
         return $this->outcomeIsUnknown;
@@ -106,10 +99,6 @@ class SeatsioException extends RuntimeException
         return ["messages" => $json['messages'] ?? [], "errors" => $errors, "requestId" => $json['requestId'] ?? null];
     }
 
-    /**
-     * Returns the decoded body (with objects for the errors), or null if the response is not a JSON error response
-     * with at least one error.
-     */
     private static function parseErrorResponse(ResponseInterface $response): ?array
     {
         if (!str_contains($response->getHeaderLine("content-type"), 'application/json')) {

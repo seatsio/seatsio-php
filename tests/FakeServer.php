@@ -2,13 +2,6 @@
 
 namespace Seatsio;
 
-/**
- * A scriptable HTTP server (run in a child process) that records the requests it receives.
- *
- * Replies are given in order; the last one is repeated once the script runs out. A reply is either an array
- * ['status' => 500, 'headers' => [...], 'body' => '...'] or 'drop': read the request, then close the connection
- * without answering.
- */
 class FakeServer
 {
     private $process;
@@ -58,13 +51,11 @@ class FakeServer
         return 'http://127.0.0.1:' . $this->port . $path;
     }
 
-    /** @return array[] one entry per received request: method, path, headers (lower-cased names), body */
     public function requests(): array
     {
         return array_map(fn($line) => json_decode($line, true), file($this->logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES));
     }
 
-    /** @return string[] */
     public function sentIdempotencyKeys(): array
     {
         return array_map(fn($r) => $r['headers']['idempotency-key'] ?? null, $this->requests());

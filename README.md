@@ -295,7 +295,6 @@ If the connection fails after the server executed a request but before you recei
 try {
     $seatsio->events->create($chartKey);
 } catch (SeatsioException $e) {
-    // only retry when the outcome is unknown (a connection error, a timeout or a 5xx); retrying a 4xx can never succeed
     if ($e->idempotencyKey !== null && $e->outcomeIsUnknown()) {
         $seatsio->withIdempotencyKey($e->idempotencyKey)->events->create($chartKey);
     }

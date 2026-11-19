@@ -90,23 +90,12 @@ class SeatsioClient
         $this->initialize($region, $secretKey, $workspaceKey, new RetrySettings($maxRetries), null);
     }
 
-    /**
-     * By default, POST, PUT and DELETE requests are not retried when the connection fails. Enable this only if
-     * idempotency is enabled for your company: the requests are retried with the same Idempotency-Key.
-     */
     public function retryNonIdempotentRequests(bool $retryNonIdempotentRequests): SeatsioClient
     {
         $this->retrySettings->retryNonIdempotentRequests = $retryNonIdempotentRequests;
         return $this;
     }
 
-    /**
-     * Returns a client that sends the given Idempotency-Key with every POST, PUT and DELETE request.
-     * Use it to retry an operation whose outcome is unknown: take the key from SeatsioException::$idempotencyKey and
-     * make the same call again on the returned client. Use the returned client for that one operation only.
-     *
-     * @throws InvalidArgumentException if the key is not a v4 UUID
-     */
     public function withIdempotencyKey(string $idempotencyKey): SeatsioClient
     {
         if (!preg_match(self::V4_UUID, $idempotencyKey)) {
@@ -140,8 +129,6 @@ class SeatsioClient
     private function clientConfig($secretKey, $workspaceKey, $baseUrl, RetrySettings $retrySettings, ?string $idempotencyKey)
     {
         $stack = HandlerStack::create();
-        // the first middleware pushed is the outermost one: the key is added before the error handler and the retry
-        // middleware see the request, so exceptions can expose it and retries reuse it
         $stack->push(Middleware::mapRequest(function (RequestInterface $request) use ($idempotencyKey) {
             if (self::isSafe($request) || $request->hasHeader(self::IDEMPOTENCY_KEY_HEADER)) {
                 return $request;
@@ -152,8 +139,8 @@ class SeatsioClient
         $stack->push(Middleware::retry(
             function ($numRetries, $request, ?ResponseInterface $response, ?\Throwable $exception) use ($retrySettings) {
                 $canRetry = $numRetries < $retrySettings->maxRetries - 1;
-                if ($response === null) {
-                    // no response: the connection failed
+                $connectionFailed = $response === null;
+                if ($connectionFailed) {
                     if (!($exception instanceof TransferException)) {
                         return false;
                     }
