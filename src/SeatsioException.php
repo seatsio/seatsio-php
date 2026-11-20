@@ -49,6 +49,11 @@ class SeatsioException extends RuntimeException
         return $seatsioException;
     }
 
+    public function markOutcomeUnknown(): void
+    {
+        $this->outcomeIsUnknown = true;
+    }
+
     public function outcomeIsUnknown(): bool
     {
         return $this->outcomeIsUnknown;

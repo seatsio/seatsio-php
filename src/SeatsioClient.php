@@ -135,15 +135,17 @@ class SeatsioClient
             }
             return $request->withHeader(self::IDEMPOTENCY_KEY_HEADER, $idempotencyKey ?? self::randomUuid());
         }));
-        $stack->push(self::errorHandler());
+        $uncertainRequests = new \WeakMap();
+        $stack->push(self::errorHandler($uncertainRequests));
         $stack->push(Middleware::retry(
-            function ($numRetries, $request, ?ResponseInterface $response, ?\Throwable $exception) use ($retrySettings) {
+            function ($numRetries, $request, ?ResponseInterface $response, ?\Throwable $exception) use ($retrySettings, $uncertainRequests) {
                 $canRetry = $numRetries < $retrySettings->maxRetries - 1;
                 $connectionFailed = $response === null;
                 if ($connectionFailed) {
                     if (!($exception instanceof TransferException)) {
                         return false;
                     }
+                    $uncertainRequests[$request] = true;
                     if ($canRetry && $retrySettings->retryNonIdempotentRequests() && !self::isSafe($request)) {
                         return true;
                     }
@@ -185,17 +187,21 @@ class SeatsioClient
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($bytes), 4));
     }
 
-    private function errorHandler()
+    private function errorHandler(\WeakMap $uncertainRequests)
     {
-        return function (callable $handler) {
-            return function ($request, array $options) use ($handler) {
+        return function (callable $handler) use ($uncertainRequests) {
+            return function ($request, array $options) use ($handler, $uncertainRequests) {
                 return $handler($request, $options)->then(
-                    function (ResponseInterface $response) use ($request, $handler) {
+                    function (ResponseInterface $response) use ($request, $uncertainRequests) {
                         $code = $response->getStatusCode();
                         if ($code < 400) {
                             return $response;
                         }
-                        throw SeatsioException::from($request, $response);
+                        $exception = SeatsioException::from($request, $response);
+                        if (isset($uncertainRequests[$request])) {
+                            $exception->markOutcomeUnknown();
+                        }
+                        throw $exception;
                     }
                 );
             };

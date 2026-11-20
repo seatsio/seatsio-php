@@ -279,7 +279,7 @@ This exception contains a message string describing what went wrong, and also th
 - `requestId`: the identifier of the request you made. Please mention this to us when you have questions, as it will make debugging easier.
 - `idempotencyKey`: the `Idempotency-Key` sent with a `POST`, `PUT` or `DELETE` request (see [Idempotency](#idempotency)), or `null` for other requests.
 
-`outcomeIsUnknown()` tells you whether the request may or may not have been executed: it's `true` when the connection failed, the server answered with a 5xx, or the key was still in use after all retries, and `false` for other errors.
+`outcomeIsUnknown()` tells you whether the request may or may not have been executed: it's `true` when the connection failed (also on an earlier attempt, if retries are enabled and a later attempt got an error response such as a 429), the server answered with a 5xx, or the key was still in use after all retries, and `false` for other errors.
 
 If the server returns an error response that isn't JSON or has no `errors` array, `errors` is empty, `requestId` is `null`, and the message contains the HTTP status and the response body. If the `errors` array is empty, `errors` is empty but the exception keeps the server's `messages` (as its message) and `requestId`; if there are no `messages` either, the message contains the HTTP status and the response body.
 

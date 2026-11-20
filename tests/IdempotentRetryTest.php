@@ -83,6 +83,19 @@ class IdempotentRetryTest extends TestCase
         }
     }
 
+    public function testOutcomeStaysUnknownWhenARetryAfterAConnectionFailureIsRateLimited()
+    {
+        $client = $this->client(FakeServer::replying(FakeServer::drop(), FakeServer::error(429, 'RATE_LIMIT_EXCEEDED')), 2)->retryNonIdempotentRequests(true);
+
+        try {
+            $client->client->post('/anything', ['body' => '{}']);
+            self::fail('expected exception');
+        } catch (RateLimitExceededException $e) {
+            self::assertCount(2, $this->server->requests());
+            self::assertTrue($e->outcomeIsUnknown());
+        }
+    }
+
     public function testGetsAreNotRetriedOnConnectionFailures()
     {
         $client = $this->client(FakeServer::replying(FakeServer::drop(), FakeServer::status(204)))->retryNonIdempotentRequests(true);
