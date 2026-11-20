@@ -12,25 +12,28 @@ class IdempotencyTest extends SeatsioClientTest
     public function testSameKeyReplaysTheResponse()
     {
         $this->useTestCompanyWithIdempotencyEnabled();
-        $chartKey = $this->createTestChart();
+        $eventKey = $this->createEvent();
         $client = $this->seatsioClient->withIdempotencyKey(self::KEY);
 
-        $first = $client->events->create($chartKey);
-        $second = $client->events->create($chartKey);
+        $first = $client->events->book($eventKey, ['A-1']);
+        // free the seat with an unkeyed request: a real second booking would book it again
+        $this->seatsioClient->events->release($eventKey, ['A-1']);
+        $second = $client->events->book($eventKey, ['A-1']);
 
-        self::assertEquals($first->id, $second->id);
-        self::assertEquals($first->key, $second->key);
+        self::assertEquals(['A-1'], array_keys($first->objects));
+        self::assertEquals(array_keys($first->objects), array_keys($second->objects));
+        self::assertEquals(EventObjectInfo::$FREE, $this->seatsioClient->events->retrieveObjectInfo($eventKey, 'A-1')->status);
     }
 
     public function testSameKeyWithADifferentRequestIsRejected()
     {
         $this->useTestCompanyWithIdempotencyEnabled();
-        $chartKey = $this->createTestChart();
+        $eventKey = $this->createEvent();
         $client = $this->seatsioClient->withIdempotencyKey(self::KEY);
-        $client->events->create($chartKey);
+        $client->events->book($eventKey, ['A-1']);
 
         try {
-            $client->events->create($chartKey, (new CreateEventParams())->setKey('anotherEvent'));
+            $client->events->book($eventKey, ['A-2']);
             self::fail('expected exception');
         } catch (SeatsioException $e) {
             self::assertEquals('IDEMPOTENCY_KEY_REUSED', $e->errors[0]->code);
@@ -39,13 +42,20 @@ class IdempotencyTest extends SeatsioClientTest
 
     public function testKeyIsIgnoredWhenIdempotencyIsNotEnabledForTheCompany()
     {
-        $chartKey = $this->createTestChart();
+        $eventKey = $this->createEvent();
         $client = $this->seatsioClient->withIdempotencyKey(self::KEY);
 
-        $first = $client->events->create($chartKey);
-        $second = $client->events->create($chartKey);
+        $client->events->book($eventKey, ['A-1']);
+        $this->seatsioClient->events->release($eventKey, ['A-1']);
+        $client->events->book($eventKey, ['A-1']);
 
-        self::assertNotEquals($first->id, $second->id);
+        self::assertEquals(EventObjectInfo::$BOOKED, $this->seatsioClient->events->retrieveObjectInfo($eventKey, 'A-1')->status);
+    }
+
+    private function createEvent(): string
+    {
+        // events->create() is not idempotent on the server, so use the plain client
+        return $this->seatsioClient->events->create($this->createTestChart())->key;
     }
 
     public function testSuppliedKeyIsAvailableOnAFailedRequest()
@@ -53,7 +63,7 @@ class IdempotencyTest extends SeatsioClientTest
         $this->useTestCompanyWithIdempotencyEnabled();
 
         try {
-            $this->seatsioClient->withIdempotencyKey(self::KEY)->events->create('unknownChart');
+            $this->seatsioClient->withIdempotencyKey(self::KEY)->events->book('unknownEvent', ['A-1']);
             self::fail('expected exception');
         } catch (SeatsioException $e) {
             self::assertEquals(self::KEY, $e->idempotencyKey);
@@ -66,7 +76,7 @@ class IdempotencyTest extends SeatsioClientTest
         $this->useTestCompanyWithIdempotencyEnabled();
 
         try {
-            $this->seatsioClient->events->create('unknownChart');
+            $this->seatsioClient->events->book('unknownEvent', ['A-1']);
             self::fail('expected exception');
         } catch (SeatsioException $e) {
             self::assertNotEmpty($e->idempotencyKey);
