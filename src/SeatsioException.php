@@ -20,10 +20,7 @@ class SeatsioException extends RuntimeException
      */
     public $requestId;
 
-    /**
-     * @var string|null
-     */
-    public $idempotencyKey;
+    public ?string $idempotencyKey = null;
 
     public ?bool $idempotencyKeyHonored = null;
 
