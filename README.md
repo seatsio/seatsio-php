@@ -348,6 +348,10 @@ $seatsio = new SeatsioClient(Region::EU(), <WORKSPACE SECRET KEY>, null, 3);
 
 ## Upgrading
 
+### v98 -> v100
+- `$maxRetries` (the last constructor argument of `SeatsioClient`) is now the number of retries after the first attempt, instead of the total number of attempts. The default of 5 now means at most 6 attempts, and passing 1 means one retry (pass 0 for a single attempt). It limits all retries of a call: after a `429`, after a `409` with error code `IDEMPOTENCY_KEY_IN_USE`, and after a connection failure (see [Automatic retries](#automatic-retries)).
+- `POST` and `DELETE` requests are now retried after a connection failure, with the same `Idempotency-Key`, when the request never reached the server, or when the response was lost on an operation the server has confirmed honors idempotency keys.
+
 ### v93 -> v94
 - An event's chart key can no longer be changed
 
