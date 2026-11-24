@@ -74,7 +74,10 @@ class IdempotentRetries
             function ($reason) use ($handler, $request, $options, $write, $retryCount) {
                 $failure = Create::exceptionFor($reason);
                 if ($write === null) {
-                    throw $failure instanceof TransferException ? SeatsioException::fromException($request, $failure) : $failure;
+                    if (!($failure instanceof TransferException)) {
+                        throw $failure;
+                    }
+                    throw SeatsioException::fromConnectionFailure($request, $failure, Delivery::of($failure) === Delivery::RESPONSE_LOST, false);
                 }
                 if ($write->failed($failure) && $this->waitBeforeRetry($retryCount, $write)) {
                     return $this->attempt($handler, $request, $options, $write, $retryCount + 1);

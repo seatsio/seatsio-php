@@ -186,6 +186,25 @@ class IdempotentRetryTest extends TestCase
         self::assertTrue($e->isSafeToRetryWithSameKey());
     }
 
+    public function testPathParamsAreEncoded()
+    {
+        $client = $this->serve(FakeServer::status(200));
+
+        self::book($client, 'a b/c?d#é');
+
+        self::assertEquals('/events/a%20b%2Fc%3Fd%23%C3%A9/actions/book', $this->server->requests()[0]['path']);
+    }
+
+    public function testPathsWithEncodedParamsShareTheMemory()
+    {
+        $client = $this->serve(self::keyStatus(200, 'executed'), FakeServer::drop(), self::keyStatus(200, 'replayed'));
+
+        self::book($client, 'a b');
+        self::book($client, 'c/d');
+
+        self::assertEquals(3, $this->server->requestCount());
+    }
+
     public function testRoutesAreRememberedSeparately()
     {
         $client = $this->serve(self::keyStatus(200, 'executed'), FakeServer::drop(), FakeServer::status(200));
@@ -677,6 +696,25 @@ class IdempotentRetryTest extends TestCase
         self::assertFalse($e->isSafeToRetryWithSameKey());
     }
 
+    public function testALostResponseToAGetHasAnUnknownOutcome()
+    {
+        $client = $this->serve(FakeServer::drop());
+
+        $e = self::failure(fn() => $client->client->get('/events'));
+
+        self::assertTrue($e->outcomeIsUnknown());
+    }
+
+    public function testAGetThatWasNeverSentHasAKnownOutcome()
+    {
+        [, $client] = $this->clientOnFreePort();
+
+        $e = self::failure(fn() => $client->client->get('/events'));
+
+        self::assertFalse($e->outcomeIsUnknown());
+        self::assertFalse($e->isSafeToRetryWithSameKey());
+    }
+
     public function testGetsAreRetriedOn429UpToMaxRetries()
     {
         $client = self::maxRetries($this->serve(FakeServer::error(429, 'RATE_LIMIT_EXCEEDED')), 2);
@@ -715,9 +753,11 @@ class IdempotentRetryTest extends TestCase
     {
         $client = $this->serve(FakeServer::status(200));
 
-        self::failure(fn() => $client->client->post('unknownProtocol://x', ['body' => '{}']));
+        $e = self::failure(fn() => $client->client->post('unknownProtocol://x', ['body' => '{}']));
 
         self::assertEquals(0, $this->clock->sleeps);
+        self::assertFalse($e->outcomeIsUnknown());
+        self::assertTrue($e->isSafeToRetryWithSameKey());
     }
 
     public function testHeadersAreSentOncePerAttempt()

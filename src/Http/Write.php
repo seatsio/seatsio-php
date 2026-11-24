@@ -40,6 +40,9 @@ class Write
         if ($delivery === Delivery::NEVER_SENT) {
             return true;
         }
+        if ($delivery === Delivery::NOT_RETRYABLE) {
+            return false;
+        }
         $this->mayHaveReachedTheServer = true;
         $this->mayHaveRun = true;
         return $delivery === Delivery::RESPONSE_LOST && $this->routeHonorsKeys();
