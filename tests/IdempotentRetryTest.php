@@ -412,6 +412,31 @@ class IdempotentRetryTest extends TestCase
         self::assertTrue($e->outcomeIsUnknown());
     }
 
+    public function testOutcomeStaysUnknownWhenARetryAfterKeyInUseIsRateLimited()
+    {
+        $client = $this->serve(self::keyStatusError(409, 'IDEMPOTENCY_KEY_IN_USE', 'in-use'), FakeServer::error(429, 'RATE_LIMIT_EXCEEDED'));
+
+        $e = self::failure(fn() => self::book(self::maxRetries($client, 1)));
+
+        self::assertInstanceOf(RateLimitExceededException::class, $e);
+        self::assertEquals(2, $this->server->requestCount());
+        self::assertTrue($e->outcomeIsUnknown());
+        self::assertTrue($e->isSafeToRetryWithSameKey());
+    }
+
+    public function testOutcomeStaysUnknownWhenARetryAfterALostResponseIsRateLimited()
+    {
+        $client = $this->serve(self::keyStatus(200, 'executed'), FakeServer::drop(), FakeServer::error(429, 'RATE_LIMIT_EXCEEDED'));
+
+        self::book($client);
+        $e = self::failure(fn() => self::book(self::maxRetries($client, 1)));
+
+        self::assertInstanceOf(RateLimitExceededException::class, $e);
+        self::assertEquals(3, $this->server->requestCount());
+        self::assertTrue($e->outcomeIsUnknown());
+        self::assertTrue($e->isSafeToRetryWithSameKey());
+    }
+
     public function testARequestThatWasNeverSentIsRetriedWhateverTheTimeIfNoAttemptWasSent()
     {
         [, $client] = $this->clientOnFreePort();

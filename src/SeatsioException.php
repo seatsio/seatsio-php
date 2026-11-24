@@ -33,7 +33,7 @@ class SeatsioException extends RuntimeException
 
     private bool $safeToRetryWithSameKey = false;
 
-    public static function from(RequestInterface $request, ResponseInterface $response, bool $routeHonorsKeys = false): SeatsioException
+    public static function from(RequestInterface $request, ResponseInterface $response, bool $routeHonorsKeys = false, bool $anEarlierAttemptMayHaveRun = false): SeatsioException
     {
         $code = $response->getStatusCode();
         $parsedResponse = self::extractInfo($response);
@@ -48,7 +48,9 @@ class SeatsioException extends RuntimeException
         $status = IdempotencyKeyStatus::of($response);
         $exception->idempotencyKeyHonored = $status?->keyHonored();
         $exception->replayed = $status === IdempotencyKeyStatus::REPLAYED;
-        $exception->outcomeIsUnknown = $code >= 500 || self::hasIdempotencyKeyInUseError($code, $parsedResponse['errors']);
+        $exception->outcomeIsUnknown = $code >= 500
+            || self::hasIdempotencyKeyInUseError($code, $parsedResponse['errors'])
+            || ($anEarlierAttemptMayHaveRun && !$exception->replayed);
         $exception->safeToRetryWithSameKey = $exception->outcomeIsUnknown
             && $exception->idempotencyKey !== null
             && ($exception->idempotencyKeyHonored ?? $routeHonorsKeys)

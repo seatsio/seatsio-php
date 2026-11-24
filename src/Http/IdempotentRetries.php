@@ -67,7 +67,7 @@ class IdempotentRetries
                     return $this->attempt($handler, $request, $options, $write, $retryCount + 1);
                 }
                 if ($response->getStatusCode() >= 400) {
-                    throw SeatsioException::from($request, $response, $write?->routeHonorsKeys() ?? false);
+                    throw SeatsioException::from($request, $response, $write?->routeHonorsKeys() ?? false, $write?->mayHaveRun() ?? false);
                 }
                 return $response;
             },

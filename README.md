@@ -281,7 +281,7 @@ This exception contains a message string describing what went wrong, and also th
 - `idempotencyKeyHonored`: whether the server honored that key, according to the `Idempotency-Key-Status` header of the response; `null` when there was no response or the response didn't say.
 - `replayed`: `true` when the server didn't execute the request again, but replayed the response of an earlier request with the same key.
 
-`outcomeIsUnknown()` tells you whether the request may or may not have been executed: it's `true` when the response was lost after the request was sent (a timeout, a connection reset), when the server answered with a 5xx, or when it answered `409` with error code `IDEMPOTENCY_KEY_IN_USE` after the client ran out of retries (an earlier request with the same key was still being processed). It's `false` when the request never reached the server (connection refused, DNS or TLS failure) and for every other 4xx.
+`outcomeIsUnknown()` tells you whether the request may or may not have been executed: it's `true` when the response was lost after the request was sent (a timeout, a connection reset), when the server answered with a 5xx, or when it answered `409` with error code `IDEMPOTENCY_KEY_IN_USE` after the client ran out of retries (an earlier request with the same key was still being processed). It stays `true` when one of those happened on an earlier attempt and a retry then got another error, such as a `429`. It's `false` when the request never reached the server (connection refused, DNS or TLS failure) and for every other 4xx.
 
 `isSafeToRetryWithSameKey()` tells you whether you can make the same call again with the same key (see [Idempotency](#idempotency)) without risking executing it twice.
 

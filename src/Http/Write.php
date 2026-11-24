@@ -50,6 +50,11 @@ class Write
         return !$this->mayHaveReachedTheServer || $this->startsWithinRetryWindow($delayMillis);
     }
 
+    public function mayHaveRun(): bool
+    {
+        return $this->mayHaveRun;
+    }
+
     public function routeHonorsKeys(): bool
     {
         return $this->state->honorsKeys($this->route);
