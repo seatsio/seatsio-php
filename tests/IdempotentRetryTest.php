@@ -3,6 +3,8 @@
 namespace Seatsio;
 
 use GuzzleHttp\Exception\NetworkTimeoutException;
+use GuzzleHttp\Psr7\NoSeekStream;
+use GuzzleHttp\Psr7\Utils;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Seatsio\Http\SharedState;
@@ -780,6 +782,29 @@ class IdempotentRetryTest extends TestCase
         $client->client->post('/upload', ['multipart' => [['name' => 'file', 'contents' => 'x']]]);
 
         self::assertEquals([null], $this->keys());
+    }
+
+    public function testALostResponseToAMultipartRequestIsNotRetriedOnARouteThatHonorsKeys()
+    {
+        $client = $this->serve(self::keyStatus(200, 'executed'), FakeServer::drop(), FakeServer::status(200));
+        $upload = fn() => $client->client->post('/upload', ['multipart' => [['name' => 'file', 'contents' => 'x']]]);
+
+        $upload();
+        $e = self::failure($upload);
+
+        self::assertEquals(2, $this->server->requestCount());
+        self::assertTrue($e->outcomeIsUnknown());
+        self::assertFalse($e->isSafeToRetryWithSameKey());
+    }
+
+    public function testARequestWithABodyThatCannotBeRewoundIsNotRetried()
+    {
+        $client = $this->serve(FakeServer::error(429, 'RATE_LIMIT_EXCEEDED'), FakeServer::status(200));
+
+        self::failure(fn() => $client->client->post('/events/event1/actions/book', ['body' => new NoSeekStream(Utils::streamFor('{}'))]));
+
+        self::assertEquals(1, $this->server->requestCount());
+        self::assertEquals(0, $this->clock->sleeps);
     }
 
     public function testMaxRetriesIsSharedWithClientsThatHaveAKey()

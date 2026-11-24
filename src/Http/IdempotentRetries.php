@@ -63,7 +63,7 @@ class IdempotentRetries
         return self::send($handler, $request, $options)->then(
             function (ResponseInterface $response) use ($handler, $request, $options, $write, $retryCount) {
                 $write?->answered($response);
-                if (self::isRetryable($response) && $this->waitBeforeRetry($retryCount, $write)) {
+                if (self::isRetryable($response) && $this->waitBeforeRetry($request, $retryCount, $write)) {
                     return $this->attempt($handler, $request, $options, $write, $retryCount + 1);
                 }
                 if ($response->getStatusCode() >= 400) {
@@ -79,7 +79,7 @@ class IdempotentRetries
                     }
                     throw SeatsioException::fromConnectionFailure($request, $failure, Delivery::of($failure) === Delivery::RESPONSE_LOST, false);
                 }
-                if ($write->failed($failure) && $this->waitBeforeRetry($retryCount, $write)) {
+                if ($write->failed($failure) && $this->waitBeforeRetry($request, $retryCount, $write)) {
                     return $this->attempt($handler, $request, $options, $write, $retryCount + 1);
                 }
                 throw $write->connectionFailure($failure);
@@ -101,9 +101,9 @@ class IdempotentRetries
         return $response->getStatusCode() == 429 || SeatsioException::isIdempotencyKeyInUse($response);
     }
 
-    private function waitBeforeRetry(int $retryCount, ?Write $write): bool
+    private function waitBeforeRetry(RequestInterface $request, int $retryCount, ?Write $write): bool
     {
-        if ($retryCount >= $this->state->maxRetries) {
+        if ($retryCount >= $this->state->maxRetries || !self::rewind($request)) {
             return false;
         }
         $delayMillis = 2 ** ($retryCount + 2) * 100;
@@ -111,6 +111,16 @@ class IdempotentRetries
             return false;
         }
         $this->state->clock->sleep($delayMillis);
+        return true;
+    }
+
+    private static function rewind(RequestInterface $request): bool
+    {
+        $body = $request->getBody();
+        if (!$body->isSeekable()) {
+            return false;
+        }
+        $body->rewind();
         return true;
     }
 

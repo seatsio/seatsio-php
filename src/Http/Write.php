@@ -60,7 +60,8 @@ class Write
 
     public function routeHonorsKeys(): bool
     {
-        return $this->state->honorsKeys($this->route);
+        return $this->request->getHeaderLine(IdempotentRetries::IDEMPOTENCY_KEY_HEADER) !== ''
+            && $this->state->honorsKeys($this->route);
     }
 
     public function connectionFailure(\Throwable $failure): SeatsioException
