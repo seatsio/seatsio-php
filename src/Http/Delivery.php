@@ -4,6 +4,7 @@ namespace Seatsio\Http;
 
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ResponseException;
 use GuzzleHttp\Exception\TransferException;
 
 enum Delivery
@@ -12,33 +13,33 @@ enum Delivery
     case RESPONSE_LOST;
     case NOT_RETRYABLE;
 
-    private const COULDNT_RESOLVE_PROXY = 5;
-    private const COULDNT_RESOLVE_HOST = 6;
-    private const COULDNT_CONNECT = 7;
-    private const OPERATION_TIMEDOUT = 28;
-    private const SSL_CONNECT_ERROR = 35;
-    private const PEER_FAILED_VERIFICATION = 60;
-    private const UNSUPPORTED_PROTOCOL = 1;
-    private const URL_MALFORMAT = 3;
+    private const CURL_ERROR_PREFIX = 'cURL error ';
 
+    /**
+     * Guzzle 8 tells transfer failures apart by exception type, not by a handler context:
+     * a ConnectException (including ConnectTimeoutException) means no connection was made,
+     * so the request never left the client. A plain RequestException that did not come from
+     * cURL is Guzzle refusing the request before the transfer, such as an unsupported scheme.
+     * Anything else may have reached the server.
+     */
     public static function of(\Throwable $failure): Delivery
     {
         if (!($failure instanceof TransferException)) {
             return self::NOT_RETRYABLE;
         }
-        $context = $failure instanceof RequestException || $failure instanceof ConnectException ? $failure->getHandlerContext() : [];
-        return match ($context['errno'] ?? null) {
-            self::COULDNT_RESOLVE_PROXY, self::COULDNT_RESOLVE_HOST, self::COULDNT_CONNECT, self::SSL_CONNECT_ERROR, self::PEER_FAILED_VERIFICATION => self::NEVER_SENT,
-            self::OPERATION_TIMEDOUT => self::timedOutBeforeConnecting($context) ? self::NEVER_SENT : self::RESPONSE_LOST,
-            self::UNSUPPORTED_PROTOCOL, self::URL_MALFORMAT => self::NOT_RETRYABLE,
-            default => self::RESPONSE_LOST,
-        };
+        if ($failure instanceof ConnectException) {
+            return self::NEVER_SENT;
+        }
+        if (self::rejectedBeforeTransfer($failure)) {
+            return self::NOT_RETRYABLE;
+        }
+        return self::RESPONSE_LOST;
     }
 
-    private static function timedOutBeforeConnecting(array $context): bool
+    private static function rejectedBeforeTransfer(TransferException $failure): bool
     {
-        return isset($context['connect_time'], $context['pretransfer_time'])
-            && $context['connect_time'] == 0
-            && $context['pretransfer_time'] == 0;
+        return $failure instanceof RequestException
+            && !($failure instanceof ResponseException)
+            && !str_starts_with($failure->getMessage(), self::CURL_ERROR_PREFIX);
     }
 }

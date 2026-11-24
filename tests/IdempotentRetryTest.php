@@ -2,7 +2,7 @@
 
 namespace Seatsio;
 
-use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\NetworkTimeoutException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Seatsio\Http\SharedState;
@@ -745,8 +745,7 @@ class IdempotentRetryTest extends TestCase
         self::assertEquals(1, $this->server->requestCount());
         self::assertEquals(0, $this->clock->sleeps);
         self::assertTrue($e->outcomeIsUnknown());
-        self::assertInstanceOf(ConnectException::class, $e->getPrevious());
-        self::assertEquals(28, $e->getPrevious()->getHandlerContext()['errno']);
+        self::assertInstanceOf(NetworkTimeoutException::class, $e->getPrevious());
     }
 
     public function testRequestConstructionErrorsAreNotRetried()
