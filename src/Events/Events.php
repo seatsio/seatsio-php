@@ -172,12 +172,12 @@ class Events
             $request->isInThePast = $params->isInThePast;
         }
 
-        $this->client->post(UriTemplate::expand('/events/{key}', array("key" => $eventKey)), ['json' => $request]);
+        $this->client->post('/events/{key}', ['path_params' => ['key' => $eventKey], 'json' => $request]);
     }
 
     public function delete(string $eventKey): void
     {
-        $this->client->delete(UriTemplate::expand('/events/{key}', array("key" => $eventKey)));
+        $this->client->delete('/events/{key}', ['path_params' => ['key' => $eventKey]]);
     }
 
     public function listAll(): EventPagedIterator
@@ -250,7 +250,7 @@ class Events
             }, $notForSale);
         }
 
-        $res = $this->client->post(UriTemplate::expand('/events/{key}/actions/edit-for-sale-config', array("key" => $eventKey)), ['json' => $request]);
+        $res = $this->client->post('/events/{key}/actions/edit-for-sale-config', ['path_params' => ['key' => $eventKey], 'json' => $request]);
         $json = GuzzleResponseDecoder::decodeToObject($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new EditForSaleConfigResult());
@@ -303,7 +303,7 @@ class Events
         if ($categories !== null) {
             $request->categories = $categories;
         }
-        $this->client->post(UriTemplate::expand('/events/{key}/actions/{action}', array("key" => $eventKey, "action" => $action)), ['json' => $request]);
+        $this->client->post('/events/{key}/actions/' . $action, ['path_params' => ['key' => $eventKey], 'json' => $request]);
     }
 
     /**
@@ -328,7 +328,7 @@ class Events
 
     public function markEverythingAsForSale(string $eventKey): void
     {
-        $this->client->post(UriTemplate::expand('/events/{key}/actions/mark-everything-as-for-sale', array("key" => $eventKey)));
+        $this->client->post('/events/{key}/actions/mark-everything-as-for-sale', ['path_params' => ['key' => $eventKey]]);
     }
 
     public function markEverythingAsNotForSale(string $eventKey): void
@@ -343,7 +343,7 @@ class Events
         if ($season !== null) {
             $request->season = $season;
         }
-        $this->client->post(UriTemplate::expand('/events/{key}/actions/override-season-status', array("key" => $eventKey)), ['json' => $request]);
+        $this->client->post('/events/{key}/actions/override-season-status', ['path_params' => ['key' => $eventKey], 'json' => $request]);
     }
 
     public function useSeasonStatus(string $eventKey, array $objects, ?string $season = null)
@@ -353,27 +353,21 @@ class Events
         if ($season !== null) {
             $request->season = $season;
         }
-        $this->client->post(UriTemplate::expand('/events/{key}/actions/use-season-status', array("key" => $eventKey)), ['json' => $request]);
+        $this->client->post('/events/{key}/actions/use-season-status', ['path_params' => ['key' => $eventKey], 'json' => $request]);
     }
 
     public function updateExtraData(string $eventKey, string $object, array $extraData): void
     {
         $request = new stdClass();
         $request->extraData = $extraData;
-        $this->client->post(
-            UriTemplate::expand('/events/{key}/objects/{object}/actions/update-extra-data', ["key" => $eventKey, "object" => $object]),
-            ['json' => $request]
-        );
+        $this->client->post('/events/{key}/objects/{object}/actions/update-extra-data', ['path_params' => ['key' => $eventKey, 'object' => $object], 'json' => $request]);
     }
 
     public function updateExtraDatas(string $eventKey, array $extraDatas): void
     {
         $request = new stdClass();
         $request->extraData = $extraDatas;
-        $this->client->post(
-            UriTemplate::expand('/events/{key}/actions/update-extra-data', ["key" => $eventKey]),
-            ['json' => $request]
-        );
+        $this->client->post('/events/{key}/actions/update-extra-data', ['path_params' => ['key' => $eventKey], 'json' => $request]);
     }
 
     public function retrieveObjectInfo(string $eventKey, string $objectLabel): EventObjectInfo
@@ -631,10 +625,7 @@ class Events
         if ($channelKeys !== null) {
             $request->channelKeys = $channelKeys;
         }
-        $res = $this->client->post(
-            UriTemplate::expand('/events/{key}/actions/change-object-status', array("key" => $eventKey)),
-            ['json' => $request]
-        );
+        $res = $this->client->post('/events/{key}/actions/change-object-status', ['path_params' => ['key' => $eventKey], 'json' => $request]);
         $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new BestAvailableObjects());
@@ -642,7 +633,7 @@ class Events
 
     public function moveEventToNewChartCopy(string $eventKey): Event
     {
-        $res = $this->client->post(UriTemplate::expand('/events/{key}/actions/move-to-new-chart-copy', array("key" => $eventKey)));
+        $res = $this->client->post('/events/{key}/actions/move-to-new-chart-copy', ['path_params' => ['key' => $eventKey]]);
         $json = GuzzleResponseDecoder::decodeToObject($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Event());

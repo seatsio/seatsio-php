@@ -5,6 +5,7 @@ namespace Seatsio;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
+use Seatsio\Http\IdempotencyKeyStatus;
 
 class SeatsioException extends RuntimeException
 {
@@ -24,9 +25,15 @@ class SeatsioException extends RuntimeException
      */
     public $idempotencyKey;
 
+    public ?bool $idempotencyKeyHonored = null;
+
+    public bool $replayed = false;
+
     private bool $outcomeIsUnknown = false;
 
-    public static function from(RequestInterface $request, ResponseInterface $response): SeatsioException
+    private bool $safeToRetryWithSameKey = false;
+
+    public static function from(RequestInterface $request, ResponseInterface $response, bool $routeHonorsKeys = false): SeatsioException
     {
         $code = $response->getStatusCode();
         $parsedResponse = self::extractInfo($response);
@@ -38,25 +45,38 @@ class SeatsioException extends RuntimeException
         } else {
             $exception = new SeatsioException($request, $parsedResponse, $message);
         }
+        $status = IdempotencyKeyStatus::of($response);
+        $exception->idempotencyKeyHonored = $status?->keyHonored();
+        $exception->replayed = $status === IdempotencyKeyStatus::REPLAYED;
         $exception->outcomeIsUnknown = $code >= 500 || self::hasIdempotencyKeyInUseError($code, $parsedResponse['errors']);
+        $exception->safeToRetryWithSameKey = $exception->outcomeIsUnknown
+            && $exception->idempotencyKey !== null
+            && ($exception->idempotencyKeyHonored ?? $routeHonorsKeys)
+            && !$exception->replayed;
         return $exception;
     }
 
-    public static function fromException($request, \Throwable $exception)
+    public static function fromException(RequestInterface $request, \Throwable $exception): SeatsioException
     {
-        $seatsioException = new SeatsioException($request, ['errors' => [], 'requestId' => null], $exception->getMessage(), $exception);
-        $seatsioException->outcomeIsUnknown = true;
-        return $seatsioException;
+        return self::fromConnectionFailure($request, $exception, true, false);
     }
 
-    public function markOutcomeUnknown(): void
+    public static function fromConnectionFailure(RequestInterface $request, \Throwable $exception, bool $outcomeIsUnknown, bool $safeToRetryWithSameKey): SeatsioException
     {
-        $this->outcomeIsUnknown = true;
+        $seatsioException = new SeatsioException($request, ['errors' => [], 'requestId' => null], $exception->getMessage(), $exception);
+        $seatsioException->outcomeIsUnknown = $outcomeIsUnknown;
+        $seatsioException->safeToRetryWithSameKey = $safeToRetryWithSameKey && $seatsioException->idempotencyKey !== null;
+        return $seatsioException;
     }
 
     public function outcomeIsUnknown(): bool
     {
         return $this->outcomeIsUnknown;
+    }
+
+    public function isSafeToRetryWithSameKey(): bool
+    {
+        return $this->safeToRetryWithSameKey;
     }
 
     public static function isIdempotencyKeyInUse(ResponseInterface $response): bool

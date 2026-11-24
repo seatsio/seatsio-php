@@ -1,7 +1,7 @@
 <?php
-[, $replyFile, $logFile] = $argv;
+[, $replyFile, $logFile, $port] = $argv;
 $replies = json_decode(file_get_contents($replyFile), true);
-$server = stream_socket_server('tcp://127.0.0.1:0', $errno, $errstr);
+$server = stream_socket_server('tcp://127.0.0.1:' . $port, $errno, $errstr);
 echo parse_url(stream_socket_get_name($server, false), PHP_URL_PORT) ?: explode(':', stream_socket_get_name($server, false))[1], "\n";
 fflush(STDOUT);
 
@@ -27,10 +27,17 @@ while ($conn = @stream_socket_accept($server, -1)) {
     while (strlen($body) < $length) {
         $body .= fread($conn, $length - strlen($body));
     }
-    file_put_contents($logFile, json_encode(['method' => $method, 'path' => $path, 'headers' => $headers, 'body' => $body]) . "\n", FILE_APPEND);
+    file_put_contents($logFile, json_encode(['method' => $method, 'path' => $path, 'headers' => $headers, 'headerLines' => $lines, 'body' => $body]) . "\n", FILE_APPEND);
 
     $reply = $replies[min($i++, count($replies) - 1)];
-    if (!isset($reply['drop'])) {
+    if (isset($reply['proxyTo'])) {
+        $proxied = proxy($reply['proxyTo'], $method, $path, $headers, $body);
+        if (!isset($reply['drop'])) {
+            fwrite($conn, $proxied);
+        }
+    } elseif (isset($reply['hang'])) {
+        sleep(2);
+    } elseif (!isset($reply['drop'])) {
         $out = "HTTP/1.1 {$reply['status']} Fake\r\n";
         foreach ($reply['headers'] as $name => $value) {
             $out .= "$name: $value\r\n";
@@ -39,4 +46,38 @@ while ($conn = @stream_socket_accept($server, -1)) {
         fwrite($conn, $out);
     }
     fclose($conn);
+}
+
+function proxy(string $target, string $method, string $path, array $headers, string $body): string
+{
+    $forwarded = [];
+    foreach (['authorization', 'content-type', 'idempotency-key', 'x-workspace-key'] as $name) {
+        if (isset($headers[$name])) {
+            $forwarded[] = "$name: {$headers[$name]}";
+        }
+    }
+    $responseHeaders = [];
+    $curl = curl_init($target . $path);
+    curl_setopt_array($curl, [
+        CURLOPT_CUSTOMREQUEST => $method,
+        CURLOPT_HTTPHEADER => $forwarded,
+        CURLOPT_POSTFIELDS => $body,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HEADERFUNCTION => function ($curl, $line) use (&$responseHeaders) {
+            $parts = explode(':', $line, 2);
+            if (count($parts) == 2) {
+                $responseHeaders[strtolower(trim($parts[0]))] = trim($parts[1]);
+            }
+            return strlen($line);
+        },
+    ]);
+    $responseBody = curl_exec($curl);
+    $status = curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
+    $out = "HTTP/1.1 $status Proxied\r\n";
+    foreach (['content-type', 'idempotency-key-status'] as $name) {
+        if (isset($responseHeaders[$name])) {
+            $out .= "$name: {$responseHeaders[$name]}\r\n";
+        }
+    }
+    return $out . 'Content-Length: ' . strlen($responseBody) . "\r\nConnection: close\r\n\r\n" . $responseBody;
 }

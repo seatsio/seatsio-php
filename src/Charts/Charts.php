@@ -60,12 +60,12 @@ class Charts
         if ($categories !== null) {
             $request->categories = $categories;
         }
-        $this->client->post('/charts/' . $key, ['json' => $request]);
+        $this->client->post('/charts/{key}', ['path_params' => ['key' => $key], 'json' => $request]);
     }
 
     public function addCategory(string $key, CategoryRequestBuilder $category): void
     {
-        $this->client->post('/charts/' . $key . '/categories', ['json' => $category->build()]);
+        $this->client->post('/charts/{key}/categories', ['path_params' => ['key' => $key], 'json' => $category->build()]);
     }
 
     /**
@@ -75,7 +75,7 @@ class Charts
      */
     public function removeCategory(string $key, $categoryKey): void
     {
-        $this->client->delete('/charts/' . $key . '/categories/' . $categoryKey);
+        $this->client->delete('/charts/{key}/categories/{categoryKey}', ['path_params' => ['key' => $key, 'categoryKey' => $categoryKey]]);
     }
 
     /**
@@ -98,7 +98,7 @@ class Charts
      */
     public function updateCategory(string $chartKey, $categoryKey, CategoryUpdateParams $params): void
     {
-        $res = $this->client->post('/charts/' . $chartKey . '/categories/' . $categoryKey, ['json' => $params]);
+        $res = $this->client->post('/charts/{chartKey}/categories/{categoryKey}', ['path_params' => ['chartKey' => $chartKey, 'categoryKey' => $categoryKey], 'json' => $params]);
     }
 
     public function retrieve(string $key): Chart
@@ -131,12 +131,12 @@ class Charts
 
     public function publishDraftVersion(string $key): void
     {
-        $this->client->post('/charts/' . $key . '/version/draft/actions/publish');
+        $this->client->post('/charts/{key}/version/draft/actions/publish', ['path_params' => ['key' => $key]]);
     }
 
     public function discardDraftVersion(string $key): void
     {
-        $this->client->post('/charts/' . $key . '/version/draft/actions/discard');
+        $this->client->post('/charts/{key}/version/draft/actions/discard', ['path_params' => ['key' => $key]]);
     }
 
     public function events(string $chartKey): EventLister
@@ -148,17 +148,17 @@ class Charts
 
     public function moveToArchive(string $key): void
     {
-        $this->client->post('/charts/' . $key . '/actions/move-to-archive');
+        $this->client->post('/charts/{key}/actions/move-to-archive', ['path_params' => ['key' => $key]]);
     }
 
     public function moveOutOfArchive(string $key): void
     {
-        $this->client->post('/charts/' . $key . '/actions/move-out-of-archive');
+        $this->client->post('/charts/{key}/actions/move-out-of-archive', ['path_params' => ['key' => $key]]);
     }
 
     public function copy(string $key): Chart
     {
-        $res = $this->client->post('/charts/' . $key . '/version/published/actions/copy');
+        $res = $this->client->post('/charts/{key}/version/published/actions/copy', ['path_params' => ['key' => $key]]);
         $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Chart());
@@ -166,7 +166,7 @@ class Charts
 
     public function copyDraftVersion(string $key): Chart
     {
-        $res = $this->client->post('/charts/' . $key . '/version/draft/actions/copy');
+        $res = $this->client->post('/charts/{key}/version/draft/actions/copy', ['path_params' => ['key' => $key]]);
         $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Chart());
@@ -174,7 +174,7 @@ class Charts
 
     public function copyToWorkspace(string $chartKey, string $toWorkspaceKey): Chart
     {
-        $res = $this->client->post('/charts/' . $chartKey . '/version/published/actions/copy-to-workspace/' . $toWorkspaceKey);
+        $res = $this->client->post('/charts/{chartKey}/version/published/actions/copy-to-workspace/{toWorkspaceKey}', ['path_params' => ['chartKey' => $chartKey, 'toWorkspaceKey' => $toWorkspaceKey]]);
         $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Chart());
@@ -182,7 +182,7 @@ class Charts
 
     public function copyFromWorkspaceTo(string $chartKey, string $fromWorkspaceKey, string $toWorkspaceKey): Chart
     {
-        $res = $this->client->post('/charts/' . $chartKey . '/version/published/actions/copy/from/' . $fromWorkspaceKey . '/to/' . $toWorkspaceKey);
+        $res = $this->client->post('/charts/{chartKey}/version/published/actions/copy/from/{fromWorkspaceKey}/to/{toWorkspaceKey}', ['path_params' => ['chartKey' => $chartKey, 'fromWorkspaceKey' => $fromWorkspaceKey, 'toWorkspaceKey' => $toWorkspaceKey]]);
         $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new Chart());
@@ -196,13 +196,13 @@ class Charts
 
     public function validatePublishedVersion(string $key): object
     {
-        $res = $this->client->post('/charts/' . $key . '/version/published/actions/validate');
+        $res = $this->client->post('/charts/{key}/version/published/actions/validate', ['path_params' => ['key' => $key]]);
         return GuzzleResponseDecoder::decodeToObject($res);
     }
 
     public function validateDraftVersion(string $key): object
     {
-        $res = $this->client->post('/charts/' . $key . '/version/draft/actions/validate');
+        $res = $this->client->post('/charts/{key}/version/draft/actions/validate', ['path_params' => ['key' => $key]]);
         return GuzzleResponseDecoder::decodeToObject($res);
     }
 
@@ -223,12 +223,12 @@ class Charts
 
     public function addTag(string $key, string $tag): void
     {
-        $this->client->post(UriTemplate::expand('/charts/{key}/tags/{tag}', array("key" => $key, "tag" => $tag)));
+        $this->client->post('/charts/{key}/tags/{tag}', ['path_params' => ['key' => $key, 'tag' => $tag]]);
     }
 
     public function removeTag(string $key, string $tag): void
     {
-        $this->client->delete(UriTemplate::expand('/charts/{key}/tags/{tag}', array("key" => $key, "tag" => $tag)));
+        $this->client->delete('/charts/{key}/tags/{tag}', ['path_params' => ['key' => $key, 'tag' => $tag]]);
     }
 
     public function listAll(?ChartListParams $chartListParams = null): ChartPagedIterator

@@ -97,6 +97,13 @@ class IdempotencyKeyTest extends TestCase
         return [[''], ['notAUuid'], ['f81d4fae-7dec-11d0-a765-00a0c91e6bf6'], ['00000000-0000-0000-0000-000000000000'], ['1-1-1-1-1'], ["3f0a7a41-7c5c-4a43-9b0e-0d6c2a5f8e11\n"]];
     }
 
+    public function testSuppliedKeyMustNotBeNull()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        (new SeatsioClient(Region::withUrl('http://localhost:1'), 'secretKey'))->withIdempotencyKey(null);
+    }
+
     #[DataProvider('invalidKeys')]
     public function testSuppliedKeyMustBeAV4Uuid(string $key)
     {
@@ -181,14 +188,15 @@ class IdempotencyKeyTest extends TestCase
 
     public function testConnectionFailuresExposeTheKey()
     {
-        $client = new SeatsioClient(Region::withUrl('http://localhost:1'), 'secretKey');
+        $client = new SeatsioClient(Region::withUrl('http://localhost:1'), 'secretKey', null, 0);
 
         try {
             $client->client->post('/anything', ['body' => '{}']);
             self::fail('expected exception');
         } catch (SeatsioException $e) {
             self::assertV4Uuid($e->idempotencyKey);
-            self::assertTrue($e->outcomeIsUnknown());
+            self::assertFalse($e->outcomeIsUnknown());
+            self::assertTrue($e->isSafeToRetryWithSameKey());
         }
     }
 

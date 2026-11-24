@@ -2,6 +2,9 @@
 
 namespace Seatsio\Events;
 
+use Seatsio\FakeServer;
+use Seatsio\Region;
+use Seatsio\SeatsioClient;
 use Seatsio\SeatsioClientTest;
 use Seatsio\SeatsioException;
 
@@ -80,6 +83,46 @@ class IdempotencyTest extends SeatsioClientTest
             self::fail('expected exception');
         } catch (SeatsioException $e) {
             self::assertNotEmpty($e->idempotencyKey);
+        }
+    }
+
+    public function testRetryAfterALostResponseBooksOnce()
+    {
+        $this->useTestCompanyWithIdempotencyEnabled();
+        $eventKey = $this->createEvent();
+        $proxy = FakeServer::replying(FakeServer::proxyTo(self::baseUrl()), FakeServer::proxyTo(self::baseUrl(), true), FakeServer::proxyTo(self::baseUrl()));
+        $client = new SeatsioClient(Region::withUrl($proxy->url()), $this->user->secretKey);
+
+        try {
+            $client->events->book($eventKey, ['A-1']);
+            $result = $client->events->book($eventKey, ['A-2']);
+
+            self::assertEquals(['A-2'], array_keys($result->objects));
+            self::assertCount(3, $proxy->requests());
+            self::assertEquals($proxy->sentIdempotencyKeys()[1], $proxy->sentIdempotencyKeys()[2]);
+            self::assertEquals(EventObjectInfo::$BOOKED, $this->seatsioClient->events->retrieveObjectInfo($eventKey, 'A-2')->status);
+        } finally {
+            $proxy->close();
+        }
+    }
+
+    public function testTheFirstCallToARouteIsNotRetriedAfterALostResponse()
+    {
+        $this->useTestCompanyWithIdempotencyEnabled();
+        $eventKey = $this->createEvent();
+        $proxy = FakeServer::replying(FakeServer::proxyTo(self::baseUrl(), true), FakeServer::proxyTo(self::baseUrl()));
+        $client = new SeatsioClient(Region::withUrl($proxy->url()), $this->user->secretKey);
+
+        try {
+            $client->events->book($eventKey, ['A-1']);
+            self::fail('expected exception');
+        } catch (SeatsioException $e) {
+            self::assertTrue($e->outcomeIsUnknown());
+            self::assertFalse($e->isSafeToRetryWithSameKey());
+            self::assertCount(1, $proxy->requests());
+            self::assertEquals(EventObjectInfo::$BOOKED, $this->seatsioClient->events->retrieveObjectInfo($eventKey, 'A-1')->status);
+        } finally {
+            $proxy->close();
         }
     }
 }
