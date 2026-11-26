@@ -648,6 +648,16 @@ class Events
         return $mapper->map($json, new Event());
     }
 
+    public function moveEventsToNewChartCopy(array $eventKeys): array
+    {
+        $request = new stdClass();
+        $request->events = $eventKeys;
+        $res = $this->client->post('/events/actions/move-to-new-chart-copy', ['json' => $request]);
+        $json = GuzzleResponseDecoder::decodeToObject($res);
+        $mapper = SeatsioJsonMapper::create();
+        return $mapper->mapArray($json->events, array(), 'Seatsio\Events\Event');
+    }
+
     private static function normalizeObjects($objectOrObjects): array
     {
         if (is_array($objectOrObjects)) {
