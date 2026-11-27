@@ -32,7 +32,7 @@ abstract class SeatsioClientTest extends TestCase
         return new SeatsioClient(Region::withUrl(self::baseUrl()), $secretKey, $workspaceKey);
     }
 
-    private static function baseUrl(): string
+    protected static function baseUrl(): string
     {
         return getenv('API_URL') ?: 'http://localhost:9001';
     }
@@ -42,11 +42,20 @@ abstract class SeatsioClientTest extends TestCase
         return getenv('HTTPBIN_URL') ?: 'https://httpbingo.org';
     }
 
-    private function createTestCompany()
+    protected function useTestCompanyWithIdempotencyEnabled(): void
+    {
+        $company = $this->createTestCompany(['idempotencyEnabled' => true]);
+        $this->user = $company->admin;
+        $this->workspace = $company->workspace;
+        $this->seatsioClient = self::createSeatsioClient($this->user->secretKey);
+    }
+
+    private function createTestCompany(array $params = [])
     {
         $client = new Client();
         $res = $client->post(self::baseUrl() . '/system/private/create-test-company', [
-            'auth' => [$this->systemApiSecret(), '']
+            'auth' => [$this->systemApiSecret(), ''],
+            'json' => (object)$params
         ]);
         return GuzzleResponseDecoder::decodeToObject($res);
     }

@@ -36,7 +36,7 @@ class HoldTokens
     {
         $request = new stdClass();
         $request->expiresInMinutes = $minutes;
-        $res = $this->client->post('/hold-tokens/' . $holdToken, ['json' => $request]);
+        $res = $this->client->post('/hold-tokens/{holdToken}', ['path_params' => ['holdToken' => $holdToken], 'json' => $request]);
         $json = GuzzleResponseDecoder::decodeToJson($res);
         $mapper = SeatsioJsonMapper::create();
         return $mapper->map($json, new HoldToken());

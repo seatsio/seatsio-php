@@ -3,15 +3,15 @@
 namespace Seatsio;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
-use GuzzleHttp\Psr7\Response;
-use Psr\Http\Message\ResponseInterface;
+use InvalidArgumentException;
 use Seatsio\Charts\Charts;
 use Seatsio\EventLog\EventLog;
 use Seatsio\Events\Events;
 use Seatsio\HoldTokens\HoldTokens;
+use Seatsio\Http\IdempotentRetries;
+use Seatsio\Http\RetryClock;
+use Seatsio\Http\SharedState;
 use Seatsio\Reports\Charts\ChartReports;
 use Seatsio\Reports\Events\EventReports;
 use Seatsio\Reports\Usage\UsageReports;
@@ -21,7 +21,16 @@ use Seatsio\Workspaces\Workspaces;
 
 class SeatsioClient
 {
+    public const IDEMPOTENCY_KEY_HEADER = IdempotentRetries::IDEMPOTENCY_KEY_HEADER;
+
+    private const V4_UUID = '/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/iD';
+
     public $client;
+
+    private Region $region;
+    private string $secretKey;
+    private ?string $workspaceKey;
+    private SharedState $state;
 
     /**
      * @var Charts
@@ -75,7 +84,26 @@ class SeatsioClient
 
     public function __construct(Region $region, string $secretKey, ?string $workspaceKey = null, int $maxRetries = 5)
     {
-        $client = new Client($this->clientConfig($secretKey, $workspaceKey, $region->url(), $maxRetries));
+        $this->initialize($region, $secretKey, $workspaceKey, new SharedState($maxRetries, new RetryClock()), null);
+    }
+
+    public function withIdempotencyKey(?string $idempotencyKey): SeatsioClient
+    {
+        if ($idempotencyKey === null || !preg_match(self::V4_UUID, $idempotencyKey)) {
+            throw new InvalidArgumentException("Idempotency key $idempotencyKey is not a v4 UUID");
+        }
+        $copy = clone $this;
+        $copy->initialize($this->region, $this->secretKey, $this->workspaceKey, $this->state, $idempotencyKey);
+        return $copy;
+    }
+
+    private function initialize(Region $region, string $secretKey, ?string $workspaceKey, SharedState $state, ?string $idempotencyKey): void
+    {
+        $this->region = $region;
+        $this->secretKey = $secretKey;
+        $this->workspaceKey = $workspaceKey;
+        $this->state = $state;
+        $client = new Client($this->clientConfig($secretKey, $workspaceKey, $region->url(), $state, $idempotencyKey));
         $this->client = $client;
         $this->charts = new Charts($client);
         $this->events = new Events($client);
@@ -89,21 +117,10 @@ class SeatsioClient
         $this->ticketBuyers = new TicketBuyers($client);
     }
 
-    private function clientConfig($secretKey, $workspaceKey, $baseUrl, $maxRetries)
+    private function clientConfig($secretKey, $workspaceKey, $baseUrl, SharedState $state, ?string $idempotencyKey)
     {
         $stack = HandlerStack::create();
-        $stack->push(self::errorHandler());
-        $stack->push(Middleware::retry(
-            function ($numRetries, $request, ?Response $response, ?\Exception $exception) use ($maxRetries) {
-                if ($exception instanceof ConnectException) {
-                    throw SeatsioException::fromException($request, $exception);
-                }
-                return $numRetries < $maxRetries - 1 && $response->getStatusCode() == 429;
-            },
-            function ($numRetries) {
-                return pow(2, $numRetries + 2) * 100;
-            }
-        ));
+        $stack->push(new IdempotentRetries($state, $idempotencyKey));
         $config = [
             'base_uri' => $baseUrl,
             'auth' => [$secretKey, ''],
@@ -119,23 +136,6 @@ class SeatsioClient
             $config['headers']['X-Workspace-Key'] = $workspaceKey;
         }
         return $config;
-    }
-
-    private function errorHandler()
-    {
-        return function (callable $handler) {
-            return function ($request, array $options) use ($handler) {
-                return $handler($request, $options)->then(
-                    function (ResponseInterface $response) use ($request, $handler) {
-                        $code = $response->getStatusCode();
-                        if ($code < 400) {
-                            return $response;
-                        }
-                        throw SeatsioException::from($request, $response);
-                    }
-                );
-            };
-        };
     }
 
 }

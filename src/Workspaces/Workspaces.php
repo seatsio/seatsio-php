@@ -57,18 +57,18 @@ class Workspaces
         if ($forSaleMode !== null) {
             $request->forSaleMode = $forSaleMode->value;
         }
-        $this->client->post(UriTemplate::expand('/workspaces/{key}', array("key" => $key)), ['json' => $request]);
+        $this->client->post('/workspaces/{key}', ['path_params' => ['key' => $key], 'json' => $request]);
     }
 
     public function regenerateSecretKey(string $key): string
     {
-        $res = $this->client->post(UriTemplate::expand('/workspaces/{key}/actions/regenerate-secret-key', array("key" => $key)));
+        $res = $this->client->post('/workspaces/{key}/actions/regenerate-secret-key', ['path_params' => ['key' => $key]]);
         return GuzzleResponseDecoder::decodeToObject($res)->secretKey;
     }
 
     public function addSecretKey(string $key): string
     {
-        $res = $this->client->post(UriTemplate::expand('/workspaces/{key}/actions/add-secret-key', array("key" => $key)));
+        $res = $this->client->post('/workspaces/{key}/actions/add-secret-key', ['path_params' => ['key' => $key]]);
         return GuzzleResponseDecoder::decodeToObject($res)->secretKey;
     }
 
@@ -76,27 +76,27 @@ class Workspaces
     {
         $request = new stdClass();
         $request->secretKey = $secretKeyToRemove;
-        $this->client->post(UriTemplate::expand('/workspaces/{key}/actions/remove-secret-key', array("key" => $key)), ['json' => $request]);
+        $this->client->post('/workspaces/{key}/actions/remove-secret-key', ['path_params' => ['key' => $key], 'json' => $request]);
     }
 
     public function activate(string $key): void
     {
-        $this->client->post(UriTemplate::expand('/workspaces/{key}/actions/activate', array("key" => $key)));
+        $this->client->post('/workspaces/{key}/actions/activate', ['path_params' => ['key' => $key]]);
     }
 
     public function deactivate(string $key): void
     {
-        $this->client->post(UriTemplate::expand('/workspaces/{key}/actions/deactivate', array("key" => $key)));
+        $this->client->post('/workspaces/{key}/actions/deactivate', ['path_params' => ['key' => $key]]);
     }
 
     public function delete(string $key): void
     {
-        $this->client->delete(UriTemplate::expand('/workspaces/{key}', array("key" => $key)));
+        $this->client->delete('/workspaces/{key}', ['path_params' => ['key' => $key]]);
     }
 
     public function setDefault(string $key): void
     {
-        $this->client->post(UriTemplate::expand('/workspaces/actions/set-default/{key}', array("key" => $key)));
+        $this->client->post('/workspaces/actions/set-default/{key}', ['path_params' => ['key' => $key]]);
     }
 
     public function retrieve(string $key): Workspace

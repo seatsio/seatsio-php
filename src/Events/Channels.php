@@ -3,7 +3,6 @@
 namespace Seatsio\Events;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\UriTemplate\UriTemplate;
 use stdClass;
 
 class Channels
@@ -46,7 +45,7 @@ class Channels
         if (!empty($areaPlaces)) {
             $request->areaPlaces = $areaPlaces;
         }
-        $this->client->post(UriTemplate::expand('/events/{key}/channels', array("key" => $eventKey)), ['json' => $request]);
+        $this->client->post('/events/{key}/channels', ['path_params' => ['key' => $eventKey], 'json' => $request]);
     }
 
     public function addMultiple(string $eventKey, array $channelCreationParams)
@@ -74,7 +73,7 @@ class Channels
             }
             $request[] = $channelToCreate;
         }
-        $this->client->post(UriTemplate::expand('/events/{key}/channels', array("key" => $eventKey)), ['json' => $request]);
+        $this->client->post('/events/{key}/channels', ['path_params' => ['key' => $eventKey], 'json' => $request]);
     }
 
     /**
@@ -87,7 +86,7 @@ class Channels
      */
     public function remove(string $eventKey, string $channelKey)
     {
-        $this->client->delete(UriTemplate::expand('/events/{eventKey}/channels/{channelKey}', array("eventKey" => $eventKey, "channelKey" => $channelKey)));
+        $this->client->delete('/events/{eventKey}/channels/{channelKey}', ['path_params' => ['eventKey' => $eventKey, 'channelKey' => $channelKey]]);
     }
 
     /**
@@ -117,8 +116,7 @@ class Channels
         if ($areaPlaces !== null) {
             $request->areaPlaces = !empty($areaPlaces) ? $areaPlaces : new stdClass();
         }
-        $this->client->post(UriTemplate::expand('/events/{eventKey}/channels/{channelKey}', array("eventKey" => $eventKey, "channelKey" => $channelKey)),
-            ['json' => $request]);
+        $this->client->post('/events/{eventKey}/channels/{channelKey}', ['path_params' => ['eventKey' => $eventKey, 'channelKey' => $channelKey], 'json' => $request]);
     }
 
     /**
@@ -140,10 +138,7 @@ class Channels
         if ($areaPlaces !== null) {
             $request->areaPlaces = $areaPlaces;
         }
-        $this->client->post(UriTemplate::expand('/events/{eventKey}/channels/{channelKey}/objects', array(
-                "eventKey" => $eventKey,
-                "channelKey" => $channelKey)
-        ), ['json' => $request]);
+        $this->client->post('/events/{eventKey}/channels/{channelKey}/objects', ['path_params' => ['eventKey' => $eventKey, 'channelKey' => $channelKey], 'json' => $request]);
     }
 
     /**
@@ -165,10 +160,7 @@ class Channels
         if ($areaPlaces !== null) {
             $request->areaPlaces = $areaPlaces;
         }
-        $this->client->delete(UriTemplate::expand('/events/{eventKey}/channels/{channelKey}/objects', array(
-                "eventKey" => $eventKey,
-                "channelKey" => $channelKey)
-        ), ['json' => $request]);
+        $this->client->delete('/events/{eventKey}/channels/{channelKey}/objects', ['path_params' => ['eventKey' => $eventKey, 'channelKey' => $channelKey], 'json' => $request]);
     }
 
     /**
@@ -185,6 +177,6 @@ class Channels
         $request->channels = array_values(array_map(function ($channel) {
             return $channel->toArray();
         }, $channels));
-        $this->client->post(UriTemplate::expand('/events/{key}/channels/replace', array("key" => $eventKey)), ['json' => $request]);
+        $this->client->post('/events/{key}/channels/replace', ['path_params' => ['key' => $eventKey], 'json' => $request]);
     }
 }
